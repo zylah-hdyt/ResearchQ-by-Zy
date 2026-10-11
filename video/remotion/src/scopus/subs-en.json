@@ -1,0 +1,92 @@
+[
+ {
+  "start": 0.25,
+  "end": 1.75,
+  "en": "AI keeps making up references?",
+  "id": "AI suka ngarang referensi?"
+ },
+ {
+  "start": 2.55,
+  "end": 4.74,
+  "en": "One prompt, and every reference is real.",
+  "id": "Satu prompt, dan semua referensinya asli."
+ },
+ {
+  "start": 5.35,
+  "end": 8.54,
+  "en": "Step one: turn on web search, so Claude actually searches.",
+  "id": "Langkah satu: nyalakan web search, biar Claude benar-benar mencari."
+ },
+ {
+  "start": 8.66,
+  "end": 10.82,
+  "en": "Step two: pick the Scopus Finder skill.",
+  "id": "Langkah dua: pilih skill Scopus Finder."
+ },
+ {
+  "start": 10.94,
+  "end": 13.44,
+  "en": "Then type your topic in one sentence, and hit send.",
+  "id": "Lalu tulis topikmu dalam satu kalimat, dan kirim."
+ },
+ {
+  "start": 14.0,
+  "end": 18.23,
+  "en": "Claude searches the web, then checks every result: the year, the source, the DOI.",
+  "id": "Claude mencari di web, lalu mengecek tiap hasil: tahun, sumber, dan DOI-nya."
+ },
+ {
+  "start": 18.35,
+  "end": 20.98,
+  "en": "Quartile not visible? It flags it instead of guessing.",
+  "id": "Kuartil nggak kelihatan? Ditandai, bukan ditebak."
+ },
+ {
+  "start": 21.1,
+  "end": 22.82,
+  "en": "Plus search links, ready to click.",
+  "id": "Plus link pencarian yang siap diklik."
+ },
+ {
+  "start": 22.94,
+  "end": 25.67,
+  "en": "Three real articles. Not made up.",
+  "id": "Tiga artikel asli. Bukan karangan."
+ },
+ {
+  "start": 25.79,
+  "end": 29.57,
+  "en": "Each one comes straight from the search results, with a DOI you can open and check yourself.",
+  "id": "Semuanya langsung dari hasil pencarian, dengan DOI yang bisa kamu buka dan cek sendiri."
+ },
+ {
+  "start": 30.3,
+  "end": 31.68,
+  "en": "Always open the paper before you cite it.",
+  "id": "Tetap buka artikelnya sebelum kamu sitasi."
+ },
+ {
+  "start": 34.2,
+  "end": 35.33,
+  "en": "And if search is turned off?",
+  "id": "Terus kalau search-nya mati?"
+ },
+ {
+  "start": 36.0,
+  "end": 39.13,
+  "en": "It refuses to invent citations, and gives you search links instead.",
+  "id": "Skill-nya menolak ngarang sitasi, dan kasih link pencarian sebagai gantinya."
+ },
+ {
+  "start": 39.25,
+  "end": 40.28,
+  "en": "Just one sentence.",
+  "id": "Cuma satu kalimat."
+ },
+ {
+  "start": 40.9,
+  "end": 43.14,
+  "en": "Save this, and comment your thesis topic below.",
+  "id": "Simpan video ini, dan komen topik skripsimu di bawah."
+ }
+]

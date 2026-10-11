@@ -1,5 +1,10 @@
 import { loadFont } from "@remotion/fonts";
+import { createContext, useContext } from "react";
 import { AbsoluteFill, Easing, interpolate, staticFile, useCurrentFrame } from "remotion";
+
+// Subtitled variant: scenes pull their lower content up to free a subtitle band at y≈1480.
+export const SubsMode = createContext(false);
+export const useSubs = () => useContext(SubsMode);
 
 // "Satu prompt" editorial style (cream + lime + serif italic), adapted to 9:16.
 export const K = {
@@ -72,10 +77,11 @@ export const Paper: React.FC<{ label: string }> = ({ label }) => {
 // Bottom-left step chip, as in the reference ("Buka claude.ai/code", "Pilih model", ...).
 export const Step: React.FC<{ n: string; title: string; sub: string; from: number; to: number }> = ({ n, title, sub, from, to }) => {
   const frame = useCurrentFrame();
+  const subs = useSubs();
   return (
     <div
       style={{
-        position: "absolute", left: 72, top: 1468, display: "flex", alignItems: "center", gap: 20, padding: "18px 28px 18px 18px",
+        position: "absolute", left: 72, top: subs ? 1352 : 1468, display: "flex", alignItems: "center", gap: 20, padding: "18px 28px 18px 18px",
         borderRadius: 26, background: K.ink, color: "#fff", fontFamily: SANS, boxShadow: "0 24px 40px -24px rgba(0,0,0,.6)",
         opacity: interpolate(frame, [from, from + 8, to - 6, to], [0, 1, 1, 0], CL),
         translate: `0px ${interpolate(frame, [from, from + 12], [24, 0], { ...CL, easing: EASE })}px`,

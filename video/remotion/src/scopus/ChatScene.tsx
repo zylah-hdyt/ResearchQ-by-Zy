@@ -1,5 +1,5 @@
 import { AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame } from "remotion";
-import { CL, EASE, K, MONO, Paper, SANS, SERIF, Step, Tap } from "./kit";
+import { CL, EASE, K, MONO, Paper, SANS, SERIF, Step, Tap, useSubs } from "./kit";
 
 // 5–22s: screen-recording style. Turn on web search, pick the skill, type one sentence, watch it search + verify.
 // App-local coordinates: frame at canvas (60, 300), 960 × 1120.
@@ -46,6 +46,7 @@ const LinkRow: React.FC<{ at: number; name: string; url: string }> = ({ at, name
 
 export const ChatScene: React.FC = () => {
   const f = useCurrentFrame();
+  const subs = useSubs();
   const searchOn = f >= 45;
   const skillOn = f >= 110;
   const typed = PROMPT.slice(0, Math.max(0, Math.floor((f - 135) * 1.1)));
@@ -57,7 +58,7 @@ export const ChatScene: React.FC = () => {
       <Paper label="SCOPUS FINDER" />
       <div
         style={{
-          position: "absolute", left: 60, top: 300, width: 960, height: 1120, borderRadius: 50, background: "#FBFAF6", border: `2px solid ${K.line}`,
+          position: "absolute", left: 60, top: 300, width: 960, height: subs ? 1032 : 1120, borderRadius: 50, background: "#FBFAF6", border: `2px solid ${K.line}`,
           boxShadow: "0 60px 110px -60px rgba(0,0,0,.35)", overflow: "hidden",
           translate: `0px ${interpolate(f, [0, 16], [1300, 0], { ...CL, easing: EASE })}px`,
         }}

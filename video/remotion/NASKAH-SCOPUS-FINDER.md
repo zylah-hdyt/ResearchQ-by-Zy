@@ -35,3 +35,27 @@ ditebak. Kartu "contoh referensi karangan" (Pratama, 2021) **sengaja fiktif** da
 ## Caption TikTok (saran)
 AI sering ngarang referensi? Skill ini cari yang ASLI: ada DOI, dicek tahunnya, dan kalau Search mati dia nolak ngarang 🔍 Simpan dulu, komen topik skripsimu 👇
 #skripsi #tesis #referensi #scopus #jurnal #claude #mahasiswaakhir
+
+## Versi VO Inggris + subtitle Indonesia (`ScopusFinderDemoEN`)
+
+Suara: Cartesia **Brandon - Confident Guy** (sonic-3), dibuat dengan `scripts/tts_scopus_en.py`. Script ini membaca
+`CARTESIA_API_KEY` dari environment; key tidak pernah ditulis ke file. Hasil mix: −14 LUFS, SFX diturunkan di bawah VO.
+Timing subtitle tersimpan di `src/scopus/subs-en.json`.
+
+| Detik | VO (English) | Subtitle (Indonesia) |
+|---|---|---|
+| 0,25 | AI keeps making up references? | AI suka ngarang referensi? |
+| 2,55 | One prompt, and every reference is real. | Satu prompt, dan semua referensinya asli. |
+| 5,35 | Step one: turn on web search, so Claude actually searches. | Langkah satu: nyalakan web search, biar Claude benar-benar mencari. |
+| 8,66 | Step two: pick the Scopus Finder skill. | Langkah dua: pilih skill Scopus Finder. |
+| 10,94 | Then type your topic in one sentence, and hit send. | Lalu tulis topikmu dalam satu kalimat, dan kirim. |
+| 14,0 | Claude searches the web, then checks every result: the year, the source, the DOI. | Claude mencari di web, lalu mengecek tiap hasil: tahun, sumber, dan DOI-nya. |
+| 18,35 | Quartile not visible? It flags it instead of guessing. | Kuartil nggak kelihatan? Ditandai, bukan ditebak. |
+| 21,1 | Plus search links, ready to click. | Plus link pencarian yang siap diklik. |
+| 22,94 | Three real articles. Not made up. | Tiga artikel asli. Bukan karangan. |
+| 25,79 | Each one comes straight from the search results, with a DOI you can open and check yourself. | Semuanya langsung dari hasil pencarian, dengan DOI yang bisa kamu buka dan cek sendiri. |
+| 30,3 | Always open the paper before you cite it. | Tetap buka artikelnya sebelum kamu sitasi. |
+| 34,2 | And if search is turned off? | Terus kalau search-nya mati? |
+| 36,0 | It refuses to invent citations, and gives you search links instead. | Skill-nya menolak ngarang sitasi, dan kasih link pencarian sebagai gantinya. |
+| 39,25 | Just one sentence. | Cuma satu kalimat. |
+| 40,9 | Save this, and comment your thesis topic below. | Simpan video ini, dan komen topik skripsimu di bawah. |

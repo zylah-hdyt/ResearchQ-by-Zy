@@ -10,10 +10,9 @@ import { RevealScene } from "./RevealScene";
 
 // "Satu prompt, referensinya asli." — Scopus Finder demo, 45s, 1080×1920 @30fps.
 // Scene lengths include the 8-frame fades: 158 + 518 + 368 + 158 + 172 − 4×8 = 1342 ≈ 44.7s.
-export const ScopusFinderDemo: React.FC = () => {
+export const ScopusTimeline: React.FC = () => {
   const { fps } = useVideoConfig();
   return (
-    <AbsoluteFill style={{ backgroundColor: "#F3F1EA" }}>
       <TransitionSeries>
         <TransitionSeries.Sequence name="Hook" durationInFrames={158} premountFor={fps}>
           <HookScene />
@@ -35,6 +34,14 @@ export const ScopusFinderDemo: React.FC = () => {
           <OutroScene />
         </TransitionSeries.Sequence>
       </TransitionSeries>
+  );
+};
+
+export const ScopusFinderDemo: React.FC = () => {
+  const { fps } = useVideoConfig();
+  return (
+    <AbsoluteFill style={{ backgroundColor: "#F3F1EA" }}>
+      <ScopusTimeline />
       <Audio src={staticFile("scopus-sfx.wav")} premountFor={fps} />
     </AbsoluteFill>
   );

@@ -1,0 +1,22 @@
+{
+  "voice": "5cad89c9-d88a-4832-89fb-55f2f16d13d3",
+  "voice_name": "Brandon - Confident Guy (Cartesia)",
+  "note": "English VO + Indonesian subtitles for ScopusFinderDemo. 'at' = earliest start (s), placed sequentially by tts_scopus_en.py.",
+  "lines": [
+    {"at": 0.25,  "en": "AI keeps making up references?",                                         "id": "AI suka ngarang referensi?"},
+    {"at": 2.55,  "en": "One prompt, and every reference is real.",                                "id": "Satu prompt, dan semua referensinya asli."},
+    {"at": 5.35,  "en": "Step one: turn on web search, so Claude actually searches.",              "id": "Langkah satu: nyalakan web search, biar Claude benar-benar mencari."},
+    {"at": 8.6,   "en": "Step two: pick the Scopus Finder skill.",                                 "id": "Langkah dua: pilih skill Scopus Finder."},
+    {"at": 10.9,  "en": "Then type your topic in one sentence, and hit send.",                     "id": "Lalu tulis topikmu dalam satu kalimat, dan kirim."},
+    {"at": 14.0,  "en": "Claude searches the web, then checks every result: the year, the source, the DOI.", "id": "Claude mencari di web, lalu mengecek tiap hasil: tahun, sumber, dan DOI-nya."},
+    {"at": 18.3,  "en": "Quartile not visible? It flags it instead of guessing.",                  "id": "Kuartil nggak kelihatan? Ditandai, bukan ditebak."},
+    {"at": 20.5,  "en": "Plus search links, ready to click.",                                      "id": "Plus link pencarian yang siap diklik."},
+    {"at": 22.3,  "en": "Three real articles. Not made up.",                                       "id": "Tiga artikel asli. Bukan karangan."},
+    {"at": 25.1,  "en": "Each one comes straight from the search results, with a DOI you can open and check yourself.", "id": "Semuanya langsung dari hasil pencarian, dengan DOI yang bisa kamu buka dan cek sendiri."},
+    {"at": 30.3,  "en": "Always open the paper before you cite it.",                               "id": "Tetap buka artikelnya sebelum kamu sitasi."},
+    {"at": 34.2,  "en": "And if search is turned off?",                                            "id": "Terus kalau search-nya mati?"},
+    {"at": 36.0,  "en": "It refuses to invent citations, and gives you search links instead.",     "id": "Skill-nya menolak ngarang sitasi, dan kasih link pencarian sebagai gantinya."},
+    {"at": 39.2,  "en": "Just one sentence.",                                                      "id": "Cuma satu kalimat."},
+    {"at": 40.9,  "en": "Save this, and comment your thesis topic below.",                         "id": "Simpan video ini, dan komen topik skripsimu di bawah."}
+  ]
+}

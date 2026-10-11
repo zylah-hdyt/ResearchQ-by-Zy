@@ -1,5 +1,5 @@
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
-import { CL, EASE, Em, K, MONO, Paper, SANS, SERIF } from "./kit";
+import { CL, EASE, Em, K, MONO, Paper, SANS, SERIF, useSubs } from "./kit";
 
 // 22–34s: the three real articles found by web search (verified 11 Oct 2026). Quartile not visible → flagged, not guessed.
 export const REFS = [
@@ -25,11 +25,12 @@ export const REFS = [
 
 const RefCard: React.FC<{ i: number; at: number; top: number }> = ({ i, at, top }) => {
   const f = useCurrentFrame();
+  const subs = useSubs();
   const r = REFS[i];
   return (
     <div
       style={{
-        position: "absolute", left: 72, right: 72, top, padding: "24px 30px", borderRadius: 30, background: K.card, border: `2px solid ${K.line}`,
+        position: "absolute", left: 72, right: 72, top, padding: subs ? "16px 28px" : "24px 30px", borderRadius: 30, background: K.card, border: `2px solid ${K.line}`,
         boxShadow: "0 40px 60px -44px rgba(0,0,0,.4)",
         opacity: interpolate(f, [at, at + 8], [0, 1], CL),
         translate: `${interpolate(f, [at, at + 16], [i % 2 ? -120 : 120, 0], { ...CL, easing: EASE })}px 0px`,
@@ -54,18 +55,19 @@ const RefCard: React.FC<{ i: number; at: number; top: number }> = ({ i, at, top 
 
 export const RevealScene: React.FC = () => {
   const f = useCurrentFrame();
+  const subs = useSubs();
   return (
     <AbsoluteFill style={{ fontFamily: SANS, color: K.ink }}>
       <Paper label="HASIL ASLI" />
-      <div style={{ position: "absolute", left: 72, right: 72, top: 270, fontWeight: 800, fontSize: 86, letterSpacing: -3, lineHeight: 1.05, opacity: interpolate(f, [0, 8], [0, 1], CL), translate: `0px ${interpolate(f, [0, 14], [40, 0], { ...CL, easing: EASE })}px` }}>
+      <div style={{ position: "absolute", left: 72, right: 72, top: subs ? 252 : 270, fontWeight: 800, fontSize: subs ? 80 : 86, letterSpacing: -3, lineHeight: 1.05, opacity: interpolate(f, [0, 8], [0, 1], CL), translate: `0px ${interpolate(f, [0, 14], [40, 0], { ...CL, easing: EASE })}px` }}>
         3 artikel <span style={{ fontSize: 104 }}><Em at={12}>asli,</Em></span>
         <br />
         <span style={{ color: K.mut }}>bukan karangan.</span>
       </div>
-      <RefCard i={0} at={24} top={520} />
-      <RefCard i={1} at={100} top={838} />
-      <RefCard i={2} at={176} top={1156} />
-      <div style={{ position: "absolute", left: 72, right: 72, top: 1478, fontFamily: MONO, fontSize: 19, color: K.mut, letterSpacing: 0.5, opacity: interpolate(f, [220, 232], [0, 1], CL) }}>
+      <RefCard i={0} at={24} top={subs ? 460 : 520} />
+      <RefCard i={1} at={100} top={subs ? 770 : 838} />
+      <RefCard i={2} at={176} top={subs ? 1080 : 1156} />
+      <div style={{ position: "absolute", left: 72, right: 72, top: subs ? 1388 : 1478, fontFamily: MONO, fontSize: 19, color: K.mut, letterSpacing: 0.5, opacity: interpolate(f, [220, 232], [0, 1], CL) }}>
         HASIL PENCARIAN ASLI · 11 OKT 2026 · TETAP BUKA &amp; CEK SEBELUM DISITASI
       </div>
     </AbsoluteFill>
