@@ -36,3 +36,12 @@ mati = tidak mengarang) → Outro. Naskah dan sumber referensi: `NASKAH-SCOPUS-F
 
     python scripts/sfx_scopus.py raw.wav && ffmpeg -i raw.wav -af loudnorm=I=-20:TP=-2:LRA=11 public/scopus-sfx.wav
     npx remotion render ScopusFinderDemo renders/Scopus-Finder-Satu-Prompt.mp4
+
+## Problem Master short (40 detik, tanpa VO)
+
+Komposisi `ProblemMasterShort` (`src/problem/`), gaya thumbnail NotYourLecture (Anton + glow). Aset:
+`public/problem/yt-strip.jpg` adalah screenshot channel yang disusun jadi strip untuk animasi scroll. Naskah dan sumber
+data: `NASKAH-PROBLEM-MASTER.md`.
+
+    python scripts/sfx_problem.py raw.wav && ffmpeg -i raw.wav -af loudnorm=I=-16:TP=-1.5:LRA=11 public/problem-sfx.wav
+    npx remotion render ProblemMasterShort renders/Problem-Master-BAB1.mp4 --crf=20
