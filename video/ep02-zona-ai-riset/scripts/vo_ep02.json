@@ -1,0 +1,42 @@
+{
+  "voice": "Cartesia (CARTESIA_VOICE_ID)",
+  "note": "start = detik mulai bicara; end = batas akhir jendela. Format sama dengan vo_ep01.json. Jendela waktu adalah estimasi: cek dengan manifest hasil TTS lalu sesuaikan cue di src/ep02.tpl.html bila bergeser.",
+  "lines": [
+    {
+      "id": "s1",
+      "start": 0.15,
+      "end": 4.3,
+      "ssml": "Pakai <sub alias='ei ai'>AI</sub> buat riset itu boleh. <break time='150ms'/> Tapi ada tiga zona yang wajib kamu tahu."
+    },
+    {
+      "id": "s2",
+      "start": 4.6,
+      "end": 11.9,
+      "ssml": "Zona hijau, aman. <break time='150ms'/> <sub alias='brein storming'>Brainstorming</sub> ide, jelasin konsep, cek tata bahasa. <break time='150ms'/> <sub alias='ei ai'>AI</sub> cuma teman diskusi, keputusan tetap di kamu."
+    },
+    {
+      "id": "s3",
+      "start": 12.2,
+      "end": 19.1,
+      "ssml": "Zona kuning, hati-hati. <break time='150ms'/> Draf paragraf, parafrase, rangkum jurnal. <break time='150ms'/> Titik awal boleh, tapi wajib direvisi dan dicek ke sumbernya."
+    },
+    {
+      "id": "s4",
+      "start": 19.4,
+      "end": 26.0,
+      "ssml": "Zona merah, hindari. <break time='150ms'/> Data karangan, sitasi yang nggak dicek, atau nyerahin seluruh analisis ke <sub alias='ei ai'>AI</sub>."
+    },
+    {
+      "id": "s5",
+      "start": 26.4,
+      "end": 33.2,
+      "ssml": "Soalnya <sub alias='ei ai'>AI</sub> bisa ngarang sitasi yang meyakinkan. <break time='150ms'/> Cari di <sub alias='gugel skolar'>Google Scholar</sub>. Nggak ketemu? <break time='120ms'/> Kemungkinan besar fiktif."
+    },
+    {
+      "id": "s6",
+      "start": 33.5,
+      "end": 39.7,
+      "ssml": "Ingat, <sub alias='ei ai'>AI</sub> itu <sub alias='ko pailot'>copilot</sub>, bukan <sub alias='pailot'>pilot</sub>. <break time='150ms'/> Kamu tetap penelitinya. <break time='150ms'/> Simpan, dan cek kebijakan kampusmu dulu."
+    }
+  ]
+}

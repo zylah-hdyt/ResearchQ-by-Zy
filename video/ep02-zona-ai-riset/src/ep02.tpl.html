@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="id" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Zona AI untuk Riset EP02</title>
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:PM;font-weight:400;src:url(data:font/woff2;base64,{{PM}}) format("woff2")}
+@font-face{font-family:PH;font-weight:400;src:url(data:font/woff2;base64,{{PH}}) format("woff2")}
+:root{--paper:#FBF7EC;--rule:#C4D8EA;--margin:#EBA3A3;--ink:#1F2340;--mut:#7B7A8C;
+--gr:#2FA14A;--grh:#A9E7A5;--ye:#E8A800;--yeh:#FFE27E;--rd:#E2432D;--rdh:#FFB9AB;--note:#FFF08A}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--paper)}
+#root{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--paper);font-family:PH,sans-serif;color:var(--ink)}
+#stage{position:absolute;inset:0;transform-origin:50% 50%}
+#paper{position:absolute;inset:0;background:
+ linear-gradient(90deg,transparent 126px,var(--margin) 126px,var(--margin) 129px,transparent 129px,transparent 136px,var(--margin) 136px,var(--margin) 138px,transparent 138px),
+ repeating-linear-gradient(180deg,transparent 0,transparent 78px,var(--rule) 78px,var(--rule) 80px)}
+#vig{position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.5),rgba(255,255,255,0) 60%),radial-gradient(circle at 50% 50%,rgba(0,0,0,0) 55%,rgba(120,90,50,.16) 100%)}
+.hole{position:absolute;left:34px;width:44px;height:44px;border-radius:50%;background:#CFC9B8;box-shadow:inset 0 5px 8px rgba(0,0,0,.28)}
+.sc{position:absolute;inset:0}
+.mk{font-family:PM,sans-serif;letter-spacing:1px;line-height:1.02}
+.ph{font-family:PH,sans-serif}
+.c{position:absolute;left:0;right:0;text-align:center}
+.st{fill:none;stroke:var(--ink);stroke-width:9;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
+.st.gr{stroke:var(--gr)}.st.ye{stroke:var(--ye)}.st.rd{stroke:var(--rd)}
+.fl{stroke-dasharray:none;stroke-dashoffset:0;stroke:none}
+.hl{background-repeat:no-repeat;background-size:0% 62%;background-position:0 80%;padding:0 18px;display:inline-block;border-radius:6px}
+.hl.g{background-image:linear-gradient(var(--grh),var(--grh))}
+.hl.y{background-image:linear-gradient(var(--yeh),var(--yeh))}
+.hl.r{background-image:linear-gradient(var(--rdh),var(--rdh))}
+.row{position:absolute;left:170px;right:60px;height:150px;display:flex;align-items:center;gap:34px}
+.row .bx{width:112px;height:112px;flex:none;overflow:visible}
+.row .tx{font-size:74px;line-height:1.02;white-space:nowrap;clip-path:inset(0 100% 0 0)}
+.note{position:absolute;left:170px;right:110px;padding:40px 44px 44px;background:var(--note);box-shadow:0 26px 36px -22px rgba(60,40,20,.55);font-size:64px;line-height:1.12;transform-origin:50% 0%}
+.note::before{content:"";position:absolute;left:50%;top:-26px;width:190px;height:52px;margin-left:-95px;background:rgba(214,196,150,.8);transform:rotate(-3deg)}
+.note b{font-family:PM,sans-serif;font-weight:400}
+.stamp{position:absolute;border:12px solid var(--rd);color:var(--rd);font-family:PM,sans-serif;padding:8px 38px;border-radius:18px;background:rgba(251,247,236,.9);letter-spacing:3px;transform-origin:50% 50%}
+.nav{position:absolute;left:0;right:0;top:150px;display:flex;justify-content:center;gap:34px}
+.nav i{display:block;width:62px;height:62px;border-radius:50%;border:7px solid var(--ink);opacity:.28}
+.nav i:nth-child(1){background:var(--grh)}.nav i:nth-child(2){background:var(--yeh)}.nav i:nth-child(3){background:var(--rdh)}
+.card{position:absolute;left:150px;right:90px;top:360px;background:#fff;padding:46px 46px 40px;box-shadow:0 34px 46px -26px rgba(60,40,20,.6);border:3px solid #E6E0D0;transform-origin:50% 0%}
+.card::before{content:"";position:absolute;left:50%;top:-28px;width:200px;height:54px;margin-left:-100px;background:rgba(214,196,150,.82);transform:rotate(2deg)}
+.card .ln{font-size:50px;line-height:1.28;color:#2a2d4a}
+.card .ln span{display:inline-block;clip-path:inset(0 100% 0 0)}
+.srch{position:absolute;left:150px;right:90px;top:1000px;height:130px;border:8px solid var(--ink);border-radius:70px;background:#fff;display:flex;align-items:center;padding:0 46px;font-size:48px;gap:20px;transform-origin:50% 50%}
+.srch svg{width:60px;height:60px;flex:none}
+.srch .q{clip-path:inset(0 100% 0 0);white-space:nowrap}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+ <defs>
+  <filter id="grainf"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 .35  0 0 0 0 .3  0 0 0 0 .25  0 0 0 .55 0"/></filter>
+ </defs>
+</svg>
+
+<div id="root" data-composition-id="main" data-start="0" data-duration="40" data-width="1080" data-height="1920">
+ <div id="stage">
+  <div id="paper"></div>
+  <div class="hole" style="top:170px"></div><div class="hole" style="top:480px"></div><div class="hole" style="top:790px"></div>
+  <div class="hole" style="top:1100px"></div><div class="hole" style="top:1410px"></div><div class="hole" style="top:1720px"></div>
+
+  <div id="draw" style="position:absolute;inset:0">
+
+   <!-- nav (zona aktif) -->
+   <div class="nav" id="nav"><i id="n1"></i><i id="n2"></i><i id="n3"></i></div>
+
+   <!-- S1 HOOK -->
+   <div id="s1" class="sc">
+    <div class="c mk" id="h1" style="top:360px;font-size:112px"><span class="w">Pakai AI</span> <span class="w">buat riset?</span></div>
+    <div class="c mk" id="boleh" style="top:660px;font-size:250px;color:var(--gr)">BOLEH.</div>
+    <svg id="circ" viewBox="0 0 560 200" style="position:absolute;left:150px;top:640px;width:780px;height:278px;overflow:visible"><path class="st gr" pathLength="1" style="stroke-width:11" d="M60 120 C20 40 150 6 290 10 C440 14 548 50 522 112 C498 172 330 188 188 178 C84 170 14 128 56 66"/></svg>
+    <div class="c ph" id="s1sub" style="top:1010px;font-size:66px">tapi ada <b style="font-family:PM;font-weight:400">3 zona</b> yang wajib kamu tahu</div>
+    <svg viewBox="0 0 700 220" style="position:absolute;left:190px;top:1180px;width:700px;height:220px;overflow:visible">
+     <circle id="L1" cx="110" cy="110" r="84" fill="var(--grh)" stroke="var(--ink)" stroke-width="9"/>
+     <circle id="L2" cx="350" cy="110" r="84" fill="var(--yeh)" stroke="var(--ink)" stroke-width="9"/>
+     <circle id="L3" cx="590" cy="110" r="84" fill="var(--rdh)" stroke="var(--ink)" stroke-width="9"/>
+    </svg>
+    <svg id="spk1" viewBox="0 0 100 100" style="position:absolute;left:90px;top:300px;width:110px;height:110px"><path class="st ye" pathLength="1" d="M50 6L58 40L94 50L58 60L50 94L42 60L6 50L42 40Z"/></svg>
+    <svg id="spk2" viewBox="0 0 100 100" style="position:absolute;left:880px;top:560px;width:90px;height:90px"><path class="st rd" pathLength="1" d="M50 6L58 40L94 50L58 60L50 94L42 60L6 50L42 40Z"/></svg>
+   </div>
+
+   <!-- S2 HIJAU -->
+   <div id="s2" class="sc">
+    <div class="c mk" style="top:300px;font-size:128px"><span class="hl g" id="t2">ZONA HIJAU</span></div>
+    <div class="c ph" id="d2" style="top:470px;font-size:60px;color:var(--mut)">aman &amp; dianjurkan</div>
+    <div class="row" id="g1" style="top:640px"><svg class="bx" viewBox="0 0 100 100"><path class="st" pathLength="1" d="M14 18C40 12 70 16 86 14C88 40 85 66 87 88C60 92 36 90 13 87C15 62 12 40 14 18Z"/><path class="st gr" pathLength="1" style="stroke-width:12" d="M24 54C34 64 40 74 48 82C60 54 74 30 98 8"/></svg><span class="tx">Brainstorming ide</span></div>
+    <div class="row" id="g2" style="top:830px"><svg class="bx" viewBox="0 0 100 100"><path class="st" pathLength="1" d="M14 18C40 12 70 16 86 14C88 40 85 66 87 88C60 92 36 90 13 87C15 62 12 40 14 18Z"/><path class="st gr" pathLength="1" style="stroke-width:12" d="M24 54C34 64 40 74 48 82C60 54 74 30 98 8"/></svg><span class="tx">Jelasin konsep</span></div>
+    <div class="row" id="g3" style="top:1020px"><svg class="bx" viewBox="0 0 100 100"><path class="st" pathLength="1" d="M14 18C40 12 70 16 86 14C88 40 85 66 87 88C60 92 36 90 13 87C15 62 12 40 14 18Z"/><path class="st gr" pathLength="1" style="stroke-width:12" d="M24 54C34 64 40 74 48 82C60 54 74 30 98 8"/></svg><span class="tx">Cek tata bahasa</span></div>
+    <div class="note" id="nt2" style="top:1230px;transform:rotate(-2deg)"><b>AI = teman diskusi.</b><br>Keputusan tetap di kamu.</div>
+   </div>
+
+   <!-- S3 KUNING -->
+   <div id="s3" class="sc">
+    <div class="c mk" style="top:300px;font-size:128px"><span class="hl y" id="t3">ZONA KUNING</span></div>
+    <div class="c ph" id="d3" style="top:470px;font-size:60px;color:var(--mut)">hati-hati, wajib dicek</div>
+    <div class="row" id="y1" style="top:640px"><svg class="bx" viewBox="0 0 100 100"><path class="st ye" pathLength="1" d="M50 10C60 30 80 62 92 86C64 90 36 90 8 86C20 64 38 34 50 10Z"/><path class="st ye" pathLength="1" d="M50 40L50 62M50 74L50 76"/></svg><span class="tx">Draf paragraf</span></div>
+    <div class="row" id="y2" style="top:830px"><svg class="bx" viewBox="0 0 100 100"><path class="st ye" pathLength="1" d="M50 10C60 30 80 62 92 86C64 90 36 90 8 86C20 64 38 34 50 10Z"/><path class="st ye" pathLength="1" d="M50 40L50 62M50 74L50 76"/></svg><span class="tx">Parafrase</span></div>
+    <div class="row" id="y3" style="top:1020px"><svg class="bx" viewBox="0 0 100 100"><path class="st ye" pathLength="1" d="M50 10C60 30 80 62 92 86C64 90 36 90 8 86C20 64 38 34 50 10Z"/><path class="st ye" pathLength="1" d="M50 40L50 62M50 74L50 76"/></svg><span class="tx">Rangkum jurnal</span></div>
+    <div class="note" id="nt3" style="top:1210px;transform:rotate(1.6deg)"><b>Titik awal,</b> bukan hasil akhir.<br><span style="font-size:58px">&#10003; revisi sendiri<br>&#10003; cek sumber aslinya</span></div>
+   </div>
+
+   <!-- S4 MERAH -->
+   <div id="s4" class="sc">
+    <div class="c mk" style="top:300px;font-size:128px"><span class="hl r" id="t4">ZONA MERAH</span></div>
+    <div class="c ph" id="d4" style="top:470px;font-size:60px;color:var(--mut)">sebaiknya dihindari</div>
+    <div class="row" id="r1" style="top:640px"><svg class="bx" viewBox="0 0 100 100"><path class="st rd" pathLength="1" style="stroke-width:13" d="M16 16C40 40 62 62 86 88M86 14C62 38 40 62 14 86"/></svg><span class="tx" id="rt1">Data karangan</span><svg class="strk" id="sk1" viewBox="0 0 700 30" style="position:absolute;left:140px;top:62px;width:420px;height:30px;overflow:visible"><path class="st rd" pathLength="1" style="stroke-width:10" d="M0 16C150 4 330 26 520 12C590 8 640 14 700 10"/></svg></div>
+    <div class="row" id="r2" style="top:830px"><svg class="bx" viewBox="0 0 100 100"><path class="st rd" pathLength="1" style="stroke-width:13" d="M16 16C40 40 62 62 86 88M86 14C62 38 40 62 14 86"/></svg><span class="tx" id="rt2">Sitasi tanpa cek</span><svg class="strk" id="sk2" viewBox="0 0 700 30" style="position:absolute;left:140px;top:62px;width:460px;height:30px;overflow:visible"><path class="st rd" pathLength="1" style="stroke-width:10" d="M0 12C150 24 330 4 520 16C590 20 640 8 700 14"/></svg></div>
+    <div class="row" id="r3" style="top:1020px"><svg class="bx" viewBox="0 0 100 100"><path class="st rd" pathLength="1" style="stroke-width:13" d="M16 16C40 40 62 62 86 88M86 14C62 38 40 62 14 86"/></svg><span class="tx" id="rt3">Analisis 100% dari AI</span><svg class="strk" id="sk3" viewBox="0 0 800 30" style="position:absolute;left:140px;top:62px;width:590px;height:30px;overflow:visible"><path class="st rd" pathLength="1" style="stroke-width:10" d="M0 14C180 2 380 26 600 10C680 6 760 16 800 12"/></svg></div>
+    <div class="stamp" id="stp4" style="left:250px;top:1250px;font-size:150px;transform:rotate(-8deg)">HINDARI</div>
+   </div>
+
+   <!-- S5 SITASI PALSU -->
+   <div id="s5" class="sc">
+    <div class="c mk" id="h5" style="top:210px;font-size:84px"><span class="w">AI bisa</span> <span class="w" style="color:var(--rd)">ngarang</span> <span class="w">sitasi</span></div>
+    <div class="card" id="card" style="top:420px;transform:rotate(-2deg)">
+     <div class="ln"><span id="c1">Rahman, A. &amp; Lee, K. (2023).</span></div>
+     <div class="ln" style="font-weight:700"><span id="c2">Dampak AI terhadap Kualitas Riset.</span></div>
+     <div class="ln" style="color:var(--mut)"><span id="c3">Jurnal Riset Terapan, 14(2), 88&ndash;101.</span></div>
+     <div class="ln" style="color:var(--mut);font-size:42px"><span id="c4">doi:10.1234/jrt.2023.0142</span></div>
+    </div>
+    <div class="srch" id="srch"><svg viewBox="0 0 100 100"><circle cx="42" cy="42" r="28" fill="none" stroke="var(--ink)" stroke-width="10"/><path d="M63 63L90 90" stroke="var(--ink)" stroke-width="12" stroke-linecap="round"/></svg><span class="q" id="q5">cari di Google Scholar</span></div>
+    <div class="c mk" id="zero" style="top:1180px;font-size:104px;color:var(--rd)">0 hasil ditemukan</div>
+    <div class="stamp" id="stp5" style="left:150px;top:1330px;font-size:84px;line-height:1.1;text-align:center;transform:rotate(-6deg)">KEMUNGKINAN<br>BESAR FIKTIF</div>
+    <svg id="mag" viewBox="0 0 200 200" style="position:absolute;left:0;top:0;width:260px;height:260px;overflow:visible"><circle cx="78" cy="78" r="58" fill="rgba(255,255,255,.35)" stroke="var(--ink)" stroke-width="12"/><path d="M122 122L180 180" stroke="var(--ink)" stroke-width="18" stroke-linecap="round"/></svg>
+   </div>
+
+   <!-- S6 CTA -->
+   <div id="s6" class="sc">
+    <svg id="plane" viewBox="0 0 280 150" style="position:absolute;left:70px;top:150px;width:260px;height:140px;overflow:visible"><path class="st" pathLength="1" style="stroke-width:7" d="M10 70C60 48 170 46 252 62C274 66 276 78 252 82C170 98 60 94 10 70ZM110 76L70 132L132 122L172 80M26 66L8 30L44 56"/></svg>
+    <div class="c mk" id="k1" style="top:330px;font-size:100px">AI itu <span class="hl g" id="cop" style="color:var(--gr)">COPILOT</span></div>
+    <div class="c mk" id="k2" style="top:540px;font-size:100px;color:var(--mut)">bukan <span id="pil" style="position:relative;display:inline-block">PILOT<svg viewBox="0 0 400 40" style="position:absolute;left:-10px;top:36px;width:420px;height:40px;overflow:visible"><path class="st rd" id="pilx" pathLength="1" style="stroke-width:14" d="M0 24C100 6 240 36 400 14"/></svg></span></div>
+    <div class="c ph" id="k3" style="top:790px;font-size:70px">Kamu tetap <b style="font-family:PM;font-weight:400">penelitinya.</b></div>
+    <svg id="box3" viewBox="0 0 800 160" style="position:absolute;left:150px;top:745px;width:790px;height:160px;overflow:visible"><path class="st" pathLength="1" style="stroke-width:8" d="M10 30C200 8 560 20 780 24C790 70 786 110 782 138C560 150 200 146 14 142C6 100 8 60 10 30Z"/></svg>
+    <div class="note" id="nt6" style="top:1030px;left:170px;right:110px;transform:rotate(-1.5deg)"><b>Simpan</b> videonya &#10003;<br>cek <b>kebijakan kampusmu</b> dulu</div>
+    <div class="c mk" id="hdl" style="top:1370px;font-size:92px;color:var(--ink)">@researchq.id</div>
+    <svg id="bm" viewBox="0 0 100 100" style="position:absolute;left:880px;top:1360px;width:110px;height:110px"><path class="st rd" pathLength="1" d="M22 8L78 8L78 92L50 70L22 92Z"/></svg>
+    <svg id="spk3" viewBox="0 0 100 100" style="position:absolute;left:100px;top:1330px;width:110px;height:110px"><path class="st ye" pathLength="1" d="M50 6L58 40L94 50L58 60L50 94L42 60L6 50L42 40Z"/></svg>
+   </div>
+
+  </div>
+  <div id="vig"></div>
+  <svg style="position:absolute;inset:0;width:1080px;height:1920px;mix-blend-mode:multiply;opacity:.09;pointer-events:none"><rect width="100%" height="100%" filter="url(#grainf)"/></svg>
+ </div>
+ <audio id="sfx" src="sfx.wav" data-start="0" data-duration="40" data-volume="1"></audio>
+</div>
+
+<script>
+const tl = gsap.timeline({ paused: true });
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+const CUE = window.__cues = { draw: [], swipe: [], pop: [], stamp: [], flip: [], tick: [], write: [] };
+const q = s => Array.from(document.querySelectorAll(s));
+const ro = n => +n.toFixed(3);
+const $ = s => document.querySelector(s);
+
+/* hand-drawn "boil": every element jitters a hair ~8x/s (CSS translate/rotate, independent of GSAP's transform) */
+const jit = q(".sc > *"), boil = { t: 0 };
+const hz = (n) => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+let lastStep = -1;
+tl.to(boil, { t: 40, duration: 40, ease: "none", onUpdate: () => {
+  const st = Math.floor(boil.t * 8); if (st === lastStep) return; lastStep = st;
+  jit.forEach((el, i) => { el.style.translate = ((hz(st * 7 + i) - 0.5) * 4.4).toFixed(2) + "px " + ((hz(st * 13 + i * 3) - 0.5) * 4.4).toFixed(2) + "px"; el.style.rotate = ((hz(st * 5 + i * 11) - 0.5) * 0.5).toFixed(3) + "deg"; });
+} }, 0);
+/* gentle camera drift */
+tl.fromTo("#stage", { scale: 1.0 }, { scale: 1.025, duration: 40, ease: "none" }, 0);
+
+const draw = (sel, t, d = 0.5, ease = "power1.inOut", stg = 0) => { tl.to(sel, { strokeDashoffset: 0, duration: d, ease, stagger: stg }, t); CUE.draw.push(ro(t)); };
+const swipe = (sel, t, d = 0.5) => { tl.to(sel, { backgroundSize: "100% 62%", duration: d, ease: "power2.out" }, t); CUE.swipe.push(ro(t)); };
+const write = (sel, t, d = 0.6) => { tl.to(sel, { clipPath: "inset(0 0% 0 0)", duration: d, ease: "power1.out" }, t); CUE.write.push(ro(t)); };
+const pop = (sel, t, o = {}) => { tl.fromTo(sel, { scale: 0, rotation: o.r0 ?? -14, opacity: 0 }, { scale: 1, rotation: o.r ?? 0, opacity: 1, duration: o.d ?? 0.38, ease: "back.out(2.2)", transformOrigin: "50% 50%" }, t); CUE.pop.push(ro(t)); };
+const slam = (sel, t, rot, o = {}) => { tl.fromTo(sel, { scale: o.s ?? 2.6, opacity: 0, rotation: rot - 14 }, { scale: 1, opacity: 1, rotation: rot, duration: 0.26, ease: "power4.in", transformOrigin: "50% 50%" }, t);
+  tl.fromTo("#stage", { y: 0 }, { y: 0, keyframes: [{ y: 14, duration: 0.05 }, { y: -8, duration: 0.07 }, { y: 0, duration: 0.1 }], immediateRender: false }, t + 0.26); CUE.stamp.push(ro(t + 0.26)); };
+const hide = (id, t, d = 0.3) => tl.to("#" + id, { opacity: 0, y: -30, duration: d, ease: "power2.in" }, t);
+const show = (id, t, d = 0.35) => { tl.fromTo("#" + id, { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: d, ease: "power3.out", immediateRender: false }, t); };
+const flip = t => CUE.flip.push(ro(t));
+
+/* initial states: scenes hidden, revealed on cue */
+["s1", "s2", "s3", "s4", "s5", "s6"].forEach(id => gsap.set("#" + id, { opacity: id === "s1" ? 1 : 0 }));
+gsap.set("#nav", { opacity: 0 });
+gsap.set(["#boleh", "#L1", "#L2", "#L3", "#s1sub", "#nt2", "#nt3", "#nt6", "#stp4", "#stp5", "#zero", "#srch", "#card", "#mag", "#hdl", "#plane"], { opacity: 0 });
+gsap.set("#h1 .w, #h5 .w", { opacity: 0 });
+
+/* All cues below are synced to the Cartesia word timestamps (out/vo/manifest.json), see README. */
+/* ---------- S1 hook (0 - 4.2) ---------- */
+tl.fromTo("#h1 .w", { opacity: 0, y: 50, rotation: -5 }, { opacity: 1, y: 0, rotation: 0, duration: 0.45, ease: "back.out(2)", stagger: 0.55 }, 0.15);
+CUE.pop.push(0.15, 0.7);
+slam("#boleh", 1.05, -4, { s: 3.2 });
+draw("#circ path", 1.5, 0.7);
+draw("#spk1 path, #spk2 path", 1.45, 0.5, "power1.inOut", 0.2);
+show("s1sub", 1.95);
+CUE.write.push(1.95);
+pop("#L1", 2.55); pop("#L2", 2.85); pop("#L3", 3.15);
+hide("s1", 3.9, 0.3);
+
+/* ---------- zona scene factory ---------- */
+function zona(id, t0, navIdx, titleSel, rowIds, rowT, noteId, noteT, outT, rowRot) {
+  flip(t0);
+  tl.set("#" + id, { opacity: 1 }, t0);
+  tl.fromTo("#" + id, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out", immediateRender: false }, t0);
+  tl.to("#nav", { opacity: 1, duration: 0.3 }, t0);
+  [1, 2, 3].forEach(i => tl.to("#n" + i, { opacity: i === navIdx ? 1 : 0.28, scale: i === navIdx ? 1.35 : 1, duration: 0.3, ease: "back.out(2)" }, t0 + 0.05));
+  swipe(titleSel, t0 + 0.3, 0.6);
+  rowIds.forEach((r, i) => {
+    const T = rowT[i];
+    const paths = q("#" + r + " .bx .st");
+    tl.to(paths, { strokeDashoffset: 0, duration: 0.45, ease: "power1.inOut", stagger: 0.28 }, T);
+    CUE.draw.push(ro(T)); CUE.tick.push(ro(T + 0.3));
+    write("#" + r + " .tx", T + 0.15, 0.7);
+  });
+  if (noteId) { tl.fromTo("#" + noteId, { scale: 0.2, opacity: 0, rotation: -12 }, { scale: 1, opacity: 1, rotation: rowRot, duration: 0.45, ease: "back.out(1.8)", immediateRender: false }, noteT); CUE.pop.push(ro(noteT)); }
+  tl.to("#" + id, { opacity: 0, y: -40, duration: 0.3, ease: "power2.in" }, outT);
+}
+zona("s2", 4.2, 1, "#t2", ["g1", "g2", "g3"], [5.85, 6.9, 7.7], "nt2", 8.8, 11.55, -2);
+zona("s3", 11.8, 2, "#t3", ["y1", "y2", "y3"], [13.6, 14.4, 15.05], "nt3", 15.9, 18.65, 1.6);
+
+/* ---------- S4 merah (18.95 - 26.0) ---------- */
+flip(18.95);
+tl.fromTo("#s4", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out", immediateRender: false }, 18.95);
+[1, 2, 3].forEach(i => tl.to("#n" + i, { opacity: i === 3 ? 1 : 0.28, scale: i === 3 ? 1.35 : 1, duration: 0.3, ease: "back.out(2)" }, 19.0));
+swipe("#t4", 19.4, 0.6);
+[["r1", 21.05, 21.62], ["r2", 21.9, 22.72], ["r3", 23.2, 24.85]].forEach(([r, T, K]) => {
+  tl.to(q("#" + r + " .bx .st"), { strokeDashoffset: 0, duration: 0.4, ease: "power1.inOut" }, T);
+  write("#" + r + " .tx", T + 0.1, 0.65);
+  tl.to("#" + r + " .strk .st", { strokeDashoffset: 0, duration: 0.42, ease: "power2.out" }, K);
+  CUE.draw.push(ro(T), ro(K));
+});
+slam("#stp4", 24.95, -8, { s: 3 });
+tl.to("#s4", { opacity: 0, y: -40, duration: 0.3, ease: "power2.in" }, 26.0);
+
+/* ---------- S5 sitasi palsu (26.1 - 33.2) ---------- */
+flip(26.1);
+tl.to("#nav", { opacity: 0, duration: 0.25 }, 25.95);
+tl.set("#s5", { opacity: 1 }, 26.1);
+q("#h5 .w").forEach((w, i) => tl.fromTo(w, { opacity: 0, y: 40, rotation: -4 }, { opacity: 1, y: 0, rotation: 0, duration: 0.4, ease: "back.out(2)", immediateRender: false }, [26.3, 27.25, 27.6][i]));
+CUE.pop.push(26.3, 27.25, 27.6);
+tl.fromTo("#card", { y: -500, rotation: 8, opacity: 0 }, { y: 0, rotation: -2, opacity: 1, duration: 0.55, ease: "bounce.out", immediateRender: false }, 27.6);
+CUE.pop.push(28.0);
+["#c1", "#c2", "#c3", "#c4"].forEach((s, i) => write(s, 28.0 + i * 0.28, 0.45));
+tl.fromTo("#srch", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2)", immediateRender: false }, 28.95);
+CUE.pop.push(28.95);
+write("#q5", 29.4, 0.6);
+tl.fromTo("#mag", { x: 780, y: 560, rotation: 20, opacity: 0 }, { x: 560, y: 420, rotation: -4, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 29.35);
+tl.to("#mag", { x: 330, y: 470, rotation: 4, duration: 0.7, ease: "sine.inOut" }, 29.9);
+tl.to("#mag", { x: 560, y: 520, rotation: -6, duration: 0.5, ease: "sine.inOut" }, 30.6);
+CUE.flip.push(29.9, 30.6);
+tl.fromTo("#zero", { scale: 1.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "power4.in", immediateRender: false }, 30.55);
+CUE.stamp.push(ro(30.85));
+slam("#stp5", 31.45, -6, { s: 3 });
+tl.to("#s5", { opacity: 0, y: -40, duration: 0.3, ease: "power2.in" }, 33.0);
+
+/* ---------- S6 cta (33.2 - 40) ---------- */
+flip(33.2);
+tl.set("#s6", { opacity: 1 }, 33.2);
+tl.fromTo("#plane", { x: -380, opacity: 0 }, { x: 620, opacity: 1, duration: 1.2, ease: "power2.out", immediateRender: false }, 33.3);
+draw("#plane .st", 33.35, 0.9);
+tl.to("#plane", { x: 1300, y: -80, duration: 0.9, ease: "power2.in" }, 35.0);
+tl.fromTo("#k1", { opacity: 0, y: 50, rotation: -3 }, { opacity: 1, y: 0, rotation: 0, duration: 0.45, ease: "back.out(2)", immediateRender: false }, 33.75);
+CUE.pop.push(33.75);
+swipe("#cop", 34.55, 0.5);
+tl.fromTo("#k2", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(2)", immediateRender: false }, 35.0);
+draw("#pilx", 35.6, 0.4, "power2.out");
+tl.fromTo("#k3", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(2)", immediateRender: false }, 36.15);
+CUE.pop.push(36.15);
+draw("#box3 .st", 36.7, 0.7);
+tl.fromTo("#nt6", { scale: 0.2, opacity: 0, rotation: -12 }, { scale: 1, opacity: 1, rotation: -1.5, duration: 0.45, ease: "back.out(1.8)", immediateRender: false }, 37.4);
+CUE.pop.push(37.4);
+tl.fromTo("#hdl", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "back.out(2)", immediateRender: false }, 38.7);
+CUE.pop.push(38.7);
+draw("#bm .st, #spk3 .st", 39.0, 0.5, "power1.inOut", 0.25);
+
+tl.seek(0);
+</script>
+</body>
+</html>
