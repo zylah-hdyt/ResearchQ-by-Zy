@@ -24,3 +24,9 @@ loudnorm + mux ke `renders/EP02-jasa-smartpls.mp4` (lihat README EP01).
 - Build: `python scripts/build.py src/ep02b.tpl.html project/index.html scripts/vo_ep02b.json`
 - SFX minimal: `scripts/sfx_ep02b.py` lalu `ffmpeg -i sfx_raw.wav -af loudnorm=I=-20:TP=-3:LRA=10 -ar 48000 sfx.wav`
 - Render: `renders/EP02-v2-jasa-smartpls.mp4`, SFX `renders/sfx_ep02_v2.wav`, naskah VO `scripts/vo_ep02b.json`.
+
+## Versi 3 (warna SmartPLS + logo) — `src/ep02c.tpl.html`
+- Sama dengan v2, palet diganti warna SmartPLS: biru #057AF1, cyan #36D5FC, kuning #FDFE38; bagian gelap navy, bagian terang biru muda.
+- Logo dari user: `assets/brand/smartpls-wordmark.png` (chip di pembuka) dan `assets/brand/pls-round.png` (ikon jendela, stiker, koin 3D di CTA).
+- Build: `python scripts/build.py src/ep02c.tpl.html project/index.html scripts/vo_ep02b.json` (SFX & VO sama dengan v2).
+- Render: `renders/EP02-v3-smartpls-blue.mp4`.

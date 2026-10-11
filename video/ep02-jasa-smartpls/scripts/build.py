@@ -12,6 +12,8 @@ for k, f in F.items():
     t = t.replace('{{%s}}' % k, b64(os.path.join(FONTS, f)))
 for code in set(re.findall(r'\{\{E_([^}]+)\}\}', t)):
     t = t.replace('{{E_%s}}' % code, 'data:image/webp;base64,' + b64(os.path.join(HERE, 'assets', 'emoji', code + '.webp')))
+for name in set(re.findall(r'\{\{IMG_([^}]+)\}\}', t)):
+    t = t.replace('{{IMG_%s}}' % name, 'data:image/png;base64,' + b64(os.path.join(HERE, 'assets', 'brand', name + '.png')))
 vo = json.load(open(sys.argv[3] if len(sys.argv) > 3 else os.path.join(HERE, 'scripts', 'vo_ep02.json')))
 t = t.replace('{{VO_JSON}}', json.dumps({'lines': [{k: l[k] for k in ('id', 'start', 'end', 'text')} for l in vo['lines']]}, ensure_ascii=False))
 out = sys.argv[2]; open(out, 'w').write(t)
