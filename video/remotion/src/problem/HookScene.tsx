@@ -1,5 +1,5 @@
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
-import { Big, CL, Label, P, SANS, Stage, glow, pop } from "./kit";
+import { Big, CL, Circle, EASE, Label, P, SANS, Stage, pop } from "./kit";
 
 // 0–3.2s anti-scroll hook: a red-marked BAB 1 + "DATANYA MANA?" slam (visible on frame 0), then the promise.
 export const HookScene: React.FC = () => {
@@ -11,16 +11,16 @@ export const HookScene: React.FC = () => {
       <Stage hue={sw ? "orange" : "red"} />
       {!sw ? (
         <AbsoluteFill style={{ translate: `${shake}px ${-shake * 0.6}px` }}>
-          <div style={{ position: "absolute", left: 150, top: 300, width: 780, height: 520, borderRadius: 22, background: "#F2F0EA", rotate: "-5deg", padding: "40px 46px", boxShadow: "0 50px 90px -30px rgba(0,0,0,.8)" }}>
+          <div style={{ position: "absolute", left: 150, top: 300, width: 780, height: 520, borderRadius: 22, background: "#F2F0EA", rotate: `${interpolate(f, [0, 8], [-12, -5], { ...CL, easing: EASE })}deg`, translate: `${interpolate(f, [0, 8], [-120, 0], { ...CL, easing: EASE })}px 0px`, padding: "40px 46px", boxShadow: '14px 14px 0 rgba(0,0,0,.6)' }}>
             <div style={{ fontWeight: 800, fontSize: 34, color: "#222" }}>BAB 1 · Latar Belakang</div>
             {[96, 88, 100, 70, 92, 84].map((w, i) => <div key={i} style={{ height: 18, width: `${w}%`, borderRadius: 9, background: "#D9D5CC", marginTop: 26 }} />)}
-            <div style={{ position: "absolute", left: 40, top: 150, width: 560, height: 120, border: `7px solid ${P.red}`, borderRadius: "50%", rotate: "-3deg" }} />
+            <Circle at={3} w={560} h={120} c={P.red} style={{ left: 30, top: 140 }} />
             <div style={{ position: "absolute", right: 30, bottom: 34, fontFamily: "cursive", fontSize: 54, color: P.red, rotate: "-8deg", fontWeight: 700 }}>datanya??</div>
           </div>
           <div style={{ position: "absolute", left: 0, right: 0, top: 900, textAlign: "center" }}>
             <div style={{ display: "inline-block", fontWeight: 800, fontSize: 34, letterSpacing: 4, padding: "8px 22px", background: P.red, color: "#fff", borderRadius: 8 }}>DOSEN:</div>
-            <Big size={210} style={{ marginTop: 18 }}>Datanya</Big>
-            <Big size={250} color={P.red} style={{ textShadow: glow("rgba(255,59,59,.8)") }}>mana?</Big>
+            <Big size={210} style={{ marginTop: 18, scale: `${interpolate(f, [0, 6], [1.25, 1], { ...CL, easing: EASE })}` }}>Datanya</Big>
+            <Big size={250} color={P.red} style={{ scale: `${interpolate(f, [2, 9], [1.4, 1], { ...CL, easing: EASE })}` }}>mana?</Big>
           </div>
           <div style={{ position: "absolute", left: 600, top: 680, padding: "8px 30px", border: `9px solid ${P.red}`, borderRadius: 18, color: P.red, fontFamily: "Anton", fontSize: 110, rotate: "-14deg", background: "rgba(4,6,12,.4)", opacity: interpolate(f, [14, 16], [0, 1], CL), scale: `${interpolate(f, [14, 20], [2.4, 1], CL)}` }}>REVISI</div>
         </AbsoluteFill>
@@ -40,7 +40,7 @@ export const HookScene: React.FC = () => {
             { t: "RUMUSAN MASALAH", x: 120, y: 1200, c: P.cyan, at: 66 },
             { t: "SEMUA JURUSAN", x: 560, y: 1290, c: P.orange, at: 70 },
           ].map((c) => (
-            <div key={c.t} style={{ position: "absolute", left: c.x, top: c.y, padding: "16px 26px", borderRadius: 14, border: `3px solid ${c.c}`, color: c.c, fontWeight: 800, fontStyle: "italic", fontSize: 38, letterSpacing: 1, background: "rgba(4,6,12,.6)", boxShadow: `0 0 30px -6px ${c.c}`, ...pop(f, c.at, 10) }}>{c.t}</div>
+            <div key={c.t} style={{ position: "absolute", left: c.x, top: c.y, padding: "16px 26px", borderRadius: 14, border: `3px solid ${c.c}`, color: c.c, fontWeight: 800, fontStyle: "italic", fontSize: 38, letterSpacing: 1, background: "#0D0F14", boxShadow: '8px 8px 0 rgba(0,0,0,.55)', ...pop(f, c.at, 10), translate: `0px ${Math.sin((f - c.at) / 9) * 6}px` }}>{c.t}</div>
           ))}
         </AbsoluteFill>
       )}

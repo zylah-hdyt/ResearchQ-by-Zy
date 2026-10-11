@@ -1,7 +1,9 @@
 # Skill Problem Master · BAB 1 lengkap + data asli · 40 detik (tanpa VO, Remotion)
 
-Gaya visual mengikuti thumbnail channel NotYourLecture: latar gelap navy, glow oranye dan biru, judul Anton tebal
-miring, label "THE RESEARCH JOURNEY". Video tanpa voiceover, jadi **pasang sound yang sedang tren di TikTok**. SFX
+Gaya visual: tipografi thumbnail NotYourLecture (Anton tebal miring, label "THE RESEARCH JOURNEY") dengan tampilan
+flat. Warna solid, bayangan keras tanpa blur, tanpa glow atau neon. Animasi: transisi slide/wipe antar-scene, kamera
+bergerak pelan di setiap scene, lingkaran marker yang tergambar sendiri pada angka kunci, penunjuk alur, progress bar,
+dan panah di scene research gap. Video tanpa voiceover, jadi **pasang sound yang sedang tren di TikTok**. SFX
 bawaan sudah dibuat punchy (−16 LUFS).
 
 | Detik | Scene | Isi |

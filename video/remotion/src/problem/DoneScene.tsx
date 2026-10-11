@@ -1,4 +1,5 @@
-import { AbsoluteFill, useCurrentFrame } from "remotion";
+import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { CL, EASE } from "./kit";
 import { Big, MONO, P, SANS, Stage, rise } from "./kit";
 
 // 31–34s: every BAB 1 sub-chapter the skill drafts, ticked off fast.
@@ -30,6 +31,10 @@ export const DoneScene: React.FC = () => {
           <span style={{ width: 46, height: 46, borderRadius: 12, background: f >= 12 + i * 6 ? P.green : "transparent", border: `3px solid ${P.green}`, color: P.bg, fontWeight: 800, fontSize: 30, display: "flex", alignItems: "center", justifyContent: "center" }}>{f >= 12 + i * 6 ? "✓" : ""}</span>
         </div>
       ))}
+      <div style={{ position: "absolute", left: 80, right: 80, top: 1420 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontFamily: MONO, fontSize: 22, color: P.mut }}><span>DRAFT BAB 1</span><span>{Math.round(interpolate(f, [8, 60], [0, 100], CL))}%</span></div>
+        <div style={{ height: 16, borderRadius: 8, background: "#232836", marginTop: 8, overflow: "hidden" }}><div style={{ height: "100%", width: `${interpolate(f, [8, 60], [0, 100], { ...CL, easing: EASE })}%`, background: P.green }} /></div>
+      </div>
     </AbsoluteFill>
   );
 };

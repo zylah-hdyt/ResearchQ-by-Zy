@@ -19,8 +19,8 @@ export const PromptScene: React.FC = () => {
       <div style={{ position: "absolute", left: 70, right: 70, top: 760, perspective: 1600 }}>
         <div
           style={{
-            padding: "30px 34px", borderRadius: 28, background: P.panel, border: `2px solid ${P.line}`, boxShadow: `0 60px 100px -40px rgba(0,0,0,.9), 0 0 60px -20px ${P.blue}`,
-            rotate: `x ${interpolate(f, [10, 40], [28, 10], { ...CL, easing: EASE })}deg`, transform: `rotateY(${interpolate(f, [10, 40], [-30, -10], { ...CL, easing: EASE })}deg)`,
+            padding: "30px 34px", borderRadius: 28, background: P.panel, border: `2px solid ${P.line}`, boxShadow: '12px 12px 0 rgba(0,0,0,.6)',
+            rotate: `x ${interpolate(f, [10, 40], [28, 10], { ...CL, easing: EASE })}deg`, transform: `rotateY(${interpolate(f, [10, 40], [-30, -10], { ...CL, easing: EASE }) + Math.sin(f / 22) * 2}deg) translateY(${Math.sin(f / 16) * 6}px)`,
             opacity: interpolate(f, [10, 18], [0, 1], CL),
           }}
         >
@@ -31,6 +31,15 @@ export const PromptScene: React.FC = () => {
           <div style={{ marginTop: 20, fontSize: 36, lineHeight: 1.4, fontWeight: 700, minHeight: 250 }}>
             {typed}
             {f < 100 && Math.floor(f / 7) % 2 === 0 ? <span style={{ borderLeft: `4px solid ${P.cyan}`, marginLeft: 3 }} /> : null}
+          </div>
+          <div style={{ marginTop: 14, opacity: interpolate(f, [96, 102], [0, 1], CL) }}>
+            <div style={{ display: "flex", justifyContent: "space-between", fontFamily: MONO, fontSize: 20, color: P.mut }}>
+              <span>MENYUSUN BAB 1 · MENCARI DATA PER VARIABEL</span>
+              <span>{Math.round(interpolate(f, [100, 150], [0, 100], CL))}%</span>
+            </div>
+            <div style={{ height: 14, borderRadius: 7, background: "#232836", marginTop: 8, overflow: "hidden" }}>
+              <div style={{ height: "100%", width: `${interpolate(f, [100, 150], [0, 100], { ...CL, easing: EASE })}%`, background: P.orange }} />
+            </div>
           </div>
         </div>
       </div>
