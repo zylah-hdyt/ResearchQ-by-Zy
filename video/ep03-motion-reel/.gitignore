@@ -1,0 +1,7 @@
+node_modules/
+project/index.html
+project/gsap.min.js
+project/sfx.wav
+out/
+*.mp4
+snapshots/

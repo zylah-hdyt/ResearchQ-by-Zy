@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="id" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>ResearchQ Motion Reel EP03</title>
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:AN;src:url(data:font/woff2;base64,{{ANTON}}) format("woff2")}
+@font-face{font-family:SR;src:url(data:font/woff2;base64,{{ISR}}) format("woff2")}
+@font-face{font-family:SI;font-style:italic;src:url(data:font/woff2;base64,{{ISI}}) format("woff2")}
+@font-face{font-family:PJS;font-weight:500;src:url(data:font/woff2;base64,{{PJS500}}) format("woff2")}
+@font-face{font-family:PJS;font-weight:700;src:url(data:font/woff2;base64,{{PJS700}}) format("woff2")}
+@font-face{font-family:PJS;font-weight:800;src:url(data:font/woff2;base64,{{PJS800}}) format("woff2")}
+@font-face{font-family:JBM;src:url(data:font/woff2;base64,{{JBM}}) format("woff2")}
+:root{--cream:#EEECE5;--card:#FAF9F5;--ink:#121212;--mut:#8C887F;--line:#D9D5CB;--lime:#D6E64A;--lime2:#EEF5B9;
+--orange:#FF5533;--blue:#2E3BF0;--black:#0D0D0F;--g:#3BAE5A;--y:#F2B705;--r:#F0442C;--hud:#121212}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--cream)}
+#root{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--cream);font-family:PJS,sans-serif;color:var(--ink)}
+#cam{position:absolute;inset:0;transform-origin:50% 50%}
+.sc{position:absolute;inset:0;opacity:0}
+.bg{position:absolute;inset:0}
+.abs{position:absolute}
+.c{position:absolute;left:0;right:0;text-align:center}
+.mono{font-family:JBM;letter-spacing:3px;text-transform:uppercase}
+.si{font-family:SI;font-style:italic;font-weight:400}
+.sr{font-family:SR;font-weight:400}
+.an{font-family:AN;font-weight:400;line-height:.92;letter-spacing:2px}
+.b8{font-weight:800;letter-spacing:-2px}
+.w{display:inline-block}
+.hl{background-image:linear-gradient(var(--lime),var(--lime));background-repeat:no-repeat;background-size:0% 58%;background-position:0 78%;padding:0 10px}
+/* HUD */
+#hud{position:absolute;inset:0;color:var(--hud);pointer-events:none}
+.cor{position:absolute;width:42px;height:42px;border-color:currentColor;border-style:solid;opacity:.55}
+.hudt{position:absolute;font-family:JBM;font-size:21px;letter-spacing:2px;opacity:.7;white-space:nowrap}
+#prog{position:absolute;left:96px;bottom:118px;height:3px;width:0;background:currentColor;opacity:.5}
+#progbg{position:absolute;left:96px;right:96px;bottom:118px;height:3px;background:currentColor;opacity:.12}
+.rec{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--orange);margin-right:10px;vertical-align:1px}
+/* chips & cards */
+.chip{position:absolute;display:flex;align-items:center;gap:18px;background:var(--card);border:2px solid var(--line);border-radius:20px;padding:16px 24px 16px 16px;box-shadow:0 22px 40px -26px rgba(40,30,20,.45)}
+.chip .ic{width:52px;height:52px;border-radius:14px;background:var(--ink);color:var(--lime);display:flex;align-items:center;justify-content:center;font-family:JBM;font-size:24px;flex:none}
+.chip .tt{font-size:31px;font-weight:700;line-height:1.1;white-space:nowrap}
+.chip .st{font-family:JBM;font-size:18px;letter-spacing:1px;color:var(--mut);margin-top:4px;white-space:nowrap}
+.pill{display:inline-flex;align-items:center;gap:16px;background:var(--ink);color:#fff;border-radius:999px;padding:20px 36px;font-family:JBM;font-size:24px;letter-spacing:2px}
+.pill i{width:14px;height:14px;border-radius:50%;background:var(--lime);display:block}
+.step{position:absolute;left:150px;width:780px;height:124px;display:flex;align-items:center;gap:26px;padding:0 34px 0 26px;background:var(--card);border:2px solid var(--line);border-radius:26px;box-shadow:0 26px 44px -30px rgba(40,30,20,.45)}
+.step .n{width:66px;height:66px;border-radius:50%;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-family:JBM;font-size:24px;flex:none;background:var(--card)}
+.step .tx{flex:1;font-size:40px;font-weight:700;white-space:nowrap}
+.step .tg{font-family:JBM;font-size:20px;letter-spacing:2px;color:var(--mut)}
+.step.ai{background:var(--lime2);border-color:#C9D83A}
+.step.fin{background:var(--ink);border-color:var(--ink);color:var(--lime)}
+.step.fin .n{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+.step.fin .tg{color:var(--lime)}
+.tool{position:absolute;width:420px;height:122px;display:flex;align-items:center;gap:20px;padding:0 22px;background:var(--card);border:2px solid var(--line);border-radius:24px;box-shadow:0 24px 40px -30px rgba(40,30,20,.45)}
+.tool .ic{width:66px;height:66px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-family:JBM;font-size:26px;flex:none}
+.tool .tt{font-size:30px;font-weight:800;letter-spacing:-.5px;white-space:nowrap}
+.tool .st{font-family:JBM;font-size:17px;letter-spacing:1px;color:var(--mut);margin-top:4px;white-space:nowrap}
+.code{font-family:JBM;font-size:27px;line-height:1.55;color:#cfcfc8;white-space:pre}
+.code b{color:var(--lime);font-weight:400}
+.code .ln{display:block;clip-path:inset(0 100% 0 0)}
+.trk{position:absolute;left:150px;width:780px;height:2px;background:#CBC6BA}
+.ball{position:absolute;width:58px;height:58px;border-radius:50%;margin:-29px 0 0 -29px}
+.zl{position:absolute;left:150px;font-family:JBM;font-size:21px;letter-spacing:2px;color:var(--mut)}
+.zd{position:absolute;right:150px;font-family:SI;font-style:italic;font-size:44px;text-align:right}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+ <symbol id="mark" viewBox="-200 -200 400 400">
+  <g fill="currentColor">
+   <ellipse cx="0" cy="-118" rx="30" ry="64"/><ellipse cx="0" cy="-118" rx="30" ry="64" transform="rotate(60)"/>
+   <ellipse cx="0" cy="-118" rx="30" ry="64" transform="rotate(120)"/><ellipse cx="0" cy="-118" rx="30" ry="64" transform="rotate(180)"/>
+   <ellipse cx="0" cy="-118" rx="30" ry="64" transform="rotate(240)"/><ellipse cx="0" cy="-118" rx="30" ry="64" transform="rotate(300)"/>
+  </g>
+ </symbol>
+</defs></svg>
+
+<div id="root" data-composition-id="main" data-start="0" data-duration="32" data-width="1080" data-height="1920">
+<div id="cam">
+
+ <!-- S1 INTRO -->
+ <div id="s1" class="sc" style="opacity:1">
+  <svg class="abs" id="ring1" style="left:90px;top:410px;width:900px;height:900px;overflow:visible" viewBox="0 0 900 900"><circle cx="450" cy="450" r="440" fill="none" stroke="#121212" stroke-opacity=".14" stroke-width="2"/></svg>
+  <svg class="abs" id="ring2" style="left:90px;top:410px;width:900px;height:900px;overflow:visible" viewBox="0 0 900 900"><circle cx="450" cy="450" r="440" fill="none" stroke="#D6E64A" stroke-width="5"/></svg>
+  <div id="parts"></div>
+  <svg class="abs" id="mk1" style="left:340px;top:660px;width:400px;height:400px;color:var(--ink)"><use href="#mark"/></svg>
+  <div class="abs" id="dot" style="left:510px;top:830px;width:60px;height:60px;border-radius:50%;background:var(--lime)"></div>
+  <div class="c mono" id="s1lab" style="top:1150px;font-size:24px;color:var(--mut)">RESEARCHQ &nbsp;&middot;&nbsp; EDUKASI AI &amp; RISET</div>
+ </div>
+
+ <!-- S2 DEADLINE -->
+ <div id="s2" class="sc">
+  <div class="abs" id="dlbar" style="left:170px;top:796px;width:740px;height:54px;background:var(--lime);transform-origin:0 50%"></div>
+  <div class="c si" id="dl" style="top:640px;font-size:260px;line-height:1">Deadline</div>
+  <div class="c" style="top:1010px"><div class="pill" id="cd"><i></i>SISA WAKTU&nbsp;&nbsp;<span id="cdt" style="color:var(--lime);font-size:30px">03:12:08</span></div></div>
+  <div class="chip" id="k1" style="left:96px;top:420px"><div class="ic">01</div><div><div class="tt">Uji validitas</div><div class="st">SPSS &middot; H-5</div></div></div>
+  <div class="chip" id="k2" style="left:600px;top:370px"><div class="ic">02</div><div><div class="tt">Outer model</div><div class="st">SMARTPLS &middot; H-4</div></div></div>
+  <div class="chip" id="k3" style="left:70px;top:1190px"><div class="ic">03</div><div><div class="tt">Tinjauan pustaka</div><div class="st">BAB 2 &middot; H-3</div></div></div>
+  <div class="chip" id="k4" style="left:640px;top:1230px"><div class="ic">04</div><div><div class="tt">Revisi dosen</div><div class="st">CATATAN &middot; H-2</div></div></div>
+  <div class="chip" id="k5" style="left:150px;top:1400px"><div class="ic">05</div><div><div class="tt">Kuesioner</div><div class="st">40 ITEM &middot; H-2</div></div></div>
+  <div class="chip" id="k6" style="left:600px;top:1440px"><div class="ic">06</div><div><div class="tt">Cek sitasi</div><div class="st">APA 7 &middot; H-1</div></div></div>
+ </div>
+
+ <!-- S3 PRINSIP -->
+ <div id="s3" class="sc">
+  <div class="c mono" style="top:470px;font-size:24px;color:var(--mut)">// PRINSIP KAMI</div>
+  <div class="c b8" style="top:560px;font-size:140px;line-height:1"><span class="w">Riset</span> <span class="w">lebih</span></div>
+  <div class="c b8" style="top:705px;font-size:140px;line-height:1"><span class="w">cepat,</span></div>
+  <div class="c si" style="top:890px;font-size:112px;line-height:1"><span class="w">tanpa</span> <span class="w">mengorbankan</span></div>
+  <div class="c si" style="top:1020px;font-size:132px;line-height:1"><span class="w hl" id="int">integritas.</span></div>
+ </div>
+
+ <!-- S4 ALUR -->
+ <div id="s4" class="sc">
+  <div class="c mono" style="top:300px;font-size:24px;color:var(--mut)">// HUMAN-IN-THE-LOOP</div>
+  <div class="c" style="top:360px"><span class="b8" style="font-size:84px">Alurnya jelas,</span></div>
+  <div class="c si" style="top:458px;font-size:96px">bukan ditebak.</div>
+  <div class="abs" id="conn" style="left:208px;top:700px;width:3px;height:720px;background:var(--ink);transform-origin:50% 0"></div>
+  <div class="step" id="st1" style="top:640px"><div class="n">01</div><div class="tx">Rumuskan masalah</div><div class="tg">KAMU</div></div>
+  <div class="step ai" id="st2" style="top:800px"><div class="n">02</div><div class="tx">Bantu draf &amp; ide</div><div class="tg">AI</div></div>
+  <div class="step" id="st3" style="top:960px"><div class="n">03</div><div class="tx">Verifikasi sumber</div><div class="tg">KAMU</div></div>
+  <div class="step" id="st4" style="top:1120px"><div class="n">04</div><div class="tx">Ambil keputusan</div><div class="tg">KAMU</div></div>
+  <div class="step fin" id="st5" style="top:1300px;height:136px"><div class="n">&#10003;</div><div class="tx" style="font-size:38px">Tanggung jawab akademik</div><div class="tg">KAMU</div></div>
+ </div>
+
+ <!-- S5 ALAT -->
+ <div id="s5" class="sc">
+  <div class="c mono" style="top:300px;font-size:24px;color:var(--mut)">// RESEARCHQ SKILLS</div>
+  <div class="c" style="top:360px"><span class="b8" style="font-size:84px">Semua alat riset,</span></div>
+  <div class="c si" style="top:458px;font-size:96px">satu tempat.</div>
+  <div class="abs" id="dcw" style="left:110px;top:610px;width:860px;height:400px;perspective:1600px">
+   <div id="dc" style="position:absolute;inset:0;background:#141414;border-radius:38px;padding:40px 44px;box-shadow:0 50px 80px -40px rgba(0,0,0,.6);transform-origin:0% 50%">
+    <div style="display:flex;align-items:center;gap:24px">
+     <div style="width:78px;height:78px;border-radius:20px;background:var(--lime);display:flex;align-items:center;justify-content:center"><svg style="width:52px;height:52px;color:var(--ink)"><use href="#mark"/></svg></div>
+     <div><div style="color:#fff;font-size:50px;font-weight:800;letter-spacing:-1px">ResearchQ Skills</div><div class="mono" style="color:#8d8d86;font-size:19px;margin-top:2px">CLAUDE SKILL &middot; UNTUK RISET</div></div>
+    </div>
+    <div class="code" style="margin-top:34px"><span class="ln" id="cl1"><b>&gt;</b> /judul-generator</span><span class="ln" id="cl2">  jurusan: manajemen</span><span class="ln" id="cl3">  tema: e-commerce &middot; lokasi: jakarta</span><span class="ln" id="cl4"><b>&#10003;</b> data dulu, baru judul</span></div>
+   </div>
+  </div>
+  <div class="tool" id="tl1" style="left:110px;top:1070px"><div class="ic" style="background:var(--lime)">JG</div><div><div class="tt">Judul Generator</div><div class="st">IDE JUDUL + DATA</div></div></div>
+  <div class="tool" id="tl2" style="left:550px;top:1070px"><div class="ic" style="background:#FFD9CF">SP</div><div><div class="tt">SPSS Doctor</div><div class="st">DIAGNOSA OUTPUT</div></div></div>
+  <div class="tool" id="tl3" style="left:110px;top:1210px"><div class="ic" style="background:#D6DAFF">PL</div><div><div class="tt">SmartPLS Doctor</div><div class="st">OUTER &amp; INNER MODEL</div></div></div>
+  <div class="tool" id="tl4" style="left:550px;top:1210px"><div class="ic" style="background:var(--lime)">B4</div><div><div class="tt">BAB 4 Writer</div><div class="st">NARASI HASIL</div></div></div>
+  <div class="tool" id="tl5" style="left:110px;top:1350px"><div class="ic" style="background:#FFD9CF">PB</div><div><div class="tt">AI Prompt Bank</div><div class="st">PROMPT SIAP PAKAI</div></div></div>
+  <div class="tool" id="tl6" style="left:550px;top:1350px"><div class="ic" style="background:#D6DAFF">PY</div><div><div class="tt">Playbook</div><div class="st">PANDUAN LANGKAH</div></div></div>
+ </div>
+
+ <!-- S6 DATA -->
+ <div id="s6" class="sc">
+  <div class="abs" id="lc" style="left:80px;top:470px;width:920px;height:900px;background:var(--lime);border-radius:44px;overflow:hidden">
+   <div class="c mono" style="top:70px;font-size:23px">// STUDI 2,5 JUTA MAKALAH</div>
+   <div class="c an" id="num" style="top:150px;font-size:400px">111</div>
+   <div class="c b8" style="top:540px;font-size:72px">JUTA REFERENSI</div>
+   <div class="c si" style="top:640px;font-size:58px;line-height:1.08;padding:0 60px">dianalisis: sitasi fiktif AI tersebar di banyak basis data.</div>
+   <div class="c mono" style="top:820px;font-size:17px;opacity:.6">SUMBER: GADGET.VIVA.CO.ID &middot; HALUSINASI AI DI JURNAL ILMIAH</div>
+  </div>
+ </div>
+
+ <!-- S7 COLOR CUTS -->
+ <div id="c1" class="sc"><div class="bg" style="background:var(--black)"></div>
+  <svg class="abs" id="burst" viewBox="-300 -300 600 600" style="left:240px;top:610px;width:600px;height:600px;overflow:visible"><g id="rays" stroke="#FF5533" stroke-width="14" stroke-linecap="round"></g></svg>
+  <svg class="abs" viewBox="0 0 900 900" style="left:90px;top:460px;width:900px;height:900px"><circle cx="450" cy="450" r="440" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="2"/></svg>
+  <div class="c mono" id="c1t" style="top:1330px;font-size:30px;color:#fff">JADI, ATURANNYA:</div>
+ </div>
+ <div id="c2" class="sc"><div class="bg" style="background:var(--orange)"></div>
+  <div class="c an" id="c2a" style="top:560px;font-size:560px;color:var(--ink)">CEK.</div>
+  <div class="c si" id="c2b" style="top:1120px;font-size:110px;color:var(--cream)">setiap sitasi.</div>
+ </div>
+ <div id="c3" class="sc"><div class="bg" style="background:var(--blue)"></div>
+  <div class="abs" id="c3c" style="left:390px;top:560px;width:300px;height:300px;border-radius:50%;background:var(--cream)"></div>
+  <div id="c3d"></div>
+  <div class="c an" id="c3a" style="top:1060px;font-size:230px;color:#fff">VERIFIKASI.</div>
+ </div>
+ <div id="c4" class="sc"><div class="bg" style="background:var(--cream)"></div>
+  <div class="c an" id="c4a" style="top:660px;font-size:184px;color:var(--blue)">TRANSPARAN.</div>
+  <div class="c si" id="c4b" style="top:920px;font-size:100px;color:var(--ink)">deklarasikan AI-mu.</div>
+ </div>
+ <div id="c5" class="sc"><div class="bg" style="background:var(--black)"></div>
+  <svg class="abs" style="left:0;top:0;width:1080px;height:1920px"><path id="c5ax" d="M140 1330 L940 690" stroke="#fff" stroke-opacity=".35" stroke-width="2" fill="none"/></svg>
+  <div class="c an" id="c5a" style="top:760px;font-size:240px;color:var(--cream)">PUTUSKAN<span style="color:var(--orange)">.</span></div>
+  <div class="c si" id="c5b" style="top:1010px;font-size:92px;color:#bdbdb6">pakai kepalamu sendiri.</div>
+ </div>
+ <div id="c6" class="sc"><div class="bg" id="c6bg" style="background:var(--lime)"></div>
+  <div class="c an" id="c6a" style="top:700px;font-size:330px;color:var(--ink)">KAMU</div>
+ </div>
+
+ <!-- S8 ZONA -->
+ <div id="s8" class="sc">
+  <div class="abs si" style="left:150px;top:300px;font-size:110px;line-height:1">Tiga zona,</div>
+  <div class="abs b8" style="left:150px;top:420px;font-size:92px;line-height:1">satu aturan.</div>
+  <div class="abs mono zfx" style="left:140px;top:600px;font-size:26px">A</div><div class="abs mono zfx" style="left:920px;top:600px;font-size:26px">B</div>
+  <div class="zl" style="top:690px">01 &middot; ZONA HIJAU</div><div class="zd" style="top:670px;color:var(--g)">aman</div>
+  <div class="trk" style="top:780px"></div>
+  <div class="zl" style="top:910px">02 &middot; ZONA KUNING</div><div class="zd" style="top:890px;color:#C99600">cek dulu</div>
+  <div class="trk" style="top:1000px"></div>
+  <div class="abs zfx" style="left:539px;top:972px;width:3px;height:58px;background:var(--ink)"></div>
+  <div class="abs mono zfx" id="ckl" style="left:505px;top:1040px;font-size:20px">CEK</div>
+  <div class="abs" id="ckm" style="left:520px;top:935px;width:44px;height:44px;border-radius:50%;background:var(--y);color:var(--ink);font-size:28px;display:flex;align-items:center;justify-content:center">&#10003;</div>
+  <div class="zl" style="top:1130px">03 &middot; ZONA MERAH</div><div class="zd" style="top:1110px;color:var(--r)">hindari</div>
+  <div class="trk" style="top:1220px"></div>
+  <div class="abs zfx" id="wall" style="left:654px;top:1170px;width:12px;height:100px;background:var(--r);border-radius:6px"></div>
+  <div class="abs an" id="wx" style="left:690px;top:1150px;font-size:110px;color:var(--r)">&times;</div>
+  <div class="ball" id="bg1" style="left:150px;top:781px;background:var(--g)"></div>
+  <div class="ball" id="by1" style="left:150px;top:1001px;background:var(--y)"></div>
+  <div class="ball" id="br1" style="left:150px;top:1221px;background:var(--r)"></div>
+  <div class="c si" id="zcap" style="top:1340px;font-size:54px;padding:0 80px;line-height:1.1">Data fiktif &amp; sitasi tanpa cek = <span style="color:var(--r)">zona merah.</span></div>
+ </div>
+
+ <!-- S9 LOGO -->
+ <div id="s9" class="sc">
+  <div id="ld"></div>
+  <svg class="abs" id="ring3" style="left:240px;top:560px;width:600px;height:600px;overflow:visible" viewBox="0 0 600 600"><circle cx="300" cy="300" r="290" fill="none" stroke="#D6E64A" stroke-width="5"/></svg>
+  <svg class="abs" id="mk2" style="left:390px;top:560px;width:300px;height:300px;color:var(--ink)"><use href="#mark"/></svg>
+  <div class="abs" id="mk2d" style="left:522px;top:692px;width:36px;height:36px;border-radius:50%;background:var(--lime)"></div>
+  <div class="c b8" id="wm" style="top:910px;font-size:150px;letter-spacing:-5px">ResearchQ</div>
+  <div class="c si" id="tg" style="top:1090px;font-size:60px;color:#3d3b37">AI mempercepat, <span style="color:var(--ink)">kamu tetap penelitinya.</span></div>
+  <div class="c" id="cta" style="top:1210px"><div class="pill" style="font-family:PJS;font-weight:700;font-size:38px;letter-spacing:0;padding:24px 44px"><i></i>Follow @researchq.id &nbsp;&rarr;</div></div>
+ </div>
+
+</div>
+
+ <!-- HUD -->
+ <div id="hud">
+  <div class="cor" style="left:44px;top:44px;border-width:3px 0 0 3px"></div><div class="cor" style="right:44px;top:44px;border-width:3px 3px 0 0"></div>
+  <div class="cor" style="left:44px;bottom:44px;border-width:0 0 3px 3px"></div><div class="cor" style="right:44px;bottom:44px;border-width:0 3px 3px 0"></div>
+  <div class="hudt" style="left:100px;top:62px"><b style="font-weight:400;opacity:1">RESEARCHQ</b> &nbsp;//&nbsp; MOTION REEL '26</div>
+  <div class="hudt" style="right:100px;top:62px"><span class="rec"></span>T2 <span id="tc">00:00:00:00</span></div>
+  <div class="hudt" id="sec" style="left:100px;bottom:62px">01 / INTRO</div>
+  <div class="hudt" style="right:100px;bottom:62px">1080 &times; 1920 &middot; 30 FPS</div>
+  <div id="progbg"></div><div id="prog"></div>
+ </div>
+ <audio id="sfx" src="sfx.wav" data-start="0" data-duration="32" data-volume="1"></audio>
+</div>
+
+<script>
+const tl = gsap.timeline({ paused: true });
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+const BPM = 144, B = 60 / BPM, bt = n => +(n * B).toFixed(4);
+const CUE = window.__cues = { bpm: BPM, whoosh: [], hit: [], riser: [], pop: [], tick: [], swipe: [], glitch: [], ding: [], buzz: [], shimmer: [], sub: [], type: [], roll: [], blip: [] };
+const q = s => Array.from(document.querySelectorAll(s)), $ = s => document.querySelector(s);
+const cue = (k, v) => CUE[k].push(Array.isArray(v) ? v.map(x => +(+x).toFixed(3)) : +(+v).toFixed(3));
+const rnd = (i) => { const x = Math.sin(i * 91.7 + 13.3) * 43758.5453; return x - Math.floor(x); };
+
+/* scene switching: hard cuts on the beat */
+const scenes = ["s1", "s2", "s3", "s4", "s5", "s6", "c1", "c2", "c3", "c4", "c5", "c6", "s8", "s9"];
+const span = { s1: [0, 8], s2: [8, 16], s3: [16, 20], s4: [20, 28], s5: [28, 36], s6: [36, 40], c1: [40, 42], c2: [42, 44], c3: [44, 46], c4: [46, 48], c5: [48, 50], c6: [50, 52], s8: [52, 60], s9: [60, 77] };
+scenes.forEach(id => { const [a, b] = span[id]; if (a > 0) tl.set("#" + id, { opacity: 1 }, bt(a)); tl.set("#" + id, { opacity: 0 }, bt(b)); });
+
+/* HUD: timecode, progress, section label, colour on dark scenes */
+/* NOTE: HyperFrames seeks with totalTime(t, true) (events suppressed), so text changes are tl.set() steps, never onUpdate/call. */
+const p2 = n => String(n).padStart(2, "0");
+for (let f = 0; f < 32 * 30; f++) tl.set("#tc", { textContent: "00:00:" + p2(Math.floor(f / 30)) + ":" + p2(f % 30) }, f / 30);
+tl.fromTo("#prog", { width: 0 }, { width: 888, duration: 32, ease: "none" }, 0);
+const SEC = [[0, "01 / INTRO"], [8, "02 / DEADLINE"], [16, "03 / PRINSIP"], [20, "04 / ALUR"], [28, "05 / ALAT"], [36, "06 / DATA"], [40, "07 / ATURAN"], [52, "08 / ZONA"], [60, "09 / RESEARCHQ"]];
+SEC.forEach(([b, s]) => tl.set("#sec", { textContent: s }, bt(b)));
+[[40, "#fff"], [46, "#121212"], [48, "#fff"], [50, "#121212"], [50.5, "#fff"], [51, "#121212"], [51.5, "#fff"], [52, "#121212"]].forEach(([b, c]) => tl.set("#hud", { color: c }, bt(b)));
+tl.set("#hud", { color: "#121212" }, 0);
+
+/* camera micro-punch on every hard cut */
+const punch = (b, s = 1.035) => tl.fromTo("#cam", { scale: s }, { scale: 1, duration: 0.35, ease: "power3.out", immediateRender: false }, bt(b));
+
+/* ---------- S1 INTRO (beats 0-8) ---------- */
+gsap.set("#mk1", { scale: 0, rotation: -90, transformOrigin: "50% 50%" });
+gsap.set(["#ring1", "#ring2"], { scale: 0, transformOrigin: "50% 50%" });
+tl.fromTo("#dot", { scale: 0 }, { scale: 1, duration: 0.4, ease: "back.out(3)", immediateRender: false }, 0.05); cue("pop", 0.05);
+for (let i = 1; i < 6; i++) { tl.fromTo("#dot", { scale: 1 + i * 0.12 }, { scale: 1 + (i - 1) * 0.12 + 0.05, duration: B * 0.9, ease: "power2.out", immediateRender: false }, bt(i)); cue("blip", bt(i)); }
+tl.to("#ring1", { scale: 1, duration: bt(5), ease: "power2.out" }, bt(0.5));
+cue("riser", [bt(2), bt(6)]);
+tl.to("#dot", { scale: 0, duration: 0.12, ease: "power2.in" }, bt(6) - 0.06);
+tl.to("#mk1", { scale: 1, rotation: 0, duration: 0.7, ease: "back.out(1.6)" }, bt(6)); cue("hit", bt(6)); cue("shimmer", bt(6));
+tl.fromTo("#ring2", { scale: 0.2, opacity: 1 }, { scale: 1.25, opacity: 0, duration: 0.9, ease: "power2.out", immediateRender: false }, bt(6));
+const parts = $("#parts");
+for (let i = 0; i < 16; i++) { const d = document.createElement("div"); d.style.cssText = `position:absolute;left:532px;top:852px;width:${10 + rnd(i) * 14}px;height:${10 + rnd(i) * 14}px;border-radius:50%;background:${i % 3 ? "#121212" : "#D6E64A"};opacity:0`; parts.appendChild(d);
+  const a = (i / 16) * Math.PI * 2 + rnd(i + 3), r = 250 + rnd(i + 7) * 260;
+  tl.fromTo(d, { x: 0, y: 0, opacity: 1 }, { x: Math.cos(a) * r, y: Math.sin(a) * r, opacity: 0, duration: 1.1 + rnd(i) * 0.4, ease: "expo.out", immediateRender: false }, bt(6)); }
+tl.fromTo("#s1lab", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, immediateRender: false }, bt(6.5));
+tl.to("#mk1", { scale: 0.15, rotation: 120, y: -40, duration: bt(1), ease: "power3.in" }, bt(7)); cue("whoosh", bt(8));
+tl.to(["#ring1", "#s1lab"], { opacity: 0, duration: bt(1) }, bt(7));
+
+/* ---------- S2 DEADLINE (8-16) ---------- */
+punch(8); cue("hit", bt(8));
+tl.fromTo("#dl", { scale: 1.4, opacity: 0, filter: "blur(30px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out", immediateRender: false }, bt(8));
+tl.fromTo("#cd", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "back.out(2)", immediateRender: false }, bt(9)); cue("blip", bt(9));
+const cdt = $("#cdt"), cd = { s: 3 * 3600 + 12 * 60 + 8 };
+const cdEase = gsap.parseEase("power2.in");
+for (let f = 0; f <= Math.round(bt(6) * 30); f++) { const k = cdEase(f / Math.round(bt(6) * 30)), v = Math.round(cd.s + (4 * 60 + 2 - cd.s) * k);
+  tl.set("#cdt", { textContent: [Math.floor(v / 3600), Math.floor(v / 60) % 60, v % 60].map(p2).join(":") }, bt(9) + f / 30); }
+for (let i = 0; i < 12; i++) cue("tick", bt(9 + i * 0.5));
+["#k1", "#k2", "#k3", "#k4", "#k5", "#k6"].forEach((k, i) => { const T = bt(10 + i * 0.5); tl.fromTo(k, { scale: 0.3, opacity: 0, rotation: (i % 2 ? 8 : -8) }, { scale: 1, opacity: 1, rotation: (i % 2 ? 2 : -3), duration: 0.42, ease: "back.out(2.4)", immediateRender: false }, T); cue("pop", T);
+  tl.to(k, { y: (i % 2 ? -14 : 14), duration: bt(4), ease: "sine.inOut" }, T + 0.42); });
+tl.fromTo("#dlbar", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power3.out", immediateRender: false }, bt(13.5)); cue("swipe", bt(13.5));
+tl.to(["#k1", "#k3", "#k5"], { x: -700, rotation: -20, duration: bt(1), ease: "power3.in" }, bt(15));
+tl.to(["#k2", "#k4", "#k6"], { x: 700, rotation: 20, duration: bt(1), ease: "power3.in" }, bt(15));
+tl.to(["#dl", "#dlbar", "#cd"], { scale: 0.85, opacity: 0, filter: "blur(16px)", duration: bt(1), ease: "power3.in" }, bt(15)); cue("whoosh", bt(16));
+
+/* ---------- S3 PRINSIP (16-20) ---------- */
+punch(16); cue("hit", bt(16));
+q("#s3 .w").forEach((w, i) => { const T = bt(16 + i * 0.5); tl.fromTo(w, { y: 90, opacity: 0, rotationX: -70 }, { y: 0, opacity: 1, rotationX: 0, duration: 0.45, ease: "back.out(1.8)", immediateRender: false }, T); if (i) cue("tick", T); });
+tl.to("#int", { backgroundSize: "100% 58%", duration: 0.5, ease: "power2.out" }, bt(18.5)); cue("swipe", bt(18.5));
+tl.to("#s3 .w", { y: -80, opacity: 0, duration: bt(0.75), stagger: 0.02, ease: "power3.in" }, bt(19.25)); cue("whoosh", bt(20));
+
+/* ---------- S4 ALUR (20-28) ---------- */
+punch(20); cue("hit", bt(20));
+tl.fromTo("#s4 > .c", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, stagger: 0.08, ease: "power3.out", immediateRender: false }, bt(20));
+tl.fromTo("#conn", { scaleY: 0 }, { scaleY: 1, duration: bt(5), ease: "none", immediateRender: false }, bt(21));
+["#st1", "#st2", "#st3", "#st4", "#st5"].forEach((s, i) => { const T = bt(21 + i + (i === 4 ? 0.5 : 0)); tl.fromTo(s, { x: i % 2 ? 120 : -120, opacity: 0, scale: 0.94 }, { x: 0, opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.7)", immediateRender: false }, T); cue(i === 4 ? "ding" : "pop", T); });
+tl.fromTo("#st5", { boxShadow: "0 0 0 0 rgba(214,230,74,.0)" }, { boxShadow: "0 0 0 16px rgba(214,230,74,.35)", duration: 0.3, yoyo: true, repeat: 1, immediateRender: false }, bt(25.5) + 0.3);
+tl.to("#s4 > *", { y: -60, opacity: 0, duration: bt(0.75), stagger: 0.015, ease: "power3.in" }, bt(27.25)); cue("whoosh", bt(28));
+
+/* ---------- S5 ALAT (28-36) ---------- */
+punch(28); cue("hit", bt(28));
+tl.fromTo("#s5 > .c", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, stagger: 0.08, ease: "power3.out", immediateRender: false }, bt(28));
+tl.fromTo("#dc", { rotationY: -70, x: -200, opacity: 0 }, { rotationY: 0, x: 0, opacity: 1, duration: 0.8, ease: "expo.out", immediateRender: false }, bt(28.5)); cue("whoosh", bt(28.5) + 0.25);
+["#cl1", "#cl2", "#cl3", "#cl4"].forEach((s, i) => { const T = bt(29.5 + i * 0.75); tl.to(s, { clipPath: "inset(0 0% 0 0)", duration: bt(0.6), ease: "steps(14)" }, T); cue("type", [T, bt(0.6)]); });
+["#tl1", "#tl2", "#tl3", "#tl4", "#tl5", "#tl6"].forEach((s, i) => { const T = bt(31 + i * 0.5); tl.fromTo(s, { y: 80, opacity: 0, rotationX: -60 }, { y: 0, opacity: 1, rotationX: 0, duration: 0.45, ease: "back.out(1.8)", immediateRender: false }, T); cue("pop", T); });
+tl.to("#dc", { rotationY: 6, duration: bt(4), ease: "sine.inOut" }, bt(31));
+tl.to("#s5 > *", { scale: 0.9, opacity: 0, duration: bt(0.75), ease: "power3.in" }, bt(35.25)); cue("whoosh", bt(36));
+
+/* ---------- S6 DATA (36-40) ---------- */
+punch(36); cue("hit", bt(36));
+tl.fromTo("#lc", { y: 1200, rotation: 6 }, { y: 0, rotation: 0, duration: 0.55, ease: "expo.out", immediateRender: false }, bt(36));
+const num = $("#num"), nv = { v: 0 };
+tl.fromTo(num, { filter: "blur(18px)" }, { filter: "blur(0px)", duration: bt(2), ease: "power2.out", immediateRender: false }, bt(36.5));
+const nEase = gsap.parseEase("power3.out"), nF = Math.round(bt(2) * 30);
+tl.set("#num", { textContent: "0" }, bt(36));
+for (let f = 0; f <= nF; f++) tl.set("#num", { textContent: String(Math.round(111 * nEase(f / nF))) }, bt(36.5) + f / 30);
+for (let i = 0; i < 10; i++) cue("roll", bt(36.5) + i * 0.08 * (1 + i * 0.12));
+tl.fromTo("#lc > *:not(#num)", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.1, immediateRender: false }, bt(37));
+cue("riser", [bt(38), bt(40)]);
+tl.to("#lc", { scale: 1.12, duration: bt(1), ease: "power2.in" }, bt(39));
+
+/* ---------- S7 COLOR CUTS (40-52) ---------- */
+const rays = $("#rays");
+for (let i = 0; i < 16; i++) { const a = i / 16 * Math.PI * 2, r0 = 40, r1 = i % 2 ? 230 : 290; const l = document.createElementNS("http://www.w3.org/2000/svg", "line"); l.setAttribute("x1", Math.cos(a) * r0); l.setAttribute("y1", Math.sin(a) * r0); l.setAttribute("x2", Math.cos(a) * r1); l.setAttribute("y2", Math.sin(a) * r1); rays.appendChild(l); }
+[40, 42, 44, 46, 48].forEach(b => { punch(b, 1.06); cue("hit", bt(b)); cue("whoosh", bt(b) - 0.02); });
+tl.fromTo("#burst", { scale: 0.2, rotation: -60 }, { scale: 1, rotation: 30, duration: bt(2), ease: "expo.out", immediateRender: false }, bt(40));
+tl.fromTo("#c1t", { opacity: 0, letterSpacing: "20px" }, { opacity: 1, letterSpacing: "3px", duration: 0.5, ease: "power3.out", immediateRender: false }, bt(40.5));
+tl.fromTo("#c2a", { scale: 1.5, y: 60 }, { scale: 1, y: 0, duration: 0.45, ease: "expo.out", immediateRender: false }, bt(42));
+tl.fromTo("#c2b", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.35, immediateRender: false }, bt(42.75)); cue("tick", bt(42.75));
+tl.fromTo("#c3c", { scale: 0 }, { scale: 1, duration: 0.5, ease: "back.out(2)", immediateRender: false }, bt(44));
+const c3d = $("#c3d");
+for (let i = 0; i < 12; i++) { const a = i / 12 * Math.PI * 2, d = document.createElement("div"); d.style.cssText = `position:absolute;width:26px;height:26px;border-radius:50%;background:#EEECE5;left:${540 + Math.cos(a) * 230 - 13}px;top:${710 + Math.sin(a) * 230 - 13}px`; c3d.appendChild(d);
+  tl.fromTo(d, { scale: 0 }, { scale: 1, duration: 0.25, ease: "back.out(3)", immediateRender: false }, bt(44) + i * 0.025); }
+tl.fromTo("#c3d", { rotation: 0, transformOrigin: "540px 710px" }, { rotation: 45, duration: bt(2), ease: "power2.out", immediateRender: false }, bt(44));
+tl.fromTo("#c3a", { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "expo.out", immediateRender: false }, bt(44.5));
+tl.fromTo("#c4a", { scaleX: 0.2, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.45, ease: "expo.out", immediateRender: false }, bt(46));
+tl.fromTo("#c4b", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.35, immediateRender: false }, bt(46.75)); cue("tick", bt(46.75));
+tl.fromTo("#c5ax", { strokeDasharray: 1100, strokeDashoffset: 1100 }, { strokeDashoffset: 0, duration: bt(1.5), ease: "power2.out", immediateRender: false }, bt(48));
+tl.fromTo("#c5a", { x: -300, opacity: 0, skewX: -12 }, { x: 0, opacity: 1, skewX: 0, duration: 0.45, ease: "expo.out", immediateRender: false }, bt(48));
+tl.fromTo("#c5b", { opacity: 0 }, { opacity: 1, duration: 0.3, immediateRender: false }, bt(48.75)); cue("tick", bt(48.75));
+/* stutter: four 8th-note slices */
+const ST = [["#D6E64A", "#121212", "KAMU"], ["#0D0D0F", "#EEECE5", "TETAP"], ["#FF5533", "#121212", "PENELITI"], ["#2E3BF0", "#FFFFFF", "-NYA."]];
+ST.forEach(([bgc, fg, w], i) => { const T = bt(50 + i * 0.5);
+  tl.set("#c6bg", { backgroundColor: bgc }, T); tl.set("#c6a", { color: fg, textContent: w }, T);
+  tl.fromTo("#c6a", { scale: 1.25, x: (i % 2 ? 30 : -30) }, { scale: 1, x: 0, duration: 0.18, ease: "power3.out", immediateRender: false }, T);
+  cue("glitch", T); punch(50 + i * 0.5, 1.08); });
+cue("whoosh", bt(52));
+
+/* ---------- S8 ZONA (52-60) ---------- */
+punch(52); cue("hit", bt(52));
+tl.fromTo("#s8 > .si, #s8 > .b8", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, stagger: 0.12, ease: "power3.out", immediateRender: false }, bt(52));
+tl.fromTo("#s8 .zl, #s8 .zd, #s8 .trk, #s8 .zfx", { opacity: 0 }, { opacity: 1, duration: 0.3, stagger: 0.03, immediateRender: false }, bt(52.5));
+gsap.set(["#ckm", "#wx"], { scale: 0, transformOrigin: "50% 50%" }); gsap.set("#zcap", { opacity: 0 });
+tl.fromTo(["#bg1", "#by1", "#br1"], { scale: 0 }, { scale: 1, duration: 0.3, stagger: 0.1, ease: "back.out(3)", immediateRender: false }, bt(53)); cue("pop", bt(53)); cue("pop", bt(53) + 0.1); cue("pop", bt(53) + 0.2);
+tl.to("#bg1", { left: 930, duration: bt(3), ease: "none" }, bt(54)); cue("ding", bt(57));
+tl.to("#by1", { left: 540, duration: bt(1.5), ease: "power2.out" }, bt(54));
+tl.to("#ckm", { scale: 1, duration: 0.3, ease: "back.out(3)" }, bt(55.5)); cue("tick", bt(55.5)); cue("ding", bt(55.6));
+tl.to("#by1", { left: 930, duration: bt(1.5), ease: "power2.in" }, bt(56));
+tl.to("#br1", { left: 625, duration: bt(1.5), ease: "power2.in" }, bt(54));
+tl.to("#br1", { left: 520, duration: bt(1), ease: "power3.out" }, bt(55.5)); cue("buzz", bt(55.5));
+tl.fromTo("#wall", { x: 0 }, { x: 0, keyframes: [{ x: 10, duration: 0.05 }, { x: -8, duration: 0.05 }, { x: 4, duration: 0.05 }, { x: 0, duration: 0.05 }], immediateRender: false }, bt(55.5));
+tl.to("#wx", { scale: 1, duration: 0.3, ease: "back.out(3)" }, bt(55.6));
+tl.to("#zcap", { opacity: 1, duration: 0.4 }, bt(57.5)); cue("tick", bt(57.5));
+tl.to("#s8 > *", { opacity: 0, y: -40, duration: bt(0.75), stagger: 0.008, ease: "power3.in" }, bt(59.25)); cue("whoosh", bt(60));
+
+/* ---------- S9 LOGO (60-76) ---------- */
+punch(60);
+const ld = $("#ld"), LD = [];
+for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2, d = document.createElement("div"); d.style.cssText = `position:absolute;width:34px;height:34px;border-radius:50%;margin:-17px 0 0 -17px;background:${i === 0 ? "#D6E64A" : "#121212"};left:540px;top:710px`; ld.appendChild(d); LD.push([d, a]); }
+LD.forEach(([d, a0]) => { d.style.left = (540 + Math.cos(a0) * 140) + "px"; d.style.top = (710 + Math.sin(a0) * 140) + "px"; });
+tl.fromTo("#ld", { rotation: 0, transformOrigin: "540px 710px" }, { rotation: 270, duration: bt(2), ease: "power1.inOut", immediateRender: false }, bt(60));
+LD.forEach(([d], i) => { tl.fromTo(d, { scale: 0 }, { scale: 1, duration: 0.25, ease: "back.out(3)", immediateRender: false }, bt(60) + i * 0.04); cue("blip", bt(60) + i * 0.1); });
+tl.to(LD.map(x => x[0]), { scale: 0, duration: 0.15, ease: "power2.in" }, bt(62) - 0.15);
+cue("riser", [bt(60), bt(62)]);
+gsap.set(["#mk2", "#mk2d"], { scale: 0, transformOrigin: "50% 50%" }); gsap.set("#ring3", { scale: 0, transformOrigin: "50% 50%" });
+tl.to("#mk2", { scale: 1, rotation: 60, duration: 0.8, ease: "back.out(1.6)" }, bt(62)); cue("hit", bt(62)); cue("sub", bt(62)); cue("shimmer", bt(62));
+tl.to("#mk2d", { scale: 1, duration: 0.4, ease: "back.out(3)" }, bt(62.25));
+tl.fromTo("#ring3", { scale: 0.3, opacity: 1 }, { scale: 1.3, opacity: 0, duration: 1.0, ease: "power2.out", immediateRender: false }, bt(62));
+punch(62, 1.05);
+tl.fromTo("#wm", { y: 60, opacity: 0, letterSpacing: "10px" }, { y: 0, opacity: 1, letterSpacing: "-5px", duration: 0.6, ease: "expo.out", immediateRender: false }, bt(63)); cue("whoosh", bt(63) + 0.15);
+tl.fromTo("#tg", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", immediateRender: false }, bt(64.5)); cue("tick", bt(64.5));
+tl.fromTo("#cta", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2)", immediateRender: false }, bt(66)); cue("pop", bt(66));
+tl.to("#mk2", { rotation: 120, duration: bt(10), ease: "sine.inOut" }, bt(63));
+tl.to("#cta", { scale: 1.04, duration: bt(1), yoyo: true, repeat: 5, ease: "sine.inOut" }, bt(68));
+
+/* initial (pre-cue) states: a scene becomes visible on its downbeat, so anything that enters later starts hidden */
+gsap.set(["#cd", "#k1", "#k2", "#k3", "#k4", "#k5", "#k6", "#st1", "#st2", "#st3", "#st4", "#st5", "#dc", "#tl1", "#tl2", "#tl3", "#tl4", "#tl5", "#tl6",
+  "#lc > *:not(#num)", "#c1t", "#c2b", "#c3a", "#c4b", "#c5b", "#s8 .zl", "#s8 .zd", "#s8 .trk", "#s8 .zfx", "#wm", "#tg", "#cta"], { opacity: 0 });
+gsap.set(q("#s3 .w").slice(1), { opacity: 0 });
+gsap.set("#dlbar", { scaleX: 0 }); gsap.set("#conn", { scaleY: 0 }); gsap.set(["#bg1", "#by1", "#br1"], { scale: 0 });
+
+tl.seek(0);
+</script>
+</body>
+</html>
