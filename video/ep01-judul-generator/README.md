@@ -27,3 +27,15 @@ ffmpeg -i out/video.mp4 -i out/mix_norm.wav -map 0:v -map 1:a -c:v copy -c:a aac
 
 Catatan sandbox: CDN dan unduhan Chrome bisa diblokir — GSAP disalin lokal oleh `build.py`, dan render bisa
 diarahkan ke Chromium yang ada lewat `HYPERFRAMES_BROWSER_PATH`. HyperFrames butuh `ffmpeg` dan `ffprobe` di PATH.
+
+## Render yang sudah jadi
+- `renders/EP01-judul-generator-v2-premium.mp4` — video v2 (SFX saja, tanpa voiceover).
+- `renders/sfx_v2.wav` — track SFX v2 untuk mixing VO.
+
+Menambah voiceover tanpa render ulang:
+```bash
+python scripts/tts_cartesia.py scripts/vo_ep01.json out/vo
+python scripts/mix_vo.py out/vo/manifest.json renders/sfx_v2.wav out/mix.wav
+ffmpeg -i out/mix.wav -af loudnorm=I=-14:TP=-1.5:LRA=9 -ar 48000 out/mix_norm.wav
+ffmpeg -i renders/EP01-judul-generator-v2-premium.mp4 -i out/mix_norm.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -shortest out/EP01-final-vo.mp4
+```
