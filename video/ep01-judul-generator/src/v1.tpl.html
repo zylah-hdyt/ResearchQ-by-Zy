@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="id" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Judul Generator EP01</title>
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:PJS;font-weight:500;src:url(data:font/woff2;base64,{{PJS500}}) format("woff2")}
+@font-face{font-family:PJS;font-weight:700;src:url(data:font/woff2;base64,{{PJS700}}) format("woff2")}
+@font-face{font-family:PJS;font-weight:800;src:url(data:font/woff2;base64,{{PJS800}}) format("woff2")}
+@font-face{font-family:JBM;font-weight:500;src:url(data:font/woff2;base64,{{JBM500}}) format("woff2")}
+@font-face{font-family:IS;font-style:italic;font-weight:400;src:url(data:font/woff2;base64,{{ISI}}) format("woff2")}
+:root{--bg:#F2EFE9;--paper:#FBFAF7;--ink:#1B1A18;--muted:#8C877E;--faint:#CBC5BA;--line:#E3DED5;--acc:#EE6A1F;
+ --g:#2E9E5B;--y:#D99A00;--r:#D9452B;--blue:#2453E8}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#F2EFE9}
+#root{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--bg);font-family:PJS,sans-serif;color:var(--ink)}
+#vig{position:absolute;inset:0;background:radial-gradient(circle farthest-corner at 50% 42%,rgba(255,255,255,.6) 0%,rgba(255,255,255,0) 70%)}
+#cam{position:absolute;inset:0}
+.clip{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.sc{position:absolute;inset:0}
+.c{position:absolute;left:72px;right:72px;text-align:center}
+.l{position:absolute;left:72px;right:72px;text-align:left}
+.rv{display:block;overflow:hidden;padding:0 6px 14px;margin-bottom:-14px}
+.rv>span{display:inline-block}
+.serif{font-family:IS,serif;font-style:italic;font-weight:400}
+.acc{color:var(--acc)}.mut{color:var(--muted)}
+.mono{font-family:JBM;font-weight:500;letter-spacing:3px}
+.big{font-weight:800;letter-spacing:-3px;line-height:1.02}
+.hud{position:absolute;font-family:JBM;font-size:22px;letter-spacing:2px;color:var(--muted)}
+.corner{position:absolute;width:34px;height:34px;border-color:var(--faint);border-style:solid}
+.chip{display:inline-block;font-family:JBM;font-size:28px;letter-spacing:2px;padding:12px 24px;border:2.5px solid var(--ink);border-radius:999px;margin:0 8px}
+/* chat */
+.win{position:absolute;left:72px;right:72px;top:390px;height:1060px;background:var(--paper);border:2px solid var(--line);border-radius:40px;box-shadow:0 40px 90px -50px rgba(60,40,20,.45);overflow:hidden}
+.win .bar{position:absolute;left:0;right:0;top:0;height:88px;border-bottom:2px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 34px;font-size:26px;color:var(--muted);font-weight:700}
+.win .bar i{width:14px;height:14px;border-radius:50%;background:var(--faint);display:inline-block}
+.input{position:absolute;left:30px;right:30px;bottom:30px;min-height:250px;border:2px solid var(--line);border-radius:30px;background:#fff;padding:30px 120px 30px 34px}
+#typed{font-size:44px;line-height:1.32;font-weight:500;white-space:pre-wrap;word-break:break-word}
+#typed .ch{opacity:0}
+#typed .cmd{color:var(--acc);font-weight:700}
+#caret0{display:inline-block;width:3px;height:48px;background:var(--acc);vertical-align:-8px}
+.send{position:absolute;right:26px;bottom:26px;width:76px;height:76px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center}
+.ph{position:absolute;left:34px;height:22px;border-radius:11px;background:#EFEBE4}
+.bub{position:absolute;right:34px;top:130px;max-width:760px;background:#F4EEE6;border-radius:30px 30px 8px 30px;padding:26px 30px;font-size:38px;line-height:1.36;font-weight:500}
+.bub .cmd{color:var(--acc);font-weight:700}
+.hl{background-image:linear-gradient(rgba(238,106,31,.28),rgba(238,106,31,.28));background-repeat:no-repeat;background-size:0% 100%;border-radius:6px}
+.lab{position:absolute;font-family:JBM;font-size:24px;letter-spacing:2px;color:var(--acc)}
+.dots{position:absolute;left:34px;display:flex;gap:12px}
+.dots b{width:16px;height:16px;border-radius:50%;background:var(--faint);display:block}
+/* data rows */
+.row{position:absolute;left:72px;right:72px;height:150px;background:var(--paper);border:2px solid var(--line);border-radius:30px;display:flex;align-items:center;padding:0 40px;gap:30px;box-shadow:0 24px 50px -40px rgba(60,40,20,.4)}
+.row .n{font-size:66px;font-weight:800;letter-spacing:-2px;min-width:330px}
+.row .t{font-size:30px;line-height:1.25;color:#4a463f;font-weight:500}
+.gap{position:absolute;left:72px;right:72px;padding:30px 40px;border-radius:30px;border:3px dashed var(--acc);font-size:36px;font-weight:700;line-height:1.3}
+.mk{background-image:linear-gradient(rgba(238,106,31,.3),rgba(238,106,31,.3));background-repeat:no-repeat;background-size:0% 46%;background-position:0 88%}
+/* objek */
+.box{position:absolute;left:180px;right:180px;top:520px;height:210px;border:3px solid var(--ink);border-radius:30px;display:flex;align-items:center;justify-content:center;font-size:110px;font-weight:800;letter-spacing:-3px}
+.strike{position:absolute;left:150px;right:150px;top:618px;height:16px;border-radius:8px;background:var(--acc);transform-origin:0 50%}
+.card{position:absolute;left:72px;right:72px;background:var(--paper);border:2px solid var(--line);border-radius:36px;padding:38px 44px;box-shadow:0 30px 70px -50px rgba(60,40,20,.5)}
+.tag{display:inline-block;font-family:JBM;font-size:22px;letter-spacing:2px;padding:8px 16px;border-radius:999px;background:#F4EEE6;color:#6b655c}
+/* board */
+#board{position:absolute;inset:0;transform-origin:540px 880px}
+.jr{position:absolute;left:72px;right:72px;height:70px;display:flex;align-items:center;gap:22px}
+.jr .no{font-family:JBM;font-size:24px;color:var(--muted);width:44px}
+.jr .tx{flex:1;min-width:0}
+.jr .tt{font-size:31px;font-weight:700;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jr .mt{font-family:JBM;font-size:20px;color:var(--muted);letter-spacing:1px;margin-top:4px}
+.pill{font-size:22px;font-weight:800;padding:8px 18px;border-radius:999px;color:#fff;flex:none}
+.grp{position:absolute;left:72px;font-family:JBM;font-size:22px;letter-spacing:4px;color:var(--muted)}
+.stamp{position:absolute;right:66px;top:790px;border:5px solid var(--acc);color:var(--acc);font-family:JBM;font-size:30px;letter-spacing:4px;padding:10px 20px;border-radius:12px;background:rgba(251,250,247,.92)}
+.why{position:absolute;left:72px;right:72px;top:1140px;background:var(--ink);color:#fff;border-radius:30px;padding:34px 40px;font-size:36px;line-height:1.3;font-weight:700}
+.why .serif{color:#F7B58C;font-size:42px}
+/* genesis */
+.gcard{position:absolute;left:250px;width:580px;top:470px;height:720px;border-radius:48px;background:var(--paper);border:4px solid var(--blue);box-shadow:0 50px 90px -50px rgba(36,83,232,.45)}
+.gcard .circ{position:absolute;left:190px;top:90px;width:200px;height:200px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center}
+.gcard .nm{position:absolute;left:0;right:0;top:330px;text-align:center;font-size:76px;font-weight:800;letter-spacing:-1px;color:var(--blue)}
+.gcard .tg{position:absolute;left:30px;right:30px;top:430px;text-align:center;font-family:IS,serif;font-style:italic;font-size:50px;color:#4a463f}
+.gcard .sk{position:absolute;left:0;right:0;bottom:54px;text-align:center}
+.gcard .sk span{display:inline-block;font-size:28px;font-weight:800;padding:14px 26px;border-radius:999px;background:rgba(36,83,232,.1);color:var(--blue)}
+/* cta */
+.pillb{display:inline-flex;align-items:center;gap:12px;font-weight:800;padding:24px 60px;border-radius:999px;background:var(--acc);color:#fff;font-size:44px;position:relative}
+.cbub{display:inline-flex;align-items:center;gap:20px;background:var(--paper);border:2px solid var(--line);border-radius:36px;padding:24px 34px;font-size:38px;font-weight:700;text-align:left;box-shadow:0 20px 50px -30px rgba(60,40,20,.3)}
+.cbub .av{width:62px;height:62px;border-radius:50%;background:#F7D7C2;flex:none}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="40" data-width="1080" data-height="1920">
+<div id="vig"></div>
+<div id="cam">
+
+<!-- S1 HOOK -->
+<div id="s1" class="clip" data-start="0" data-duration="4.95">
+ <div class="sc" id="s1in">
+  <div class="c big" style="top:540px;font-size:92px;white-space:nowrap" id="h1"><span class="rv"><span>Belum punya tema.</span></span></div>
+  <div class="c big" style="top:660px;font-size:92px;white-space:nowrap" id="h2"><span class="rv"><span>Nggak tahu neliti</span></span></div>
+  <div class="c serif acc" style="top:770px;font-size:170px;line-height:1.05" id="h3"><span class="rv"><span>siapa.</span></span></div>
+  <div class="c big" style="top:1010px;font-size:84px" id="h4"><span class="rv"><span>Cukup ketik</span></span></div>
+  <div class="c serif acc" style="top:1090px;font-size:250px;line-height:1.05" id="h5"><span>3 hal.</span></div>
+  <div class="c" style="top:1400px"><span class="chip" id="cp1">jurusan</span><span class="chip" id="cp2">tema</span><span class="chip" id="cp3">lokasi</span></div>
+ </div>
+</div>
+
+<!-- S2 CHAT -->
+<div id="s2" class="clip" data-start="4.4" data-duration="6.5">
+ <div class="sc" id="s2in">
+  <div class="l mono" style="top:300px;font-size:26px;color:var(--muted)" id="s2lab">CONTOH KETIKANNYA</div>
+  <div class="win" id="win">
+   <div class="bar"><i></i><i></i><i></i><span style="margin-left:14px">Chat baru</span></div>
+   <div class="ph" style="top:150px;width:420px" id="ph1"></div>
+   <div class="ph" style="top:196px;width:300px" id="ph2"></div>
+   <div class="bub" id="bub"><span class="cmd">/judul-generator</span> <span class="hl" id="hl1">manajemen marketing</span>. tema: <span class="hl" id="hl2">ecommerce</span>. lokasi: <span class="hl" id="hl3">jakarta</span>.</div>
+   <div class="lab" id="lb1" style="right:330px;top:375px">● jurusan</div>
+   <div class="lab" id="lb2" style="right:190px;top:375px">● tema</div>
+   <div class="lab" id="lb3" style="right:34px;top:375px">● lokasi</div>
+   <div class="dots" id="dots" style="top:560px"><b></b><b></b><b></b></div>
+   <div class="input" id="inp"><div id="typed"><span id="caret0"></span></div>
+    <div class="send" id="send"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div></div>
+  </div>
+  <div class="c serif" style="top:1490px;font-size:72px" id="s2end"><span class="rv"><span>Udah. <span class="acc">Itu aja.</span></span></span></div>
+ </div>
+</div>
+
+<!-- S3 ANALISIS -->
+<div id="s3" class="clip" data-start="10.9" data-duration="5.7">
+ <div class="sc" id="s3in">
+  <div class="l mono" style="top:300px;font-size:26px;color:var(--muted)" id="s3lab">LANGKAH 1 · ANALISIS TOPIK</div>
+  <div class="l big" style="top:355px;font-size:62px;white-space:nowrap" id="s3a"><span class="rv"><span>Nggak langsung kasih judul.</span></span></div>
+  <div class="l serif acc" style="top:450px;font-size:96px" id="s3b"><span class="rv"><span>Baca datanya dulu.</span></span></div>
+  <div class="row" style="top:640px" id="r1"><div class="n">US$71 M</div><div class="t">GMV e-commerce Indonesia 2025 <span class="mut">(proyeksi)</span></div></div>
+  <div class="row" style="top:810px" id="r2"><div class="n">2,6 M</div><div class="t">transaksi video commerce, naik 90%</div></div>
+  <div class="row" style="top:980px" id="r3"><div class="n">80,66%</div><div class="t">penetrasi internet Indonesia</div></div>
+  <div class="l mono" style="top:1150px;font-size:19px;letter-spacing:1px;color:var(--muted)" id="src">SUMBER: GOOGLE, TEMASEK &amp; BAIN (2025) · APJII (2025) · *SAAT FITUR SEARCH AKTIF</div>
+  <div class="gap" style="top:1230px" id="gap"><span class="mono" style="font-size:22px;color:var(--acc);font-weight:500">CELAH</span><br><span class="mk" id="mk">Temuan soal trust di Jakarta masih bertentangan.</span></div>
+ </div>
+</div>
+
+<!-- S4 OBJEK -->
+<div id="s4" class="clip" data-start="16.6" data-duration="6.9">
+ <div class="sc" id="s4in">
+  <div class="c mono" style="top:330px;font-size:28px;color:var(--muted)" id="s4lab">BINGUNG NELITI SIAPA?</div>
+  <div class="c big" style="top:400px;font-size:70px" id="s4q"><span class="rv"><span>Bukan cuma</span></span></div>
+  <div class="box" id="box">konsumen</div>
+  <div class="strike" id="strike"></div>
+  <div class="c mono" style="top:760px;font-size:24px;color:var(--acc)" id="s4tu">TERLALU UMUM</div>
+  <div class="card" style="top:850px" id="k1">
+   <div style="font-size:60px;font-weight:800;letter-spacing:-2px" id="k1a">Gen Z Jakarta</div>
+   <div style="font-size:40px;font-weight:500;margin-top:6px;color:#4a463f" id="k1b">yang pernah beli fashion muslim</div>
+   <div style="font-size:52px;margin-top:2px" id="k1c"><span class="serif acc">lewat link affiliate TikTok</span></div>
+   <div style="margin-top:18px" id="k1d"><span class="tag">KUANTITATIF · SMARTPLS</span></div>
+  </div>
+  <div class="card" style="top:1210px;left:150px;right:72px;padding:30px 40px" id="k2">
+   <div style="font-size:46px;font-weight:800;letter-spacing:-1px">Pedagang Tanah Abang</div>
+   <div style="font-size:36px;font-weight:500;color:#4a463f;margin-top:4px">yang aktif live selling</div>
+   <div style="margin-top:14px"><span class="tag">KUALITATIF · STUDI KASUS</span></div>
+  </div>
+ </div>
+</div>
+
+<!-- S5 BOARD -->
+<div id="s5" class="clip" data-start="22.95" data-duration="7.85">
+ <div class="sc" id="s5in">
+  <div id="board">
+   <div class="l big" style="top:300px;font-size:92px" id="s5a"><span class="rv"><span>10 judul.</span></span></div>
+   <div class="l serif acc" style="top:400px;font-size:76px" id="s5b"><span class="rv"><span>semua ada labelnya.</span></span></div>
+   <div id="rows"></div>
+  </div>
+  <div class="stamp" id="stamp">REKOMENDASI #1</div>
+  <div class="why" id="why">Gap-nya jelas: <span class="serif">temuan trust di Jakarta masih bertentangan.</span></div>
+  <div class="c mono" style="top:1470px;font-size:22px;color:var(--muted)" id="s5m">+ METODE · JENJANG · ESTIMASI WAKTU</div>
+ </div>
+</div>
+
+<!-- S6 GENESIS -->
+<div id="s6" class="clip" data-start="30.8" data-duration="4.25">
+ <div class="sc">
+  <div class="c mono" style="top:360px;font-size:26px;color:var(--muted)" id="s6lab">SKILL 01 DARI 44</div>
+  <div class="gcard" id="gcard">
+   <div class="circ" id="gcirc"><svg width="120" height="120" viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"><circle id="gi1" cx="20" cy="20" r="12"/><path id="gi2" d="M29 29L41 41"/></svg></div>
+   <div class="nm" id="gnm">GENESIS</div>
+   <div class="tg" id="gtg">Find what to research.</div>
+   <div class="sk" id="gsk"><span>Judul Generator</span></div>
+  </div>
+  <div class="c" style="top:1260px;font-size:40px;font-weight:700" id="gfree">Jalan di akun Claude <span class="serif acc" style="font-size:54px">gratis.</span></div>
+  <div class="c mono" style="top:1380px;font-size:22px;color:var(--muted)" id="gnext">NEXT EP · GAP FINDER →</div>
+ </div>
+</div>
+
+<!-- S7 CTA -->
+<div id="s7" class="clip" data-start="35.05" data-duration="4.95">
+ <div class="sc">
+  <div class="c mono" style="top:440px;font-size:26px;color:var(--muted)" id="c1">DIBANGUN DI ATAS</div>
+  <div class="c" style="top:500px" id="c2"><span style="display:inline-flex;align-items:center;gap:22px;font-size:58px;font-weight:800;letter-spacing:-1px"><img src="data:image/png;base64,{{CLAUDE}}" style="width:92px;height:92px" alt="">Claude Skills</span></div>
+  <div class="c serif acc" style="top:640px;font-size:210px;line-height:1.1" id="c3"><span class="rv"><span>Follow</span></span></div>
+  <div class="c big" style="top:900px;font-size:88px;letter-spacing:-2px" id="c4"><span class="rv"><span>@researchq.id</span></span></div>
+  <div class="c" style="top:1070px" id="c5"><span class="pillb" id="fbtn"><span id="fa">+ Follow</span></span></div>
+  <div class="c" style="top:1070px;opacity:0" id="c5b"><span class="pillb" style="background:var(--ink)">Following</span></div>
+  <div class="c" style="top:1270px" id="c6"><span class="cbub"><span class="av"></span><span>Komen jurusanmu,<br><span class="mut" style="font-weight:500">aku cobain judulnya.</span></span></span></div>
+ </div>
+</div>
+
+</div><!-- /cam -->
+
+<!-- HUD -->
+<div id="hud" class="clip" data-start="0" data-duration="40">
+ <div class="corner" style="top:190px;left:48px;border-width:3px 0 0 3px"></div>
+ <div class="corner" style="top:190px;right:48px;border-width:3px 3px 0 0"></div>
+ <div class="corner" style="bottom:48px;left:48px;border-width:0 0 3px 3px"></div>
+ <div class="corner" style="bottom:48px;right:48px;border-width:0 3px 3px 0"></div>
+ <div class="hud" style="top:204px;left:96px">EP.01 · JUDUL GENERATOR</div>
+ <div class="hud" style="top:204px;right:96px">GENESIS</div>
+ <div style="position:absolute;left:96px;right:96px;top:246px;height:3px;background:var(--line)"><div id="prog" style="height:3px;background:var(--acc);transform-origin:0 50%;transform:scaleX(0)"></div></div>
+ <div class="hud" style="bottom:58px;left:96px;font-family:PJS;font-weight:800;font-size:30px;letter-spacing:0;color:var(--ink)">ResearchQ<span class="acc">.</span></div>
+ <div class="hud" style="bottom:62px;right:96px">@RESEARCHQ.ID</div>
+</div>
+
+<audio id="sfx" src="sfx.wav" data-start="0" data-duration="40" data-volume="1"></audio>
+</div>
+
+<script>
+const tl = gsap.timeline({ paused: true });
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+
+// deterministic jitter (no Math.random)
+let seed = 7;
+const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+const R = (sel, t, d = 0.55, ease = "power3.out") =>
+  tl.fromTo(sel + " .rv>span", { yPercent: 112 }, { yPercent: 0, duration: d, ease }, t);
+
+// progress bar + handheld drift
+tl.fromTo("#prog", { scaleX: 0 }, { scaleX: 1, duration: 40, ease: "none" }, 0);
+for (let t = 0; t < 40; t += 1.3) {
+  tl.to("#cam", { x: (rnd() - 0.5) * 6, y: (rnd() - 0.5) * 6, rotation: (rnd() - 0.5) * 0.24, duration: 1.3, ease: "sine.inOut" }, t);
+}
+
+/* ---------- S1 HOOK ---------- */
+R("#h1", 0.12, 0.6);
+R("#h2", 0.78, 0.5);
+tl.fromTo("#h3 .rv>span", { yPercent: 110, rotation: -4 }, { yPercent: 0, rotation: -1.5, duration: 0.7, ease: "back.out(1.6)" }, 1.12);
+tl.to(["#h1", "#h2"], { opacity: 0.28, y: -24, duration: 0.45, ease: "power2.out" }, 2.08);
+tl.to("#h3", { opacity: 0.45, y: -24, duration: 0.45, ease: "power2.out" }, 2.14);
+R("#h4", 2.22, 0.45);
+tl.fromTo("#h5", { opacity: 0, scale: 1.22 }, { opacity: 1, scale: 1, duration: 0.55, ease: "expo.out" }, 2.52);
+[["#cp1", 3.05], ["#cp2", 3.22], ["#cp3", 3.46]].forEach(([s, t]) =>
+  tl.fromTo(s, { opacity: 0, y: 26, rotation: (rnd() - 0.5) * 8 }, { opacity: 1, y: 0, rotation: (rnd() - 0.5) * 3, duration: 0.42, ease: "back.out(2)" }, t));
+// pan out (whip up)
+tl.to("#s1in", { y: -760, filter: "blur(10px)", duration: 0.5, ease: "power3.in" }, 4.42);
+
+/* ---------- S2 CHAT ---------- */
+tl.fromTo("#s2in", { y: 980, filter: "blur(10px)" }, { y: 0, filter: "blur(0px)", duration: 0.55, ease: "power3.out" }, 4.42);
+tl.fromTo("#s2lab", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, 4.75);
+["#bub", "#lb1", "#lb2", "#lb3", "#dots", "#s2end"].forEach(s => tl.set(s, { opacity: 0 }, 4.4));
+// caret blink before typing
+for (let t = 4.6; t < 5.0; t += 0.5) { tl.set("#caret0", { opacity: 0 }, t); tl.set("#caret0", { opacity: 1 }, t + 0.25); }
+
+const typed = document.getElementById("typed");
+const caret0 = document.getElementById("caret0");
+const CAR = "3px 0 0 0 #EE6A1F";
+let t = 5.02, stack = []; window.__keys = [];
+function key(ch, cls) {
+  const s = document.createElement("span");
+  s.className = "ch" + (cls ? " " + cls : ""); s.textContent = ch;
+  typed.appendChild(s);
+  const prev = stack.length ? stack[stack.length - 1] : caret0;
+  tl.set(prev, stack.length ? { boxShadow: "none" } : { opacity: 0 }, t);
+  tl.set(s, { opacity: 1, boxShadow: CAR }, t);
+  stack.push(s); window.__keys.push(+t.toFixed(3));
+}
+function type(str, base, cls) {
+  for (const ch of str) {
+    key(ch, cls);
+    t += base * (0.6 + rnd() * 0.9) + (".:".includes(ch) ? 0.14 : 0) + (ch === " " ? 0.02 : 0);
+  }
+}
+function back(n) {
+  for (let i = 0; i < n; i++) {
+    const s = stack.pop();
+    tl.set(s, { display: "none", boxShadow: "none" }, t);
+    const top = stack[stack.length - 1];
+    tl.set(top, { boxShadow: CAR }, t); window.__keys.push(+t.toFixed(3));
+    t += 0.06;
+  }
+}
+type("/judul-generator", 0.029, "cmd");
+t += 0.1; type(" manajemen marketing. tema: ecomerce", 0.03);
+t += 0.24; back(4); t += 0.06; type("merce", 0.038);
+type(". lokasi: jakarta.", 0.031);
+t += 0.2;
+const tEnter = t;            // ~9.3
+window.__tEnter = tEnter;
+tl.to("#send", { scale: 0.86, duration: 0.08, ease: "power2.in" }, tEnter);
+tl.to("#send", { scale: 1, duration: 0.3, ease: "back.out(3)" }, tEnter + 0.08);
+tl.to("#typed", { opacity: 0, y: -16, duration: 0.14, ease: "power1.in" }, tEnter + 0.04);
+tl.to(["#ph1", "#ph2"], { opacity: 0, duration: 0.2 }, tEnter);
+tl.fromTo("#bub", { opacity: 0, y: 380, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "power3.out" }, tEnter + 0.06);
+[["#hl1", 0.62], ["#hl2", 0.84], ["#hl3", 1.0]].forEach(([s, d]) =>
+  tl.to(s, { backgroundSize: "100% 100%", duration: 0.3, ease: "power2.out" }, tEnter + d));
+[["#lb1", 0.7], ["#lb2", 0.9], ["#lb3", 1.06]].forEach(([s, d]) =>
+  tl.fromTo(s, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, tEnter + d));
+tl.set("#s2end", { opacity: 1 }, tEnter + 0.9);
+R("#s2end", tEnter + 0.9, 0.5);
+tl.set("#dots", { opacity: 1 }, tEnter + 1.25);
+document.querySelectorAll("#dots b").forEach((b, i) => {
+  for (let k = 0; k < 3; k++) tl.fromTo(b, { y: 0, backgroundColor: "#CBC5BA" }, { y: -10, backgroundColor: "#EE6A1F", duration: 0.16, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, tEnter + 1.25 + i * 0.12 + k * 0.42);
+});
+
+/* ---------- S3 ANALISIS ---------- */
+tl.fromTo("#s3in", { scale: 1.04 }, { scale: 1, duration: 0.6, ease: "power2.out" }, 10.9);
+tl.fromTo("#s3lab", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 10.95);
+R("#s3a", 11.0, 0.5);
+R("#s3b", 11.5, 0.6);
+[["#r1", 12.15], ["#r2", 12.62], ["#r3", 12.98]].forEach(([s, tt], i) => {
+  tl.fromTo(s, { x: 1100, rotation: 2 - i }, { x: 0, rotation: 0, duration: 0.62, ease: "expo.out" }, tt);
+  tl.fromTo(s + " .n", { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, tt + 0.16);
+});
+tl.fromTo("#src", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 13.55);
+tl.fromTo("#gap", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 14.25);
+tl.to("#mk", { backgroundSize: "100% 46%", duration: 0.7, ease: "power2.inOut" }, 14.75);
+tl.to(["#r1", "#r2", "#r3"], { opacity: 0.45, duration: 0.4 }, 14.75);
+
+/* ---------- S4 OBJEK ---------- */
+tl.fromTo("#s4lab", { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.35 }, 16.65);
+R("#s4q", 16.8, 0.45);
+tl.fromTo("#box", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.8)" }, 17.0);
+tl.fromTo("#strike", { scaleX: 0 }, { scaleX: 1, duration: 0.32, ease: "power2.inOut" }, 17.85);
+tl.to("#box", { color: "#B5AFA5", borderColor: "#CBC5BA", duration: 0.3 }, 18.0);
+tl.fromTo("#s4tu", { opacity: 0 }, { opacity: 1, duration: 0.25 }, 18.05);
+tl.fromTo("#k1", { opacity: 0, y: 160 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 18.45);
+[["#k1a", 18.6], ["#k1b", 18.85], ["#k1c", 19.15], ["#k1d", 19.6]].forEach(([s, tt]) =>
+  tl.fromTo(s, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, tt));
+tl.fromTo("#k2", { opacity: 0, x: 140, rotation: 1.5 }, { opacity: 1, x: 0, rotation: 0, duration: 0.6, ease: "expo.out" }, 20.4);
+// pan left to board
+tl.to("#s4in", { x: -900, filter: "blur(10px)", duration: 0.5, ease: "power3.in" }, 22.95);
+
+/* ---------- S5 BOARD ---------- */
+const J = [
+  ["Live shopping + review → keputusan beli", "S1 · 2–3 BLN", "g"],
+  ["Gratis ongkir → beli ulang Shopee", "S1 · 2–3 BLN", "g"],
+  ["Kepuasan same-day delivery", "S1 · ±2 BLN", "g"],
+  ["Kredibilitas affiliate → trust → niat beli", "S1/S2 · 3–5 BLN", "y"],
+  ["FoMO + paylater → impulsive buying", "S1/S2 · 3–5 BLN", "y"],
+  ["Live selling pedagang Tanah Abang", "S1 · 3–4 BLN · KUALITATIF", "y"],
+  ["Pengalaman Gen Z pakai paylater", "S1/S2 · 3–5 BLN · KUALITATIF", "y"],
+  ["Parasocial: TikTok vs Shopee Live", "S2 · 5–7 BLN", "r"],
+  ["Persepsi POJK BNPL → niat paylater", "S2 · 6–8 BLN · MIXED", "r"],
+  ["Live vs video pendek (eksperimen)", "S1/S2 · 4–6 BLN", "r"]];
+const PL = { g: ["Hijau", "#2E9E5B"], y: ["Kuning", "#D99A00"], r: ["Merah", "#D9452B"] };
+const rows = document.getElementById("rows");
+const GL = ["STANDAR", "MODERAT", "BOLD"];
+let y = 540, rowEls = [];
+J.forEach((j, i) => {
+  const g = i < 3 ? 0 : i < 7 ? 1 : 2;
+  if (i === 0 || i === 3 || i === 7) {
+    const h = document.createElement("div"); h.className = "grp"; h.style.top = y + "px"; h.textContent = GL[g];
+    rows.appendChild(h); rowEls.push([h, g]); y += 40;
+  }
+  const r = document.createElement("div"); r.className = "jr"; r.style.top = y + "px"; r.id = "jr" + i;
+  r.innerHTML = `<div class="no">${String(i + 1).padStart(2, "0")}</div><div class="tx"><div class="tt">${j[0]}</div><div class="mt">${j[1]}</div></div><div class="pill" style="background:${PL[j[2]][1]}">${PL[j[2]][0]}</div>`;
+  rows.appendChild(r); rowEls.push([r, g]); y += 80;
+  if (i === 2 || i === 6) y += 14;
+});
+tl.fromTo("#s5in", { x: 900, filter: "blur(10px)" }, { x: 0, filter: "blur(0px)", duration: 0.55, ease: "power3.out" }, 22.95);
+R("#s5a", 23.35, 0.5);
+R("#s5b", 23.7, 0.55);
+let rt = 24.05;
+rowEls.forEach(([el], k) => {
+  tl.fromTo(el, { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.38, ease: "power3.out" }, rt);
+  rt += 0.09 + rnd() * 0.07;
+});
+const pills = [...document.querySelectorAll("#rows .pill")];
+pills.forEach((p, i) => tl.fromTo(p, { scale: 0.4 }, { scale: 1, duration: 0.3, ease: "back.out(2.4)" }, 24.25 + i * 0.13));
+// focus row 04
+const r4 = document.getElementById("jr3");
+const r4c = parseFloat(r4.style.top) + 35;
+gsap.set("#board", { transformOrigin: `540px ${r4c}px` });
+tl.to(r4, { boxShadow: "0 0 0 18px #FBFAF7, 0 34px 70px -30px rgba(60,40,20,.55)", borderRadius: "14px", scale: 1.05, duration: 0.5, ease: "power3.out" }, 26.25);
+tl.to("#board", { y: 880 - r4c, duration: 0.7, ease: "power3.inOut" }, 26.25);
+tl.to([...document.querySelectorAll("#rows > div")].filter(e => e !== r4), { opacity: 0.12, duration: 0.45 }, 26.3);
+tl.to(["#s5a", "#s5b"], { opacity: 0, duration: 0.3 }, 26.3);
+tl.set("#stamp", { top: 760 }, 0);
+tl.fromTo("#stamp", { opacity: 0, scale: 1.6, rotation: -14 }, { opacity: 1, scale: 1, rotation: -6, duration: 0.32, ease: "back.out(2.2)" }, 26.85);
+tl.fromTo("#why", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 27.45);
+tl.fromTo("#s5m", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 28.6);
+
+/* ---------- S6 GENESIS ---------- */
+tl.fromTo("#s6lab", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 30.85);
+tl.fromTo("#gcard", { opacity: 0, scale: 0.93, y: 40 }, { opacity: 1, scale: 1, y: 0, duration: 0.55, ease: "back.out(1.4)" }, 30.85);
+tl.fromTo("#gcirc", { scale: 0 }, { scale: 1, duration: 0.5, ease: "back.out(1.8)" }, 31.0);
+["#gi1", "#gi2"].forEach((s, i) => {
+  const el = document.querySelector(s); const L = el.getTotalLength();
+  gsap.set(el, { strokeDasharray: L, strokeDashoffset: L });
+  tl.to(el, { strokeDashoffset: 0, duration: 0.6, ease: "power2.inOut" }, 31.25 + i * 0.35);
+});
+[["#gnm", 31.4], ["#gtg", 31.7], ["#gsk", 32.15]].forEach(([s, tt]) =>
+  tl.fromTo(s, { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, tt));
+tl.fromTo("#gfree", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 32.85);
+tl.fromTo("#gnext", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.4 }, 33.75);
+
+/* ---------- S7 CTA ---------- */
+tl.fromTo("#c1", { opacity: 0 }, { opacity: 1, duration: 0.35 }, 35.12);
+tl.fromTo("#c2", { opacity: 0, scale: 0.86 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" }, 35.3);
+R("#c3", 35.8, 0.6, "expo.out");
+R("#c4", 36.2, 0.5);
+tl.fromTo("#c5", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2)" }, 36.7);
+tl.fromTo("#c6", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 37.3);
+tl.to("#fbtn", { scale: 0.92, duration: 0.12, ease: "power2.in" }, 38.4);
+tl.set("#c5", { opacity: 0 }, 38.55);
+tl.set("#c5b", { opacity: 1 }, 38.55);
+tl.fromTo("#c5b", { scale: 0.92 }, { scale: 1, duration: 0.35, ease: "back.out(3)", immediateRender: false }, 38.55);
+
+tl.seek(0);
+</script>
+</body>
+</html>

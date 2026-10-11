@@ -1,0 +1,18 @@
+{
+  "voice": "id-ID-ArdiNeural",
+  "note": "start = detik mulai bicara; end = batas akhir (rate dinaikkan otomatis bila kalimat lebih panjang dari jendelanya). 'ssml' boleh memuat <sub alias> untuk pelafalan.",
+  "lines": [
+    {"id": "s1",  "start": 0.15,  "end": 4.30,  "ssml": "Belum punya tema? <break time='120ms'/> Nggak tahu mau neliti siapa? <break time='150ms'/> Cukup ketik tiga hal."},
+    {"id": "s2a", "start": 4.65,  "end": 8.90,  "ssml": "Jurusan, tema, lokasi. <break time='200ms'/> Aku contohin: manajemen marketing, <sub alias='i-komers'>e-commerce</sub>, Jakarta."},
+    {"id": "s2b", "start": 9.05,  "end": 9.75,  "ssml": "Kirim."},
+    {"id": "s2c", "start": 10.05, "end": 10.90, "ssml": "Udah, itu aja."},
+    {"id": "s3",  "start": 11.10, "end": 16.60, "ssml": "Dia nggak langsung lempar judul. <break time='150ms'/> Dia baca datanya dulu, dari sumber asli, terus nunjukin celahnya."},
+    {"id": "s4a", "start": 16.90, "end": 18.45, "ssml": "Neliti siapa? <break time='100ms'/> Bukan cuma konsumen."},
+    {"id": "s4b", "start": 18.55, "end": 20.45, "ssml": "Tapi <sub alias='jen zi'>Gen Z</sub> Jakarta yang beli lewat <sub alias='afiliet'>affiliate</sub> TikTok."},
+    {"id": "s4c", "start": 20.55, "end": 22.90, "ssml": "Atau pedagang Tanah Abang yang <sub alias='laif seling'>live selling</sub>."},
+    {"id": "s5a", "start": 23.25, "end": 26.20, "ssml": "Hasilnya sepuluh judul, dari yang aman sampai yang berani."},
+    {"id": "s5b", "start": 26.30, "end": 30.60, "ssml": "Lengkap sama level kesulitan, metode, dan estimasi waktunya. <break time='150ms'/> Terus dia pilihin yang paling masuk akal, plus alasannya."},
+    {"id": "s6",  "start": 31.00, "end": 34.90, "ssml": "Ini Judul Generator, skill pertama di sistem <sub alias='jenesis'>GENESIS</sub>. <break time='120ms'/> Jalan di akun <sub alias='klod'>Claude</sub> gratis."},
+    {"id": "s7",  "start": 35.20, "end": 39.85, "ssml": "Follow <sub alias='risérc kiu titik ai di'>researchq.id</sub>, aku bahas skill lainnya satu per satu. <break time='120ms'/> Komen jurusanmu, nanti aku cobain judulnya."}
+  ]
+}

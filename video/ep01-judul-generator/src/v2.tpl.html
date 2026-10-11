@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="id" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Judul Generator EP01 v2</title>
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:PJS;font-weight:500;src:url(data:font/woff2;base64,{{PJS500}}) format("woff2")}
+@font-face{font-family:PJS;font-weight:700;src:url(data:font/woff2;base64,{{PJS700}}) format("woff2")}
+@font-face{font-family:PJS;font-weight:800;src:url(data:font/woff2;base64,{{PJS800}}) format("woff2")}
+@font-face{font-family:JBM;font-weight:500;src:url(data:font/woff2;base64,{{JBM500}}) format("woff2")}
+@font-face{font-family:IS;font-style:italic;font-weight:400;src:url(data:font/woff2;base64,{{ISI}}) format("woff2")}
+:root{--bg:#F2EFE9;--paper:#FBFAF7;--ink:#1B1A18;--muted:#8C877E;--faint:#CBC5BA;--line:#E3DED5;--acc:#EE6A1F;--accs:#FCE6D8;--blue:#2453E8;--side:#DDD5C8}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#F2EFE9}
+#root{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--bg);font-family:PJS,sans-serif;color:var(--ink)}
+#vig{position:absolute;inset:0;background:radial-gradient(circle farthest-corner at 50% 40%,rgba(255,255,255,.65) 0%,rgba(255,255,255,0) 62%),radial-gradient(circle at 50% 120%,rgba(120,90,60,.10),rgba(0,0,0,0) 60%)}
+#grain{position:absolute;inset:0;opacity:.07;mix-blend-mode:multiply;pointer-events:none}
+#cam{position:absolute;inset:0}
+.clip{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.sc{position:absolute;inset:0}
+.p3{perspective:1600px}
+.pre{transform-style:preserve-3d}
+.c{position:absolute;left:72px;right:72px;text-align:center}
+.l{position:absolute;left:72px;right:72px;text-align:left}
+.rv{display:block;overflow:hidden;padding:0 6px 14px;margin-bottom:-14px}
+.rv>span{display:inline-block}
+.serif{font-family:IS,serif;font-style:italic;font-weight:400}
+.acc{color:var(--acc)}.mut{color:var(--muted)}
+.mono{font-family:JBM;font-weight:500;letter-spacing:3px}
+.big{font-weight:800;letter-spacing:-3px;line-height:1.02}
+.ic{fill:none;stroke:currentColor;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+.hud{position:absolute;font-family:JBM;font-size:22px;letter-spacing:2px;color:var(--muted)}
+.corner{position:absolute;width:34px;height:34px;border-color:var(--faint);border-style:solid}
+.shadow{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(70,50,30,.28),rgba(70,50,30,0))}
+/* keycaps */
+.keys{position:absolute;left:72px;right:72px;top:1150px;height:260px;display:flex;justify-content:center;gap:30px;perspective:1300px}
+.keyrow{display:flex;gap:30px;transform:rotateX(26deg);transform-style:preserve-3d}
+.key{width:268px;height:176px;border-radius:30px;background:linear-gradient(180deg,#FFFFFF,#F6F2EC);border:2px solid var(--line);box-shadow:0 20px 0 var(--side),0 22px 0 #CFC6B8,0 50px 50px -24px rgba(60,40,20,.38);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--ink)}
+.key svg{width:64px;height:64px}
+.key .kl{font-family:JBM;font-size:24px;letter-spacing:3px}
+/* chat */
+.win3{position:absolute;inset:0;perspective:1800px}
+.win{position:absolute;left:72px;right:72px;top:390px;height:1060px;background:var(--paper);border:2px solid var(--line);border-radius:40px;box-shadow:0 60px 110px -50px rgba(60,40,20,.5);overflow:hidden;transform-origin:50% 60%}
+.win .bar{position:absolute;left:0;right:0;top:0;height:88px;border-bottom:2px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 34px;font-size:26px;color:var(--muted);font-weight:700}
+.win .bar i{width:14px;height:14px;border-radius:50%;background:var(--faint);display:inline-block}
+.input{position:absolute;left:30px;right:30px;bottom:30px;min-height:250px;border:2px solid var(--line);border-radius:30px;background:#fff;padding:30px 120px 30px 34px}
+#typed{font-size:44px;line-height:1.32;font-weight:500;white-space:pre-wrap;word-break:break-word}
+#typed .ch{opacity:0}
+#typed .cmd{color:var(--acc);font-weight:700}
+#caret0{display:inline-block;width:3px;height:48px;background:var(--acc);vertical-align:-8px}
+.send{position:absolute;right:26px;bottom:26px;width:76px;height:76px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center}
+.ring{position:absolute;width:76px;height:76px;border-radius:50%;border:3px solid var(--acc);opacity:0}
+.ph{position:absolute;left:34px;height:22px;border-radius:11px;background:#EFEBE4}
+.bub{position:absolute;right:34px;top:130px;max-width:760px;background:#F4EEE6;border-radius:30px 30px 8px 30px;padding:26px 30px;font-size:38px;line-height:1.36;font-weight:500}
+.bub .cmd{color:var(--acc);font-weight:700}
+.hl{background-image:linear-gradient(rgba(238,106,31,.28),rgba(238,106,31,.28));background-repeat:no-repeat;background-size:0% 100%;border-radius:6px}
+.labs{position:absolute;right:34px;top:372px;display:flex;gap:14px}
+.lab{display:flex;align-items:center;gap:8px;font-family:JBM;font-size:23px;letter-spacing:1px;color:var(--acc);background:var(--accs);padding:8px 14px;border-radius:999px}
+.lab svg{width:26px;height:26px}
+.dots{position:absolute;left:34px;display:flex;gap:12px}
+.dots b{width:16px;height:16px;border-radius:50%;background:var(--faint);display:block}
+.tok{position:absolute;width:118px;height:118px;border-radius:34px;background:var(--paper);border:2px solid var(--line);box-shadow:0 14px 0 var(--side),0 40px 50px -24px rgba(60,40,20,.4);display:flex;align-items:center;justify-content:center;color:var(--acc)}
+.tok svg{width:62px;height:62px}
+.cursor{position:absolute;width:64px;height:64px;left:0;top:0;filter:drop-shadow(0 8px 10px rgba(0,0,0,.25))}
+/* stat cards */
+.stats{position:absolute;inset:0;perspective:1500px}
+.stat{position:absolute;left:72px;right:72px;height:150px;background:var(--paper);border:2px solid var(--line);border-radius:32px;display:flex;align-items:center;padding:0 34px;gap:28px;box-shadow:0 30px 60px -40px rgba(60,40,20,.5);transform-origin:0% 50%}
+.stat .ib{width:92px;height:92px;border-radius:26px;background:var(--accs);color:var(--acc);display:flex;align-items:center;justify-content:center;flex:none}
+.stat .ib svg{width:54px;height:54px}
+.stat .n{font-size:62px;font-weight:800;letter-spacing:-2px;min-width:290px;font-variant-numeric:tabular-nums}
+.stat .t{font-size:29px;line-height:1.25;color:#4a463f;font-weight:500}
+.gap{position:absolute;left:72px;right:72px;padding:30px 36px;border-radius:30px;border:3px dashed var(--acc);background:rgba(251,250,247,.85);font-size:35px;font-weight:700;line-height:1.3;display:flex;gap:24px;align-items:center;transform-origin:50% 0%}
+.gap svg{width:64px;height:64px;color:var(--acc);flex:none}
+.mk{background-image:linear-gradient(rgba(238,106,31,.3),rgba(238,106,31,.3));background-repeat:no-repeat;background-size:0% 46%;background-position:0 88%}
+/* flip card */
+.fl3{position:absolute;left:72px;right:72px;top:420px;height:560px;perspective:1800px}
+.flip{position:absolute;inset:0;transform-style:preserve-3d}
+.face{position:absolute;inset:0;border-radius:44px;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--paper);border:2px solid var(--line);box-shadow:0 50px 90px -50px rgba(60,40,20,.55)}
+.face.back{transform:rotateY(180deg);border:3px solid var(--acc)}
+.strike{position:absolute;left:150px;right:150px;top:318px;height:16px;border-radius:8px;background:var(--acc);transform-origin:0 50%}
+.tag{display:inline-block;font-family:JBM;font-size:22px;letter-spacing:2px;padding:8px 16px;border-radius:999px;background:#F4EEE6;color:#6b655c}
+.card2{position:absolute;left:150px;right:72px;top:1050px;background:var(--paper);border:2px solid var(--line);border-radius:36px;padding:30px 36px;box-shadow:0 40px 70px -46px rgba(60,40,20,.55);display:flex;gap:26px;align-items:center}
+.card2 .ib{width:96px;height:96px;border-radius:28px;background:#EEF2FD;color:var(--blue);display:flex;align-items:center;justify-content:center;flex:none}
+.card2 .ib svg{width:56px;height:56px}
+/* board */
+#deck{position:absolute;inset:0;perspective:1500px}
+#rows{position:absolute;inset:0;transform-style:preserve-3d;transform-origin:50% 900px}
+.jr{position:absolute;left:72px;right:72px;height:72px;display:flex;align-items:center;gap:22px;transform-origin:50% 0%;border-radius:16px}
+.jr .no{font-family:JBM;font-size:24px;color:var(--muted);width:44px}
+.jr .tx{flex:1;min-width:0}
+.jr .tt{font-size:31px;font-weight:700;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jr .mt{display:flex;align-items:center;gap:8px;font-family:JBM;font-size:20px;color:var(--muted);letter-spacing:1px;margin-top:4px}
+.jr .mt svg{width:20px;height:20px}
+.pill{display:flex;align-items:center;gap:8px;font-size:22px;font-weight:800;padding:8px 16px;border-radius:999px;flex:none}
+.pill i{width:12px;height:12px;border-radius:50%;display:block}
+.grp{position:absolute;left:72px;font-family:JBM;font-size:22px;letter-spacing:4px;color:var(--muted)}
+.stamp{position:absolute;right:60px;top:752px;display:flex;align-items:center;gap:10px;border:5px solid var(--acc);color:var(--acc);font-family:JBM;font-size:28px;letter-spacing:3px;padding:10px 18px;border-radius:12px;background:rgba(251,250,247,.95)}
+.stamp svg{width:30px;height:30px}
+.why{position:absolute;left:72px;right:72px;top:1140px;background:var(--ink);color:#fff;border-radius:30px;padding:34px 40px;font-size:36px;line-height:1.3;font-weight:700;transform-origin:50% 0%}
+.why .serif{color:#F7B58C;font-size:42px}
+.legend{position:absolute;left:72px;right:72px;top:1460px;display:flex;justify-content:center;gap:36px;font-family:JBM;font-size:21px;letter-spacing:1px;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:8px}
+.legend svg{width:26px;height:26px;color:var(--acc)}
+/* genesis */
+.g3{position:absolute;inset:0;perspective:1600px}
+.gcard{position:absolute;left:250px;width:580px;top:420px;height:560px;border-radius:48px;background:var(--paper);border:4px solid var(--blue);box-shadow:0 60px 100px -50px rgba(36,83,232,.5);transform-style:preserve-3d}
+.gcard .circ{position:absolute;left:190px;top:70px;width:200px;height:200px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;box-shadow:0 24px 40px -18px rgba(36,83,232,.7)}
+.gcard .nm{position:absolute;left:0;right:0;top:300px;text-align:center;font-size:76px;font-weight:800;letter-spacing:-1px;color:var(--blue)}
+.gcard .tg{position:absolute;left:30px;right:30px;top:400px;text-align:center;font-family:IS,serif;font-style:italic;font-size:48px;color:#4a463f}
+.ring3{position:absolute;left:0;right:0;top:1040px;height:120px;perspective:1400px}
+.ringc{position:absolute;left:540px;top:60px;width:0;height:0;transform-style:preserve-3d}
+.rc{position:absolute;left:-170px;top:-38px;width:340px;height:76px;border-radius:999px;background:var(--paper);border:2px solid var(--line);display:flex;align-items:center;justify-content:center;gap:10px;font-size:28px;font-weight:800;color:#5a554d;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.rc svg{width:28px;height:28px}
+.rc.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+/* cta */
+.pillb{display:inline-flex;align-items:center;gap:12px;font-weight:800;padding:24px 60px;border-radius:999px;background:var(--acc);color:#fff;font-size:44px;box-shadow:0 14px 0 #B9501A,0 40px 50px -22px rgba(238,106,31,.55)}
+.pillb.dk{background:var(--ink);box-shadow:0 6px 0 #000,0 24px 40px -22px rgba(0,0,0,.5)}
+.pillb svg{width:40px;height:40px}
+.cbub{display:inline-flex;align-items:center;gap:20px;background:var(--paper);border:2px solid var(--line);border-radius:36px;padding:24px 34px;font-size:38px;font-weight:700;text-align:left;box-shadow:0 20px 50px -30px rgba(60,40,20,.3)}
+.cbub .av{width:62px;height:62px;border-radius:50%;background:var(--accs);color:var(--acc);display:flex;align-items:center;justify-content:center;flex:none}
+.cbub .av svg{width:36px;height:36px}
+.lt{display:inline-block;transform-origin:50% 100%}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+ <defs>
+  <symbol id="i-cap" viewBox="0 0 48 48"><path d="M3 18L24 9L45 18L24 27Z"/><path d="M11 22V32C11 35 17 38 24 38C31 38 37 35 37 32V22"/><path d="M45 18V30"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 48 48"><path d="M5 8h6l4 22h22l4-15H14"/><circle cx="19" cy="38" r="3"/><circle cx="34" cy="38" r="3"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 48 48"><path d="M24 43s13-12.5 13-23a13 13 0 0 0-26 0c0 10.5 13 23 13 23z"/><circle cx="24" cy="20" r="5"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 48 48"><path d="M6 38l11-12 8 7 15-17"/><path d="M31 16h9v9"/></symbol>
+  <symbol id="i-play" viewBox="0 0 48 48"><rect x="6" y="10" width="36" height="28" rx="7"/><path d="M21 18l9 6-9 6z"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 48 48"><path d="M5 19a27 27 0 0 1 38 0"/><path d="M11.5 26a18 18 0 0 1 25 0"/><path d="M18 33a9 9 0 0 1 12 0"/><path d="M24 39.5v.5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 48 48"><path d="M24 6L44 40H4Z"/><path d="M24 18v10"/><path d="M24 34v.5"/></symbol>
+  <symbol id="i-user" viewBox="0 0 48 48"><circle cx="24" cy="16" r="8"/><path d="M8 42c2-9 9-13 16-13s14 4 16 13"/></symbol>
+  <symbol id="i-users" viewBox="0 0 48 48"><circle cx="18" cy="17" r="7"/><path d="M4 40c1.5-7.5 7-11 14-11s12.5 3.5 14 11"/><circle cx="34" cy="15" r="5.5"/><path d="M33 26c6 0 10 3 11.5 9"/></symbol>
+  <symbol id="i-store" viewBox="0 0 48 48"><path d="M7 18l3-10h28l3 10"/><path d="M7 18h34v3a5.5 5.5 0 0 1-11 0 6 6 0 0 1-12 0 5.5 5.5 0 0 1-11 0z"/><path d="M10 26v16h28V26"/><path d="M20 42v-9h8v9"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 48 48"><circle cx="24" cy="24" r="17"/><path d="M24 14v10l7 5"/></symbol>
+  <symbol id="i-bars" viewBox="0 0 48 48"><path d="M10 40V26M20 40V14M30 40V22M40 40V8"/></symbol>
+  <symbol id="i-star" viewBox="0 0 48 48"><path d="M24 5l5.6 11.6 12.8 1.8-9.3 9 2.2 12.7L24 34l-11.4 6.1 2.2-12.7-9.3-9 12.8-1.8z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 48 48"><path d="M10 25l9 9 19-20"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 48 48"><path d="M8 10h32a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H20l-9 7v-7H8a4 4 0 0 1-4-4V14a4 4 0 0 1 4-4z"/></symbol>
+  <symbol id="i-book" viewBox="0 0 48 48"><path d="M24 12c-5-4-12-4-18-2v28c6-2 13-2 18 2 5-4 12-4 18-2V10c-6-2-13-2-18 2z"/><path d="M24 12v28"/></symbol>
+  <symbol id="i-search" viewBox="0 0 48 48"><circle cx="20" cy="20" r="12"/><path d="M29 29L41 41"/></symbol>
+ </defs>
+</svg>
+<div id="root" data-composition-id="main" data-start="0" data-duration="40" data-width="1080" data-height="1920">
+<div id="vig"></div>
+<div id="cam">
+
+<!-- S1 HOOK -->
+<div id="s1" class="clip" data-start="0" data-duration="4.95">
+ <div class="sc p3"><div class="sc pre" id="s1in">
+  <div class="c big" style="top:440px;font-size:92px;white-space:nowrap;perspective:900px" id="h1"><span style="display:inline-block;transform-origin:50% 0%" id="h1i">Belum punya tema.</span></div>
+  <div class="c big" style="top:560px;font-size:92px;white-space:nowrap;perspective:900px" id="h2"><span style="display:inline-block;transform-origin:50% 0%" id="h2i">Nggak tahu neliti</span></div>
+  <div class="c serif acc" style="top:655px;font-size:170px;line-height:1.05" id="h3"><span class="rv"><span>siapa.</span></span></div>
+  <div class="c" style="top:950px;white-space:nowrap" id="h4"><span class="rv"><span><b style="font-size:80px;letter-spacing:-3px">Cukup ketik </b><span class="serif acc" style="font-size:124px;margin-left:22px">3 hal.</span></span></span></div>
+  <div class="keys"><div class="keyrow">
+   <div class="key" id="k1"><svg class="ic"><use href="#i-cap"/></svg><div class="kl">JURUSAN</div></div>
+   <div class="key" id="k2"><svg class="ic"><use href="#i-cart"/></svg><div class="kl">TEMA</div></div>
+   <div class="key" id="k3"><svg class="ic"><use href="#i-pin"/></svg><div class="kl">LOKASI</div></div>
+  </div></div>
+ </div></div>
+</div>
+
+<!-- S2 CHAT -->
+<div id="s2" class="clip" data-start="4.45" data-duration="6.55">
+ <div class="sc" id="s2in">
+  <div class="l mono" style="top:300px;font-size:26px;color:var(--muted);display:flex;align-items:center;gap:12px" id="s2lab"><svg class="ic" style="width:30px;height:30px"><use href="#i-chat"/></svg>CONTOH KETIKANNYA</div>
+  <div class="win3"><div class="sc pre" id="w3">
+   <div class="win" id="win">
+    <div class="bar"><i></i><i></i><i></i><span style="margin-left:14px">Chat baru</span></div>
+    <div class="ph" style="top:150px;width:420px" id="ph1"></div>
+    <div class="ph" style="top:196px;width:300px" id="ph2"></div>
+    <div class="bub" id="bub"><span class="cmd">/judul-generator</span> <span class="hl" id="hl1">manajemen marketing</span>. tema: <span class="hl" id="hl2">ecommerce</span>. lokasi: <span class="hl" id="hl3">jakarta</span>.</div>
+    <div class="labs"><span class="lab" id="lb1"><svg class="ic"><use href="#i-cap"/></svg>jurusan</span><span class="lab" id="lb2"><svg class="ic"><use href="#i-cart"/></svg>tema</span><span class="lab" id="lb3"><svg class="ic"><use href="#i-pin"/></svg>lokasi</span></div>
+    <div class="dots" id="dots" style="top:560px"><b></b><b></b><b></b></div>
+    <div class="input" id="inp"><div id="typed"><span id="caret0"></span></div>
+     <div class="ring" id="ring" style="right:26px;bottom:26px"></div>
+     <div class="send" id="send"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div></div>
+   </div>
+   <div class="tok" id="t1" style="left:860px;top:330px"><svg class="ic"><use href="#i-cap"/></svg></div>
+   <div class="tok" id="t2" style="left:24px;top:690px"><svg class="ic"><use href="#i-cart"/></svg></div>
+   <div class="tok" id="t3" style="left:880px;top:900px"><svg class="ic"><use href="#i-pin"/></svg></div>
+   <svg class="cursor" id="cur1" viewBox="0 0 32 32"><path d="M6 3l20 12-9 2-4 9z" fill="#1B1A18" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>
+  </div></div>
+  <div class="c serif" style="top:1490px;font-size:72px" id="s2end"><span class="rv"><span>Udah. <span class="acc">Itu aja.</span></span></span></div>
+ </div>
+</div>
+
+<!-- S3 ANALISIS -->
+<div id="s3" class="clip" data-start="11" data-duration="5.8">
+ <div class="sc" id="s3in">
+  <div class="l mono" style="top:300px;font-size:26px;color:var(--muted);display:flex;align-items:center;gap:12px" id="s3lab"><svg class="ic" style="width:30px;height:30px"><use href="#i-book"/></svg>LANGKAH 1 · ANALISIS TOPIK</div>
+  <div class="l big" style="top:355px;font-size:62px;white-space:nowrap" id="s3a"><span class="rv"><span>Nggak langsung kasih judul.</span></span></div>
+  <div class="l serif acc" style="top:440px;font-size:96px" id="s3b"><span class="rv"><span>Baca datanya dulu.</span></span></div>
+  <div class="stats">
+   <div class="stat" style="top:630px" id="r1"><div class="ib"><svg class="ic"><use href="#i-trend"/></svg></div><div class="n">US$<span id="n1">0</span> M</div><div class="t">GMV e-commerce Indonesia 2025 <span class="mut">(proyeksi)</span></div></div>
+   <div class="stat" style="top:800px" id="r2"><div class="ib"><svg class="ic"><use href="#i-play"/></svg></div><div class="n"><span id="n2">0,0</span> M</div><div class="t">transaksi video commerce, naik 90%</div></div>
+   <div class="stat" style="top:970px" id="r3"><div class="ib"><svg class="ic"><use href="#i-wifi"/></svg></div><div class="n"><span id="n3">0,00</span>%</div><div class="t">penetrasi internet Indonesia</div></div>
+   <div class="gap" style="top:1230px" id="gap"><svg class="ic" id="galert"><use href="#i-alert"/></svg><div><span class="mono" style="font-size:22px;color:var(--acc);font-weight:500">CELAH</span><br><span class="mk" id="mk">Temuan soal trust di Jakarta masih bertentangan.</span></div></div>
+  </div>
+  <div class="l mono" style="top:1140px;font-size:19px;letter-spacing:1px;color:var(--muted)" id="src">SUMBER: GOOGLE, TEMASEK &amp; BAIN (2025) · APJII (2025) · *SAAT FITUR SEARCH AKTIF</div>
+ </div>
+</div>
+
+<!-- S4 OBJEK -->
+<div id="s4" class="clip" data-start="16.8" data-duration="6.7">
+ <div class="sc p3"><div class="sc pre" id="s4in">
+  <div class="c mono" style="top:330px;font-size:28px;color:var(--muted)" id="s4lab">BINGUNG NELITI SIAPA?</div>
+  <div class="shadow" id="fsh" style="left:200px;width:680px;top:950px;height:90px"></div>
+  <div class="fl3"><div class="flip" id="flip">
+   <div class="face" id="ffront">
+    <div class="c" style="top:70px;color:var(--faint)"><svg class="ic" style="width:120px;height:120px"><use href="#i-user"/></svg></div>
+    <div class="c big" style="top:250px;font-size:116px" id="kons">konsumen</div>
+    <div class="strike" id="strike"></div>
+    <div class="c mono" style="top:420px;font-size:24px;color:var(--acc)" id="s4tu">TERLALU UMUM</div>
+   </div>
+   <div class="face back">
+    <div class="l" style="left:50px;top:50px;display:flex;gap:16px;color:var(--acc)" id="bk0"><svg class="ic" style="width:72px;height:72px"><use href="#i-users"/></svg><svg class="ic" style="width:72px;height:72px"><use href="#i-pin"/></svg></div>
+    <div class="l" style="left:50px;top:160px;font-size:68px;font-weight:800;letter-spacing:-2px" id="bk1">Gen Z Jakarta</div>
+    <div class="l" style="left:50px;top:250px;font-size:40px;font-weight:500;color:#4a463f" id="bk2">yang pernah beli fashion muslim</div>
+    <div class="l serif acc" style="left:50px;top:310px;font-size:56px" id="bk3">lewat link affiliate TikTok</div>
+    <div class="l" style="left:50px;top:440px" id="bk4"><span class="tag">KUANTITATIF · SMARTPLS</span></div>
+   </div>
+  </div></div>
+  <div class="card2" id="k2c"><div class="ib"><svg class="ic"><use href="#i-store"/></svg></div><div>
+   <div style="font-size:46px;font-weight:800;letter-spacing:-1px">Pedagang Tanah Abang</div>
+   <div style="font-size:34px;font-weight:500;color:#4a463f;margin:2px 0 12px">yang aktif live selling</div>
+   <span class="tag">KUALITATIF · STUDI KASUS</span></div></div>
+ </div></div>
+</div>
+
+<!-- S5 BOARD -->
+<div id="s5" class="clip" data-start="22.95" data-duration="7.85">
+ <div class="sc p3"><div class="sc pre" id="s5in">
+  <div class="l big" style="top:300px;font-size:92px" id="s5a"><span class="rv"><span><span id="cnt">0</span> judul.</span></span></div>
+  <div class="l serif acc" style="top:400px;font-size:76px" id="s5b"><span class="rv"><span>semua ada labelnya.</span></span></div>
+  <div id="deck"><div id="rows"></div></div>
+  <div class="stamp" id="stamp"><svg class="ic"><use href="#i-star"/></svg>REKOMENDASI #1</div>
+  <div class="why" id="why">Gap-nya jelas: <span class="serif">temuan trust di Jakarta masih bertentangan.</span></div>
+  <div class="legend" id="leg"><span><svg class="ic"><use href="#i-bars"/></svg>METODE</span><span><svg class="ic"><use href="#i-cap"/></svg>JENJANG</span><span><svg class="ic"><use href="#i-clock"/></svg>ESTIMASI WAKTU</span></div>
+ </div></div>
+</div>
+
+<!-- S6 GENESIS -->
+<div id="s6" class="clip" data-start="30.8" data-duration="4.25">
+ <div class="sc">
+  <div class="c mono" style="top:330px;font-size:26px;color:var(--muted)" id="s6lab">SKILL 01 DARI 44</div>
+  <div class="shadow" id="gsh" style="left:270px;width:540px;top:960px;height:70px"></div>
+  <div class="g3"><div class="gcard" id="gcard">
+   <div class="circ" id="gcirc"><svg width="120" height="120" viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"><circle id="gi1" cx="20" cy="20" r="12"/><path id="gi2" d="M29 29L41 41"/></svg></div>
+   <div class="nm" id="gnm">GENESIS</div>
+   <div class="tg" id="gtg">Find what to research.</div>
+  </div></div>
+  <div class="ring3"><div class="ringc" id="ringc">
+   <div class="rc on"><svg class="ic"><use href="#i-star"/></svg>Judul Generator</div>
+   <div class="rc"><svg class="ic"><use href="#i-search"/></svg>Gap Finder</div>
+   <div class="rc"><svg class="ic"><use href="#i-book"/></svg>Scopus Finder</div>
+   <div class="rc"><svg class="ic"><use href="#i-alert"/></svg>Problem Master</div>
+  </div></div>
+  <div class="c" style="top:1250px;font-size:40px;font-weight:700" id="gfree">Jalan di akun Claude <span class="serif acc" style="font-size:54px">gratis.</span></div>
+  <div class="c mono" style="top:1370px;font-size:22px;color:var(--muted)" id="gnext">NEXT EP · GAP FINDER →</div>
+ </div>
+</div>
+
+<!-- S7 CTA -->
+<div id="s7" class="clip" data-start="35.05" data-duration="4.95">
+ <div class="sc p3">
+  <div class="c mono" style="top:420px;font-size:26px;color:var(--muted)" id="c1">DIBANGUN DI ATAS</div>
+  <div class="c" style="top:480px" id="c2"><span style="display:inline-flex;align-items:center;gap:22px;font-size:58px;font-weight:800;letter-spacing:-1px"><img id="clogo" src="data:image/png;base64,{{CLAUDE}}" style="width:92px;height:92px" alt="">Claude Skills</span></div>
+  <div class="c serif acc" style="top:620px;font-size:210px;line-height:1.1;perspective:900px" id="c3"></div>
+  <div class="c big" style="top:880px;font-size:88px;letter-spacing:-2px" id="c4"><span class="rv"><span>@researchq.id</span></span></div>
+  <div class="c" style="top:1050px" id="c5"><span class="pillb" id="fbtn">+ Follow</span></div>
+  <div class="c" style="top:1050px;opacity:0" id="c5b"><span class="pillb dk"><svg class="ic" style="stroke:#fff"><use href="#i-check"/></svg>Following</span></div>
+  <div class="c" style="top:1260px" id="c6"><span class="cbub"><span class="av"><svg class="ic"><use href="#i-chat"/></svg></span><span>Komen jurusanmu,<br><span class="mut" style="font-weight:500">aku cobain judulnya.</span></span></span></div>
+  <svg class="cursor" id="cur2" viewBox="0 0 32 32"><path d="M6 3l20 12-9 2-4 9z" fill="#1B1A18" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>
+  <div class="ring" id="ring2" style="width:120px;height:120px"></div>
+ </div>
+</div>
+
+</div><!-- /cam -->
+
+<svg id="grain" width="1080" height="1920"><filter id="gn"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="1080" height="1920" filter="url(#gn)"/></svg>
+
+<!-- HUD -->
+<div id="hud" class="clip" data-start="0" data-duration="40">
+ <div class="corner" style="top:190px;left:48px;border-width:3px 0 0 3px"></div>
+ <div class="corner" style="top:190px;right:48px;border-width:3px 3px 0 0"></div>
+ <div class="corner" style="bottom:48px;left:48px;border-width:0 0 3px 3px"></div>
+ <div class="corner" style="bottom:48px;right:48px;border-width:0 3px 3px 0"></div>
+ <div class="hud" style="top:204px;left:96px">EP.01 · JUDUL GENERATOR</div>
+ <div class="hud" style="top:204px;right:96px" id="hudr">GENESIS</div>
+ <div style="position:absolute;left:96px;right:96px;top:246px;height:3px;background:var(--line)"><div id="prog" style="height:3px;background:var(--acc);transform-origin:0 50%;transform:scaleX(0)"></div></div>
+ <div class="hud" style="bottom:58px;left:96px;font-family:PJS;font-weight:800;font-size:30px;letter-spacing:0;color:var(--ink)">ResearchQ<span class="acc">.</span></div>
+ <div class="hud" style="bottom:62px;right:96px">@RESEARCHQ.ID</div>
+</div>
+
+<audio id="sfx" src="sfx.wav" data-start="0" data-duration="40" data-volume="1"></audio>
+</div>
+
+<script>
+const tl = gsap.timeline({ paused: true });
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+window.__cues = {};
+let seed = 11;
+const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+const R = (sel, t, d = 0.55, ease = "power3.out") =>
+  tl.fromTo(sel + " .rv>span", { yPercent: 112 }, { yPercent: 0, duration: d, ease }, t);
+const draw = (els, t, d = 0.6, stg = 0.12) => {
+  [...els].forEach((el, i) => {
+    const L = el.getTotalLength ? el.getTotalLength() : 200;
+    gsap.set(el, { strokeDasharray: L, strokeDashoffset: L });
+    tl.to(el, { strokeDashoffset: 0, duration: d, ease: "power2.inOut" }, t + i * stg);
+  });
+};
+// expand <use> into real paths so they can be drawn
+document.querySelectorAll("svg.ic use").forEach(u => {
+  const sym = document.querySelector(u.getAttribute("href"));
+  const svg = u.parentNode; svg.setAttribute("viewBox", sym.getAttribute("viewBox"));
+  [...sym.children].forEach(ch => svg.appendChild(ch.cloneNode(true))); u.remove();
+});
+const shapes = s => document.querySelectorAll(s + " path, " + s + " circle, " + s + " rect");
+const counter = (id, to, dec, t, d) => {
+  const el = document.getElementById(id), o = { v: 0 };
+  tl.to(o, { v: to, duration: d, ease: "power2.out", onUpdate: () => { el.textContent = o.v.toFixed(dec).replace(".", ","); } }, t);
+};
+
+tl.fromTo("#prog", { scaleX: 0 }, { scaleX: 1, duration: 40, ease: "none" }, 0);
+for (let t = 0; t < 40; t += 1.4) tl.to("#cam", { x: (rnd() - 0.5) * 6, y: (rnd() - 0.5) * 6, rotation: (rnd() - 0.5) * 0.22, duration: 1.4, ease: "sine.inOut" }, t);
+
+/* ---------- S1 ---------- */
+tl.fromTo("#h1i", { rotationX: -95, opacity: 0 }, { rotationX: 0, opacity: 1, duration: 0.7, ease: "back.out(1.3)" }, 0.12);
+tl.fromTo("#h2i", { rotationX: -95, opacity: 0 }, { rotationX: 0, opacity: 1, duration: 0.65, ease: "back.out(1.3)" }, 0.72);
+tl.fromTo("#h3 .rv>span", { yPercent: 110, rotation: -4 }, { yPercent: 0, rotation: -1.5, duration: 0.7, ease: "back.out(1.6)" }, 1.12);
+tl.to(["#h1", "#h2", "#h3"], { opacity: 0.3, y: -30, duration: 0.5, ease: "power2.out" }, 2.0);
+R("#h4", 2.2, 0.5);
+["#k1", "#k2", "#k3"].forEach((k, i) => {
+  const t0 = 2.7 + i * 0.13 + rnd() * 0.04;
+  tl.fromTo(k, { y: -420, rotationX: 60, rotationZ: (rnd() - 0.5) * 16, opacity: 0 }, { y: 0, rotationX: 0, rotationZ: 0, opacity: 1, duration: 0.55, ease: "back.out(1.5)" }, t0);
+});
+[["#k1", 3.2], ["#k2", 3.45], ["#k3", 3.78]].forEach(([k, t0]) => {
+  tl.to(k, { y: 16, boxShadow: "0 4px 0 #DDD5C8,0 6px 0 #CFC6B8,0 16px 24px -14px rgba(60,40,20,.35)", color: "#EE6A1F", duration: 0.07, ease: "power2.in" }, t0);
+  tl.to(k, { y: 0, boxShadow: "0 20px 0 #DDD5C8,0 22px 0 #CFC6B8,0 50px 50px -24px rgba(60,40,20,.38)", duration: 0.3, ease: "back.out(2.5)" }, t0 + 0.08);
+});
+tl.to("#s1in", { z: -700, rotationX: 22, opacity: 0, duration: 0.5, ease: "power3.in" }, 4.45);
+
+/* ---------- S2 ---------- */
+tl.fromTo("#s2lab", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, 4.8);
+tl.fromTo("#w3", { rotationX: 34, rotationY: -24, z: -500, y: 260, opacity: 0 }, { rotationX: 12, rotationY: -9, z: 0, y: 0, opacity: 1, duration: 0.85, ease: "expo.out" }, 4.5);
+tl.to("#w3", { rotationX: 0, rotationY: 0, duration: 2.6, ease: "sine.inOut" }, 5.35);
+["#bub", "#lb1", "#lb2", "#lb3", "#dots", "#s2end", "#t1", "#t2", "#t3", "#cur1"].forEach(s => tl.set(s, { opacity: 0 }, 4.45));
+for (let t = 4.7; t < 5.0; t += 0.5) { tl.set("#caret0", { opacity: 0 }, t); tl.set("#caret0", { opacity: 1 }, t + 0.25); }
+const typed = document.getElementById("typed"), caret0 = document.getElementById("caret0");
+const CAR = "3px 0 0 0 #EE6A1F";
+let t = 5.05, stack = []; window.__keys = [];
+function key(ch, cls) {
+  const s = document.createElement("span"); s.className = "ch" + (cls ? " " + cls : ""); s.textContent = ch; typed.appendChild(s);
+  const prev = stack.length ? stack[stack.length - 1] : caret0;
+  tl.set(prev, stack.length ? { boxShadow: "none" } : { opacity: 0 }, t);
+  tl.set(s, { opacity: 1, boxShadow: CAR }, t); stack.push(s); window.__keys.push(+t.toFixed(3));
+}
+function type(str, base, cls) { for (const ch of str) { key(ch, cls); t += base * (0.6 + rnd() * 0.9) + (".:".includes(ch) ? 0.14 : 0) + (ch === " " ? 0.02 : 0); } }
+function back(n) { for (let i = 0; i < n; i++) { const s = stack.pop(); tl.set(s, { display: "none", boxShadow: "none" }, t); tl.set(stack[stack.length - 1], { boxShadow: CAR }, t); window.__keys.push(+t.toFixed(3)); t += 0.06; } }
+const tokIn = (s, tt) => { tl.fromTo(s, { opacity: 0, scale: 0.3, z: -200, rotationY: -40 }, { opacity: 1, scale: 1, z: 60, rotationY: 0, duration: 0.55, ease: "back.out(2)" }, tt); window.__cues[s] = +tt.toFixed(3); };
+type("/judul-generator", 0.029, "cmd");
+t += 0.1; type(" manajemen marketing", 0.03); tokIn("#t1", t);
+type(". tema: ecomerce", 0.03);
+t += 0.24; back(4); t += 0.06; type("merce", 0.038); tokIn("#t2", t);
+type(". lokasi: jakarta", 0.031); tokIn("#t3", t); type(".", 0.031);
+t += 0.22;
+const tE = t; window.__cues.enter = +tE.toFixed(3);
+// tokens float
+["#t1", "#t2", "#t3"].forEach((s, i) => tl.to(s, { y: -14 + i * 6, rotationZ: (i - 1) * 4, duration: 1.6, ease: "sine.inOut" }, window.__cues[s] + 0.55));
+// cursor to send
+tl.set("#cur1", { opacity: 1 }, tE - 0.75);
+tl.fromTo("#cur1", { x: 1000, y: 1620 }, { x: 905, y: 1345, duration: 0.65, ease: "power3.inOut" }, tE - 0.75);
+tl.to("#cur1", { scale: 0.85, duration: 0.07 }, tE); tl.to("#cur1", { scale: 1, duration: 0.2 }, tE + 0.07);
+tl.to("#cur1", { opacity: 0, x: 960, y: 1450, duration: 0.4, ease: "power2.in" }, tE + 0.45);
+tl.to("#send", { scale: 0.86, duration: 0.08, ease: "power2.in" }, tE);
+tl.to("#send", { scale: 1, duration: 0.3, ease: "back.out(3)" }, tE + 0.08);
+tl.fromTo("#ring", { opacity: 0.9, scale: 1 }, { opacity: 0, scale: 2.4, duration: 0.55, ease: "power2.out", immediateRender: false }, tE + 0.02);
+tl.to("#typed", { opacity: 0, y: -16, duration: 0.14, ease: "power1.in" }, tE + 0.04);
+tl.to(["#ph1", "#ph2"], { opacity: 0, duration: 0.2 }, tE);
+tl.fromTo("#bub", { opacity: 0, y: 380, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "power3.out" }, tE + 0.06);
+[["#hl1", "#t1", 0.6], ["#hl2", "#t2", 0.82], ["#hl3", "#t3", 1.0]].forEach(([h, tk, d], i) => {
+  tl.to(h, { backgroundSize: "100% 100%", duration: 0.3, ease: "power2.out" }, tE + d);
+  tl.to(tk, { scale: 1.18, duration: 0.12, ease: "power2.out" }, tE + d); tl.to(tk, { scale: 1, duration: 0.3, ease: "back.out(3)" }, tE + d + 0.12);
+  tl.fromTo("#lb" + (i + 1), { opacity: 0, y: 14, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "back.out(2.2)" }, tE + d + 0.08);
+});
+window.__cues.hl = [0.6, 0.82, 1.0].map(d => +(tE + d).toFixed(3));
+tl.set("#s2end", { opacity: 1 }, tE + 0.95); R("#s2end", tE + 0.95, 0.5);
+tl.set("#dots", { opacity: 1 }, tE + 1.3);
+document.querySelectorAll("#dots b").forEach((b, i) => {
+  for (let k = 0; k < 2; k++) tl.fromTo(b, { y: 0, backgroundColor: "#CBC5BA" }, { y: -10, backgroundColor: "#EE6A1F", duration: 0.16, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, tE + 1.3 + i * 0.12 + k * 0.42);
+});
+
+/* ---------- S3 ---------- */
+tl.fromTo("#s3in", { scale: 1.05 }, { scale: 1, duration: 0.7, ease: "power2.out" }, 11.0);
+tl.fromTo("#s3lab", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 11.05);
+draw(shapes("#s3lab svg"), 11.05, 0.5, 0.1);
+R("#s3a", 11.1, 0.5); R("#s3b", 11.55, 0.6);
+const ST = [["#r1", 12.1, "n1", 71, 0], ["#r2", 12.55, "n2", 2.6, 1], ["#r3", 12.95, "n3", 80.66, 2]];
+ST.forEach(([s, tt, n, v, dc]) => {
+  tl.fromTo(s, { rotationY: -78, x: 160, z: -260, opacity: 0 }, { rotationY: 0, x: 0, z: 0, opacity: 1, duration: 0.8, ease: "expo.out" }, tt);
+  draw(shapes(s + " .ib svg"), tt + 0.15, 0.55, 0.08);
+  counter(n, v, dc, tt + 0.2, 0.9);
+});
+tl.fromTo("#src", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 13.6);
+tl.fromTo("#gap", { rotationX: -88, opacity: 0 }, { rotationX: 0, opacity: 1, duration: 0.7, ease: "back.out(1.4)" }, 14.3);
+draw(shapes("#galert"), 14.45, 0.5, 0.12);
+tl.to("#mk", { backgroundSize: "100% 46%", duration: 0.7, ease: "power2.inOut" }, 14.85);
+tl.to(["#r1", "#r2", "#r3"], { opacity: 0.45, z: -60, duration: 0.5 }, 14.85);
+
+/* ---------- S4 ---------- */
+tl.fromTo("#s4lab", { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.35 }, 16.85);
+tl.fromTo("#flip", { rotationX: 40, z: -400, opacity: 0 }, { rotationX: 0, z: 0, opacity: 1, duration: 0.7, ease: "expo.out" }, 16.95);
+tl.fromTo("#fsh", { opacity: 0, scaleX: 0.5 }, { opacity: 1, scaleX: 1, duration: 0.7 }, 16.95);
+draw(shapes("#ffront svg"), 17.05, 0.55, 0.1);
+tl.fromTo("#strike", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "power2.inOut" }, 17.85);
+tl.to("#kons", { color: "#B5AFA5", duration: 0.3 }, 17.95);
+tl.fromTo("#s4tu", { opacity: 0 }, { opacity: 1, duration: 0.25 }, 18.0);
+tl.to("#flip", { rotationY: 180, duration: 0.85, ease: "power3.inOut" }, 18.5);
+tl.to("#flip", { z: 160, duration: 0.42, ease: "power2.out" }, 18.5);
+tl.to("#flip", { z: 0, duration: 0.45, ease: "power2.in" }, 18.92);
+tl.to("#fsh", { scaleX: 0.7, opacity: 0.5, duration: 0.42 }, 18.5); tl.to("#fsh", { scaleX: 1, opacity: 1, duration: 0.45 }, 18.92);
+window.__cues.flip = 18.5;
+draw(shapes("#bk0"), 19.2, 0.6, 0.1);
+[["#bk1", 19.3], ["#bk2", 19.5], ["#bk3", 19.75], ["#bk4", 20.1]].forEach(([s, tt]) => tl.fromTo(s, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, tt));
+tl.fromTo("#k2c", { z: -700, rotationX: 35, y: 120, opacity: 0 }, { z: 0, rotationX: 0, y: 0, opacity: 1, duration: 0.8, ease: "expo.out" }, 20.5);
+draw(shapes("#k2c svg"), 20.75, 0.55, 0.06);
+tl.to("#s4in", { x: -600, rotationY: -38, opacity: 0, duration: 0.5, ease: "power3.in", transformOrigin: "0% 50%" }, 22.95);
+
+/* ---------- S5 ---------- */
+const J = [
+  ["Live shopping + review → keputusan beli", "S1 · 2–3 BLN", "g"],
+  ["Gratis ongkir → beli ulang Shopee", "S1 · 2–3 BLN", "g"],
+  ["Kepuasan same-day delivery", "S1 · ±2 BLN", "g"],
+  ["Kredibilitas affiliate → trust → niat beli", "S1/S2 · 3–5 BLN", "y"],
+  ["FoMO + paylater → impulsive buying", "S1/S2 · 3–5 BLN", "y"],
+  ["Live selling pedagang Tanah Abang", "S1 · 3–4 BLN · KUALITATIF", "y"],
+  ["Pengalaman Gen Z pakai paylater", "S1/S2 · 3–5 BLN · KUALITATIF", "y"],
+  ["Parasocial: TikTok vs Shopee Live", "S2 · 5–7 BLN", "r"],
+  ["Persepsi POJK BNPL → niat paylater", "S2 · 6–8 BLN · MIXED", "r"],
+  ["Live vs video pendek (eksperimen)", "S1/S2 · 4–6 BLN", "r"]];
+const PL = { g: ["Hijau", "#2E9E5B", "#E3F3E9"], y: ["Kuning", "#B07D00", "#FBF0D2"], r: ["Merah", "#C93C24", "#FAE1DB"] };
+const rows = document.getElementById("rows"), GL = ["STANDAR", "MODERAT", "BOLD"];
+const clockSym = document.getElementById("i-clock").innerHTML;
+let y = 540, rowEls = [];
+J.forEach((j, i) => {
+  const g = i < 3 ? 0 : i < 7 ? 1 : 2;
+  if (i === 0 || i === 3 || i === 7) { const h = document.createElement("div"); h.className = "grp"; h.style.top = y + "px"; h.textContent = GL[g]; rows.appendChild(h); rowEls.push(h); y += 40; }
+  const r = document.createElement("div"); r.className = "jr"; r.style.top = y + "px"; r.id = "jr" + i;
+  const p = PL[j[2]];
+  r.innerHTML = `<div class="no">${String(i + 1).padStart(2, "0")}</div><div class="tx"><div class="tt">${j[0]}</div><div class="mt"><svg class="ic" viewBox="0 0 48 48">${clockSym}</svg>${j[1]}</div></div><div class="pill" style="background:${p[2]};color:${p[1]}"><i style="background:${p[1]}"></i>${p[0]}</div>`;
+  rows.appendChild(r); rowEls.push(r); y += 80;
+  if (i === 2 || i === 6) y += 14;
+});
+tl.fromTo("#s5in", { x: 700, rotationY: 30, opacity: 0 }, { x: 0, rotationY: 0, opacity: 1, duration: 0.6, ease: "power3.out", transformOrigin: "100% 50%" }, 22.95);
+R("#s5a", 23.35, 0.5); R("#s5b", 23.7, 0.55);
+const co = { v: 0 }, cEl = document.getElementById("cnt");
+tl.to(co, { v: 10, duration: 0.7, ease: "power1.out", onUpdate: () => { cEl.textContent = Math.round(co.v); } }, 23.4);
+tl.fromTo("#rows", { rotationX: 58, y: 220, z: -250 }, { rotationX: 0, y: 0, z: 0, duration: 1.1, ease: "expo.out" }, 23.95);
+let rt = 24.0; window.__cues.rows = [];
+rowEls.forEach(el => { tl.fromTo(el, { opacity: 0, rotationX: -80 }, { opacity: 1, rotationX: 0, duration: 0.45, ease: "back.out(1.5)" }, rt); window.__cues.rows.push(+rt.toFixed(3)); rt += 0.075 + rnd() * 0.05; });
+const r4 = document.getElementById("jr3");
+tl.to(r4, { z: 110, scale: 1.04, backgroundColor: "#FBFAF7", boxShadow: "0 0 0 18px #FBFAF7, 0 40px 70px -26px rgba(60,40,20,.55)", duration: 0.6, ease: "power3.out" }, 26.25);
+tl.to(rowEls.filter(e => e !== r4), { opacity: 0.13, z: -80, duration: 0.5 }, 26.3);
+tl.to(["#s5a", "#s5b"], { opacity: 0, duration: 0.3 }, 26.3);
+tl.fromTo("#stamp", { opacity: 0, scale: 1.7, rotation: -16, z: 200 }, { opacity: 1, scale: 1, rotation: -6, z: 0, duration: 0.32, ease: "back.out(2.2)" }, 26.85);
+draw(shapes("#stamp svg"), 26.95, 0.4);
+tl.fromTo("#why", { rotationX: -80, opacity: 0 }, { rotationX: 0, opacity: 1, duration: 0.65, ease: "back.out(1.3)" }, 27.45);
+tl.fromTo("#leg span", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.35, stagger: 0.14, ease: "power2.out" }, 28.6);
+draw(shapes("#leg"), 28.65, 0.45, 0.06);
+
+/* ---------- S6 ---------- */
+tl.fromTo("#s6lab", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 30.85);
+tl.fromTo("#gcard", { rotationY: -42, rotationX: 14, z: -380, opacity: 0 }, { rotationY: 9, rotationX: -3, z: 0, opacity: 1, duration: 0.9, ease: "expo.out" }, 30.85);
+tl.to("#gcard", { rotationY: 0, rotationX: 0, duration: 1.4, ease: "sine.inOut" }, 31.75);
+tl.fromTo("#gsh", { opacity: 0 }, { opacity: 1, duration: 0.6 }, 31.0);
+tl.fromTo("#gcirc", { z: 0, scale: 0 }, { z: 70, scale: 1, duration: 0.55, ease: "back.out(1.8)" }, 31.0);
+tl.fromTo("#gnm", { z: 0, opacity: 0, y: 20 }, { z: 45, opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 31.35);
+tl.fromTo("#gtg", { z: 0, opacity: 0, y: 20 }, { z: 25, opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 31.6);
+["#gi1", "#gi2"].forEach((s, i) => { const el = document.querySelector(s), L = el.getTotalLength(); gsap.set(el, { strokeDasharray: L, strokeDashoffset: L }); tl.to(el, { strokeDashoffset: 0, duration: 0.6, ease: "power2.inOut" }, 31.25 + i * 0.35); });
+const ANG = [0, 40, 180, -40];
+document.querySelectorAll("#ringc .rc").forEach((c, i) => { c.style.transform = `rotateY(${ANG[i]}deg) translateZ(520px)`; if (i) c.style.opacity = 0.8; });
+tl.fromTo("#ringc", { z: -520, rotationX: -3, rotationY: -300, opacity: 0 }, { z: -520, rotationX: -3, rotationY: 0, opacity: 1, duration: 1.5, ease: "expo.out" }, 31.9);
+window.__cues.ring = 31.9;
+tl.fromTo("#gfree", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 33.05);
+tl.fromTo("#gnext", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.4 }, 33.8);
+
+/* ---------- S7 ---------- */
+const c3 = document.getElementById("c3");
+"Follow".split("").forEach(ch => { const s = document.createElement("span"); s.className = "lt"; s.textContent = ch; c3.appendChild(s); });
+tl.fromTo("#c1", { opacity: 0 }, { opacity: 1, duration: 0.35 }, 35.12);
+tl.fromTo("#c2", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 35.3);
+tl.fromTo("#clogo", { rotationY: 180, rotation: -90, scale: 0.4 }, { rotationY: 0, rotation: 0, scale: 1, duration: 0.8, ease: "back.out(1.6)" }, 35.3);
+tl.fromTo("#c3 .lt", { rotationX: -100, opacity: 0, y: 30 }, { rotationX: 0, opacity: 1, y: 0, duration: 0.55, ease: "back.out(1.7)", stagger: 0.06 }, 35.8);
+R("#c4", 36.25, 0.5);
+tl.fromTo("#c5", { opacity: 0, y: 40, rotationX: 50 }, { opacity: 1, y: 0, rotationX: 0, duration: 0.55, ease: "back.out(1.8)" }, 36.7);
+tl.fromTo("#c6", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 37.3);
+tl.set("#cur2", { opacity: 0 }, 35.05);
+tl.set("#cur2", { opacity: 1 }, 37.75);
+tl.fromTo("#cur2", { x: 1020, y: 1500 }, { x: 640, y: 1100, duration: 0.6, ease: "power3.inOut", immediateRender: false }, 37.75);
+tl.to("#cur2", { scale: 0.85, duration: 0.07 }, 38.4); tl.to("#cur2", { scale: 1, duration: 0.2 }, 38.47);
+tl.to("#fbtn", { y: 12, boxShadow: "0 2px 0 #B9501A,0 10px 20px -12px rgba(238,106,31,.5)", duration: 0.08, ease: "power2.in" }, 38.4);
+tl.set("#c5", { opacity: 0 }, 38.55);
+tl.set("#c5b", { opacity: 1 }, 38.55);
+tl.fromTo("#c5b", { scale: 0.92 }, { scale: 1, duration: 0.35, ease: "back.out(3)", immediateRender: false }, 38.55);
+draw(shapes("#c5b svg"), 38.6, 0.35);
+tl.set("#ring2", { left: 480, top: 1050 }, 0);
+tl.fromTo("#ring2", { opacity: 0.9, scale: 0.6 }, { opacity: 0, scale: 2.2, duration: 0.6, ease: "power2.out", immediateRender: false }, 38.42);
+tl.to("#cur2", { x: 760, y: 1300, opacity: 0, duration: 0.5, ease: "power2.in" }, 39.0);
+
+tl.seek(0);
+</script>
+</body>
+</html>
