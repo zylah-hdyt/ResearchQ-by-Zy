@@ -1,0 +1,19 @@
+{
+  "voice": "id-ID-ArdiNeural",
+  "note": "EP06 edukasi (style chat/screen-UI): skill AI Detection Reducer. start/end = jendela bicara (detik). Fakta: Liang dkk., Patterns 2023.",
+  "lines": [
+    {"id": "a", "start": 0.15,  "end": 2.90,  "text": "Nulis sendiri, tapi dibilang pakai AI?",                                   "ssml": "Nulis sendiri, tapi dibilang pakai <sub alias='e ai'>AI</sub>?"},
+    {"id": "b", "start": 3.10,  "end": 6.60,  "text": "Detektor AI sering salah. Penulis non-native bahkan salah dituduh sampai 61%.", "ssml": "Detektor <sub alias='e ai'>AI</sub> sering salah. Penulis non-native bahkan salah dituduh sampai enam puluh satu persen."},
+    {"id": "c", "start": 6.80,  "end": 9.80,  "text": "Seringnya bukan kamu, tapi pola kalimatnya yang kaku.",                    "ssml": "Seringnya bukan kamu, <break time='100ms'/> tapi pola kalimatnya yang kaku."},
+    {"id": "d", "start": 10.00, "end": 12.60, "text": "Coba skill AI Detection Reducer di Claude.",                               "ssml": "Coba skill <sub alias='e ai ditekshen ridyuser'>AI Detection Reducer</sub> di <sub alias='klod'>Claude</sub>."},
+    {"id": "e", "start": 12.80, "end": 16.60, "text": "Paste paragrafmu, pakai mode detect. Claude tandai pola yang terasa kayak AI,", "ssml": "Paste paragrafmu, pakai mode <sub alias='ditek'>detect</sub>. <sub alias='klod'>Claude</sub> tandai pola yang terasa kayak <sub alias='e ai'>AI</sub>,"},
+    {"id": "f", "start": 16.80, "end": 20.60, "text": "misalnya \"di era digital\", \"sangat penting\", atau \"selain itu\" yang diulang terus.", "ssml": "misalnya, di era digital, <break time='80ms'/> sangat penting, <break time='80ms'/> atau selain itu, yang diulang terus."},
+    {"id": "g", "start": 20.80, "end": 24.40, "text": "Lalu mode rewrite: kalimatnya ditulis ulang biar lebih natural.",          "ssml": "Lalu mode <sub alias='riret'>rewrite</sub>: kalimatnya ditulis ulang biar lebih natural."},
+    {"id": "h", "start": 24.60, "end": 28.40, "text": "Angka, istilah, dan sitasi nggak diubah. Klaimnya juga nggak dilebih-lebihkan.", "ssml": "Angka, istilah, dan sitasi nggak diubah. Klaimnya juga nggak dilebih-lebihkan."},
+    {"id": "i", "start": 28.60, "end": 32.20, "text": "Intensitasnya bisa diatur, dari minimal sampai heavy.",                    "ssml": "Intensitasnya bisa diatur, dari minimal sampai <sub alias='hevi'>heavy</sub>."},
+    {"id": "j", "start": 32.40, "end": 36.40, "text": "Di akhir ada laporannya: pola AI turun, makna dan sitasi tetap aman.",      "ssml": "Di akhir ada laporannya: pola <sub alias='e ai'>AI</sub> turun, makna dan sitasi tetap aman."},
+    {"id": "k", "start": 36.60, "end": 40.60, "text": "Tips: kirim contoh tulisanmu sendiri, biar hasilnya tetap terdengar kayak kamu.", "ssml": "Tips: kirim contoh tulisanmu sendiri, biar hasilnya tetap terdengar kayak kamu."},
+    {"id": "l", "start": 40.80, "end": 45.00, "text": "Tapi ingat, nggak ada yang bisa jamin lolos detektor. Ini buat merapikan, bukan menyamarkan.", "ssml": "Tapi ingat, nggak ada yang bisa jamin lolos detektor. <break time='120ms'/> Ini buat merapikan, bukan menyamarkan."},
+    {"id": "m", "start": 45.20, "end": 49.50, "text": "Simpan dulu, dan follow researchq.id buat skill riset lainnya.",            "ssml": "Simpan dulu, dan follow <sub alias='risérc kiu titik ai di'>researchq.id</sub> buat skill riset lainnya."}
+  ]
+}

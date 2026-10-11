@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="id" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>AI Detection Reducer EP06</title>
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:PJ;font-weight:500;src:url(data:font/woff2;base64,{{F_plus-jakarta-sans-latin-500-normal}}) format("woff2")}
+@font-face{font-family:PJ;font-weight:700;src:url(data:font/woff2;base64,{{F_plus-jakarta-sans-latin-700-normal}}) format("woff2")}
+@font-face{font-family:PJ;font-weight:800;src:url(data:font/woff2;base64,{{F_plus-jakarta-sans-latin-800-normal}}) format("woff2")}
+@font-face{font-family:JBM;font-weight:500;src:url(data:font/woff2;base64,{{F_jetbrains-mono-latin-500-normal}}) format("woff2")}
+:root{--bg:#EFEAE2;--ink:#1F1E1B;--mut:#8A857A;--line:#E3DDD1;--app:#FAF9F5;--clay:#D97757;--clayd:#B8552F;--red:#E5484D;--reds:#FDE8E8;--amb:#E8A13A;--ambs:#FFF1D6;--grn:#1F9D5B;--grns:#E2F5EA}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#EFEAE2}
+#root{position:relative;width:1080px;height:1920px;overflow:hidden;font-family:PJ,sans-serif;color:var(--ink);background:var(--bg)}
+#dots{position:absolute;inset:0;background-image:radial-gradient(rgba(31,30,27,.10) 2px,transparent 2.5px);background-size:36px 36px}
+.blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.6}
+#grain{position:absolute;inset:0;opacity:.05;mix-blend-mode:multiply;pointer-events:none}
+.clip{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.sc{position:absolute;inset:0}
+.c{position:absolute;left:72px;right:72px;text-align:center}
+.rv{display:block;overflow:hidden;padding:0 8px 16px;margin-bottom:-16px}
+.rv>span{display:inline-block}
+.h{font-weight:800;letter-spacing:-3px;line-height:1.02}
+.mono{font-family:JBM;font-weight:500;letter-spacing:2px}
+.mk{position:relative;display:inline-block;z-index:0}
+.mk:before{content:"";position:absolute;left:-10px;right:-10px;bottom:8px;height:36%;background:#F6C9B4;border-radius:10px;z-index:-1;transform-origin:0 50%;transform:scaleX(var(--s,0))}
+.emo{position:absolute;filter:drop-shadow(0 18px 18px rgba(80,50,20,.22))}
+.hud{position:absolute;font-family:JBM;font-size:22px;letter-spacing:2px;color:var(--mut)}
+/* hook doc */
+.doc{position:absolute;left:110px;top:330px;width:700px;height:520px;background:#fff;border-radius:26px;box-shadow:0 40px 80px -40px rgba(60,40,20,.45);padding:44px 48px}
+.doc .dt{font-size:30px;font-weight:800;margin-bottom:26px}
+.doc .ln{height:18px;border-radius:9px;background:#ECE7DE;margin-bottom:22px}
+.doc .sel{position:relative;font-size:27px;line-height:1.45;color:#4A463E;margin-bottom:22px}
+.doc .sel:before{content:"";position:absolute;left:-8px;right:-8px;top:-4px;bottom:-4px;background:#FFE7A8;border-radius:8px;z-index:-1}
+.doc .sel{z-index:0;isolation:isolate}
+.cmt{position:absolute;left:580px;top:280px;width:390px;background:#fff;border-radius:26px;border-left:8px solid var(--amb);box-shadow:0 30px 60px -30px rgba(60,40,20,.5);padding:20px 22px;display:flex;gap:16px;align-items:center}
+.cmt img{width:64px;height:64px;flex:none}
+.cmt .cn{font-size:21px;font-weight:700;color:var(--mut)}
+.cmt .cm{font-size:32px;font-weight:800}
+.stamp{position:absolute;left:520px;top:640px;padding:10px 30px;border:9px solid var(--red);border-radius:24px;color:var(--red);font-size:96px;font-weight:800;letter-spacing:-2px;transform:rotate(-12deg);background:rgba(255,255,255,.6)}
+.big{font-size:300px;font-weight:800;letter-spacing:-12px;line-height:1;color:var(--red)}
+.src{font-family:JBM;font-size:20px;color:var(--mut);letter-spacing:.5px}
+.chipf{position:absolute;font-size:34px;font-weight:700;padding:16px 26px;border-radius:999px;background:#fff;border:2.5px solid var(--line);color:#6E695F;box-shadow:0 20px 40px -26px rgba(60,40,20,.45);white-space:nowrap}
+.chipf s{text-decoration-color:var(--red);text-decoration-thickness:4px}
+/* app */
+#frame{position:absolute;left:60px;top:290px;width:960px;height:1110px;border-radius:56px;overflow:hidden;box-shadow:0 60px 110px -60px rgba(60,40,20,.55);background:var(--app)}
+#zoom{position:absolute;inset:0}
+#app{position:absolute;inset:0;border-radius:56px;background:var(--app);border:2px solid var(--line);overflow:hidden}
+.hdr{position:absolute;left:0;right:0;top:0;height:112px;border-bottom:2px solid #EEEAE0;z-index:3;background:var(--app)}
+.hdr .ham{position:absolute;left:40px;top:40px;width:40px}
+.hdr .ham i{display:block;height:4px;border-radius:2px;background:var(--ink);margin-bottom:9px}
+.hdr .nw{position:absolute;right:40px;top:34px;width:44px;height:44px;border-radius:14px;border:3.5px solid var(--ink)}
+.ttl{position:absolute;left:0;right:0;top:30px;text-align:center;font-size:32px;font-weight:700}
+.ttl img{width:40px;height:40px;vertical-align:-9px;margin-right:12px}
+.feed{position:absolute;left:0;right:0;top:112px;height:830px;overflow:hidden}
+.fi{position:absolute;left:0;right:0;top:0;padding:34px 40px}
+.ub{margin-left:auto;max-width:760px;width:max-content;background:#EFEBE3;border-radius:36px 36px 12px 36px;padding:24px 28px;font-size:31px;font-weight:500;line-height:1.35}
+.sk{display:inline-flex;align-items:center;gap:10px;padding:8px 18px;border-radius:999px;border:2.5px solid var(--clay);color:var(--clayd);font-size:25px;font-weight:700;background:#FFF5EF}
+.paste{background:#fff;border:2px solid var(--line);border-radius:22px;padding:18px 22px;font-size:25px;line-height:1.5;color:#4A463E;margin:14px 0 12px;max-width:700px;white-space:normal}
+.att{display:flex;align-items:center;gap:18px;background:#fff;border:2px solid var(--line);border-radius:24px;padding:16px 20px;margin-bottom:14px}
+.att .fic{width:62px;height:72px;border-radius:12px;color:#fff;font-family:JBM;font-size:18px;display:flex;align-items:center;justify-content:center;flex:none;background:#2B5797;font-size:34px;font-family:PJ;font-weight:800}
+.att .fn{font-size:28px;font-weight:700}
+.att .fs{font-family:JBM;font-size:20px;color:var(--mut)}
+.as{position:relative;margin-top:34px;padding-left:72px}
+.as>.lg{position:absolute;left:0;top:4px;width:50px;height:50px}
+.think{font-size:28px;font-weight:600;color:var(--mut);height:50px;line-height:50px}
+.card{background:#fff;border:2px solid var(--line);border-radius:30px;padding:24px 28px}
+.lbl{font-family:JBM;font-size:20px;letter-spacing:2px;color:var(--mut)}
+.hd{display:flex;align-items:center;gap:14px;font-size:30px;font-weight:800}
+.hd img{width:44px;height:44px}
+.hd .n{margin-left:auto;font-family:JBM;font-size:21px;font-weight:500;padding:8px 14px;border-radius:999px;background:var(--reds);color:#B42318;letter-spacing:1px}
+.ptx{font-size:28px;line-height:1.6;color:#2E2B26;margin-top:16px}
+.f{position:relative;z-index:0}
+.f:before{content:"";position:absolute;left:-4px;right:-4px;top:4px;bottom:2px;background:#FFE1A6;border-bottom:3.5px solid var(--amb);border-radius:6px;z-index:-1;transform-origin:0 50%;transform:scaleX(var(--s,0))}
+.fl{display:flex;align-items:center;gap:14px;font-size:24px;font-weight:600;padding:12px 0;border-top:2px dashed #EEEAE0}
+.fl q{quotes:"“" "”";font-weight:800;color:#8C5A00;background:var(--ambs);padding:4px 12px;border-radius:10px;white-space:nowrap}
+.fl span{color:var(--mut);margin-left:auto;font-family:JBM;font-size:19px;white-space:nowrap}
+.dif .row{font-size:27px;line-height:1.55;margin-top:8px}
+.dif del{color:#C0392B;text-decoration-thickness:3px;background:#FDECEC;border-radius:6px;padding:0 4px}
+.dif .new{color:#145C37;font-weight:600;background:var(--grns);border-radius:18px;padding:14px 18px;margin-top:10px}
+.pc{display:inline-flex;align-items:center;gap:10px;font-size:25px;font-weight:700;padding:12px 18px;border-radius:18px;background:#F4F1EA;margin:10px 10px 0 0}
+.pc img{width:32px;height:32px}
+.seg{position:relative;height:96px;border-radius:26px;background:#F4F1EA;display:flex;align-items:center;padding:0 8px;margin-top:16px}
+.seg span{flex:1;text-align:center;font-size:25px;font-weight:700;color:var(--mut);position:relative;z-index:2}
+#knob{position:absolute;left:8px;top:9px;width:204px;height:78px;border-radius:20px;background:var(--ink);z-index:1}
+.rp{display:flex;align-items:center;font-size:27px;font-weight:700;padding:13px 0;border-top:2px dashed #EEEAE0}
+.rp:first-of-type{border-top:0}
+.bd{margin-left:auto;position:relative;width:150px;height:46px}
+.bd b{position:absolute;inset:0;border-radius:999px;font-family:JBM;font-size:20px;font-weight:500;letter-spacing:1px;display:flex;align-items:center;justify-content:center}
+.bx{display:inline-block;font-size:24px;font-weight:700;padding:10px 16px;border-radius:16px;background:#F4F1EA;margin:10px 10px 0 0}
+.okl{margin-top:16px;font-size:27px;font-weight:700;color:var(--grn)}
+/* input */
+.inp{position:absolute;left:30px;right:30px;bottom:28px;height:112px;border-radius:40px;background:#fff;border:2px solid var(--line);box-shadow:0 10px 30px -20px rgba(60,40,20,.3);z-index:3}
+.plus{position:absolute;left:20px;top:22px;width:64px;height:64px;border-radius:50%;border:2.5px solid var(--line);font-size:40px;line-height:56px;text-align:center;color:var(--mut)}
+.snd{position:absolute;right:20px;top:20px;width:68px;height:68px;border-radius:50%;background:var(--clay);color:#fff;font-size:38px;font-weight:800;line-height:66px;text-align:center}
+.itx{position:absolute;left:104px;right:104px;top:0;height:108px;display:flex;align-items:center;gap:14px;font-size:30px;font-weight:500;white-space:nowrap;overflow:hidden}
+.itx .sk{font-size:23px;padding:6px 14px}
+.prv{position:absolute;left:44px;bottom:150px;display:flex;align-items:center;gap:12px;background:#fff;border:2px solid var(--line);border-radius:20px;padding:12px 18px;font-size:24px;font-weight:700;box-shadow:0 10px 24px -16px rgba(60,40,20,.35);z-index:3}
+#tap{position:absolute;left:0;top:0;width:76px;height:76px;border-radius:50%;background:rgba(31,30,27,.28);border:4px solid rgba(255,255,255,.95);box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:20}
+#rip{position:absolute;left:0;top:0;width:76px;height:76px;border-radius:50%;border:4px solid rgba(31,30,27,.5);z-index:19}
+.stk{position:absolute;left:40px;top:258px;display:flex;align-items:center;gap:14px;padding:14px 26px;border-radius:22px;background:var(--ink);color:#fff;font-size:32px;font-weight:800;box-shadow:0 18px 30px -16px rgba(0,0,0,.45);z-index:5}
+.stk b{font-family:JBM;font-weight:500;font-size:22px;color:#F2A27F;letter-spacing:2px}
+/* honesty + cta */
+.hc{position:absolute;left:96px;right:96px;border-radius:34px;background:#fff;border:2px solid var(--line);box-shadow:0 30px 60px -40px rgba(60,40,20,.45);padding:30px 34px}
+.hr{display:flex;align-items:center;gap:20px;font-size:34px;font-weight:800;padding:16px 0}
+.hr img{width:56px;height:56px}
+.rc{position:absolute;left:96px;right:96px;height:132px;border-radius:34px;background:#fff;border:2px solid var(--line);display:flex;align-items:center;gap:22px;padding:0 30px;box-shadow:0 30px 60px -40px rgba(60,40,20,.45)}
+.rc .n{flex:none;width:76px;height:76px;border-radius:22px;background:var(--ink);color:#F2A27F;font-family:JBM;font-size:24px;display:flex;align-items:center;justify-content:center}
+.rc .t{font-size:34px;font-weight:800;letter-spacing:-.5px}
+.rc .s{font-size:24px;color:var(--mut);font-weight:500}
+.fol{display:inline-flex;align-items:center;gap:12px;font-weight:800;padding:24px 60px;border-radius:999px;background:var(--clay);color:#fff;font-size:44px;box-shadow:0 14px 0 #A9502C,0 40px 50px -22px rgba(217,119,87,.55)}
+/* captions */
+#cap{position:absolute;left:72px;width:936px;top:1438px;height:120px;text-align:center;font-size:40px;font-weight:800;letter-spacing:-.5px;line-height:1.3}
+#cap .ln{position:absolute;left:0;right:0;opacity:0}
+#cap .w{display:inline-block;margin:0 6px;color:rgba(31,30,27,.25)}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="50" data-width="1080" data-height="1920">
+<div id="dots"></div>
+<div class="blob" id="b1" style="left:-200px;top:180px;width:620px;height:620px;background:#F8CDB8"></div>
+<div class="blob" id="b2" style="left:660px;top:900px;width:560px;height:560px;background:#D6E0F2"></div>
+
+<!-- S1 hook + stat (0–6.7) -->
+<div id="s1" class="clip" data-start="0" data-duration="6.8">
+ <div class="sc" id="s1a">
+  <div class="doc" id="doc"><div class="dt">BAB 1 · Latar Belakang</div>
+   <div class="ln" style="width:92%"></div><div class="ln" style="width:100%"></div>
+   <div class="sel">Ulasan online ikut memengaruhi kepercayaan konsumen saat belanja di marketplace.</div>
+   <div class="ln" style="width:96%"></div><div class="ln" style="width:70%"></div><div class="ln" style="width:88%"></div></div>
+  <div class="stamp" id="stamp">AI?</div>
+  <div class="cmt" id="cmt"><img src="{{E_1f9d1-200d-1f3eb}}" alt=""><div><div class="cn">Komentar dosen</div><div class="cm">Ini pakai AI ya?</div></div></div>
+  <div class="c h" style="top:930px;font-size:100px" id="h1"><span class="rv"><span>Nulis sendiri,</span></span></div>
+  <div class="c h" style="top:1040px;font-size:140px" id="h2"><span class="rv"><span>dibilang <span class="mk" id="mk1" style="color:var(--red)">AI?</span></span></span></div>
+  <img class="emo" id="e1" src="{{E_1f633}}" style="left:850px;top:1180px;width:130px;height:130px" alt="">
+ </div>
+ <div class="sc" id="s1b">
+  <div class="c mono" style="top:400px;font-size:26px;color:var(--mut)" id="st0">DETEKTOR AI BISA SALAH</div>
+  <div class="c big" style="top:470px" id="st1"><span id="cnt">0</span>%</div>
+  <div class="c" style="top:800px;font-size:42px;font-weight:800;line-height:1.25" id="st2">esai penulis non-native<br>salah ditandai “buatan AI”</div>
+  <div class="c src" style="top:950px" id="st3">LIANG DKK., PATTERNS (2023) · RATA-RATA 7 DETEKTOR · ESAI TOEFL</div>
+ </div>
+</div>
+
+<!-- S2 bridge (6.7–10) -->
+<div id="s2" class="clip" data-start="6.6" data-duration="3.6">
+ <div class="sc" id="s2in">
+  <div class="c h" style="top:560px;font-size:84px;color:var(--mut)" id="b1t"><span class="rv"><span>Seringnya bukan kamu,</span></span></div>
+  <div class="c h" style="top:670px;font-size:112px" id="b2t"><span class="rv"><span>tapi <span class="mk" id="mk2">pola kalimatnya.</span></span></span></div>
+  <div class="chipf" id="q1" style="left:90px;top:1010px">Di era digital yang semakin…</div>
+  <div class="chipf" id="q2" style="left:600px;top:1110px">sangat penting</div>
+  <div class="chipf" id="q3" style="left:140px;top:1200px">Selain itu,</div>
+  <div class="chipf" id="q4" style="left:420px;top:1290px">Tidak dapat dipungkiri…</div>
+ </div>
+</div>
+
+<!-- APP -->
+<div id="appclip" class="clip" data-start="9.8" data-duration="31.2">
+ <div id="frame"><div id="zoom">
+  <div id="app">
+   <div class="hdr"><div class="ham"><i></i><i></i><i></i></div>
+    <div class="ttl"><img src="{{IMG_claude_logo}}" alt="">Rapikan BAB 1</div><div class="nw"></div></div>
+
+   <!-- A: detect -->
+   <div class="feed" id="fdA"><div class="fi" id="fA">
+    <div class="ub" id="uA"><span class="sk">✦ AI Detection Reducer</span>
+     <div class="paste">Di era digital yang semakin berkembang, media sosial memiliki peran yang sangat penting dalam keputusan pembelian. Selain itu, tidak dapat dipungkiri bahwa ulasan online memengaruhi kepercayaan konsumen (Sari, 2023).</div>
+     <div>Cek pola AI-nya dulu, mode detect</div></div>
+    <div class="as" id="aA"><img class="lg" src="{{IMG_claude_logo}}" id="lgA" alt="">
+     <div class="think" id="thA">Memindai pola…</div>
+     <div class="card" id="dA" style="margin-top:-50px">
+      <div class="hd"><img src="{{E_1f50d}}" alt="">MODE DETECT<span class="n">4 POLA</span></div>
+      <div class="ptx"><span class="f" id="fa1">Di era digital yang semakin berkembang</span>, media sosial <span class="f" id="fa2">memiliki peran yang sangat penting</span> dalam keputusan pembelian. <span class="f" id="fa3">Selain itu</span>, <span class="f" id="fa4">tidak dapat dipungkiri bahwa</span> ulasan online memengaruhi kepercayaan konsumen (Sari, 2023).</div>
+      <div style="margin-top:14px">
+       <div class="fl" id="la1"><q>Di era digital…</q><span>PEMBUKA KLISE</span></div>
+       <div class="fl" id="la2"><q>sangat penting</q><span>KLAIM DIGEMBUNGKAN</span></div>
+       <div class="fl" id="la3"><q>Selain itu</q><span>TRANSISI MEKANIS</span></div>
+       <div class="fl" id="la4"><q>tidak dapat dipungkiri</q><span>KATA PENGISI</span></div>
+      </div></div>
+    </div>
+   </div></div>
+
+   <!-- B: rewrite + protected -->
+   <div class="feed" id="fdB"><div class="fi" id="fB">
+    <div class="ub" id="uB">Oke, sekarang <b>rewrite</b> ya</div>
+    <div class="as" id="aB"><img class="lg" src="{{IMG_claude_logo}}" id="lgB" alt="">
+     <div class="card dif" id="dB">
+      <div class="hd"><img src="{{E_1f4dd}}" alt="">MODE REWRITE<span class="n" style="background:var(--grns);color:var(--grn)">LIGHT</span></div>
+      <div class="lbl" style="margin-top:16px">SEBELUM</div>
+      <div class="row"><del>Di era digital yang semakin berkembang,</del> media sosial <del>memiliki peran yang sangat penting dalam</del> keputusan pembelian. <del>Selain itu, tidak dapat dipungkiri bahwa</del> ulasan online…</div>
+      <div class="lbl" style="margin-top:16px">SESUDAH</div>
+      <div class="row new" id="nwB">Media sosial kini ikut membentuk keputusan pembelian. Ulasan online juga memengaruhi kepercayaan konsumen (Sari, 2023).</div>
+     </div>
+     <div class="card" id="pB" style="margin-top:22px">
+      <div class="hd"><img src="{{E_1f512}}" alt="">YANG NGGAK DIUBAH</div>
+      <span class="pc" id="pc1">Sitasi (Sari, 2023)</span><span class="pc" id="pc2">Angka &amp; statistik</span><span class="pc" id="pc3">Istilah variabel</span><span class="pc" id="pc4">“memengaruhi” ≠ “menyebabkan”</span>
+     </div>
+    </div>
+   </div></div>
+
+   <!-- C: intensity + report -->
+   <div class="feed" id="fdC"><div class="fi" id="fC">
+    <div class="as" id="aC" style="margin-top:0"><img class="lg" src="{{IMG_claude_logo}}" alt="">
+     <div class="card" id="iC">
+      <div class="lbl">INTENSITAS REWRITE</div>
+      <div class="seg"><div id="knob"></div><span id="g0">Minimal</span><span id="g1">Light</span><span id="g2">Moderate</span><span id="g3">Heavy</span></div>
+      <div class="src" style="margin-top:12px" id="iCn">DEFAULT: LIGHT · TEKS YANG SUDAH BAGUS NGGAK DIPAKSA DIUBAH</div>
+     </div>
+     <div class="card" id="rC" style="margin-top:22px">
+      <div class="lbl" style="margin-bottom:6px">LAPORAN AKHIR</div>
+      <div class="rp" id="rp0">Pola AI<div class="bd"><b id="hi" style="background:var(--reds);color:#B42318">HIGH</b><b id="lo" style="background:var(--grns);color:var(--grn);opacity:0">LOW</b></div></div>
+      <div class="rp" id="rp1">Makna tetap<div class="bd"><b style="background:var(--grns);color:var(--grn)">PASS</b></div></div>
+      <div class="rp" id="rp2">Tingkat klaim<div class="bd"><b style="background:var(--grns);color:var(--grn)">PASS</b></div></div>
+      <div class="rp" id="rp3">Sitasi<div class="bd"><b style="background:var(--grns);color:var(--grn)">PASS</b></div></div>
+      <div class="rp" id="rp4">Gaya penulis<div class="bd"><b style="background:var(--grns);color:var(--grn)">PASS</b></div></div>
+     </div>
+    </div>
+   </div></div>
+
+   <!-- D: author sample -->
+   <div class="feed" id="fdD"><div class="fi" id="fD">
+    <div class="ub" id="uD"><div class="att"><div class="fic">W</div><div><div class="fn">contoh_tulisanku.docx</div><div class="fs">TULISAN ASLIKU</div></div></div>
+     Samakan gayanya sama tulisanku ya</div>
+    <div class="as" id="aD"><img class="lg" src="{{IMG_claude_logo}}" id="lgD" alt="">
+     <div class="card" id="cD">
+      <div class="lbl">GAYA TULISANMU</div>
+      <span class="bx" id="x1">Kalimat sedang</span><span class="bx" id="x2">Formal tapi luwes</span><span class="bx" id="x3">Jarang pakai “selain itu”</span>
+      <div class="okl" id="okD">✓ Rewrite disesuaikan dengan gayamu</div>
+     </div>
+    </div>
+   </div></div>
+
+   <div class="prv" id="pvA">📋 Teks ditempel · 2 kalimat</div>
+   <div class="inp"><div class="plus">+</div>
+    <div class="itx" id="ph" style="color:#B5AFA3">Balas ke Claude…</div>
+    <div class="itx" id="iA" style="opacity:0"><span class="sk">✦ AI Detection Reducer</span><span id="tyA">mode detect</span></div>
+    <div class="snd">↑</div></div>
+   <div id="rip"></div><div id="tap"></div>
+  </div>
+ </div></div>
+ <div class="stk" id="k1"><b>SKILL</b>AI Detection Reducer</div>
+</div>
+
+<!-- S5 honesty (40.7–45.1) -->
+<div id="s5" class="clip" data-start="40.6" data-duration="4.6">
+ <div class="sc" id="s5in">
+  <img class="emo" id="e5" src="{{E_26a0-fe0f}}" style="left:470px;top:330px;width:140px;height:140px" alt="">
+  <div class="c h" style="top:500px;font-size:110px" id="w1"><span class="rv"><span><span class="mk" id="mk5">Ingat ya</span></span></span></div>
+  <div class="c" style="top:650px;font-size:40px;font-weight:800;line-height:1.25" id="w2">Nggak ada yang bisa jamin<br>lolos detektor AI.</div>
+  <div class="hc" id="w3" style="top:820px">
+   <div class="hr" id="w3a"><img src="{{E_2705}}" alt="">Merapikan tulisanmu sendiri</div>
+   <div class="hr" id="w3b" style="border-top:2px dashed #EEEAE0;color:#9A948A"><img src="{{E_274c}}" alt="">Menyamarkan tulisan AI</div>
+  </div>
+  <div class="c src" style="top:1130px;font-size:21px" id="w4">PAKAI AI? IKUTI ATURAN DISCLOSURE KAMPUSMU</div>
+ </div>
+</div>
+
+<!-- S6 CTA (45.1–50) -->
+<div id="s6" class="clip" data-start="45.1" data-duration="4.9">
+ <div class="sc">
+  <img class="emo" id="e6" src="{{E_1f516}}" style="left:470px;top:330px;width:140px;height:140px" alt="">
+  <div class="c h" style="top:500px;font-size:130px" id="c1"><span class="rv"><span><span class="mk" id="mk6">Simpan</span> dulu</span></span></div>
+  <div class="rc" id="r1" style="top:720px"><div class="n">01</div><div><div class="t">Detect</div><div class="s">Tandai pola yang terasa AI</div></div></div>
+  <div class="rc" id="r2" style="top:870px"><div class="n">02</div><div><div class="t">Rewrite + laporan</div><div class="s">Natural, makna &amp; sitasi aman</div></div></div>
+  <div class="c h" style="top:1050px;font-size:70px;color:var(--clayd)" id="c3"><span class="rv"><span>@researchq.id</span></span></div>
+  <div class="c" style="top:1180px" id="c4"><span class="fol">+ Follow</span></div>
+  <div class="c" style="top:1180px;opacity:0" id="c4b"><span class="fol" style="background:#1F1E1B;box-shadow:0 6px 0 #000">✓ Following</span></div>
+ </div>
+</div>
+
+<div id="cap" class="clip" data-start="0" data-duration="50"></div>
+<svg id="grain" width="1080" height="1920"><filter id="gn"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="5" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="1080" height="1920" filter="url(#gn)"/></svg>
+<div id="hud" class="clip" data-start="0" data-duration="50">
+ <div class="hud" style="top:192px;left:72px">EDUKASI · SKILL CLAUDE</div>
+ <div class="hud" style="top:192px;right:72px">TULISAN NATURAL</div>
+ <div style="position:absolute;left:72px;right:72px;top:234px;height:3px;background:rgba(31,30,27,.08)"><div id="prog" style="height:3px;background:var(--clay);transform-origin:0 50%;transform:scaleX(0)"></div></div>
+ <div class="hud" id="note" style="top:1592px;left:0;right:0;text-align:center;font-size:19px">*CONTOH ILUSTRASI · SKILL DARI LIBRARY RESEARCHQ</div>
+ <div class="hud" style="bottom:56px;left:72px;font-family:PJ;font-weight:800;font-size:30px;letter-spacing:0;color:var(--ink)">ResearchQ<span style="color:#EE6A1F">.</span></div>
+ <div class="hud" style="bottom:62px;right:72px">@RESEARCHQ.ID</div>
+</div>
+<audio id="sfx" src="sfx.wav" data-start="0" data-duration="50" data-volume="1"></audio>
+</div>
+
+<script>
+const tl = gsap.timeline({ paused: true });
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+const CUE = window.__cues = { key: [], tap: [], pop: [], pl: [], wh: [], hit: [], tick: [] };
+let seed = 97;
+const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+const R = (sel, t, d = 0.55, ease = "power3.out") => tl.fromTo(sel + " .rv>span", { yPercent: 112 }, { yPercent: 0, duration: d, ease }, t);
+const MK = (sel, t, d = 0.45) => tl.fromTo(sel, { "--s": 0 }, { "--s": 1, duration: d, ease: "power2.inOut" }, t);
+const EMO = (id, t, rot = 10) => { const r0 = rot * 0.5 * (rnd() > 0.5 ? 1 : -1), r1 = r0 + rnd() * 6 - 3;
+  tl.fromTo(id, { scale: 0, rotation: -rot * 2, y: 40 }, { scale: 1, rotation: r0, y: 0, duration: 0.6, ease: "back.out(2.2)" }, t);
+  tl.fromTo(id, { y: 0, rotation: r0 }, { y: -14, rotation: r1, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, t + 0.6); };
+const POP = (sel, t, from = { opacity: 0, y: 30, scale: 0.97 }) => tl.fromTo(sel, from, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.5)" }, t);
+const chars = el => { const s = el.textContent; el.textContent = ""; return [...s].map(ch => { const x = document.createElement("span"); x.textContent = ch; x.style.opacity = 0; el.appendChild(x); return x; }); };
+const words = el => { const s = el.textContent.split(" "); el.textContent = ""; return s.map((w, i) => { const x = document.createElement("span"); x.textContent = w + (i < s.length - 1 ? " " : ""); x.style.opacity = 0; el.appendChild(x); return x; }); };
+const TYPE = (el, t, cps = 24) => { chars(el).forEach((x, i) => tl.set(x, { opacity: 1 }, t + i / cps)); CUE.key.push(t, t + 0.25); };
+const STREAM = (el, t, wps = 9) => words(el).forEach((x, i) => tl.fromTo(x, { opacity: 0 }, { opacity: 1, duration: 0.12 }, t + i / wps));
+const TAP = (x, y, t, mv = 0.4) => { tl.to("#tap", { x: x - 38, y: y - 38, duration: mv, ease: "power3.inOut" }, t - mv);
+  tl.to("#tap", { scale: 0.78, duration: 0.08, yoyo: true, repeat: 1 }, t);
+  tl.fromTo("#rip", { x: x - 38, y: y - 38, scale: 0.6, opacity: 1 }, { scale: 2.2, opacity: 0, duration: 0.45, ease: "power2.out", immediateRender: false }, t); CUE.tap.push(t); };
+const clamp = (v, m) => Math.max(-m, Math.min(m, v));
+const ZM = (t, s, px, py, cy = 845, d = 0.6) => tl.to("#zoom", { scale: s, x: clamp(-s * (px - 480), (s - 1) * 480), y: clamp(cy - 845 - s * (py - 555), (s - 1) * 555), duration: d, ease: "power3.inOut" }, t);
+const Z0 = (t, d = 0.6) => tl.to("#zoom", { scale: 1, x: 0, y: 0, duration: d, ease: "power3.inOut" }, t);
+const SCROLL = (f, y, t, d = 0.55) => tl.to(f, { y, duration: d, ease: "power3.inOut" }, t);
+const THINK = (lg, th, t) => { tl.fromTo(lg, { rotation: 0 }, { rotation: 180, duration: 0.6, ease: "power2.inOut" }, t);
+  if (th) { tl.fromTo(th, { opacity: 0.35 }, { opacity: 1, duration: 0.2, yoyo: true, repeat: 1 }, t); tl.set(th, { opacity: 0 }, t + 0.45); } };
+const FEEDSWAP = (from, to, t) => { tl.to(from, { y: -420, opacity: 0, duration: 0.45, ease: "power3.in" }, t);
+  tl.fromTo(to, { y: 320, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, t + 0.3); CUE.wh.push(t); };
+
+tl.fromTo("#prog", { scaleX: 0 }, { scaleX: 1, duration: 50, ease: "none" }, 0);
+[["#b1", 140, 90], ["#b2", -150, -80]].forEach(([b, dx, dy]) => tl.fromTo(b, { x: 0, y: 0 }, { x: dx, y: dy, duration: 50, ease: "sine.inOut" }, 0));
+
+/* captions */
+const VO = {{VO_JSON}};
+const KW = ["sendiri,", "AI?", "salah.", "61%.", "bukan", "kamu,", "pola", "kaku.", "AI", "Detection", "Reducer", "detect.", "\"di", "digital\",", "\"sangat", "penting\",", "\"selain", "itu\"", "rewrite:", "natural.", "Angka,", "istilah,", "sitasi", "minimal", "heavy.", "laporannya:", "turun,", "aman.", "contoh", "tulisanmu", "jamin", "merapikan,", "menyamarkan.", "Simpan", "researchq.id"];
+const cap = document.getElementById("cap");
+const syl = w => Math.max(1, (w.toLowerCase().match(/[aiueo]+/g) || []).length);
+VO.lines.forEach((L, li) => { const nxt = VO.lines[li + 1];
+  const ln = document.createElement("div"); ln.className = "ln"; cap.appendChild(ln);
+  const ws = L.text.split(" "), tot = ws.reduce((s, w) => s + syl(w), 0), span = (L.end - L.start) * 0.94; let t = L.start;
+  tl.fromTo(ln, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.14, ease: "power2.out" }, L.start - 0.06);
+  tl.to(ln, { opacity: 0, duration: 0.08 }, nxt ? Math.min(L.end + 0.05, nxt.start - 0.16) : L.end + 0.05);
+  ws.forEach(w => { const s = document.createElement("span"); s.className = "w"; s.textContent = w; ln.appendChild(s);
+    tl.to(s, { color: KW.includes(w) ? "#C4552B" : "#1F1E1B", duration: 0.08 }, t); t += span * syl(w) / tot; });
+});
+
+/* ---------- S1 hook (0–3) ---------- */
+tl.fromTo("#doc", { opacity: 0, y: 60, rotation: -2 }, { opacity: 1, y: 0, rotation: -1, duration: 0.45, ease: "power3.out" }, 0.0);
+tl.fromTo("#cmt", { opacity: 0, x: 80, scale: 0.9 }, { opacity: 1, x: 0, scale: 1, duration: 0.4, ease: "back.out(1.8)" }, 0.3); CUE.pop.push(0.3);
+tl.fromTo("#stamp", { opacity: 0, scale: 2.4, rotation: -30 }, { opacity: 1, scale: 1, rotation: -12, duration: 0.28, ease: "power4.in" }, 0.75); CUE.hit.push(1.03);
+tl.fromTo("#doc", { x: 0 }, { keyframes: [{ x: -8 }, { x: 7 }, { x: -4 }, { x: 0 }], duration: 0.22, ease: "none", immediateRender: false }, 1.03);
+R("#h1", 1.0, 0.45); R("#h2", 1.25, 0.55, "back.out(1.5)"); MK("#mk1", 1.7);
+EMO("#e1", 1.6, 12);
+tl.to("#s1a", { y: -120, opacity: 0, duration: 0.35, ease: "power2.in" }, 2.95); CUE.wh.push(2.95);
+/* stat */
+tl.fromTo("#st0", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 3.15);
+tl.fromTo("#st1", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.6)" }, 3.2);
+const C = { v: 0 }, cnt = document.getElementById("cnt");
+tl.fromTo(C, { v: 0 }, { v: 61, duration: 1.4, ease: "power2.out", onUpdate: () => { cnt.textContent = Math.round(C.v); } }, 3.25);
+for (let i = 0; i < 8; i++) CUE.tick.push(3.25 + 1.4 * (1 - Math.sqrt(1 - i / 8)));
+tl.fromTo("#st2", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4 }, 4.3);
+tl.fromTo("#st3", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 4.8);
+tl.to("#s1b", { y: -100, opacity: 0, duration: 0.35, ease: "power2.in" }, 6.4);
+
+/* ---------- S2 bridge ---------- */
+R("#b1t", 6.8, 0.5); R("#b2t", 7.6, 0.55, "back.out(1.5)"); MK("#mk2", 8.1, 0.5); CUE.pl.push([7.6, 72]);
+[["#q1", 7.9, -3], ["#q2", 8.1, 4], ["#q3", 8.3, -2], ["#q4", 8.5, 3]].forEach(([q, t, r]) => {
+  tl.fromTo(q, { opacity: 0, y: 40, rotation: 0 }, { opacity: 1, y: 0, rotation: r, duration: 0.45, ease: "back.out(1.8)" }, t);
+  tl.fromTo(q, { y: 0 }, { y: -18, duration: 1.2, ease: "sine.inOut", immediateRender: false }, t + 0.45); });
+tl.to("#s2in", { opacity: 0, scale: 0.96, duration: 0.3, ease: "power2.in" }, 9.75);
+
+/* ---------- APP ---------- */
+tl.fromTo("#frame", { y: 1500, rotation: 4 }, { y: 0, rotation: 0, duration: 0.6, ease: "expo.out" }, 9.95); CUE.wh.push(9.9);
+tl.set(["#fdB", "#fdC", "#fdD", "#uA", "#aA", "#pvA", "#k1", "#tap"], { opacity: 0 }, 0);
+tl.set("#tap", { x: 600, y: 1200 }, 0);
+POP("#k1", 10.3, { opacity: 0, y: -20, scale: 0.8, rotation: -8 }); tl.to("#k1", { rotation: -3, duration: 0.3 }, 10.5); CUE.pl.push([10.3, 72]);
+// A: detect
+tl.to("#tap", { opacity: 1, duration: 0.2 }, 10.5);
+TAP(95, 1026, 10.95); POP("#pvA", 11.05, { opacity: 0, y: 20, scale: 0.9 });
+tl.set("#ph", { opacity: 0 }, 11.3); tl.set("#iA", { opacity: 1 }, 11.3);
+tl.fromTo("#iA .sk", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(2)" }, 11.3); CUE.pl.push([11.3, 74]);
+TYPE(document.getElementById("tyA"), 11.65, 22);
+TAP(865, 1024, 12.65, 0.35);
+tl.set(["#iA", "#pvA"], { opacity: 0 }, 12.72); tl.set("#ph", { opacity: 1 }, 12.72);
+POP("#uA", 12.72, { opacity: 0, y: 60, scale: 0.96 }); CUE.pop.push(12.72);
+tl.to("#tap", { opacity: 0, duration: 0.2 }, 12.9);
+tl.fromTo("#aA", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 13.4); THINK("#lgA", "#thA", 13.4);
+tl.set(["#dA", "#la1", "#la2", "#la3", "#la4"], { opacity: 0 }, 0);
+SCROLL("#fA", -270, 13.7);
+POP("#dA", 13.9); CUE.pl.push([13.9, 76]);
+[["#fa1", "#la1", 16.9], ["#fa2", "#la2", 17.75], ["#fa3", "#la3", 18.6], ["#fa4", "#la4", 19.3]].forEach(([f, l, t], i) => {
+  MK(f, t, 0.4); POP(l, t + 0.1, { opacity: 0, x: -30, y: 0, scale: 1 }); CUE.pl.push([t, [76, 79, 81, 84][i]]); });
+ZM(16.6, 1.12, 480, 470, 845, 0.6);
+SCROLL("#fA", -270, 18.4);
+Z0(20.2, 0.5);
+// B: rewrite
+FEEDSWAP("#fdA", "#fdB", 20.5);
+tl.set(["#uB", "#aB", "#dB", "#pB", "#pc1", "#pc2", "#pc3", "#pc4"], { opacity: 0 }, 0);
+POP("#uB", 20.9, { opacity: 0, y: 40, scale: 0.96 }); CUE.pop.push(20.9);
+tl.fromTo("#aB", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 21.2); THINK("#lgB", null, 21.2);
+POP("#dB", 21.4); CUE.pl.push([21.4, 76]);
+tl.fromTo("#dB del", { opacity: 0.2 }, { opacity: 1, duration: 0.25, stagger: 0.25 }, 21.7);
+STREAM(document.getElementById("nwB"), 22.5, 9); CUE.pl.push([22.5, 81]);
+ZM(22.3, 1.1, 480, 684, 845, 0.6);
+Z0(24.3, 0.5);
+SCROLL("#fB", -120, 24.5);
+POP("#pB", 24.75); CUE.pl.push([24.75, 72]);
+[["#pc1", 25.1], ["#pc2", 25.7], ["#pc3", 26.3], ["#pc4", 27.0]].forEach(([p, t], i) => { POP(p, t, { opacity: 0, y: 16, scale: 0.85 }); CUE.pop.push(t); });
+// C: intensity + report
+FEEDSWAP("#fdB", "#fdC", 28.4);
+tl.set(["#iC", "#rC", "#rp0", "#rp1", "#rp2", "#rp3", "#rp4"], { opacity: 0 }, 0);
+POP("#iC", 28.75);
+const K = { v: 1 }, knob = document.getElementById("knob"), SEGW = (document.querySelector(".seg").clientWidth - 16) / 4;
+knob.style.width = SEGW + "px";
+const kup = () => { knob.style.transform = `translateX(${K.v * SEGW}px)`; for (let i = 0; i < 4; i++) document.getElementById("g" + i).style.color = Math.round(K.v) === i ? "#fff" : "#8A857A"; };
+kup();
+const KS = [[29.3, 0], [29.95, 1], [30.6, 2], [31.25, 3], [32.0, 1]];
+KS.forEach(([t, v]) => { tl.to(K, { v, duration: 0.4, ease: "back.out(1.6)", onUpdate: kup }, t); CUE.tap.push(t); });
+POP("#rC", 32.5); CUE.pl.push([32.5, 74]);
+SCROLL("#fC", 0, 32.6);
+["#rp0", "#rp1", "#rp2", "#rp3", "#rp4"].forEach((r, i) => POP(r, 32.75 + i * 0.12, { opacity: 0, x: 30, y: 0, scale: 1 }));
+ZM(33.4, 1.15, 480, 520, 845, 0.6);
+tl.to("#hi", { opacity: 0, duration: 0.12 }, 34.0); tl.to("#lo", { opacity: 1, duration: 0.15 }, 34.02);
+tl.fromTo("#lo", { scale: 0.7 }, { scale: 1, duration: 0.35, ease: "back.out(3)", immediateRender: false }, 34.02); CUE.pl.push([34.0, 79], [34.15, 84]);
+["#rp1", "#rp2", "#rp3", "#rp4"].forEach((r, i) => tl.fromTo(r + " b", { scale: 0.6 }, { scale: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, 34.6 + i * 0.3));
+for (let i = 0; i < 4; i++) CUE.pop.push(34.6 + i * 0.3);
+Z0(36.0, 0.5);
+// D: author sample
+FEEDSWAP("#fdC", "#fdD", 36.4);
+tl.set(["#uD", "#aD", "#cD", "#x1", "#x2", "#x3", "#okD"], { opacity: 0 }, 0);
+POP("#uD", 36.85, { opacity: 0, y: 50, scale: 0.96 }); CUE.pop.push(36.85);
+tl.fromTo("#aD", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 37.6); THINK("#lgD", null, 37.6);
+POP("#cD", 37.85); CUE.pl.push([37.85, 76]);
+[["#x1", 38.2], ["#x2", 38.55], ["#x3", 38.9]].forEach(([x, t]) => { POP(x, t, { opacity: 0, y: 16, scale: 0.85 }); CUE.pop.push(t); });
+POP("#okD", 39.5, { opacity: 0, y: 10, scale: 1 }); CUE.pl.push([39.5, 79], [39.62, 84]);
+ZM(38.0, 1.1, 480, 516, 845, 0.6);
+tl.to(["#frame", "#k1"], { scale: 0.85, y: -60, opacity: 0, duration: 0.45, ease: "power2.in" }, 40.3); CUE.wh.push(40.3);
+
+/* ---------- S5 honesty ---------- */
+EMO("#e5", 40.75, 10);
+R("#w1", 40.85, 0.5, "back.out(1.5)"); MK("#mk5", 41.3); CUE.pl.push([40.85, 69]);
+tl.fromTo("#w2", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4 }, 41.6);
+POP("#w3", 42.6); tl.fromTo("#w3a", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.35, immediateRender: false }, 43.1);
+tl.fromTo("#w3b", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.35, immediateRender: false }, 43.9);
+CUE.pl.push([43.1, 76], [43.9, 67]);
+tl.fromTo("#w4", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 44.2);
+tl.to("#s5in", { opacity: 0, y: -60, duration: 0.35, ease: "power2.in" }, 44.85);
+
+/* ---------- S6 CTA ---------- */
+EMO("#e6", 45.25, 10);
+R("#c1", 45.35, 0.55, "back.out(1.5)"); MK("#mk6", 45.8); CUE.pl.push([45.35, 72]);
+POP("#r1", 46.0, { opacity: 0, x: -80, y: 0, scale: 1 }); POP("#r2", 46.25, { opacity: 0, x: 80, y: 0, scale: 1 });
+CUE.pl.push([46.0, 76], [46.25, 79]);
+R("#c3", 46.9, 0.5);
+tl.fromTo("#c4", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2)" }, 47.3);
+tl.to("#c4 .fol", { y: 12, boxShadow: "0 2px 0 #A9502C,0 10px 20px -12px rgba(217,119,87,.5)", duration: 0.08 }, 48.2);
+tl.set("#c4", { opacity: 0 }, 48.32); tl.set("#c4b", { opacity: 1 }, 48.32);
+tl.fromTo("#c4b", { scale: 0.92 }, { scale: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, 48.32);
+CUE.follow = 48.2;
+tl.seek(0);
+</script>
+</body>
+</html>
