@@ -1,0 +1,16 @@
+{
+  "voice": "id-ID-ArdiNeural",
+  "note": "EP03 edukasi: Connector di Claude untuk riset. start/end = jendela bicara (detik).",
+  "lines": [
+    {"id": "a", "start": 0.20,  "end": 3.00,  "text": "Kamu pakai Claude cuma buat ngobrol? Sayang banget.",           "ssml": "Kamu pakai <sub alias='klod'>Claude</sub> cuma buat ngobrol? <break time='120ms'/> Sayang banget."},
+    {"id": "b", "start": 3.20,  "end": 6.30,  "text": "Ada fitur namanya connector. Anggap aja colokan,",              "ssml": "Ada fitur namanya <sub alias='konektor'>connector</sub>. <break time='100ms'/> Anggap aja colokan,"},
+    {"id": "c", "start": 6.40,  "end": 9.60,  "text": "biar Claude bisa nyambung ke aplikasi dan sumber data lain.",  "ssml": "biar <sub alias='klod'>Claude</sub> bisa nyambung ke aplikasi dan sumber data lain."},
+    {"id": "d", "start": 10.00, "end": 12.20, "text": "Buat riset, ini yang paling kepake:",                          "ssml": "Buat riset, ini yang paling kepake:"},
+    {"id": "e", "start": 12.40, "end": 15.20, "text": "PubMed, buat cari jurnal kesehatan dan biomedis.",            "ssml": "<sub alias='pab med'>PubMed</sub>, buat cari jurnal kesehatan dan biomedis."},
+    {"id": "f", "start": 15.40, "end": 18.10, "text": "Consensus, buat cari paper ilmiah lintas bidang.",            "ssml": "<sub alias='konsensus'>Consensus</sub>, buat cari paper ilmiah lintas bidang."},
+    {"id": "g", "start": 18.30, "end": 20.80, "text": "Google Drive, biar Claude baca PDF referensimu.",              "ssml": "<sub alias='gugel draif'>Google Drive</sub>, biar <sub alias='klod'>Claude</sub> baca <sub alias='pe de ef'>PDF</sub> referensimu."},
+    {"id": "h", "start": 21.10, "end": 24.60, "text": "Cara pasangnya: buka Customize, Connectors, lalu Connect.",    "ssml": "Cara pasangnya: buka <sub alias='kastomais'>Customize</sub>, <sub alias='konektors'>Connectors</sub>, lalu <sub alias='konek'>Connect</sub>."},
+    {"id": "i", "start": 24.80, "end": 27.10, "text": "Sebagian butuh akun di layanannya.",                          "ssml": "Sebagian butuh akun di layanannya."},
+    {"id": "j", "start": 27.30, "end": 29.80, "text": "Follow researchq.id buat tips riset lainnya.",                "ssml": "Follow <sub alias='risérc kiu titik ai di'>researchq.id</sub> buat tips riset lainnya."}
+  ]
+}

@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="id" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Connector Claude untuk Riset EP03</title>
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:PP;font-weight:500;src:url(data:font/woff2;base64,{{F_poppins-latin-500-normal}}) format("woff2")}
+@font-face{font-family:PP;font-weight:600;src:url(data:font/woff2;base64,{{F_poppins-latin-600-normal}}) format("woff2")}
+@font-face{font-family:PP;font-weight:800;src:url(data:font/woff2;base64,{{F_poppins-latin-800-normal}}) format("woff2")}
+@font-face{font-family:JBM;font-weight:500;src:url(data:font/woff2;base64,{{F_jetbrains-mono-latin-500-normal}}) format("woff2")}
+:root{--bg:#F4F2FF;--ink:#15122B;--mut:#7A7596;--line:#E4DFF8;--vio:#6C4CF5;--vios:#ECE7FF;--clay:#D97757;--sky:#D6E6FF;--mint:#CFF3E3;--peach:#FFE3CC;--green:#1FA463}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#F4F2FF}
+#root{position:relative;width:1080px;height:1920px;overflow:hidden;font-family:PP,sans-serif;color:var(--ink);background:var(--bg)}
+.blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.75}
+#grain{position:absolute;inset:0;opacity:.05;mix-blend-mode:multiply;pointer-events:none}
+#cam{position:absolute;inset:0}
+.clip{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.sc{position:absolute;inset:0}
+.p3{perspective:1700px}.pre{transform-style:preserve-3d}
+.c{position:absolute;left:72px;right:72px;text-align:center}
+.l{position:absolute;left:72px;right:72px;text-align:left}
+.rv{display:block;overflow:hidden;padding:0 8px 16px;margin-bottom:-16px}
+.rv>span{display:inline-block}
+.h{font-weight:800;letter-spacing:-2.5px;line-height:1.05}
+.mono{font-family:JBM;font-weight:500;letter-spacing:3px}
+.mk{position:relative;display:inline-block;z-index:0}
+.mk:before{content:"";position:absolute;left:-10px;right:-10px;bottom:6px;height:38%;background:#C9BDFF;border-radius:10px;z-index:-1;transform-origin:0 50%;transform:scaleX(var(--s,0))}
+.vio{color:var(--vio)}
+.emo{position:absolute;filter:drop-shadow(0 18px 18px rgba(60,40,140,.22))}
+.hud{position:absolute;font-family:JBM;font-size:22px;letter-spacing:2px;color:var(--mut)}
+.corner{position:absolute;width:34px;height:34px;border-color:rgba(21,18,43,.18);border-style:solid}
+/* chat */
+.ub{position:absolute;right:90px;top:430px;background:var(--vio);color:#fff;font-size:38px;font-weight:600;padding:24px 32px;border-radius:34px 34px 10px 34px;box-shadow:0 20px 40px -24px rgba(108,76,245,.6)}
+.cb{position:absolute;left:90px;top:580px;display:flex;align-items:center;gap:18px}
+.cb .av{width:84px;height:84px;border-radius:26px;background:#fff;border:2px solid var(--line);display:flex;align-items:center;justify-content:center}
+.cb .av img{width:56px;height:56px}
+.cb .tx{background:#fff;border:2px solid var(--line);font-size:36px;font-weight:600;padding:22px 30px;border-radius:34px 34px 34px 10px}
+/* hub */
+#lines{position:absolute;left:0;top:0}
+.hub{position:absolute;left:430px;top:770px;width:220px;height:220px;border-radius:60px;background:#fff;border:3px solid #F2C9B6;display:flex;align-items:center;justify-content:center;box-shadow:0 30px 60px -24px rgba(217,119,87,.55),0 0 0 18px rgba(217,119,87,.08)}
+.hub img{width:130px;height:130px}
+.node{position:absolute;width:150px;margin-left:-75px;text-align:center}
+.node .t{width:150px;height:150px;border-radius:44px;background:#fff;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;box-shadow:0 20px 40px -26px rgba(60,40,140,.4)}
+.node .t img{width:92px;height:92px}
+.node .n{font-size:27px;font-weight:600;margin-top:12px}
+.dot{position:absolute;left:0;top:0;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:var(--vio);box-shadow:0 0 0 6px rgba(108,76,245,.18)}
+/* research cards */
+.cards{position:absolute;left:72px;right:72px;top:560px;height:640px;perspective:1800px}
+.rc{position:absolute;inset:0;border-radius:48px;background:#fff;border:2px solid var(--line);box-shadow:0 50px 90px -50px rgba(60,40,140,.45);overflow:hidden;backface-visibility:hidden}
+.rc .top{height:300px;display:flex;align-items:center;justify-content:center;position:relative}
+.rc .top img{width:230px;height:230px;filter:drop-shadow(0 20px 20px rgba(0,0,0,.15))}
+.rc .no{position:absolute;left:34px;top:30px;font-family:JBM;font-size:24px;color:rgba(21,18,43,.5)}
+.rc .bd{padding:34px 44px}
+.rc .nm{font-size:76px;font-weight:800;letter-spacing:-2px;line-height:1}
+.rc .tag{display:inline-block;margin-top:18px;font-family:JBM;font-size:22px;letter-spacing:1.5px;padding:10px 18px;border-radius:999px;background:var(--vios);color:var(--vio)}
+.rc .ds{font-size:32px;font-weight:500;color:#4A4566;margin-top:20px;line-height:1.35}
+/* settings mock */
+.steps{position:absolute;left:72px;right:72px;top:340px;display:flex;justify-content:center;gap:14px;align-items:center}
+.st{font-size:30px;font-weight:600;padding:16px 24px;border-radius:999px;background:#fff;border:2px solid var(--line);color:var(--mut)}
+.st b{font-family:JBM;font-weight:500;margin-right:8px}
+.st.on{background:var(--vio);border-color:var(--vio);color:#fff}
+.arr{color:#B8B1D6;font-size:30px;font-weight:800}
+.app{position:absolute;left:60px;right:60px;top:500px;height:760px;border-radius:40px;background:#fff;border:2px solid var(--line);box-shadow:0 60px 100px -60px rgba(60,40,140,.5);overflow:hidden;display:flex}
+.side{width:300px;background:#F8F7FD;border-right:2px solid var(--line);padding:36px 22px}
+.side .it{font-size:28px;font-weight:600;color:var(--mut);padding:16px 20px;border-radius:16px;margin-bottom:8px}
+.side .it.on{background:var(--vios);color:var(--vio)}
+.main{flex:1;padding:36px 34px;position:relative}
+.main .ttl{font-size:40px;font-weight:800;letter-spacing:-1px}
+.main .sub{font-family:JBM;font-size:20px;color:var(--mut);margin:8px 0 26px}
+.row{display:flex;align-items:center;gap:18px;height:120px;border-bottom:2px solid #F0EDFA}
+.row img{width:64px;height:64px}
+.row .rn{flex:1;font-size:32px;font-weight:600}
+.row .rn small{display:block;font-family:JBM;font-size:18px;color:var(--mut);font-weight:500;margin-top:2px}
+.btn{font-size:26px;font-weight:600;padding:14px 26px;border-radius:999px;border:2px solid var(--vio);color:var(--vio);background:#fff;position:relative}
+.btn.ok{background:var(--green);border-color:var(--green);color:#fff}
+.note{position:absolute;left:72px;right:72px;top:1290px;display:flex;align-items:center;gap:16px;background:#FFF8E8;border:2px solid #F6E2B0;border-radius:24px;padding:18px 26px;font-size:28px;font-weight:600;color:#6B5420}
+.note img{width:54px;height:54px}
+.cursor{position:absolute;width:62px;height:62px;left:0;top:0;filter:drop-shadow(0 8px 10px rgba(0,0,0,.25))}
+.ring{position:absolute;left:0;top:0;width:110px;height:110px;margin:-55px 0 0 -55px;border-radius:50%;border:3px solid var(--vio);opacity:0}
+/* cta */
+.fol{display:inline-flex;align-items:center;gap:12px;font-weight:800;padding:24px 60px;border-radius:999px;background:var(--vio);color:#fff;font-size:44px;box-shadow:0 14px 0 #4B30C4,0 40px 50px -22px rgba(108,76,245,.55)}
+/* captions */
+#cap{position:absolute;left:72px;width:936px;top:1440px;height:120px;text-align:center;font-size:40px;font-weight:700;letter-spacing:-.5px;line-height:1.3}
+#cap .ln{position:absolute;left:0;right:0;opacity:0}
+#cap .w{display:inline-block;margin:0 6px;color:rgba(21,18,43,.25)}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="30" data-width="1080" data-height="1920">
+<div class="blob" id="b1" style="left:-180px;top:180px;width:620px;height:620px;background:#D8CCFF"></div>
+<div class="blob" id="b2" style="left:620px;top:760px;width:560px;height:560px;background:#CFF3E3"></div>
+<div class="blob" id="b3" style="left:80px;top:1250px;width:560px;height:560px;background:#FFE3CC"></div>
+<div id="cam">
+
+<!-- S1 hook -->
+<div id="s1" class="clip" data-start="0" data-duration="3.2">
+ <div class="sc" id="s1in">
+  <div class="ub" id="ub">Halo Claude, apa kabar? 👋</div>
+  <div class="cb" id="cb"><div class="av"><img src="{{IMG_claude_logo}}" alt=""></div><div class="tx">Baik! Ada yang bisa dibantu?</div></div>
+  <div class="c h" style="top:830px;font-size:72px;white-space:nowrap" id="h1"><span class="rv"><span>Claude-mu cuma buat</span></span></div>
+  <div class="c h" style="top:925px;font-size:120px" id="h2"><span class="rv"><span><span class="mk vio" id="mk1">ngobrol?</span></span></span></div>
+  <div class="c" style="top:1120px;font-size:52px;font-weight:600;color:var(--mut)" id="h3"><span class="rv"><span>Sayang banget.</span></span></div>
+  <img class="emo" id="e1" src="{{E_1f629}}" style="left:800px;top:1060px;width:150px;height:150px" alt="">
+ </div>
+</div>
+
+<!-- S2 connector = colokan -->
+<div id="s2" class="clip" data-start="3.05" data-duration="6.9">
+ <div class="sc" id="s2in">
+  <div class="c mono" style="top:300px;font-size:26px;color:var(--mut)" id="s2l">FITUR · CONNECTOR</div>
+  <div class="c h" style="top:345px;font-size:100px" id="s2a"><span class="rv"><span>Anggap aja <span class="mk vio" id="mk2">colokan.</span></span></span></div>
+  <svg id="lines" width="1080" height="1920"></svg>
+  <div id="nodes"></div>
+  <div class="hub" id="hub"><img src="{{IMG_claude_logo}}" alt=""></div>
+  <div class="c" style="top:1310px;font-size:42px;font-weight:600" id="s2b">nyambung ke <span class="vio">aplikasi &amp; data</span> lain</div>
+  <img class="emo" id="e2" src="{{E_1f50c}}" style="left:860px;top:520px;width:140px;height:140px" alt="">
+ </div>
+</div>
+
+<!-- S3 research connectors -->
+<div id="s3" class="clip" data-start="9.9" data-duration="11.1">
+ <div class="sc" id="s3in">
+  <div class="c mono" style="top:300px;font-size:26px;color:var(--mut)" id="s3l">CONNECTOR UNTUK RISET</div>
+  <div class="c h" style="top:345px;font-size:76px" id="s3a"><span class="rv"><span>Paling <span class="mk vio" id="mk3">kepake</span> buat riset</span></span></div>
+  <div class="cards">
+   <div class="rc" id="rc1"><div class="top" style="background:var(--sky)"><span class="no">01 / 03</span><img src="{{E_1f9ec}}" alt=""></div>
+    <div class="bd"><div class="nm">PubMed</div><span class="tag">JURNAL KESEHATAN &amp; BIOMEDIS</span><div class="ds">Cari artikel &amp; baca abstraknya. Full text kalau tersedia di PMC.</div></div></div>
+   <div class="rc" id="rc2"><div class="top" style="background:var(--mint)"><span class="no">02 / 03</span><img src="{{E_1f52c}}" alt=""></div>
+    <div class="bd"><div class="nm">Consensus</div><span class="tag">PAPER ILMIAH · LINTAS BIDANG</span><div class="ds">Cari paper peer-reviewed, lengkap dengan sumbernya.</div></div></div>
+   <div class="rc" id="rc3"><div class="top" style="background:var(--peach)"><span class="no">03 / 03</span><img src="{{E_1f4c1}}" alt=""></div>
+    <div class="bd"><div class="nm">Google Drive</div><span class="tag">FILE &amp; PDF MILIKMU</span><div class="ds">Claude bisa cari &amp; baca dokumen referensi di Drive-mu.</div></div></div>
+  </div>
+ </div>
+</div>
+
+<!-- S4 how to -->
+<div id="s4" class="clip" data-start="21" data-duration="6.25">
+ <div class="sc" id="s4in">
+  <div class="c mono" style="top:280px;font-size:26px;color:var(--mut)" id="s4l">CARA PASANG</div>
+  <div class="steps"><span class="st" id="st1"><b>1</b>Customize</span><span class="arr">→</span><span class="st" id="st2"><b>2</b>Connectors</span><span class="arr">→</span><span class="st" id="st3"><b>3</b>Connect</span></div>
+  <div class="app" id="app">
+   <div class="side"><div class="it">Profile</div><div class="it" id="sCus">Customize</div><div class="it">Usage</div><div class="it">Privacy</div></div>
+   <div class="main"><div class="ttl" style="position:relative;height:56px"><span id="mt1" style="position:absolute;left:0">Customize</span><span id="mt2" style="position:absolute;left:0;opacity:0">Connectors</span></div><div class="sub" style="position:relative;height:26px"><span id="ms1" style="position:absolute;left:0">PILIH MENU</span><span id="ms2" style="position:absolute;left:0;opacity:0">DIRECTORY</span></div>
+    <div id="cl" style="opacity:0">
+     <div class="row"><img src="{{E_1f9ec}}" alt=""><div class="rn">PubMed<small>JURNAL BIOMEDIS</small></div><span style="position:relative;display:inline-block"><span class="btn" id="bt1">Connect</span><span class="btn ok" id="bt1b" style="position:absolute;right:0;top:0;opacity:0;white-space:nowrap">Connected ✓</span></span></div>
+     <div class="row"><img src="{{E_1f52c}}" alt=""><div class="rn">Consensus<small>PAPER ILMIAH</small></div><span class="btn">Connect</span></div>
+     <div class="row" style="border:none"><img src="{{E_1f4c1}}" alt=""><div class="rn">Google Drive<small>FILE MILIKMU</small></div><span class="btn">Connect</span></div>
+    </div>
+    <div id="tabc" style="position:absolute;left:34px;top:150px;opacity:1"><div class="row" style="border:none;height:90px"><span class="btn" id="tbConn" style="border-color:var(--line);color:var(--ink)">Connectors</span><span class="btn" style="border-color:var(--line);color:var(--mut)">Skills</span></div></div>
+   </div>
+  </div>
+  <div class="note" id="note"><img src="{{E_1f4a1}}" alt="">Sebagian butuh akun di layanannya · fitur tergantung paket Claude</div>
+  <svg class="cursor" id="cur" viewBox="0 0 32 32"><path d="M6 3l20 12-9 2-4 9z" fill="#15122B" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>
+  <div class="ring" id="ring"></div>
+ </div>
+</div>
+
+<!-- S5 CTA -->
+<div id="s5" class="clip" data-start="27.15" data-duration="2.85">
+ <div class="sc">
+  <div class="c" style="top:520px" id="c1"><span style="display:inline-flex;align-items:center;gap:18px;font-size:40px;font-weight:600;color:var(--mut)"><img src="{{IMG_claude_logo}}" style="width:70px;height:70px" alt="">Tips riset pakai Claude</span></div>
+  <div class="c h" style="top:640px;font-size:150px" id="c2"><span class="rv"><span>Follow</span></span></div>
+  <div class="c h vio" style="top:820px;font-size:84px" id="c3"><span class="rv"><span>@researchq.id</span></span></div>
+  <div class="c" style="top:1020px" id="c4"><span class="fol" id="fol">+ Follow</span></div>
+  <div class="c" style="top:1020px;opacity:0" id="c4b"><span class="fol" style="background:#15122B;box-shadow:0 6px 0 #000">✓ Following</span></div>
+ </div>
+</div>
+
+</div><!-- /cam -->
+<div id="cap" class="clip" data-start="0" data-duration="30"></div>
+<svg id="grain" width="1080" height="1920"><filter id="gn"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="1080" height="1920" filter="url(#gn)"/></svg>
+<div id="hud" class="clip" data-start="0" data-duration="30">
+ <div class="corner" style="top:190px;left:48px;border-width:3px 0 0 3px"></div>
+ <div class="corner" style="top:190px;right:48px;border-width:3px 3px 0 0"></div>
+ <div class="corner" style="bottom:48px;left:48px;border-width:0 0 3px 3px"></div>
+ <div class="corner" style="bottom:48px;right:48px;border-width:0 3px 3px 0"></div>
+ <div class="hud" style="top:204px;left:96px">EDUKASI · CLAUDE</div>
+ <div class="hud" style="top:204px;right:96px">CONNECTOR</div>
+ <div style="position:absolute;left:96px;right:96px;top:246px;height:3px;background:rgba(21,18,43,.08)"><div id="prog" style="height:3px;background:var(--vio);transform-origin:0 50%;transform:scaleX(0)"></div></div>
+ <div class="hud" style="bottom:56px;left:96px;font-family:PP;font-weight:800;font-size:30px;letter-spacing:0;color:var(--ink)">ResearchQ<span style="color:#EE6A1F">.</span></div>
+ <div class="hud" style="bottom:62px;right:96px">@RESEARCHQ.ID</div>
+</div>
+<audio id="sfx" src="sfx.wav" data-start="0" data-duration="30" data-volume="1"></audio>
+</div>
+
+<script>
+const tl = gsap.timeline({ paused: true });
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+window.__cues = {};
+let seed = 41;
+const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+const R = (sel, t, d = 0.55, ease = "power3.out") => tl.fromTo(sel + " .rv>span", { yPercent: 112 }, { yPercent: 0, duration: d, ease }, t);
+const MK = (sel, t) => tl.fromTo(sel, { "--s": 0 }, { "--s": 1, duration: 0.45, ease: "power2.inOut" }, t);
+const EMO = (id, t, rot = 10) => { const r0 = rot * 0.5 * (rnd() > 0.5 ? 1 : -1), r1 = r0 + rnd() * 6 - 3;
+  tl.fromTo(id, { scale: 0, rotation: -rot * 2, y: 40 }, { scale: 1, rotation: r0, y: 0, duration: 0.6, ease: "back.out(2.2)" }, t);
+  tl.fromTo(id, { y: 0, rotation: r0 }, { y: -14, rotation: r1, duration: 1.3, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, t + 0.6); };
+tl.fromTo("#prog", { scaleX: 0 }, { scaleX: 1, duration: 30, ease: "none" }, 0);
+[["#b1", 120, 80], ["#b2", -140, -60], ["#b3", 100, -90]].forEach(([b, dx, dy]) => tl.fromTo(b, { x: 0, y: 0 }, { x: dx, y: dy, duration: 30, ease: "sine.inOut" }, 0));
+for (let t = 0; t < 30; t += 1.5) tl.to("#cam", { x: (rnd() - 0.5) * 4, y: (rnd() - 0.5) * 4, duration: 1.5, ease: "sine.inOut" }, t);
+
+/* captions */
+const VO = {{VO_JSON}};
+const KW = ["ngobrol?", "connector.", "colokan,", "aplikasi", "riset,", "PubMed,", "Consensus,", "Drive,", "Customize,", "Connectors,", "Connect.", "akun", "researchq.id"];
+const cap = document.getElementById("cap");
+const syl = w => Math.max(1, (w.toLowerCase().match(/[aiueo]+/g) || []).length);
+VO.lines.forEach((L, li) => { const nxt = VO.lines[li + 1];
+  const ln = document.createElement("div"); ln.className = "ln"; cap.appendChild(ln);
+  const words = L.text.split(" "), tot = words.reduce((s, w) => s + syl(w), 0), span = (L.end - L.start) * 0.94; let t = L.start;
+  tl.fromTo(ln, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.14, ease: "power2.out" }, L.start - 0.06);
+  tl.to(ln, { opacity: 0, duration: 0.08 }, nxt ? Math.min(L.end + 0.05, nxt.start - 0.16) : L.end + 0.05);
+  words.forEach(w => { const s = document.createElement("span"); s.className = "w"; s.textContent = w; ln.appendChild(s);
+    tl.to(s, { color: KW.includes(w) ? "#6C4CF5" : "#15122B", duration: 0.08 }, t); t += span * syl(w) / tot; });
+});
+
+/* ---------- S1 ---------- */
+tl.fromTo("#ub", { opacity: 0, y: 40, scale: 0.9, transformOrigin: "100% 100%" }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.8)" }, 0.1);
+tl.fromTo("#cb", { opacity: 0, y: 40, scale: 0.9, transformOrigin: "0% 100%" }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.8)" }, 0.55);
+R("#h1", 0.9, 0.5); R("#h2", 1.15, 0.6, "back.out(1.5)"); MK("#mk1", 1.6);
+tl.to(["#ub", "#cb"], { opacity: 0.35, duration: 0.4 }, 1.7);
+R("#h3", 2.05, 0.5); EMO("#e1", 2.1, 12);
+window.__cues.s1 = [0.1, 0.55, 1.15, 2.05];
+tl.to("#s1in", { y: -120, opacity: 0, duration: 0.35, ease: "power2.in" }, 2.9);
+
+/* ---------- S2 hub ---------- */
+const HX = 540, HY = 880;
+const N = [["{{E_1f4da}}", "Jurnal", -150], ["{{E_1f4c1}}", "Drive", -30], ["{{E_1f4c5}}", "Kalender", 30], ["{{E_1f4dd}}", "Catatan", 150], ["{{E_1f52c}}", "Paper", 210], ["{{E_2709-fe0f}}", "Email", 330]];
+const RAD = [360, 360, 360, 360, 330, 330];
+const nodesEl = document.getElementById("nodes"), svg = document.getElementById("lines");
+const ANG = [-150, -30, 15, 165, 125, 55];
+window.__cues.nodes = [];
+ANG.forEach((a, i) => { const r = 350, rad = a * Math.PI / 180, x = HX + Math.cos(rad) * r, y = HY + Math.sin(rad) * r * 0.95;
+  const ln = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  ln.setAttribute("x1", HX); ln.setAttribute("y1", HY); ln.setAttribute("x2", x); ln.setAttribute("y2", y);
+  ln.setAttribute("stroke", "#C9BDFF"); ln.setAttribute("stroke-width", "5"); ln.setAttribute("stroke-linecap", "round"); ln.setAttribute("stroke-dasharray", "2 14");
+  svg.appendChild(ln);
+  const nd = document.createElement("div"); nd.className = "node"; nd.style.left = x + "px"; nd.style.top = (y - 75) + "px";
+  nd.innerHTML = `<div class="t"><img src="${N[i][0]}" alt=""></div><div class="n">${N[i][1]}</div>`; nodesEl.appendChild(nd);
+  const dot = document.createElement("div"); dot.className = "dot"; nodesEl.appendChild(dot);
+  const t0 = 6.5 + i * 0.16;
+  tl.fromTo(ln, { opacity: 0, attr: { x2: HX, y2: HY } }, { opacity: 1, attr: { x2: x, y2: y }, duration: 0.45, ease: "power2.out" }, t0);
+  tl.fromTo(nd, { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2)" }, t0 + 0.3);
+  window.__cues.nodes.push(+(t0 + 0.3).toFixed(3));
+  tl.fromTo(dot, { x: HX, y: HY, opacity: 0 }, { x: x, y: y, opacity: 1, duration: 0.7, ease: "power1.inOut", repeat: 2, repeatDelay: 0.25 }, 7.6 + i * 0.12);
+  tl.to(dot, { opacity: 0, duration: 0.2 }, 9.6);
+});
+tl.fromTo("#s2l", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 3.15);
+tl.fromTo("#hub", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.65, ease: "back.out(1.8)" }, 3.3);
+R("#s2a", 4.2, 0.55); MK("#mk2", 4.85); EMO("#e2", 4.6, 14);
+tl.to("#hub", { scale: 1.06, duration: 0.5, yoyo: true, repeat: 3, ease: "sine.inOut" }, 7.6);
+tl.fromTo("#s2b", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 6.7);
+window.__cues.hub = 3.3; window.__cues.colokan = 4.85;
+tl.to("#s2in", { scale: 0.92, opacity: 0, duration: 0.35, ease: "power2.in" }, 9.65);
+
+/* ---------- S3 cards ---------- */
+tl.fromTo("#s3l", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 10.0);
+R("#s3a", 10.05, 0.55); MK("#mk3", 10.7);
+const CT = [11.75, 15.3, 18.2]; window.__cues.cards = CT;
+["#rc1", "#rc2", "#rc3"].forEach((c, i) => {
+  tl.fromTo(c, { rotationY: 75, x: 260, opacity: 0, transformOrigin: "0% 50%" }, { rotationY: 0, x: 0, opacity: 1, duration: 0.7, ease: "expo.out" }, CT[i]);
+  tl.fromTo(c + " .top img", { scale: 0.3, rotation: -25 }, { scale: 1, rotation: 0, duration: 0.6, ease: "back.out(2)" }, CT[i] + 0.15);
+  tl.fromTo([c + " .nm", c + " .tag", c + " .ds"], { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.12, ease: "power2.out" }, CT[i] + 0.25);
+  const out = CT[i + 1] || 20.75;
+  tl.to(c, { rotationY: -75, x: -260, opacity: 0, duration: 0.45, ease: "power3.in", transformOrigin: "100% 50%" }, out - 0.4);
+});
+
+/* ---------- S4 how-to ---------- */
+tl.fromTo("#s4l", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 21.05);
+tl.fromTo(".steps > *", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.35, stagger: 0.06, ease: "power2.out" }, 21.1);
+tl.fromTo("#app", { opacity: 0, y: 80, rotationX: 18, transformPerspective: 1600 }, { opacity: 1, y: 0, rotationX: 0, duration: 0.7, ease: "expo.out" }, 21.15);
+tl.set("#cur", { opacity: 0 }, 21.0); tl.set("#ring", { opacity: 0 }, 21.0);
+const CL = [[21.75, 150, 680, "#st1"], [22.75, 455, 690, "#st2"], [23.75, 900, 680, "#st3"]];
+window.__cues.clicks = CL.map(c => c[0]);
+tl.set("#cur", { opacity: 1 }, 21.3);
+tl.fromTo("#cur", { x: 980, y: 1400 }, { x: 980, y: 1400, duration: 0.01 }, 21.0);
+CL.forEach(([t0, x, y, st], i) => {
+  tl.to("#cur", { x: x, y: y, duration: 0.42, ease: "power3.inOut" }, t0 - 0.45);
+  tl.to("#cur", { scale: 0.85, duration: 0.06 }, t0); tl.to("#cur", { scale: 1, duration: 0.16 }, t0 + 0.06);
+  tl.fromTo("#ring", { x: x + 10, y: y + 6, opacity: 0.9, scale: 0.4 }, { x: x + 10, y: y + 6, opacity: 0, scale: 1.6, duration: 0.5, ease: "power2.out", immediateRender: false }, t0);
+  tl.set(st, { attr: { class: "st on" } }, t0);
+});
+tl.set("#sCus", { attr: { class: "it on" } }, 21.75);
+tl.set("#tbConn", { css: { borderColor: "#6C4CF5", color: "#6C4CF5" } }, 22.75);
+tl.set("#tabc", { opacity: 0 }, 22.9); tl.set(["#mt1", "#ms1"], { opacity: 0 }, 22.9); tl.set(["#mt2", "#ms2"], { opacity: 1 }, 22.9);
+tl.fromTo("#cl", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" }, 22.9);
+tl.set("#bt1", { opacity: 0 }, 23.85); tl.set("#bt1b", { opacity: 1 }, 23.85);
+tl.fromTo("#bt1b", { scale: 0.9 }, { scale: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, 23.85);
+tl.to("#cur", { x: 1000, y: 1300, opacity: 0, duration: 0.4, ease: "power2.in" }, 24.3);
+tl.fromTo("#note", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.6)" }, 24.85);
+tl.to("#s4in", { opacity: 0, y: -60, duration: 0.35, ease: "power2.in" }, 26.85);
+
+/* ---------- S5 CTA ---------- */
+tl.fromTo("#c1", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4 }, 27.2);
+R("#c2", 27.35, 0.55, "back.out(1.4)"); R("#c3", 27.65, 0.5);
+tl.fromTo("#c4", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2)" }, 28.1);
+tl.to("#fol", { y: 12, boxShadow: "0 2px 0 #4B30C4,0 10px 20px -12px rgba(108,76,245,.5)", duration: 0.08 }, 29.0);
+tl.set("#c4", { opacity: 0 }, 29.12); tl.set("#c4b", { opacity: 1 }, 29.12);
+tl.fromTo("#c4b", { scale: 0.92 }, { scale: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, 29.12);
+window.__cues.follow = 29.0;
+tl.seek(0);
+</script>
+</body>
+</html>
