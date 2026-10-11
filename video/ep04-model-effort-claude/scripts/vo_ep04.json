@@ -1,0 +1,16 @@
+{
+  "voice": "id-ID-ArdiNeural",
+  "note": "EP04 edukasi: pilih model & effort di Claude (Free vs Pro). start/end = jendela bicara (detik). Info per Okt 2026.",
+  "lines": [
+    {"id": "a", "start": 0.20,  "end": 2.90,  "text": "Pakai Claude buat skripsi, tapi limit cepat habis?",        "ssml": "Pakai <sub alias='klod'>Claude</sub> buat skripsi, tapi limit cepat habis?"},
+    {"id": "b", "start": 3.00,  "end": 5.60,  "text": "Bisa jadi kamu salah pilih model dan effort.",               "ssml": "Bisa jadi kamu salah pilih model dan <sub alias='efort'>effort</sub>."},
+    {"id": "c", "start": 6.00,  "end": 9.00,  "text": "Akun Free dapat Sonnet dan Haiku. Pro nambah Opus.",       "ssml": "Akun <sub alias='fri'>Free</sub> dapat <sub alias='sonet'>Sonnet</sub> dan <sub alias='haiku'>Haiku</sub>. <break time='120ms'/> <sub alias='pro'>Pro</sub> nambah <sub alias='opus'>Opus</sub>."},
+    {"id": "d", "start": 9.30,  "end": 12.60, "text": "Haiku paling cepat, buat tugas ringan kayak rapikan sitasi.", "ssml": "<sub alias='haiku'>Haiku</sub> paling cepat, buat tugas ringan kayak rapikan sitasi."},
+    {"id": "e", "start": 12.80, "end": 16.20, "text": "Sonnet buat harian: ringkas jurnal, susun BAB 1 sampai 3.", "ssml": "<sub alias='sonet'>Sonnet</sub> buat harian: ringkas jurnal, susun bab satu sampai tiga."},
+    {"id": "f", "start": 16.40, "end": 20.00, "text": "Opus buat yang berat: analisis rumit dan review menyeluruh.", "ssml": "<sub alias='opus'>Opus</sub> buat yang berat: analisis rumit dan <sub alias='rivyu'>review</sub> menyeluruh."},
+    {"id": "g", "start": 20.40, "end": 23.80, "text": "Lalu effort, dari Low sampai Max. Makin tinggi, makin teliti,", "ssml": "Lalu <sub alias='efort'>effort</sub>, dari <sub alias='lou'>Low</sub> sampai <sub alias='meks'>Max</sub>. Makin tinggi, makin teliti,"},
+    {"id": "h", "start": 23.90, "end": 26.30, "text": "tapi limitnya juga makin cepat habis.",                     "ssml": "tapi limitnya juga makin cepat habis."},
+    {"id": "i", "start": 26.60, "end": 30.20, "text": "Tugas ringan pakai Low atau Medium. Yang berat, baru naikin.", "ssml": "Tugas ringan pakai <sub alias='lou'>Low</sub> atau <sub alias='midiem'>Medium</sub>. Yang berat, baru naikin."},
+    {"id": "j", "start": 30.50, "end": 33.40, "text": "Simpan video ini, dan follow researchq.id.",                "ssml": "Simpan video ini, dan follow <sub alias='risérc kiu titik ai di'>researchq.id</sub>."}
+  ]
+}

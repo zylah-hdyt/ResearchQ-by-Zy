@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="id" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Model dan Effort Claude EP04</title>
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:PP;font-weight:500;src:url(data:font/woff2;base64,{{F_poppins-latin-500-normal}}) format("woff2")}
+@font-face{font-family:PP;font-weight:600;src:url(data:font/woff2;base64,{{F_poppins-latin-600-normal}}) format("woff2")}
+@font-face{font-family:PP;font-weight:800;src:url(data:font/woff2;base64,{{F_poppins-latin-800-normal}}) format("woff2")}
+@font-face{font-family:JBM;font-weight:500;src:url(data:font/woff2;base64,{{F_jetbrains-mono-latin-500-normal}}) format("woff2")}
+:root{--bg:#F4F2FF;--ink:#15122B;--mut:#7A7596;--line:#E4DFF8;--vio:#6C4CF5;--vios:#ECE7FF;--clay:#D97757;--green:#1FA463;--greens:#DDF5E8;--red:#E5484D;--amber:#F2A23A}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#F4F2FF}
+#root{position:relative;width:1080px;height:1920px;overflow:hidden;font-family:PP,sans-serif;color:var(--ink);background:var(--bg)}
+.blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.75}
+#grain{position:absolute;inset:0;opacity:.05;mix-blend-mode:multiply;pointer-events:none}
+#cam{position:absolute;inset:0}
+.clip{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.sc{position:absolute;inset:0}
+.c{position:absolute;left:72px;right:72px;text-align:center}
+.l{position:absolute;left:72px;right:72px;text-align:left}
+.rv{display:block;overflow:hidden;padding:0 8px 16px;margin-bottom:-16px}
+.rv>span{display:inline-block}
+.h{font-weight:800;letter-spacing:-2.5px;line-height:1.05}
+.mono{font-family:JBM;font-weight:500;letter-spacing:3px}
+.mk{position:relative;display:inline-block;z-index:0}
+.mk:before{content:"";position:absolute;left:-10px;right:-10px;bottom:6px;height:38%;background:#C9BDFF;border-radius:10px;z-index:-1;transform-origin:0 50%;transform:scaleX(var(--s,0))}
+.vio{color:var(--vio)}
+.emo{position:absolute;filter:drop-shadow(0 18px 18px rgba(60,40,140,.22))}
+.hud{position:absolute;font-family:JBM;font-size:22px;letter-spacing:2px;color:var(--mut)}
+.corner{position:absolute;width:34px;height:34px;border-color:rgba(21,18,43,.18);border-style:solid}
+.card{position:absolute;background:#fff;border:2px solid var(--line);border-radius:40px;box-shadow:0 40px 80px -50px rgba(60,40,140,.45)}
+/* usage */
+.use{left:72px;right:72px;top:430px;padding:34px 40px}
+.use .lb{display:flex;justify-content:space-between;font-family:JBM;font-size:22px;color:var(--mut);letter-spacing:1px}
+.bar{position:relative;height:30px;border-radius:15px;background:#EFECFA;margin-top:22px;overflow:hidden}
+.bar b{position:absolute;left:0;top:0;bottom:0;border-radius:15px;background:var(--vio);transform-origin:0 50%}
+.toast{position:absolute;left:120px;right:120px;top:700px;background:var(--ink);color:#fff;border-radius:26px;padding:22px 28px;font-size:30px;font-weight:600;display:flex;align-items:center;gap:16px;box-shadow:0 30px 60px -30px rgba(0,0,0,.5)}
+.toast i{width:14px;height:14px;border-radius:50%;background:var(--red);display:block;flex:none}
+/* plans */
+.plan{top:450px;width:452px;height:640px;padding:36px 34px}
+.plan .pn{font-family:JBM;font-size:24px;letter-spacing:3px}
+.plan .pt{font-size:64px;font-weight:800;letter-spacing:-2px;margin:6px 0 22px}
+.chip{display:flex;align-items:center;gap:12px;font-size:32px;font-weight:600;padding:16px 20px;border-radius:20px;background:#F5F3FF;margin-bottom:14px}
+.chip i{width:14px;height:14px;border-radius:50%;background:var(--vio);display:block;flex:none}
+.chip.off{background:transparent;color:#B9B3D3;text-decoration:line-through;text-decoration-thickness:3px}
+.chip.off i{background:#D8D3EC}
+.plan.pro{background:var(--vio);border-color:var(--vio);color:#fff}
+.plan.pro .chip{background:rgba(255,255,255,.14)}
+.plan.pro .chip i{background:#FDE68A}
+.plan .ft{position:absolute;left:34px;right:34px;bottom:30px;font-family:JBM;font-size:19px;letter-spacing:.5px;line-height:1.45}
+/* model rows */
+.mrow{left:72px;right:72px;height:282px;padding:30px 34px;display:flex;gap:28px;align-items:flex-start}
+.mrow .ic{width:120px;height:120px;border-radius:34px;display:flex;align-items:center;justify-content:center;flex:none}
+.mrow .ic img{width:88px;height:88px}
+.mrow .mn{font-size:56px;font-weight:800;letter-spacing:-1.5px;line-height:1}
+.mrow .tg{display:inline-block;font-family:JBM;font-size:19px;letter-spacing:1.5px;padding:7px 14px;border-radius:999px;background:var(--vios);color:var(--vio);margin:10px 8px 0 0}
+.mrow .tg.p{background:#FFF1D6;color:#9A6400}
+.mrow .uc{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.mrow .uc span{font-size:22px;font-weight:600;padding:10px 16px;border-radius:14px;background:#F5F3FF;color:#4A4566}
+/* effort */
+.seg{position:absolute;left:72px;right:72px;top:500px;height:120px;border-radius:30px;background:#fff;border:2px solid var(--line);display:flex;align-items:center;padding:0 10px}
+.seg span{flex:1;text-align:center;font-size:27px;font-weight:600;color:var(--mut);position:relative;z-index:2}
+#knob{position:absolute;left:10px;top:12px;width:181px;height:92px;border-radius:24px;background:var(--vio);box-shadow:0 14px 30px -12px rgba(108,76,245,.7);z-index:1}
+.meter{position:absolute;left:72px;right:72px;padding:26px 34px}
+.meter .lb{display:flex;justify-content:space-between;align-items:center;font-size:30px;font-weight:600}
+.meter .lb small{font-family:JBM;font-size:20px;color:var(--mut);font-weight:500}
+.meter .bar{height:26px}
+.rec{position:absolute;left:72px;right:72px;display:flex;gap:20px}
+.rc{flex:1;border-radius:30px;padding:26px 28px;font-size:28px;font-weight:600;line-height:1.3}
+.rc b{display:block;font-size:40px;font-weight:800;letter-spacing:-1px;margin-top:6px}
+.rc.lo{background:var(--greens);color:#11643B}
+.rc.hi{background:var(--vio);color:#fff}
+.fn{position:absolute;left:72px;right:72px;font-family:JBM;font-size:19px;color:var(--mut);text-align:center;letter-spacing:.5px}
+/* cta */
+.fol{display:inline-flex;align-items:center;gap:12px;font-weight:800;padding:24px 60px;border-radius:999px;background:var(--vio);color:#fff;font-size:44px;box-shadow:0 14px 0 #4B30C4,0 40px 50px -22px rgba(108,76,245,.55)}
+/* captions */
+#cap{position:absolute;left:72px;width:936px;top:1440px;height:120px;text-align:center;font-size:40px;font-weight:700;letter-spacing:-.5px;line-height:1.3}
+#cap .ln{position:absolute;left:0;right:0;opacity:0}
+#cap .w{display:inline-block;margin:0 6px;color:rgba(21,18,43,.25)}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="34" data-width="1080" data-height="1920">
+<div class="blob" id="b1" style="left:-180px;top:200px;width:620px;height:620px;background:#D8CCFF"></div>
+<div class="blob" id="b2" style="left:640px;top:760px;width:560px;height:560px;background:#FFE3CC"></div>
+<div class="blob" id="b3" style="left:60px;top:1250px;width:560px;height:560px;background:#CFF3E3"></div>
+<div id="cam">
+
+<!-- S1 limit habis -->
+<div id="s1" class="clip" data-start="0" data-duration="6">
+ <div class="sc" id="s1in">
+  <div class="card use" id="use"><div class="lb"><span>USAGE · SESI 5 JAM</span><span id="pct">32%</span></div><div class="bar"><b id="ub" style="width:100%;transform:scaleX(.32)"></b></div></div>
+  <div class="toast" id="toast"><i></i>Usage limit tercapai. Coba lagi nanti.</div>
+  <img class="emo" id="e1" src="{{E_1faab}}" style="left:850px;top:330px;width:140px;height:140px" alt="">
+  <div class="c h" style="top:880px;font-size:92px" id="h1"><span class="rv"><span>Limit cepat</span></span></div>
+  <div class="c h" style="top:985px;font-size:128px" id="h2"><span class="rv"><span><span class="mk vio" id="mk1">habis?</span></span></span></div>
+  <div class="c" style="top:1200px;font-size:44px;font-weight:600;color:var(--mut)" id="h3"><span class="rv"><span>Mungkin salah pilih <span class="vio">model &amp; effort.</span></span></span></div>
+ </div>
+</div>
+
+<!-- S2 free vs pro -->
+<div id="s2" class="clip" data-start="5.9" data-duration="3.45">
+ <div class="sc" id="s2in">
+  <div class="c mono" style="top:300px;font-size:26px;color:var(--mut)" id="s2l">MODEL YANG BISA DIPAKAI</div>
+  <div class="c h" style="top:345px;font-size:76px" id="s2a"><span class="rv"><span>Free vs <span class="mk vio" id="mk2">Pro</span></span></span></div>
+  <div class="card plan" id="pf" style="left:72px"><div class="pn" style="color:var(--mut)">FREE</div><div class="pt">Rp0</div>
+   <div class="chip"><i></i>Sonnet</div><div class="chip"><i></i>Haiku</div><div class="chip off"><i></i>Opus</div>
+   <div class="ft" style="color:var(--mut)">Cukup buat kebutuhan harian. Limit reset tiap sesi 5 jam.</div></div>
+  <div class="card plan pro" id="pp" style="left:556px"><div class="pn" style="color:#D9D0FF">PRO</div><div class="pt">+ Opus</div>
+   <div class="chip"><i></i>Opus</div><div class="chip"><i></i>Sonnet</div><div class="chip"><i></i>Haiku</div>
+   <div class="ft" style="color:#E5DEFF">Min. 5× usage Free per sesi 5 jam. Fable lewat usage credits.</div></div>
+  <div class="fn" style="top:1130px" id="s2n">INFO PER OKT 2026 · CEK CLAUDE.COM/PRICING</div>
+ </div>
+</div>
+
+<!-- S3 model per tugas -->
+<div id="s3" class="clip" data-start="9.2" data-duration="11.2">
+ <div class="sc" id="s3in">
+  <div class="c mono" style="top:300px;font-size:26px;color:var(--mut)" id="s3l">PILIH MODEL SESUAI TUGAS</div>
+  <div class="card mrow" id="m1" style="top:370px"><div class="ic" style="background:#FFF4D6"><img src="{{E_26a1}}" alt=""></div><div>
+   <div class="mn">Haiku</div><span class="tg">PALING CEPAT</span><span class="tg">FREE ✓</span>
+   <div class="uc"><span>Rapikan sitasi</span><span>Parafrase singkat</span><span>Cek ejaan</span></div></div></div>
+  <div class="card mrow" id="m2" style="top:672px"><div class="ic" style="background:#E7F0FF"><img src="{{E_270d-fe0f}}" alt=""></div><div>
+   <div class="mn">Sonnet</div><span class="tg">HARIAN</span><span class="tg">FREE ✓</span>
+   <div class="uc"><span>Ringkas jurnal</span><span>Susun BAB 1–3</span><span>Baca output</span></div></div></div>
+  <div class="card mrow" id="m3" style="top:974px"><div class="ic" style="background:#F1EAFF"><img src="{{E_1f9e0}}" alt=""></div><div>
+   <div class="mn">Opus</div><span class="tg">TUGAS BERAT</span><span class="tg p">PRO</span>
+   <div class="uc"><span>Analisis rumit</span><span>Review menyeluruh</span><span>Model banyak variabel</span></div></div></div>
+ </div>
+</div>
+
+<!-- S4 effort -->
+<div id="s4" class="clip" data-start="20.2" data-duration="10.2">
+ <div class="sc" id="s4in">
+  <div class="c mono" style="top:300px;font-size:26px;color:var(--mut)" id="s4l">EFFORT = SEBERAPA TELITI</div>
+  <div class="c h" style="top:345px;font-size:76px" id="s4a"><span class="rv"><span>Atur <span class="mk vio" id="mk4">effort</span></span></span></div>
+  <div class="seg" id="seg"><div id="knob"></div><span id="g0">Low</span><span id="g1">Medium</span><span id="g2">High</span><span id="g3">Extra high</span><span id="g4">Max</span></div>
+  <div class="card meter" id="mt1" style="top:670px"><div class="lb">Ketelitian <small id="v1">●○○○○</small></div><div class="bar"><b id="bq" style="width:100%;background:var(--vio)"></b></div></div>
+  <div class="card meter" id="mt2" style="top:830px"><div class="lb">Sisa limit <small>MAKIN TINGGI, MAKIN CEPAT HABIS</small></div><div class="bar"><b id="bl" style="width:100%;background:var(--green)"></b></div></div>
+  <div class="rec" id="rec" style="top:1020px"><div class="rc lo" id="rlo">Tugas ringan<b>Low / Medium</b></div><div class="rc hi" id="rhi">Tugas berat<b>High / Max</b></div></div>
+  <div class="fn" style="top:1240px" id="s4n">EXTRA HIGH: OPUS 4.7 KE ATAS · LEVEL DEFAULT DITANDAI DI MENU</div>
+  <img class="emo" id="e4" src="{{E_1f50b}}" style="left:870px;top:330px;width:120px;height:120px" alt="">
+ </div>
+</div>
+
+<!-- S5 CTA -->
+<div id="s5" class="clip" data-start="30.4" data-duration="3.6">
+ <div class="sc">
+  <img class="emo" id="e5" src="{{E_1f516}}" style="left:465px;top:420px;width:150px;height:150px" alt="">
+  <div class="c h" style="top:620px;font-size:140px" id="c1"><span class="rv"><span><span class="mk vio" id="mk5">Simpan</span></span></span></div>
+  <div class="c" style="top:810px;font-size:44px;font-weight:600;color:var(--mut)" id="c2">biar nggak boros limit lagi</div>
+  <div class="c h vio" style="top:930px;font-size:76px" id="c3"><span class="rv"><span>@researchq.id</span></span></div>
+  <div class="c" style="top:1110px" id="c4"><span class="fol">+ Follow</span></div>
+  <div class="c" style="top:1110px;opacity:0" id="c4b"><span class="fol" style="background:#15122B;box-shadow:0 6px 0 #000">✓ Following</span></div>
+ </div>
+</div>
+
+</div><!-- /cam -->
+<div id="cap" class="clip" data-start="0" data-duration="34"></div>
+<svg id="grain" width="1080" height="1920"><filter id="gn"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="1080" height="1920" filter="url(#gn)"/></svg>
+<div id="hud" class="clip" data-start="0" data-duration="34">
+ <div class="corner" style="top:190px;left:48px;border-width:3px 0 0 3px"></div>
+ <div class="corner" style="top:190px;right:48px;border-width:3px 3px 0 0"></div>
+ <div class="corner" style="bottom:48px;left:48px;border-width:0 0 3px 3px"></div>
+ <div class="corner" style="bottom:48px;right:48px;border-width:0 3px 3px 0"></div>
+ <div class="hud" style="top:204px;left:96px">EDUKASI · CLAUDE</div>
+ <div class="hud" style="top:204px;right:96px">MODEL &amp; EFFORT</div>
+ <div style="position:absolute;left:96px;right:96px;top:246px;height:3px;background:rgba(21,18,43,.08)"><div id="prog" style="height:3px;background:var(--vio);transform-origin:0 50%;transform:scaleX(0)"></div></div>
+ <div class="hud" style="bottom:56px;left:96px;font-family:PP;font-weight:800;font-size:30px;letter-spacing:0;color:var(--ink)">ResearchQ<span style="color:#EE6A1F">.</span></div>
+ <div class="hud" style="bottom:62px;right:96px">@RESEARCHQ.ID</div>
+</div>
+<audio id="sfx" src="sfx.wav" data-start="0" data-duration="34" data-volume="1"></audio>
+</div>
+
+<script>
+const tl = gsap.timeline({ paused: true });
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+window.__cues = {};
+let seed = 53;
+const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+const R = (sel, t, d = 0.55, ease = "power3.out") => tl.fromTo(sel + " .rv>span", { yPercent: 112 }, { yPercent: 0, duration: d, ease }, t);
+const MK = (sel, t) => tl.fromTo(sel, { "--s": 0 }, { "--s": 1, duration: 0.45, ease: "power2.inOut" }, t);
+const EMO = (id, t, rot = 10) => { const r0 = rot * 0.5 * (rnd() > 0.5 ? 1 : -1), r1 = r0 + rnd() * 6 - 3;
+  tl.fromTo(id, { scale: 0, rotation: -rot * 2, y: 40 }, { scale: 1, rotation: r0, y: 0, duration: 0.6, ease: "back.out(2.2)" }, t);
+  tl.fromTo(id, { y: 0, rotation: r0 }, { y: -14, rotation: r1, duration: 1.3, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, t + 0.6); };
+tl.fromTo("#prog", { scaleX: 0 }, { scaleX: 1, duration: 34, ease: "none" }, 0);
+[["#b1", 120, 80], ["#b2", -140, -60], ["#b3", 100, -90]].forEach(([b, dx, dy]) => tl.fromTo(b, { x: 0, y: 0 }, { x: dx, y: dy, duration: 34, ease: "sine.inOut" }, 0));
+for (let t = 0; t < 34; t += 1.5) tl.to("#cam", { x: (rnd() - 0.5) * 4, y: (rnd() - 0.5) * 4, duration: 1.5, ease: "sine.inOut" }, t);
+
+/* captions */
+const VO = {{VO_JSON}};
+const KW = ["habis?", "model", "effort.", "Free", "Pro", "Sonnet", "Haiku", "Opus.", "Haiku", "cepat,", "Sonnet", "harian:", "Opus", "berat:", "effort,", "Low", "Max.", "teliti,", "habis.", "Medium.", "naikin.", "Simpan", "researchq.id."];
+const cap = document.getElementById("cap");
+const syl = w => Math.max(1, (w.toLowerCase().match(/[aiueo]+/g) || []).length);
+VO.lines.forEach((L, li) => { const nxt = VO.lines[li + 1];
+  const ln = document.createElement("div"); ln.className = "ln"; cap.appendChild(ln);
+  const words = L.text.split(" "), tot = words.reduce((s, w) => s + syl(w), 0), span = (L.end - L.start) * 0.94; let t = L.start;
+  tl.fromTo(ln, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.14, ease: "power2.out" }, L.start - 0.06);
+  tl.to(ln, { opacity: 0, duration: 0.08 }, nxt ? Math.min(L.end + 0.05, nxt.start - 0.16) : L.end + 0.05);
+  words.forEach(w => { const s = document.createElement("span"); s.className = "w"; s.textContent = w; ln.appendChild(s);
+    tl.to(s, { color: KW.includes(w) ? "#6C4CF5" : "#15122B", duration: 0.08 }, t); t += span * syl(w) / tot; });
+});
+
+/* ---------- S1 ---------- */
+tl.fromTo("#use", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 0.1);
+const U = { v: 0.32 }, pct = document.getElementById("pct"), ub = document.getElementById("ub");
+tl.to(U, { v: 1, duration: 1.4, ease: "power2.in", onUpdate: () => { ub.style.transform = `scaleX(${U.v})`; pct.textContent = Math.round(U.v * 100) + "%"; ub.style.background = U.v > 0.85 ? "#E5484D" : U.v > 0.6 ? "#F2A23A" : "#6C4CF5"; } }, 0.35);
+tl.fromTo("#toast", { opacity: 0, y: 30, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.8)" }, 1.8);
+window.__cues.toast = 1.8;
+EMO("#e1", 1.75, 12);
+R("#h1", 2.2, 0.5); R("#h2", 2.45, 0.6, "back.out(1.5)"); MK("#mk1", 2.9);
+R("#h3", 3.3, 0.5);
+tl.to("#s1in", { y: -100, opacity: 0, duration: 0.35, ease: "power2.in" }, 5.6);
+
+/* ---------- S2 ---------- */
+tl.fromTo("#s2l", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 5.95);
+R("#s2a", 6.0, 0.5); MK("#mk2", 7.4);
+tl.fromTo("#pf", { opacity: 0, y: 80, rotation: -3 }, { opacity: 1, y: 0, rotation: -1.5, duration: 0.55, ease: "back.out(1.5)" }, 6.15);
+tl.fromTo("#pf .chip", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.3, stagger: 0.12 }, 6.4);
+tl.fromTo("#pp", { opacity: 0, y: 80, rotation: 3 }, { opacity: 1, y: 0, rotation: 1.5, duration: 0.55, ease: "back.out(1.5)" }, 7.35);
+tl.fromTo("#pp .chip", { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.3, stagger: 0.12 }, 7.6);
+tl.fromTo("#s2n", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 8.0);
+window.__cues.plans = [6.15, 7.35];
+tl.to("#s2in", { x: -500, opacity: 0, duration: 0.35, ease: "power3.in" }, 9.0);
+
+/* ---------- S3 ---------- */
+tl.fromTo("#s3l", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 9.25);
+const MT = [9.3, 12.8, 16.4]; window.__cues.models = MT;
+["#m1", "#m2", "#m3"].forEach((m, i) => {
+  tl.fromTo(m, { opacity: 0, x: 120, rotationY: 25, transformPerspective: 1400 }, { opacity: 1, x: 0, rotationY: 0, duration: 0.6, ease: "expo.out" }, MT[i]);
+  tl.fromTo(m + " .ic img", { scale: 0.3, rotation: -30 }, { scale: 1, rotation: 0, duration: 0.55, ease: "back.out(2.2)" }, MT[i] + 0.1);
+  tl.fromTo(m + " .uc span", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.3, stagger: 0.18 }, MT[i] + 0.6);
+  tl.set(m, { borderColor: "#6C4CF5" }, MT[i]);
+  if (MT[i + 1]) { tl.to(m, { opacity: 0.45, scale: 0.97, duration: 0.3 }, MT[i + 1]); tl.set(m, { borderColor: "#E4DFF8" }, MT[i + 1]); }
+});
+tl.to(["#m1", "#m2"], { opacity: 1, scale: 1, duration: 0.3 }, 19.2);
+tl.to("#s3in", { y: -80, opacity: 0, duration: 0.35, ease: "power2.in" }, 20.0);
+
+/* ---------- S4 effort ---------- */
+tl.fromTo("#s4l", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 20.25);
+R("#s4a", 20.3, 0.5); MK("#mk4", 20.8);
+tl.fromTo("#seg", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 20.4);
+tl.fromTo(["#mt1", "#mt2"], { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, stagger: 0.12, ease: "power3.out" }, 20.6);
+const K = { v: 0 }, knob = document.getElementById("knob"), bq = document.getElementById("bq"), bl = document.getElementById("bl"), v1 = document.getElementById("v1");
+const SEGW = (936 - 20) / 5;
+const kup = () => { knob.style.transform = `translateX(${K.v * SEGW}px)`; const q = 0.2 + 0.8 * K.v / 4; bq.style.transform = `scaleX(${q})`;
+  const lim = 1 - 0.75 * K.v / 4; bl.style.transform = `scaleX(${lim})`; bl.style.background = lim < 0.45 ? "#E5484D" : lim < 0.7 ? "#F2A23A" : "#1FA463";
+  const n = Math.round(K.v) + 1; v1.textContent = "●".repeat(n) + "○".repeat(5 - n);
+  for (let i = 0; i < 5; i++) document.getElementById("g" + i).style.color = Math.round(K.v) === i ? "#fff" : "#7A7596"; };
+bq.style.transformOrigin = bl.style.transformOrigin = "0 50%"; kup();
+const KS = [[21.4, 1], [22.0, 2], [22.6, 3], [23.2, 4], [26.9, 1], [28.5, 3]];
+window.__cues.knob = KS.map(k => k[0]);
+KS.forEach(([t0, v]) => tl.to(K, { v, duration: 0.42, ease: "back.out(1.6)", onUpdate: kup }, t0));
+EMO("#e4", 24.0, 10);
+tl.fromTo("#rlo", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.6)" }, 26.7);
+tl.fromTo("#rhi", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.6)" }, 28.3);
+tl.fromTo("#s4n", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 28.9);
+window.__cues.rec = [26.7, 28.3];
+tl.to("#s4in", { opacity: 0, y: -60, duration: 0.35, ease: "power2.in" }, 30.1);
+
+/* ---------- S5 ---------- */
+EMO("#e5", 30.45, 10);
+R("#c1", 30.55, 0.55, "back.out(1.5)"); MK("#mk5", 31.1);
+tl.fromTo("#c2", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4 }, 31.0);
+R("#c3", 31.3, 0.5);
+tl.fromTo("#c4", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2)" }, 31.7);
+tl.to("#c4 .fol", { y: 12, boxShadow: "0 2px 0 #4B30C4,0 10px 20px -12px rgba(108,76,245,.5)", duration: 0.08 }, 32.6);
+tl.set("#c4", { opacity: 0 }, 32.72); tl.set("#c4b", { opacity: 1 }, 32.72);
+tl.fromTo("#c4b", { scale: 0.92 }, { scale: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, 32.72);
+window.__cues.follow = 32.6;
+tl.seek(0);
+</script>
+</body>
+</html>
