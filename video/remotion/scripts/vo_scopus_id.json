@@ -1,0 +1,23 @@
+{
+  "voice": "env:CARTESIA_VOICE_ID",
+  "voice_name": "Andi - Dynamic Presenter (Cartesia, id)",
+  "language": "id",
+  "note": "Indonesian VO + Indonesian subtitles. 'say' = text sent to TTS (pronunciation spelled out), 'id' = on-screen subtitle.",
+  "lines": [
+    {"at": 0.25,  "say": "A-I suka ngarang referensi?",                                             "id": "AI suka ngarang referensi?"},
+    {"at": 2.4,   "say": "Satu prompt, dan semua referensinya asli.",                               "id": "Satu prompt, dan semua referensinya asli."},
+    {"at": 5.35,  "say": "Pertama, nyalakan web search, biar Klod beneran nyari.",                  "id": "Pertama, nyalakan web search, biar Claude beneran nyari."},
+    {"at": 8.6,   "say": "Kedua, pilih skill Skopus Finder.",                                       "id": "Kedua, pilih skill Scopus Finder."},
+    {"at": 10.9,  "say": "Lalu tulis topikmu, cukup satu kalimat, dan kirim.",                      "id": "Lalu tulis topikmu, cukup satu kalimat, dan kirim."},
+    {"at": 14.0,  "say": "Klod nyari di web, lalu ngecek tiap hasil: tahun, sumber, dan de-o-i-nya.", "id": "Claude nyari di web, lalu ngecek tiap hasil: tahun, sumber, dan DOI-nya."},
+    {"at": 18.3,  "say": "Kuartil nggak kelihatan? Ditandai, bukan ditebak.",                       "id": "Kuartil nggak kelihatan? Ditandai, bukan ditebak."},
+    {"at": 20.5,  "say": "Plus link pencarian yang siap diklik.",                                   "id": "Plus link pencarian yang siap diklik."},
+    {"at": 22.3,  "say": "Tiga artikel asli. Bukan karangan.",                                      "id": "Tiga artikel asli. Bukan karangan."},
+    {"at": 25.1,  "say": "Semuanya langsung dari hasil pencarian, lengkap dengan de-o-i yang bisa kamu buka dan cek sendiri.", "id": "Semuanya langsung dari hasil pencarian, lengkap dengan DOI yang bisa kamu buka dan cek sendiri."},
+    {"at": 30.4,  "say": "Tetap buka artikelnya sebelum kamu sitasi, ya.",                          "id": "Tetap buka artikelnya sebelum kamu sitasi, ya."},
+    {"at": 34.2,  "say": "Terus, kalau search-nya mati?",                                           "id": "Terus, kalau search-nya mati?"},
+    {"at": 36.0,  "say": "Skill-nya nolak ngarang sitasi, dan ngasih link pencarian sebagai gantinya.", "id": "Skill-nya nolak ngarang sitasi, dan ngasih link pencarian sebagai gantinya."},
+    {"at": 39.2,  "say": "Cuma satu kalimat.",                                                      "id": "Cuma satu kalimat."},
+    {"at": 40.9,  "say": "Simpan video ini, dan komen topik skripsimu di bawah.",                   "id": "Simpan video ini, dan komen topik skripsimu di bawah."}
+  ]
+}

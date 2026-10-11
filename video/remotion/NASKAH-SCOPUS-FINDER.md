@@ -38,7 +38,7 @@ AI sering ngarang referensi? Skill ini cari yang ASLI: ada DOI, dicek tahunnya, 
 
 ## Versi VO Inggris + subtitle Indonesia (`ScopusFinderDemoEN`)
 
-Suara: Cartesia **Brandon - Confident Guy** (sonic-3), dibuat dengan `scripts/tts_scopus_en.py`. Script ini membaca
+Suara: Cartesia **Brandon - Confident Guy** (sonic-3), dibuat dengan `scripts/tts_scopus.py`. Script ini membaca
 `CARTESIA_API_KEY` dari environment; key tidak pernah ditulis ke file. Hasil mix: −14 LUFS, SFX diturunkan di bawah VO.
 Timing subtitle tersimpan di `src/scopus/subs-en.json`.
 
@@ -59,3 +59,27 @@ Timing subtitle tersimpan di `src/scopus/subs-en.json`.
 | 36,0 | It refuses to invent citations, and gives you search links instead. | Skill-nya menolak ngarang sitasi, dan kasih link pencarian sebagai gantinya. |
 | 39,25 | Just one sentence. | Cuma satu kalimat. |
 | 40,9 | Save this, and comment your thesis topic below. | Simpan video ini, dan komen topik skripsimu di bawah. |
+
+## Versi VO Indonesia (`ScopusFinderDemoID`)
+
+Suara: Cartesia **Andi - Dynamic Presenter** (bahasa Indonesia, diambil dari `CARTESIA_VOICE_ID`). Subtitle Indonesia
+tetap tampil supaya bisa ditonton tanpa suara. Kolom `say` di `scripts/vo_scopus_id.json` berisi ejaan pelafalan
+(Klod, Skopus, de-o-i). Kolom `id` adalah teks yang tampil di layar. Mix −14 LUFS.
+
+| Detik | VO + subtitle |
+|---|---|
+| 0,25 | AI suka ngarang referensi? |
+| 2,4 | Satu prompt, dan semua referensinya asli. |
+| 5,35 | Pertama, nyalakan web search, biar Claude beneran nyari. |
+| 8,6 | Kedua, pilih skill Scopus Finder. |
+| 10,94 | Lalu tulis topikmu, cukup satu kalimat, dan kirim. |
+| 14,0 | Claude nyari di web, lalu ngecek tiap hasil: tahun, sumber, dan DOI-nya. |
+| 18,35 | Kuartil nggak kelihatan? Ditandai, bukan ditebak. |
+| 20,82 | Plus link pencarian yang siap diklik. |
+| 22,35 | Tiga artikel asli. Bukan karangan. |
+| 25,1 | Semuanya langsung dari hasil pencarian, lengkap dengan DOI yang bisa kamu buka dan cek sendiri. |
+| 30,4 | Tetap buka artikelnya sebelum kamu sitasi, ya. |
+| 34,2 | Terus, kalau search-nya mati? |
+| 36,0 | Skill-nya nolak ngarang sitasi, dan ngasih link pencarian sebagai gantinya. |
+| 39,25 | Cuma satu kalimat. |
+| 40,9 | Simpan video ini, dan komen topik skripsimu di bawah. |

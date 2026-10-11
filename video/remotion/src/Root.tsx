@@ -10,7 +10,7 @@ import { HookScene } from "./scopus/HookScene";
 import { OutroScene } from "./scopus/OutroScene";
 import { RevealScene } from "./scopus/RevealScene";
 import { ScopusFinderDemo } from "./scopus/ScopusFinderDemo";
-import { ScopusFinderDemoEN } from "./scopus/ScopusFinderDemoEN";
+import { ScopusFinderDemoEN, ScopusFinderDemoID } from "./scopus/ScopusFinderDemoEN";
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -22,6 +22,7 @@ export const RemotionRoot: React.FC = () => (
     </Folder>
     <Composition id="ScopusFinderDemo" component={ScopusFinderDemo} durationInFrames={1342} fps={30} width={1080} height={1920} />
     <Composition id="ScopusFinderDemoEN" component={ScopusFinderDemoEN} durationInFrames={1342} fps={30} width={1080} height={1920} />
+    <Composition id="ScopusFinderDemoID" component={ScopusFinderDemoID} durationInFrames={1342} fps={30} width={1080} height={1920} />
     <Folder name="Scopus-scenes">
       <Composition id="ScopusHook" component={HookScene} durationInFrames={158} fps={30} width={1080} height={1920} />
       <Composition id="ScopusChat" component={ChatScene} durationInFrames={518} fps={30} width={1080} height={1920} />

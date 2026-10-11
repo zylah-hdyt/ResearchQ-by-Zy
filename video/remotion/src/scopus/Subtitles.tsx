@@ -1,9 +1,9 @@
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { CL, EASE, SANS } from "./kit";
-import subs from "./subs-en.json";
 
-// Indonesian subtitles for the English VO; timings come from tts_scopus_en.py (subs-en.json).
-export const Subtitles: React.FC = () => {
+// Indonesian subtitles; timings come from scripts/tts_scopus.py (subs-en.json / subs-id.json).
+export type Sub = { start: number; end: number; id: string };
+export const Subtitles: React.FC<{ subs: Sub[] }> = ({ subs }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const t = frame / fps;
