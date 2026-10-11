@@ -6,6 +6,7 @@ Video motion graphic @researchq.id, dibangun sebagai komposisi **HyperFrames** (
 - `scripts/sfx_v2.py` — sound design v2 (FM mallet, thock, reverse swell, sub, flick, blip, click-lock).
 - `scripts/vo_ep01.json` — naskah voiceover per kalimat + jendela waktunya.
 - `scripts/tts_azure.py` — voiceover pria Indonesia (Azure `id-ID-ArdiNeural`), auto-fit ke jendela waktu.
+- `scripts/tts_cartesia.py` — alternatif Cartesia (butuh `CARTESIA_API_KEY`, `CARTESIA_VOICE_ID`, akses `api.cartesia.ai`).
 - `scripts/mix_vo.py` — tempel VO ke timeline, ducking SFX, lalu loudnorm + mux dengan ffmpeg.
 
 ## Pipeline
