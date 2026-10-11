@@ -13,13 +13,13 @@ def add(t0,s,g,pan=0.0):
     i=int(t0*SR); n=min(len(s),N-i)
     if n<=0 or i<0: return
     a=(pan+1)*np.pi/4; L[i:i+n]+=s[:n]*g*np.cos(a); Rr[i:i+n]+=s[:n]*g*np.sin(a)
-def mallet(f,dur=0.9,bright=1.0):          # FM woody mallet
-    n=int(dur*SR); t=T(n); idx=bright*3.2*np.exp(-t/0.035)
+def mallet(f,dur=0.9,bright=1.0):          # FM woody mallet (octave up: audible on phone speakers)
+    f=f*2; n=int(dur*SR); t=T(n); idx=bright*3.6*np.exp(-t/0.035)
     s=np.sin(2*np.pi*f*t+idx*np.sin(2*np.pi*f*4.0*t))+0.25*np.sin(2*np.pi*f*2*t)*np.exp(-t/0.12)
     return s*env(n,0.002,0.22)
 def thock(p=1.0):                          # mechanical keycap
     n=int(0.07*SR); t=T(n)
-    body=np.sin(2*np.pi*(150*p)*t)*env(n,0.001,0.018)
+    body=np.sin(2*np.pi*(320*p)*t)*env(n,0.001,0.016)+0.5*np.sin(2*np.pi*(150*p)*t)*env(n,0.001,0.02)
     clk=f2(rng.normal(0,1,n),'band',[900*p,3200*p])*env(n,0.0005,0.006)
     return f2(body*0.9+clk*0.55,'low',5000)
 def softkey(p=1.0):                        # typing (rounded, quiet)
@@ -37,7 +37,7 @@ def air(dur=0.5,up=True):                  # soft whoosh, lowpass sweep
     return y*np.sin(np.pi*T(n)/dur)**2
 def sub(dur=0.7,f0=72,f1=38):              # sub drop
     n=int(dur*SR); t=T(n); f=f1+(f0-f1)*np.exp(-t*7)
-    return np.tanh(1.6*np.sin(2*np.pi*np.cumsum(f)/SR))*env(n,0.004,0.22)
+    ph=2*np.pi*np.cumsum(f)/SR; return (np.tanh(2.2*np.sin(ph))+0.45*np.sin(2*ph)+0.3*np.sin(3*ph))*env(n,0.004,0.22)
 def flick():                               # paper / card flip
     n=int(0.12*SR); x=rng.normal(0,1,n)
     a=f2(x,'band',[1500,7000])*env(n,0.0005,0.012); b=np.roll(f2(x,'band',[800,4000])*env(n,0.0005,0.02),int(0.035*SR))
