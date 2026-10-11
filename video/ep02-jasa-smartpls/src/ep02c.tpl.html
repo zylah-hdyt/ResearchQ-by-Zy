@@ -86,7 +86,14 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#07101F}
 .fc .fa,.fc .fb{position:absolute;inset:0;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:JBM;font-size:26px;backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .fc .fa{background:#FDE3E4;color:#E5484D}
 .fc .fb{background:var(--greens);color:var(--green);transform:rotateX(180deg)}
-/* testimonials */
+/* testimonials (real, provided by ResearchQ) */
+#twin{position:absolute;inset:0;transform-style:preserve-3d}
+.tq{position:absolute;background:#fff;border:2px solid var(--line);border-radius:28px;box-shadow:0 30px 60px -36px rgba(10,40,90,.45);padding:20px 22px}
+.tq .mt{display:flex;align-items:center;gap:10px;font-family:JBM;font-size:18px;letter-spacing:1px;color:var(--muted);margin-bottom:14px}
+.tq .mt img{width:34px;height:34px}
+.tq .shot{display:block;width:100%;border-radius:18px}
+.tq .qt{font-size:31px;font-weight:700;line-height:1.28;letter-spacing:-.3px;color:var(--ink)}
+.tq .qt:before{content:"\201C";font-family:IS,serif;font-style:italic;font-size:70px;line-height:0;vertical-align:-24px;color:var(--blue);margin-right:6px}
 .tw{position:absolute;inset:0;perspective:1600px}
 .tc{position:absolute;width:520px;height:250px;background:var(--paper);border:2px solid var(--line);border-radius:28px;box-shadow:0 30px 60px -36px rgba(10,40,90,.5);padding:26px 28px}
 .tc .av{width:58px;height:58px;border-radius:50%;filter:blur(1.5px)}
@@ -192,7 +199,13 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#07101F}
  <div class="sc" id="s4in">
   <div class="c big" style="top:300px;font-size:84px" id="s4a"><span class="rv"><span>Testimoni</span></span></div>
   <div class="c serif acc" style="top:385px;font-size:110px;line-height:1.05" id="s4b"><span class="rv"><span>udah banyak.</span></span></div>
-  <div class="tw" id="tw"></div>
+  <div class="tw" id="tw"><div id="twin">
+   <div class="tq" id="tq1" style="left:60px;top:520px;width:500px"><div class="mt"><img src="{{E_1f1ea-1f1e8}}" alt="">KLIEN INTERNASIONAL · EKUADOR</div><img class="shot" src="{{IMG_testi-ecuador}}" alt=""></div>
+   <div class="tq" id="tq2" style="left:575px;top:560px;width:450px"><div class="mt"><img src="{{E_1f393}}" alt="">GRUP PLS WARRIORS</div><img class="shot" src="{{IMG_testi-grup-lulus}}" alt=""></div>
+   <div class="tq" id="tq3" style="left:575px;top:800px;width:450px"><div class="qt">Auto hijau, olah datanya di sini.</div><div class="mt" style="margin:12px 0 0">KLIEN RESEARCHQ</div></div>
+   <div class="tq" id="tq4" style="left:60px;top:945px;width:500px"><div class="qt">Terima kasih, Kak. Aku sudah lulus berkat olah data di ResearchQ.</div><div class="mt" style="margin:12px 0 0"><img src="{{E_1f389}}" alt="">KLIEN RESEARCHQ</div></div>
+   <div class="tq" id="tq5" style="left:575px;top:1035px;width:450px"><div class="qt">Olah data disertasi saya sangat terbantu. Salam dari Malaysia.</div><div class="mt" style="margin:12px 0 0"><img src="{{E_1f1f2-1f1fe}}" alt="">KLIEN S3 · MALAYSIA</div></div>
+  </div></div>
   <div class="lv"><div class="steps" id="steps">
    <div class="stp" id="st1" style="height:170px"><b>S1</b><span>SKRIPSI</span></div>
    <div class="stp" id="st2" style="height:240px"><b>S2</b><span>TESIS</span></div>
@@ -334,18 +347,14 @@ tl.fromTo("#pls3", { rotationY: 180, scale: 0.3, opacity: 0, transformPerspectiv
 tl.to("#s3in", { x: -600, rotationY: -30, opacity: 0, duration: 0.45, ease: "power3.in", transformOrigin: "0% 50%" }, 18.75);
 
 /* ---------- S4 testimonials + levels ---------- */
-const tw = document.getElementById("tw");
-const TP = [[60, 540, -6], [500, 600, 5], [90, 760, 4], [470, 820, -5], [260, 680, -2]];
-const AV = ["#F7D7C2", "#D7E3F7", "#DFF2E6", "#F3E3F7", "#FBEBC7"];
-TP.forEach(([x, y, r], i) => { const c = document.createElement("div"); c.className = "tc"; c.style.left = x + "px"; c.style.top = y + "px";
-  c.innerHTML = `<div class="av" style="background:${AV[i]}"></div><div class="nmb"></div><div class="nmb2"></div><div class="bub">TESTIMONI</div><div class="ln" style="width:92%;margin-top:26px"></div><div class="ln" style="width:80%"></div><div class="ln" style="width:58%"></div>`;
-  tw.appendChild(c);
-  tl.fromTo(c, { opacity: 0, z: -600, rotationX: 40, rotationZ: r * 3, y: 200 }, { opacity: 1, z: 0, rotationX: 0, rotationZ: r, y: 0, duration: 0.7, ease: "expo.out" }, 19.9 + i * 0.28);
+["#tq1", "#tq2", "#tq3", "#tq4", "#tq5"].forEach((c, i) => {
+  const r = [-3, 2, 3, -2, 2][i];
+  tl.fromTo(c, { opacity: 0, z: -600, rotationX: 40, rotationZ: r * 3, y: 200 }, { opacity: 1, z: 0, rotationX: 0, rotationZ: r, y: 0, duration: 0.7, ease: "expo.out" }, 19.85 + i * 0.3);
 });
-window.__cues.cards = [0, 1, 2, 3, 4].map(i => +(19.9 + i * 0.28).toFixed(3));
+window.__cues.cards = [0, 1, 2, 3, 4].map(i => +(19.85 + i * 0.3).toFixed(3));
 tl.fromTo("#s4in", { x: 600, opacity: 0 }, { x: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 19.05);
 R("#s4a", 19.2, 0.5); R("#s4b", 19.55, 0.6);
-tl.to("#tw .tc", { y: -240, scale: 0.74, opacity: 0.35, duration: 0.6, ease: "power3.inOut", stagger: 0.03 }, 22.25);
+tl.to("#twin", { y: -235, scale: 0.6, duration: 0.65, ease: "power3.inOut", transformOrigin: "540px 520px" }, 22.25);
 tl.to(["#s4a", "#s4b"], { opacity: 0, y: -40, duration: 0.4 }, 22.25);
 [["#st1", 22.6], ["#st2", 22.95], ["#st3", 23.35]].forEach(([s, t0]) => tl.fromTo(s, { scaleY: 0, opacity: 0 }, { scaleY: 1, opacity: 1, duration: 0.55, ease: "back.out(1.6)" }, t0));
 window.__cues.steps = [22.6, 22.95, 23.35];

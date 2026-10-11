@@ -30,3 +30,9 @@ loudnorm + mux ke `renders/EP02-jasa-smartpls.mp4` (lihat README EP01).
 - Logo dari user: `assets/brand/smartpls-wordmark.png` (chip di pembuka) dan `assets/brand/pls-round.png` (ikon jendela, stiker, koin 3D di CTA).
 - Build: `python scripts/build.py src/ep02c.tpl.html project/index.html scripts/vo_ep02b.json` (SFX & VO sama dengan v2).
 - Render: `renders/EP02-v3-smartpls-blue.mp4`.
+
+## Versi 4 (testimoni asli) — `src/ep02c.tpl.html`
+- Kartu testimoni diisi testimoni asli dari ResearchQ: screenshot klien Ekuador (`assets/brand/testi-ecuador.png`),
+  pesan grup PLS Warriors dengan nama diblur (`assets/brand/testi-grup-lulus.png`), dan 3 kutipan teks yang dirapikan
+  bahasanya tanpa mengubah makna. Nomor telepon dan nama anggota grup tidak ditampilkan.
+- Render: `renders/EP02-v4-testimoni.mp4`.
