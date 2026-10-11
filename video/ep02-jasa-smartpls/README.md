@@ -16,3 +16,11 @@ yang diperbaiki adalah kualitas model/data sesuai kaidah, dan hipotesis yang tet
 VO (sama seperti EP01): `python ../ep01-judul-generator/scripts/tts_cartesia.py scripts/vo_ep02.json out/vo`,
 lalu `python ../ep01-judul-generator/scripts/mix_vo.py out/vo/manifest.json renders/sfx_ep02.wav out/mix.wav`,
 loudnorm + mux ke `renders/EP02-jasa-smartpls.mp4` (lihat README EP01).
+
+## Versi 2 (case-based, dark → light) — `src/ep02b.tpl.html`
+- Alur: kasus (HTMT merah, loading merah, hipotesis ditolak semua) → "ada yang salah" (model/indikator/data)
+  → layar berubah terang: "di ResearchQ bisa diatasi" (nilai kualitas model dibenahi) → testimoni → S1–S3 → CTA komen "PLS".
+- Kartu testimoni sengaja berupa slot buram (tidak ada teks testimoni karangan). Ganti dengan screenshot testimoni asli.
+- Build: `python scripts/build.py src/ep02b.tpl.html project/index.html scripts/vo_ep02b.json`
+- SFX minimal: `scripts/sfx_ep02b.py` lalu `ffmpeg -i sfx_raw.wav -af loudnorm=I=-20:TP=-3:LRA=10 -ar 48000 sfx.wav`
+- Render: `renders/EP02-v2-jasa-smartpls.mp4`, SFX `renders/sfx_ep02_v2.wav`, naskah VO `scripts/vo_ep02b.json`.

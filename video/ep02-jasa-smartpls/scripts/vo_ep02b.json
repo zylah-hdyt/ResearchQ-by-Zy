@@ -1,0 +1,16 @@
+{
+  "voice": "id-ID-ArdiNeural",
+  "note": "EP02 v2 (case-based). start/end = jendela bicara (detik); dipakai untuk subtitle karaoke dan TTS.",
+  "lines": [
+    {"id": "a", "start": 0.20,  "end": 3.00,  "text": "HTMT merah, outer loading merah semua,",        "ssml": "<sub alias='ha te em te'>HTMT</sub> merah, <sub alias='autter loding'>outer loading</sub> merah semua,"},
+    {"id": "b", "start": 3.10,  "end": 5.30,  "text": "hipotesisnya ditolak semua.",                   "ssml": "hipotesisnya ditolak semua."},
+    {"id": "c", "start": 5.60,  "end": 8.30,  "text": "Kalau begini, artinya ada yang salah.",         "ssml": "Kalau begini, <break time='120ms'/> artinya ada yang salah."},
+    {"id": "d", "start": 8.40,  "end": 11.50, "text": "Bisa di model, indikator, atau datanya.",       "ssml": "Bisa di model, indikator, atau datanya."},
+    {"id": "e", "start": 12.00, "end": 15.30, "text": "Tenang, di ResearchQ masalah ini bisa diatasi.", "ssml": "Tenang, di <sub alias='risérc kiu'>ResearchQ</sub> masalah ini bisa diatasi."},
+    {"id": "f", "start": 15.50, "end": 18.70, "text": "Ditelusuri satu per satu, dibenahi sesuai kaidah.", "ssml": "Ditelusuri satu per satu, dibenahi sesuai kaidah."},
+    {"id": "g", "start": 19.20, "end": 22.30, "text": "Testimoninya udah banyak,",                     "ssml": "Testimoninya udah banyak,"},
+    {"id": "h", "start": 22.40, "end": 25.60, "text": "dari S1, S2, sampai S3, bisa kita kerjain.",    "ssml": "dari es satu, es dua, sampai es tiga, bisa kita kerjain."},
+    {"id": "i", "start": 26.00, "end": 28.60, "text": "Mau hasil olah datamu dibenahi?",               "ssml": "Mau hasil olah datamu dibenahi?"},
+    {"id": "j", "start": 28.80, "end": 32.60, "text": "Komen PLS, nanti aku kirim linknya.",           "ssml": "Komen <sub alias='pi el es'>PLS</sub>, nanti aku kirim linknya."}
+  ]
+}
