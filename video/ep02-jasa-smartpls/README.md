@@ -6,7 +6,8 @@ ala aplikasi desain, adegan 3D (tabel output, kartu metrik, flip nilai merah→h
 
 - `src/ep02.tpl.html` — template. `scripts/build.py` menyematkan font (dari EP01), emoji, dan timing VO.
 - `scripts/vo_ep02.json` — naskah VO + jendela waktu (dipakai juga untuk subtitle karaoke).
-- `scripts/sfx_ep02.py` — SFX (palet premium yang sama dengan EP01 v2, cue sheet sendiri).
+- `scripts/sfx_ep02.py` — SFX (palet premium, cue sheet sendiri). Setelah sintesis, normalkan supaya terdengar di speaker HP:
+  `ffmpeg -i sfx_raw.wav -af "highpass=f=90,acompressor=threshold=-24dB:ratio=3:attack=3:release=120:makeup=4,loudnorm=I=-14:TP=-1.5:LRA=7" -ar 48000 sfx.wav`
 - `renders/EP02-jasa-smartpls.mp4`, `renders/sfx_ep02.wav` — hasil render (tanpa VO).
 
 Catatan isi: angka di tabel adalah ilustrasi (ditandai di layar). Video tidak menjanjikan hipotesis "jadi diterima";
