@@ -14,7 +14,7 @@
 @font-face{font-family:PJS;font-weight:800;src:url(data:font/woff2;base64,{{PJS800}}) format("woff2")}
 @font-face{font-family:JBM;src:url(data:font/woff2;base64,{{JBM}}) format("woff2")}
 :root{--cream:#EEECE5;--card:#FAF9F5;--ink:#121212;--mut:#8C887F;--line:#D9D5CB;--lime:#D6E64A;--lime2:#EEF5B9;
---orange:#FF5533;--blue:#2E3BF0;--black:#0D0D0F;--g:#3BAE5A;--y:#F2B705;--r:#F0442C;--hud:#121212}
+--orange:#FF5533;--claude:#EF562F;--blue:#2E3BF0;--black:#0D0D0F;--g:#3BAE5A;--y:#F2B705;--r:#F0442C;--hud:#121212}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:1080px;height:1920px;overflow:hidden;background:var(--cream)}
 #root{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--cream);font-family:PJS,sans-serif;color:var(--ink)}
@@ -62,18 +62,12 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:var(--cream)}
 .trk{position:absolute;left:150px;width:780px;height:2px;background:#CBC6BA}
 .ball{position:absolute;width:58px;height:58px;border-radius:50%;margin:-29px 0 0 -29px}
 .zl{position:absolute;left:150px;font-family:JBM;font-size:21px;letter-spacing:2px;color:var(--mut)}
+.clogo{-webkit-mask:url(data:image/png;base64,{{CLOGO}}) center/contain no-repeat;mask:url(data:image/png;base64,{{CLOGO}}) center/contain no-repeat;background:var(--claude)}
 .zd{position:absolute;right:150px;font-family:SI;font-style:italic;font-size:44px;text-align:right}
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute"><defs>
- <symbol id="mark" viewBox="-200 -200 400 400">
-  <g fill="currentColor">
-   <ellipse cx="0" cy="-118" rx="30" ry="64"/><ellipse cx="0" cy="-118" rx="30" ry="64" transform="rotate(60)"/>
-   <ellipse cx="0" cy="-118" rx="30" ry="64" transform="rotate(120)"/><ellipse cx="0" cy="-118" rx="30" ry="64" transform="rotate(180)"/>
-   <ellipse cx="0" cy="-118" rx="30" ry="64" transform="rotate(240)"/><ellipse cx="0" cy="-118" rx="30" ry="64" transform="rotate(300)"/>
-  </g>
- </symbol>
 </defs></svg>
 
 <div id="root" data-composition-id="main" data-start="0" data-duration="32" data-width="1080" data-height="1920">
@@ -84,7 +78,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:var(--cream)}
   <svg class="abs" id="ring1" style="left:90px;top:410px;width:900px;height:900px;overflow:visible" viewBox="0 0 900 900"><circle cx="450" cy="450" r="440" fill="none" stroke="#121212" stroke-opacity=".14" stroke-width="2"/></svg>
   <svg class="abs" id="ring2" style="left:90px;top:410px;width:900px;height:900px;overflow:visible" viewBox="0 0 900 900"><circle cx="450" cy="450" r="440" fill="none" stroke="#D6E64A" stroke-width="5"/></svg>
   <div id="parts"></div>
-  <svg class="abs" id="mk1" style="left:340px;top:660px;width:400px;height:400px;color:var(--ink)"><use href="#mark"/></svg>
+  <div class="abs clogo" id="mk1" style="left:330px;top:650px;width:420px;height:420px"></div>
   <div class="abs" id="dot" style="left:510px;top:830px;width:60px;height:60px;border-radius:50%;background:var(--lime)"></div>
   <div class="c mono" id="s1lab" style="top:1150px;font-size:24px;color:var(--mut)">RESEARCHQ &nbsp;&middot;&nbsp; EDUKASI AI &amp; RISET</div>
  </div>
@@ -132,7 +126,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:var(--cream)}
   <div class="abs" id="dcw" style="left:110px;top:610px;width:860px;height:400px;perspective:1600px">
    <div id="dc" style="position:absolute;inset:0;background:#141414;border-radius:38px;padding:40px 44px;box-shadow:0 50px 80px -40px rgba(0,0,0,.6);transform-origin:0% 50%">
     <div style="display:flex;align-items:center;gap:24px">
-     <div style="width:78px;height:78px;border-radius:20px;background:var(--lime);display:flex;align-items:center;justify-content:center"><svg style="width:52px;height:52px;color:var(--ink)"><use href="#mark"/></svg></div>
+     <div style="width:78px;height:78px;border-radius:20px;background:var(--cream);display:flex;align-items:center;justify-content:center"><div class="clogo" style="width:56px;height:56px"></div></div>
      <div><div style="color:#fff;font-size:50px;font-weight:800;letter-spacing:-1px">ResearchQ Skills</div><div class="mono" style="color:#8d8d86;font-size:19px;margin-top:2px">CLAUDE SKILL &middot; UNTUK RISET</div></div>
     </div>
     <div class="code" style="margin-top:34px"><span class="ln" id="cl1"><b>&gt;</b> /judul-generator</span><span class="ln" id="cl2">  jurusan: manajemen</span><span class="ln" id="cl3">  tema: e-commerce &middot; lokasi: jakarta</span><span class="ln" id="cl4"><b>&#10003;</b> data dulu, baru judul</span></div>
@@ -159,7 +153,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:var(--cream)}
 
  <!-- S7 COLOR CUTS -->
  <div id="c1" class="sc"><div class="bg" style="background:var(--black)"></div>
-  <svg class="abs" id="burst" viewBox="-300 -300 600 600" style="left:240px;top:610px;width:600px;height:600px;overflow:visible"><g id="rays" stroke="#FF5533" stroke-width="14" stroke-linecap="round"></g></svg>
+  <div class="abs clogo" id="burst" style="left:250px;top:620px;width:580px;height:580px"></div>
   <svg class="abs" viewBox="0 0 900 900" style="left:90px;top:460px;width:900px;height:900px"><circle cx="450" cy="450" r="440" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="2"/></svg>
   <div class="c mono" id="c1t" style="top:1330px;font-size:30px;color:#fff">JADI, ATURANNYA:</div>
  </div>
@@ -211,8 +205,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:var(--cream)}
  <div id="s9" class="sc">
   <div id="ld"></div>
   <svg class="abs" id="ring3" style="left:240px;top:560px;width:600px;height:600px;overflow:visible" viewBox="0 0 600 600"><circle cx="300" cy="300" r="290" fill="none" stroke="#D6E64A" stroke-width="5"/></svg>
-  <svg class="abs" id="mk2" style="left:390px;top:560px;width:300px;height:300px;color:var(--ink)"><use href="#mark"/></svg>
-  <div class="abs" id="mk2d" style="left:522px;top:692px;width:36px;height:36px;border-radius:50%;background:var(--lime)"></div>
+  <div class="abs clogo" id="mk2" style="left:385px;top:555px;width:310px;height:310px"></div>
   <div class="c b8" id="wm" style="top:910px;font-size:150px;letter-spacing:-5px">ResearchQ</div>
   <div class="c si" id="tg" style="top:1090px;font-size:60px;color:#3d3b37">AI mempercepat, <span style="color:var(--ink)">kamu tetap penelitinya.</span></div>
   <div class="c" id="cta" style="top:1210px"><div class="pill" style="font-family:PJS;font-weight:700;font-size:38px;letter-spacing:0;padding:24px 44px"><i></i>Follow @researchq.id &nbsp;&rarr;</div></div>
@@ -332,8 +325,6 @@ cue("riser", [bt(38), bt(40)]);
 tl.to("#lc", { scale: 1.12, duration: bt(1), ease: "power2.in" }, bt(39));
 
 /* ---------- S7 COLOR CUTS (40-52) ---------- */
-const rays = $("#rays");
-for (let i = 0; i < 16; i++) { const a = i / 16 * Math.PI * 2, r0 = 40, r1 = i % 2 ? 230 : 290; const l = document.createElementNS("http://www.w3.org/2000/svg", "line"); l.setAttribute("x1", Math.cos(a) * r0); l.setAttribute("y1", Math.sin(a) * r0); l.setAttribute("x2", Math.cos(a) * r1); l.setAttribute("y2", Math.sin(a) * r1); rays.appendChild(l); }
 [40, 42, 44, 46, 48].forEach(b => { punch(b, 1.06); cue("hit", bt(b)); cue("whoosh", bt(b) - 0.02); });
 tl.fromTo("#burst", { scale: 0.2, rotation: -60 }, { scale: 1, rotation: 30, duration: bt(2), ease: "expo.out", immediateRender: false }, bt(40));
 tl.fromTo("#c1t", { opacity: 0, letterSpacing: "20px" }, { opacity: 1, letterSpacing: "3px", duration: 0.5, ease: "power3.out", immediateRender: false }, bt(40.5));
@@ -378,21 +369,20 @@ tl.to("#s8 > *", { opacity: 0, y: -40, duration: bt(0.75), stagger: 0.008, ease:
 /* ---------- S9 LOGO (60-76) ---------- */
 punch(60);
 const ld = $("#ld"), LD = [];
-for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2, d = document.createElement("div"); d.style.cssText = `position:absolute;width:34px;height:34px;border-radius:50%;margin:-17px 0 0 -17px;background:${i === 0 ? "#D6E64A" : "#121212"};left:540px;top:710px`; ld.appendChild(d); LD.push([d, a]); }
+for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2, d = document.createElement("div"); d.style.cssText = `position:absolute;width:34px;height:34px;border-radius:50%;margin:-17px 0 0 -17px;background:${i === 0 ? "#EF562F" : "#121212"};left:540px;top:710px`; ld.appendChild(d); LD.push([d, a]); }
 LD.forEach(([d, a0]) => { d.style.left = (540 + Math.cos(a0) * 140) + "px"; d.style.top = (710 + Math.sin(a0) * 140) + "px"; });
 tl.fromTo("#ld", { rotation: 0, transformOrigin: "540px 710px" }, { rotation: 270, duration: bt(2), ease: "power1.inOut", immediateRender: false }, bt(60));
 LD.forEach(([d], i) => { tl.fromTo(d, { scale: 0 }, { scale: 1, duration: 0.25, ease: "back.out(3)", immediateRender: false }, bt(60) + i * 0.04); cue("blip", bt(60) + i * 0.1); });
 tl.to(LD.map(x => x[0]), { scale: 0, duration: 0.15, ease: "power2.in" }, bt(62) - 0.15);
 cue("riser", [bt(60), bt(62)]);
-gsap.set(["#mk2", "#mk2d"], { scale: 0, transformOrigin: "50% 50%" }); gsap.set("#ring3", { scale: 0, transformOrigin: "50% 50%" });
-tl.to("#mk2", { scale: 1, rotation: 60, duration: 0.8, ease: "back.out(1.6)" }, bt(62)); cue("hit", bt(62)); cue("sub", bt(62)); cue("shimmer", bt(62));
-tl.to("#mk2d", { scale: 1, duration: 0.4, ease: "back.out(3)" }, bt(62.25));
+gsap.set("#mk2", { scale: 0, transformOrigin: "50% 50%" }); gsap.set("#ring3", { scale: 0, transformOrigin: "50% 50%" });
+tl.to("#mk2", { scale: 1, rotation: 30, duration: 0.8, ease: "back.out(1.6)" }, bt(62)); cue("hit", bt(62)); cue("sub", bt(62)); cue("shimmer", bt(62));
 tl.fromTo("#ring3", { scale: 0.3, opacity: 1 }, { scale: 1.3, opacity: 0, duration: 1.0, ease: "power2.out", immediateRender: false }, bt(62));
 punch(62, 1.05);
 tl.fromTo("#wm", { y: 60, opacity: 0, letterSpacing: "10px" }, { y: 0, opacity: 1, letterSpacing: "-5px", duration: 0.6, ease: "expo.out", immediateRender: false }, bt(63)); cue("whoosh", bt(63) + 0.15);
 tl.fromTo("#tg", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", immediateRender: false }, bt(64.5)); cue("tick", bt(64.5));
 tl.fromTo("#cta", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2)", immediateRender: false }, bt(66)); cue("pop", bt(66));
-tl.to("#mk2", { rotation: 120, duration: bt(10), ease: "sine.inOut" }, bt(63));
+tl.to("#mk2", { rotation: 75, duration: bt(10), ease: "sine.inOut" }, bt(63));
 tl.to("#cta", { scale: 1.04, duration: bt(1), yoyo: true, repeat: 5, ease: "sine.inOut" }, bt(68));
 
 /* initial (pre-cue) states: a scene becomes visible on its downbeat, so anything that enters later starts hidden */

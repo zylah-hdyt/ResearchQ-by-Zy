@@ -11,6 +11,7 @@ ASSETS = {
     'PJS700': 'assets/fonts/plus-jakarta-sans-latin-700-normal.woff2',
     'PJS800': 'assets/fonts/plus-jakarta-sans-latin-800-normal.woff2',
     'JBM': 'assets/fonts/jetbrains-mono-latin-500-normal.woff2',
+    'CLOGO': 'assets/claude_logo_mask.png',
 }
 src, out = sys.argv[1], sys.argv[2]
 t = open(src).read()
