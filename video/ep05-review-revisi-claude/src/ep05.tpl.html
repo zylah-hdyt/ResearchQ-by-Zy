@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="id" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Review dan Revisi EP05</title>
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:PJ;font-weight:500;src:url(data:font/woff2;base64,{{F_plus-jakarta-sans-latin-500-normal}}) format("woff2")}
+@font-face{font-family:PJ;font-weight:700;src:url(data:font/woff2;base64,{{F_plus-jakarta-sans-latin-700-normal}}) format("woff2")}
+@font-face{font-family:PJ;font-weight:800;src:url(data:font/woff2;base64,{{F_plus-jakarta-sans-latin-800-normal}}) format("woff2")}
+@font-face{font-family:JBM;font-weight:500;src:url(data:font/woff2;base64,{{F_jetbrains-mono-latin-500-normal}}) format("woff2")}
+@font-face{font-family:CV;font-weight:700;src:url(data:font/woff2;base64,{{F_caveat-latin-700-normal}}) format("woff2")}
+:root{--bg:#EFEAE2;--ink:#1F1E1B;--mut:#8A857A;--line:#E3DDD1;--app:#FAF9F5;--clay:#D97757;--clayd:#B8552F;--red:#E5484D;--reds:#FDE8E8;--amb:#E8A13A;--grn:#1F9D5B;--grns:#E2F5EA;--blue:#2B5797}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#EFEAE2}
+#root{position:relative;width:1080px;height:1920px;overflow:hidden;font-family:PJ,sans-serif;color:var(--ink);background:var(--bg)}
+#dots{position:absolute;inset:0;background-image:radial-gradient(rgba(31,30,27,.10) 2px,transparent 2.5px);background-size:36px 36px}
+.blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.6}
+#grain{position:absolute;inset:0;opacity:.05;mix-blend-mode:multiply;pointer-events:none}
+.clip{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.sc{position:absolute;inset:0}
+.c{position:absolute;left:72px;right:72px;text-align:center}
+.rv{display:block;overflow:hidden;padding:0 8px 16px;margin-bottom:-16px}
+.rv>span{display:inline-block}
+.h{font-weight:800;letter-spacing:-3px;line-height:1.02}
+.mono{font-family:JBM;font-weight:500;letter-spacing:2px}
+.mk{position:relative;display:inline-block;z-index:0}
+.mk:before{content:"";position:absolute;left:-10px;right:-10px;bottom:8px;height:36%;background:#F6C9B4;border-radius:10px;z-index:-1;transform-origin:0 50%;transform:scaleX(var(--s,0))}
+.emo{position:absolute;filter:drop-shadow(0 18px 18px rgba(80,50,20,.22))}
+.hud{position:absolute;font-family:JBM;font-size:22px;letter-spacing:2px;color:var(--mut)}
+/* hook notifications */
+.ntf{position:absolute;left:90px;right:90px;height:138px;border-radius:38px;background:rgba(255,255,255,.94);box-shadow:0 30px 60px -36px rgba(60,40,20,.45);display:flex;align-items:center;gap:24px;padding:0 30px}
+.ntf .av{width:84px;height:84px;border-radius:24px;background:#F3E6DA;display:flex;align-items:center;justify-content:center;flex:none}
+.ntf .av img{width:62px;height:62px}
+.ntf .nt{flex:1}
+.ntf .nn{display:flex;justify-content:space-between;font-size:25px;font-weight:700;color:var(--mut)}
+.ntf .nn small{font-family:JBM;font-size:20px;font-weight:500}
+.ntf .nm{font-size:36px;font-weight:700;margin-top:2px}
+.pill{display:inline-flex;align-items:center;gap:14px;padding:20px 30px;border-radius:999px;background:var(--ink);color:#fff;font-size:34px;font-weight:700;margin:0 8px}
+.pill b{font-family:JBM;font-weight:500;color:#F2A27F;font-size:26px}
+/* app */
+#frame{position:absolute;left:60px;top:290px;width:960px;height:1110px;border-radius:56px;overflow:hidden;box-shadow:0 60px 110px -60px rgba(60,40,20,.55);background:var(--app)}
+#zoom{position:absolute;inset:0}
+#app{position:absolute;inset:0;border-radius:56px;background:var(--app);border:2px solid var(--line);overflow:hidden}
+.hdr{position:absolute;left:0;right:0;top:0;height:112px;border-bottom:2px solid #EEEAE0;display:flex;align-items:center;justify-content:center}
+.hdr .ham{position:absolute;left:40px;top:40px;width:40px}
+.hdr .ham i{display:block;height:4px;border-radius:2px;background:var(--ink);margin-bottom:9px}
+.hdr .nw{position:absolute;right:40px;top:34px;width:44px;height:44px;border-radius:14px;border:3.5px solid var(--ink)}
+.hdr .nw:after{content:"";position:absolute;left:10px;top:17px;width:17px;height:3.5px;background:var(--ink);box-shadow:0 0 0 0 var(--ink)}
+.ttl{position:absolute;left:0;right:0;top:30px;text-align:center;font-size:32px;font-weight:700}
+.ttl img{width:40px;height:40px;vertical-align:-9px;margin-right:12px}
+.feed{position:absolute;left:0;right:0;top:112px;height:830px;overflow:hidden}
+.fi{position:absolute;left:0;right:0;top:0;padding:34px 40px}
+.ub{margin-left:auto;max-width:720px;width:max-content;background:#EFEBE3;border-radius:36px 36px 12px 36px;padding:24px 28px;font-size:32px;font-weight:500;line-height:1.35}
+.sk{display:inline-flex;align-items:center;gap:10px;padding:8px 18px;border-radius:999px;border:2.5px solid var(--clay);color:var(--clayd);font-size:26px;font-weight:700;background:#FFF5EF}
+.att{display:flex;align-items:center;gap:18px;background:#fff;border:2px solid var(--line);border-radius:24px;padding:16px 20px;margin-bottom:16px}
+.att .fic{width:62px;height:72px;border-radius:12px;color:#fff;font-family:JBM;font-size:18px;display:flex;align-items:center;justify-content:center;flex:none}
+.att .fn{font-size:28px;font-weight:700}
+.att .fs{font-family:JBM;font-size:20px;color:var(--mut)}
+.as{position:relative;margin-top:36px;padding-left:72px}
+.as>.lg{position:absolute;left:0;top:4px;width:50px;height:50px}
+.think{font-size:28px;font-weight:600;color:var(--mut);height:50px;line-height:50px}
+.card{background:#fff;border:2px solid var(--line);border-radius:30px;padding:24px 28px}
+.rh{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.rh .rt{font-size:31px;font-weight:800;letter-spacing:-.5px}
+.rh .rs{font-size:24px;color:var(--mut);font-weight:500;margin-top:4px}
+.score{flex:none;width:118px;height:118px;border-radius:30px;background:#FFF3DC;color:#A86400;text-align:center;font-family:JBM;font-size:20px;padding-top:12px}
+.score b{display:block;font-family:PJ;font-size:62px;font-weight:800;line-height:1}
+.iss{border-left:10px solid var(--red);margin-top:22px}
+.tag{display:inline-flex;align-items:center;gap:10px;font-family:JBM;font-size:20px;letter-spacing:1.5px;padding:8px 14px;border-radius:999px}
+.tag i{width:14px;height:14px;border-radius:50%;display:block}
+.pg{display:inline-flex;align-items:center;gap:6px;font-size:26px;font-weight:800;padding:6px 18px 6px 8px;border-radius:999px;background:var(--ink);color:#fff;float:right}
+.pg img{width:40px;height:40px}
+.it{font-size:32px;font-weight:800;margin:14px 0 12px;letter-spacing:-.5px}
+.q{font-size:27px;line-height:1.5;color:#4A463E}
+.hl{position:relative;z-index:0}
+.hl:before{content:"";position:absolute;left:-4px;right:-4px;top:2px;bottom:0;background:var(--reds);border-bottom:3px solid var(--red);z-index:-1;transform-origin:0 50%;transform:scaleX(var(--s,0))}
+.fix{margin-top:18px;background:var(--grns);border-radius:22px;padding:18px 22px;font-size:27px;line-height:1.45;color:#145C37;font-weight:600}
+.fix .lb{font-family:JBM;font-size:19px;letter-spacing:2px;color:var(--grn);font-weight:500;display:block;margin-bottom:4px}
+.sum{display:flex;gap:14px;margin-top:22px}
+.sum span{flex:1;text-align:center;font-size:25px;font-weight:700;padding:16px 0;border-radius:20px;background:#fff;border:2px solid var(--line)}
+.sum span i{display:inline-block;width:16px;height:16px;border-radius:50%;margin-right:10px}
+.fine{font-family:JBM;font-size:18px;color:var(--mut);letter-spacing:.5px;margin-top:10px}
+/* auto revision */
+.paper{position:relative;width:560px;height:330px;margin-bottom:18px;border-radius:14px;background:#FFFDF5;background-image:repeating-linear-gradient(transparent 0 58px,#D9E3F0 58px 60px);box-shadow:0 18px 30px -18px rgba(0,0,0,.35);padding:22px 30px 0 70px;font-family:CV;font-size:46px;line-height:60px;color:#C62828;transform:rotate(-1.5deg)}
+.paper:before{content:"";position:absolute;left:48px;top:0;bottom:0;width:2px;background:#F2B8B8}
+.paper .ph{position:absolute;right:16px;top:14px;width:70px;height:70px}
+.tr{display:flex;align-items:center;gap:16px;margin-top:14px;font-size:27px;font-weight:600}
+.tr .dq{flex:none;font-family:CV;font-size:40px;color:#C62828;background:#FFF;border:2px solid var(--line);border-radius:18px;padding:0 18px;line-height:58px}
+.tr .ar{flex:none;font-size:30px;color:var(--mut)}
+.lbl{font-family:JBM;font-size:20px;letter-spacing:2px;color:var(--mut)}
+.ck{display:flex;align-items:center;gap:16px;font-size:27px;font-weight:600;padding:14px 0;border-bottom:2px dashed #EEEAE0}
+.ck:last-child{border-bottom:0}
+.ck .bx{flex:none;width:36px;height:36px;border-radius:10px;border:3px solid #C9C2B4}
+.ck .rn{flex:none;font-family:JBM;font-size:20px;padding:6px 10px;border-radius:10px;color:#fff}
+.ck small{margin-left:auto;font-family:JBM;font-size:19px;color:var(--mut);font-weight:500;white-space:nowrap}
+.doc{display:flex;align-items:center;gap:22px;margin-top:22px}
+.doc .w{width:86px;height:100px;border-radius:16px;background:var(--blue);color:#fff;font-size:52px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none}
+.doc .dn{font-size:29px;font-weight:800}
+.doc .ds{font-size:22px;color:var(--mut)}
+.dl{margin-left:auto;position:relative;flex:none;width:170px;height:66px}
+.dl span{position:absolute;inset:0;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:800}
+/* input */
+.inp{position:absolute;left:30px;right:30px;bottom:28px;height:112px;border-radius:40px;background:#fff;border:2px solid var(--line);box-shadow:0 10px 30px -20px rgba(60,40,20,.3)}
+.plus{position:absolute;left:20px;top:22px;width:64px;height:64px;border-radius:50%;border:2.5px solid var(--line);font-size:40px;line-height:56px;text-align:center;color:var(--mut)}
+.snd{position:absolute;right:20px;top:20px;width:68px;height:68px;border-radius:50%;background:var(--clay);color:#fff;font-size:38px;font-weight:800;line-height:66px;text-align:center}
+.itx{position:absolute;left:104px;right:104px;top:0;height:108px;display:flex;align-items:center;gap:14px;font-size:30px;font-weight:500;white-space:nowrap;overflow:hidden}
+.itx .sk{font-size:24px;padding:6px 14px}
+.prv{position:absolute;left:44px;bottom:150px;display:flex;align-items:center;gap:12px;background:#fff;border:2px solid var(--line);border-radius:20px;padding:10px 18px 10px 10px;font-size:24px;font-weight:700;box-shadow:0 10px 24px -16px rgba(60,40,20,.35)}
+.prv .fic{width:46px;height:52px;border-radius:10px;color:#fff;font-family:JBM;font-size:14px;display:flex;align-items:center;justify-content:center}
+#tap{position:absolute;left:0;top:0;width:76px;height:76px;border-radius:50%;background:rgba(31,30,27,.28);border:4px solid rgba(255,255,255,.95);box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:20}
+#rip{position:absolute;left:0;top:0;width:76px;height:76px;border-radius:50%;border:4px solid rgba(31,30,27,.5);z-index:19}
+.stk{position:absolute;left:40px;top:258px;display:flex;align-items:center;gap:14px;padding:14px 26px;border-radius:22px;background:var(--ink);color:#fff;font-size:32px;font-weight:800;box-shadow:0 18px 30px -16px rgba(0,0,0,.45);z-index:5}
+.stk b{font-family:JBM;font-weight:500;font-size:22px;color:#F2A27F;letter-spacing:2px}
+.stk small{font-family:JBM;font-weight:500;font-size:17px;color:#BDB6A8;letter-spacing:1px;margin-left:6px}
+/* cta */
+.rc{position:absolute;left:96px;right:96px;height:132px;border-radius:34px;background:#fff;border:2px solid var(--line);display:flex;align-items:center;gap:24px;padding:0 30px;box-shadow:0 30px 60px -40px rgba(60,40,20,.45)}
+.rc .n{flex:none;width:76px;height:76px;border-radius:22px;background:var(--ink);color:#F2A27F;font-family:JBM;font-size:28px;display:flex;align-items:center;justify-content:center}
+.rc .t{font-size:36px;font-weight:800;letter-spacing:-.5px}
+.rc .s{font-size:25px;color:var(--mut);font-weight:500}
+.fol{display:inline-flex;align-items:center;gap:12px;font-weight:800;padding:24px 60px;border-radius:999px;background:var(--clay);color:#fff;font-size:44px;box-shadow:0 14px 0 #A9502C,0 40px 50px -22px rgba(217,119,87,.55)}
+/* captions */
+#cap{position:absolute;left:72px;width:936px;top:1438px;height:120px;text-align:center;font-size:40px;font-weight:800;letter-spacing:-.5px;line-height:1.3}
+#cap .ln{position:absolute;left:0;right:0;opacity:0}
+#cap .w{display:inline-block;margin:0 6px;color:rgba(31,30,27,.25)}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="30" data-width="1080" data-height="1920">
+<div id="dots"></div>
+<div class="blob" id="b1" style="left:-200px;top:180px;width:620px;height:620px;background:#F8CDB8"></div>
+<div class="blob" id="b2" style="left:660px;top:900px;width:560px;height:560px;background:#D6E0F2"></div>
+
+<!-- S1 hook -->
+<div id="s1" class="clip" data-start="0" data-duration="3.3">
+ <div class="sc" id="s1in">
+  <div class="ntf" id="n1" style="top:320px"><div class="av"><img src="{{E_1f9d1-200d-1f3eb}}" alt=""></div><div class="nt"><div class="nn">Dosen Pembimbing<small>sekarang</small></div><div class="nm">Revisi lagi ya.</div></div></div>
+  <div class="ntf" id="n2" style="top:478px"><div class="av"><img src="{{E_1f9d1-200d-1f3eb}}" alt=""></div><div class="nt"><div class="nn">Dosen Pembimbing<small>sekarang</small></div><div class="nm">Perdalam.</div></div></div>
+  <div class="ntf" id="n3" style="top:636px"><div class="av"><img src="{{E_1f9d1-200d-1f3eb}}" alt=""></div><div class="nt"><div class="nn">Dosen Pembimbing<small>sekarang</small></div><div class="nm">Gap-nya mana??</div></div></div>
+  <div class="c h" style="top:850px;font-size:104px" id="h1"><span class="rv"><span>Bolak-balik</span></span></div>
+  <div class="c h" style="top:960px;font-size:160px" id="h2"><span class="rv"><span><span class="mk" id="mk1" style="color:var(--clayd)">revisi?</span></span></span></div>
+  <img class="emo" id="e1" src="{{E_1f629}}" style="left:860px;top:880px;width:140px;height:140px" alt="">
+  <div class="c" style="top:1170px;font-size:42px;font-weight:700;color:var(--mut)" id="h3">Coba 2 skill Claude ini</div>
+  <div class="c" style="top:1250px" id="h4"><span class="pill" id="p1"><b>01</b>Master Reviewer</span><span class="pill" id="p2"><b>02</b>Auto Revision</span></div>
+ </div>
+</div>
+
+<!-- APP (screen-UI) -->
+<div id="appclip" class="clip" data-start="2.8" data-duration="23">
+ <div id="frame"><div id="zoom">
+  <div id="app">
+   <div class="hdr"><div class="ham"><i></i><i></i><i></i></div>
+    <div class="ttl" id="t1"><img src="{{IMG_claude_logo}}" alt="">Review BAB 1</div>
+    <div class="ttl" id="t2" style="opacity:0"><img src="{{IMG_claude_logo}}" alt="">Revisi Sidang</div>
+    <div class="nw"></div></div>
+
+   <!-- feed 1: Master Reviewer -->
+   <div class="feed"><div class="fi" id="f1">
+    <div class="ub" id="u1">
+     <div class="att"><div class="fic" style="background:#D93A3A">PDF</div><div><div class="fn">BAB1_Skripsi.pdf</div><div class="fs">12 HALAMAN</div></div></div>
+     <span class="sk">✦ Master Reviewer</span>
+     <div style="margin-top:12px">Review BAB 1 ini, cantumkan halamannya ya</div>
+    </div>
+    <div class="as" id="a1"><img class="lg" src="{{IMG_claude_logo}}" id="lg1" alt="">
+     <div class="think" id="th1">Mereview seperti dosen…</div>
+     <div class="card rh" id="rh" style="margin-top:-50px"><div><div class="rt"><img src="{{E_1f4cb}}" style="width:38px;height:38px;vertical-align:-8px" alt=""> REVIEW BAB 1</div><div class="rs">Pendahuluan · beberapa bagian perlu ditulis ulang</div></div><div class="score">SKOR<b>C</b></div></div>
+     <div class="card iss" id="m1">
+      <span class="tag" style="background:var(--reds);color:#B42318"><i style="background:var(--red)"></i>KRITIKAL</span>
+      <span class="pg" id="pg"><img src="{{E_1f4cd}}" alt="">Halaman 4</span>
+      <div class="it">Rumusan masalah bukan pertanyaan</div>
+      <div class="q">“<span class="hl" id="hl">Rumusan masalah penelitian ini adalah pengaruh kualitas pelayanan terhadap kepuasan.</span>”</div>
+      <div class="fix" id="fx"><span class="lb">PERBAIKAN</span><span id="fxt">“Apakah kualitas pelayanan berpengaruh terhadap kepuasan pelanggan?”</span></div>
+     </div>
+     <div class="sum" id="sm"><span><i style="background:var(--red)"></i>3 Kritikal</span><span><i style="background:var(--amb)"></i>1 Sedang</span><span><i style="background:var(--grn)"></i>1 Minor</span></div>
+    </div>
+   </div></div>
+
+   <!-- feed 2: Auto Revision -->
+   <div class="feed"><div class="fi" id="f2">
+    <div class="ub" id="u2" style="padding:22px">
+     <div class="paper" id="ppr"><img class="ph" src="{{E_1f4f8}}" alt="">1. Perdalam pembahasan!<br>2. Gap-nya mana?<br>3. Ref. jadul<br>4. typo hal. 23</div>
+     <span class="sk">✦ Auto Revision</span>
+     <div style="margin-top:12px">Ini catatan penguji, bantu ya 🙏</div>
+    </div>
+    <div class="as" id="a2"><img class="lg" src="{{IMG_claude_logo}}" id="lg2" alt="">
+     <div class="think" id="th2">Membaca tulisan tangan…</div>
+     <div id="tl2" style="margin-top:-50px">
+      <div class="lbl">MAKSUD DOSEN</div>
+      <div class="tr" id="tr1"><span class="dq">“Perdalam”</span><span class="ar">→</span><span>Pembahasan masih dangkal</span></div>
+      <div class="tr" id="tr2"><span class="dq">“Gap-nya mana?”</span><span class="ar">→</span><span>Research gap belum jelas</span></div>
+     </div>
+     <div class="card" id="cl" style="margin-top:24px;padding:20px 26px">
+      <div class="lbl" style="margin-bottom:4px">DAFTAR REVISI</div>
+      <div class="ck"><span class="bx"></span><span class="rn" style="background:var(--red)">R1</span>Tegaskan research gap<small>BAB 1</small></div>
+      <div class="ck"><span class="bx"></span><span class="rn" style="background:var(--red)">R2</span>Tambah interpretasi<small>BAB 4</small></div>
+      <div class="ck"><span class="bx"></span><span class="rn" style="background:var(--amb)">R3</span>Referensi 2022–2026<small>BAB 2</small></div>
+      <div class="ck"><span class="bx"></span><span class="rn" style="background:var(--grn)">R4</span>Perbaiki typo<small>HAL. 23</small></div>
+     </div>
+     <div class="card doc" id="dc"><div class="w">W</div><div><div class="dn">Lembar-Revisi.docx</div><div class="ds">Siap diserahkan ke kampus</div></div>
+      <div class="dl"><span id="dl1" style="background:var(--ink);color:#fff">Unduh</span><span id="dl2" style="background:var(--grns);color:var(--grn);opacity:0">✓ Tersimpan</span></div></div>
+    </div>
+   </div></div>
+
+   <!-- attachment previews + input -->
+   <div class="prv" id="pv1"><div class="fic" style="background:#D93A3A">PDF</div>BAB1_Skripsi.pdf</div>
+   <div class="prv" id="pv2"><img src="{{E_1f4f8}}" style="width:46px;height:46px" alt="">catatan_penguji.jpg</div>
+   <div class="inp"><div class="plus">+</div>
+    <div class="itx" id="ph" style="color:#B5AFA3">Balas ke Claude…</div>
+    <div class="itx" id="i1" style="opacity:0"><span class="sk">✦ Master Reviewer</span><span class="ty" id="ty1">Review BAB 1 ini</span></div>
+    <div class="itx" id="i2" style="opacity:0"><span class="sk">✦ Auto Revision</span><span class="ty" id="ty2">Bantu revisi ya</span></div>
+    <div class="snd" id="snd">↑</div></div>
+   <div id="rip"></div><div id="tap"></div>
+  </div>
+ </div></div>
+  <div class="stk" id="k1"><b>SKILL 01</b>Master Reviewer</div>
+  <div class="stk" id="k2"><b>SKILL 02</b>Auto Revision</div>
+</div>
+
+<!-- S4 CTA -->
+<div id="s4" class="clip" data-start="25.3" data-duration="4.7">
+ <div class="sc">
+  <img class="emo" id="e4" src="{{E_1f516}}" style="left:470px;top:330px;width:140px;height:140px" alt="">
+  <div class="c h" style="top:500px;font-size:130px" id="c1"><span class="rv"><span><span class="mk" id="mk4">Simpan</span> dulu</span></span></div>
+  <div class="rc" id="r1" style="top:720px"><div class="n">01</div><div><div class="t">Master Reviewer</div><div class="s">Review draft sebelum ke dosen</div></div></div>
+  <div class="rc" id="r2" style="top:876px"><div class="n">02</div><div><div class="t">Auto Revision</div><div class="s">Eksekusi revisi habis sidang</div></div></div>
+  <div class="c h" style="top:1070px;font-size:70px;color:var(--clayd)" id="c3"><span class="rv"><span>@researchq.id</span></span></div>
+  <div class="c" style="top:1200px" id="c4"><span class="fol">+ Follow</span></div>
+  <div class="c" style="top:1200px;opacity:0" id="c4b"><span class="fol" style="background:#1F1E1B;box-shadow:0 6px 0 #000">✓ Following</span></div>
+ </div>
+</div>
+
+<div id="cap" class="clip" data-start="0" data-duration="30"></div>
+<svg id="grain" width="1080" height="1920"><filter id="gn"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="5" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="1080" height="1920" filter="url(#gn)"/></svg>
+<div id="hud" class="clip" data-start="0" data-duration="30">
+ <div class="hud" style="top:192px;left:72px">EDUKASI · SKILL CLAUDE</div>
+ <div class="hud" style="top:192px;right:72px">REVIEW &amp; REVISI</div>
+ <div style="position:absolute;left:72px;right:72px;top:234px;height:3px;background:rgba(31,30,27,.08)"><div id="prog" style="height:3px;background:var(--clay);transform-origin:0 50%;transform:scaleX(0)"></div></div>
+ <div class="hud" id="note" style="top:1592px;left:0;right:0;text-align:center;font-size:19px">*CONTOH ILUSTRASI · SKILL DARI LIBRARY RESEARCHQ</div>
+ <div class="hud" style="bottom:56px;left:72px;font-family:PJ;font-weight:800;font-size:30px;letter-spacing:0;color:var(--ink)">ResearchQ<span style="color:#EE6A1F">.</span></div>
+ <div class="hud" style="bottom:62px;right:72px">@RESEARCHQ.ID</div>
+</div>
+<audio id="sfx" src="sfx.wav" data-start="0" data-duration="30" data-volume="1"></audio>
+</div>
+
+<script>
+const tl = gsap.timeline({ paused: true });
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+const CUE = window.__cues = { ping: [], key: [], tap: [], pop: [], pl: [], wh: [] };
+let seed = 71;
+const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+const R = (sel, t, d = 0.55, ease = "power3.out") => tl.fromTo(sel + " .rv>span", { yPercent: 112 }, { yPercent: 0, duration: d, ease }, t);
+const MK = (sel, t) => tl.fromTo(sel, { "--s": 0 }, { "--s": 1, duration: 0.45, ease: "power2.inOut" }, t);
+const EMO = (id, t, rot = 10) => { const r0 = rot * 0.5 * (rnd() > 0.5 ? 1 : -1), r1 = r0 + rnd() * 6 - 3;
+  tl.fromTo(id, { scale: 0, rotation: -rot * 2, y: 40 }, { scale: 1, rotation: r0, y: 0, duration: 0.6, ease: "back.out(2.2)" }, t);
+  tl.fromTo(id, { y: 0, rotation: r0 }, { y: -14, rotation: r1, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, t + 0.6); };
+const POP = (sel, t, from = { opacity: 0, y: 30, scale: 0.97 }) => tl.fromTo(sel, from, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.5)" }, t);
+/* split helpers: typed chars and streamed words */
+const chars = el => { const s = el.textContent; el.textContent = ""; return [...s].map(ch => { const x = document.createElement("span"); x.textContent = ch; x.style.opacity = 0; el.appendChild(x); return x; }); };
+const words = el => { const s = el.textContent.split(" "); el.textContent = ""; return s.map((w, i) => { const x = document.createElement("span"); x.textContent = w + (i < s.length - 1 ? " " : ""); x.style.opacity = 0; el.appendChild(x); return x; }); };
+const TYPE = (el, t, cps = 24) => { chars(el).forEach((x, i) => tl.set(x, { opacity: 1 }, t + i / cps)); CUE.key.push(t, t + 0.25, t + 0.5); };
+const STREAM = (el, t, wps = 9) => words(el).forEach((x, i) => tl.fromTo(x, { opacity: 0 }, { opacity: 1, duration: 0.12 }, t + i / wps));
+/* tap cursor (app-local coords) */
+const TAP = (x, y, t, mv = 0.4) => { tl.to("#tap", { x: x - 38, y: y - 38, duration: mv, ease: "power3.inOut" }, t - mv);
+  tl.to("#tap", { scale: 0.78, duration: 0.08, yoyo: true, repeat: 1 }, t);
+  tl.fromTo("#rip", { x: x - 38, y: y - 38, scale: 0.6, opacity: 1 }, { scale: 2.2, opacity: 0, duration: 0.45, ease: "power2.out", immediateRender: false }, t); CUE.tap.push(t); };
+/* camera: focus app-local point (px,py) at canvas (540,cy) with scale s */
+const clamp = (v, m) => Math.max(-m, Math.min(m, v));
+const ZM = (t, s, px, py, cy = 845, d = 0.6) => tl.to("#zoom", { scale: s, x: clamp(-s * (px - 480), (s - 1) * 480), y: clamp(cy - 845 - s * (py - 555), (s - 1) * 555), duration: d, ease: "power3.inOut" }, t);
+const Z0 = (t, d = 0.6) => tl.to("#zoom", { scale: 1, x: 0, y: 0, duration: d, ease: "power3.inOut" }, t);
+
+tl.fromTo("#prog", { scaleX: 0 }, { scaleX: 1, duration: 30, ease: "none" }, 0);
+[["#b1", 140, 90], ["#b2", -150, -80]].forEach(([b, dx, dy]) => tl.fromTo(b, { x: 0, y: 0 }, { x: dx, y: dy, duration: 30, ease: "sine.inOut" }, 0));
+
+/* captions */
+const VO = {{VO_JSON}};
+const KW = ["revisi", "dua", "skill", "Master", "Reviewer.", "dosen.", "skor,", "bermasalah,", "halamannya,", "perbaikannya.", "Auto", "Revision.", "sidang.", "foto", "tulisan", "tangan,", "maksudnya,", "checklist", "Word.", "Simpan", "researchq.id"];
+const cap = document.getElementById("cap");
+const syl = w => Math.max(1, (w.toLowerCase().match(/[aiueo]+/g) || []).length);
+VO.lines.forEach((L, li) => { const nxt = VO.lines[li + 1];
+  const ln = document.createElement("div"); ln.className = "ln"; cap.appendChild(ln);
+  const ws = L.text.split(" "), tot = ws.reduce((s, w) => s + syl(w), 0), span = (L.end - L.start) * 0.94; let t = L.start;
+  tl.fromTo(ln, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.14, ease: "power2.out" }, L.start - 0.06);
+  tl.to(ln, { opacity: 0, duration: 0.08 }, nxt ? Math.min(L.end + 0.05, nxt.start - 0.16) : L.end + 0.05);
+  ws.forEach(w => { const s = document.createElement("span"); s.className = "w"; s.textContent = w; ln.appendChild(s);
+    tl.to(s, { color: KW.includes(w) ? "#C4552B" : "#1F1E1B", duration: 0.08 }, t); t += span * syl(w) / tot; });
+});
+
+/* ---------- S1 hook (0–3) ---------- */
+[["#n1", 0.0], ["#n2", 0.3], ["#n3", 0.6]].forEach(([n, t]) => {
+  tl.fromTo(n, { opacity: 0, y: -60, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.32, ease: "back.out(1.8)" }, t);
+  tl.fromTo(n, { x: 0 }, { keyframes: [{ x: -10 }, { x: 9 }, { x: -6 }, { x: 4 }, { x: 0 }], duration: 0.28, ease: "none", immediateRender: false }, t + 0.3);
+  CUE.ping.push(t); });
+R("#h1", 0.75, 0.45); R("#h2", 0.95, 0.55, "back.out(1.5)"); MK("#mk1", 1.4);
+EMO("#e1", 1.3, 12);
+tl.fromTo("#h3", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.35 }, 1.75);
+POP("#p1", 2.05, { opacity: 0, y: 30, scale: 0.8 }); POP("#p2", 2.25, { opacity: 0, y: 30, scale: 0.8 });
+CUE.pl.push([1.0, 69], [2.05, 72], [2.25, 76]);
+tl.to("#s1in", { y: -140, opacity: 0, duration: 0.35, ease: "power2.in" }, 2.85);
+
+/* ---------- APP enters ---------- */
+tl.fromTo("#frame", { y: 1500, rotation: 4 }, { y: 0, rotation: 0, duration: 0.6, ease: "expo.out" }, 2.95); CUE.wh.push(2.9);
+tl.set(["#f2", "#t2", "#pv2", "#i2", "#k2"], { opacity: 0 }, 0);
+tl.set(["#u1", "#a1", "#pv1", "#k1", "#tap"], { opacity: 0 }, 0);
+tl.set("#tap", { x: 600, y: 1200 }, 0);
+POP("#k1", 3.3, { opacity: 0, y: -20, scale: 0.8, rotation: -8 }); tl.to("#k1", { rotation: -3, duration: 0.3 }, 3.5); CUE.pl.push([3.3, 72]);
+
+/* ---------- S2 Master Reviewer (3–12.8) ---------- */
+tl.to("#tap", { opacity: 1, duration: 0.2 }, 3.4);
+TAP(95, 1026, 3.75); POP("#pv1", 3.85, { opacity: 0, y: 20, scale: 0.9 });
+tl.set("#ph", { opacity: 0 }, 4.1); tl.set("#i1", { opacity: 1 }, 4.1);
+tl.fromTo("#i1 .sk", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(2)" }, 4.1); CUE.pl.push([4.1, 74]);
+TYPE(document.getElementById("ty1"), 4.4, 26);
+TAP(865, 1024, 5.35, 0.35);
+tl.set(["#i1", "#pv1"], { opacity: 0 }, 5.42); tl.set("#ph", { opacity: 1 }, 5.42);
+POP("#u1", 5.42, { opacity: 0, y: 60, scale: 0.96 }); CUE.pop.push(5.42);
+tl.to("#tap", { opacity: 0, duration: 0.2 }, 5.6);
+// assistant
+tl.fromTo("#a1", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 5.8);
+tl.fromTo("#lg1", { rotation: 0 }, { rotation: 180, duration: 0.7, ease: "power2.inOut" }, 5.8);
+tl.fromTo("#th1", { opacity: 0.35 }, { opacity: 1, duration: 0.25, yoyo: true, repeat: 1 }, 5.85);
+tl.set("#th1", { opacity: 0 }, 6.35);
+tl.set(["#rh", "#m1", "#sm", "#pg", "#fx"], { opacity: 0 }, 0);
+POP("#rh", 6.35); CUE.pl.push([6.35, 76]);
+tl.fromTo("#rh .score", { scale: 0.4, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2.5)" }, 6.6); CUE.pop.push(6.6);
+tl.to("#f1", { y: -170, duration: 0.6, ease: "power3.inOut" }, 7.0);
+POP("#m1", 7.2); CUE.pl.push([7.2, 79]);
+MK("#hl", 8.1); CUE.wh.push(8.0);
+ZM(7.6, 1.12, 480, 688, 845, 0.8);
+// page badge
+POP("#pg", 9.55, { opacity: 0, y: -10, scale: 0.4 }); CUE.pop.push(9.55);
+ZM(9.45, 1.3, 740, 536, 700, 0.55);
+// fix
+ZM(10.55, 1.14, 480, 790, 845, 0.6);
+tl.set("#fx", { opacity: 1 }, 10.65); tl.fromTo("#fx", { scale: 0.96 }, { scale: 1, duration: 0.3, immediateRender: false }, 10.65);
+STREAM(document.getElementById("fxt"), 10.75, 11); CUE.pl.push([10.7, 81]);
+// summary
+Z0(11.65, 0.55);
+tl.to("#f1", { y: -250, duration: 0.55, ease: "power3.inOut" }, 11.65);
+POP("#sm", 11.9); tl.fromTo("#sm span", { y: 20, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.1, duration: 0.3, immediateRender: false }, 11.9);
+
+/* ---------- transition to S3 (12.8) ---------- */
+tl.to("#f1", { x: -960, opacity: 0, duration: 0.45, ease: "power3.in" }, 12.75);
+tl.to("#t1", { opacity: 0, duration: 0.2 }, 12.8); tl.to("#t2", { opacity: 1, duration: 0.25 }, 13.0);
+tl.to("#k1", { opacity: 0, y: -20, duration: 0.25 }, 12.75);
+POP("#k2", 13.05, { opacity: 0, y: -20, scale: 0.8, rotation: -8 }); tl.to("#k2", { rotation: -3, duration: 0.3 }, 13.25);
+CUE.wh.push(12.75); CUE.pl.push([13.05, 74]);
+tl.set(["#u2", "#a2", "#th2", "#tl2", "#tr1", "#tr2", "#cl", "#dc"], { opacity: 0 }, 0);
+tl.set("#f2", { opacity: 1 }, 13.2);
+
+/* ---------- S3 Auto Revision (13–25.3) ---------- */
+tl.to("#tap", { opacity: 1, duration: 0.2 }, 13.5);
+TAP(95, 1026, 13.9); POP("#pv2", 14.0, { opacity: 0, y: 20, scale: 0.9 });
+tl.set("#ph", { opacity: 0 }, 14.3); tl.set("#i2", { opacity: 1 }, 14.3);
+tl.fromTo("#i2 .sk", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(2)" }, 14.3); CUE.pl.push([14.3, 76]);
+TYPE(document.getElementById("ty2"), 14.6, 24);
+TAP(865, 1024, 15.35, 0.35);
+tl.set(["#i2", "#pv2"], { opacity: 0 }, 15.42); tl.set("#ph", { opacity: 1 }, 15.42);
+POP("#u2", 15.42, { opacity: 0, y: 60, scale: 0.96 }); CUE.pop.push(15.42);
+tl.to("#tap", { opacity: 0, duration: 0.2 }, 15.6);
+ZM(15.7, 1.25, 600, 333, 820, 0.7);
+tl.fromTo("#ppr", { rotation: -1.5 }, { rotation: -3, duration: 2.2, ease: "sine.inOut" }, 15.6);
+Z0(18.2, 0.55);
+// assistant
+tl.to("#f2", { y: -120, duration: 0.6, ease: "power3.inOut" }, 18.3);
+tl.fromTo("#a2", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 18.4);
+tl.fromTo("#lg2", { rotation: 0 }, { rotation: 180, duration: 0.6, ease: "power2.inOut" }, 18.4);
+tl.fromTo("#th2", { opacity: 0.35 }, { opacity: 1, duration: 0.2, yoyo: true, repeat: 1 }, 18.45);
+tl.set("#th2", { opacity: 0 }, 18.85);
+tl.set("#tl2", { opacity: 1 }, 18.85);
+POP("#tr1", 18.9, { opacity: 0, x: -40, y: 0, scale: 1 }); POP("#tr2", 19.6, { opacity: 0, x: -40, y: 0, scale: 1 });
+CUE.pl.push([18.9, 76], [19.6, 79]);
+tl.to("#f2", { y: -320, duration: 0.55, ease: "power3.inOut" }, 20.35);
+POP("#cl", 20.5); tl.fromTo("#cl .ck", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.3, stagger: 0.22, immediateRender: false }, 20.6);
+CUE.pl.push([20.6, 72], [20.82, 74], [21.04, 76], [21.26, 79]);
+ZM(21.0, 1.1, 480, 738, 845, 0.6);
+Z0(22.3, 0.5);
+// docx
+tl.to("#f2", { y: -500, duration: 0.55, ease: "power3.inOut" }, 22.4);
+POP("#dc", 22.6, { opacity: 0, y: 60, scale: 0.92 }); CUE.pl.push([22.6, 81]);
+ZM(23.1, 1.18, 520, 828, 845, 0.6);
+tl.to("#tap", { opacity: 1, duration: 0.15 }, 23.4);
+TAP(807, 828, 24.0, 0.45);
+tl.to("#dl1", { opacity: 0, duration: 0.12 }, 24.1); tl.to("#dl2", { opacity: 1, duration: 0.15 }, 24.12);
+tl.fromTo("#dl2", { scale: 0.85 }, { scale: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, 24.12);
+tl.to("#tap", { opacity: 0, duration: 0.2 }, 24.4);
+// exit app
+tl.to(["#frame", "#k2"], { scale: 0.85, y: -60, opacity: 0, duration: 0.45, ease: "power2.in" }, 25.0); CUE.wh.push(25.0);
+
+/* ---------- S4 CTA (25.3–30) ---------- */
+EMO("#e4", 25.4, 10);
+R("#c1", 25.55, 0.55, "back.out(1.5)"); MK("#mk4", 26.0); CUE.pl.push([25.55, 72]);
+POP("#r1", 26.2, { opacity: 0, x: -80, y: 0, scale: 1 }); POP("#r2", 26.45, { opacity: 0, x: 80, y: 0, scale: 1 });
+CUE.pl.push([26.2, 76], [26.45, 79]);
+R("#c3", 27.1, 0.5);
+tl.fromTo("#c4", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2)" }, 27.5);
+tl.to("#c4 .fol", { y: 12, boxShadow: "0 2px 0 #A9502C,0 10px 20px -12px rgba(217,119,87,.5)", duration: 0.08 }, 28.4);
+tl.set("#c4", { opacity: 0 }, 28.52); tl.set("#c4b", { opacity: 1 }, 28.52);
+tl.fromTo("#c4b", { scale: 0.92 }, { scale: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, 28.52);
+CUE.follow = 28.4;
+tl.seek(0);
+</script>
+</body>
+</html>

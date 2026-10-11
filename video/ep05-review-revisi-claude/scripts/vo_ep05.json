@@ -1,0 +1,15 @@
+{
+  "voice": "id-ID-ArdiNeural",
+  "note": "EP05 edukasi (style chat/screen-UI): skill Master Reviewer & Auto Revision. start/end = jendela bicara (detik).",
+  "lines": [
+    {"id": "a", "start": 0.15,  "end": 2.85,  "text": "Bolak-balik revisi terus? Coba dua skill Claude ini.",          "ssml": "Bolak-balik revisi terus? <break time='100ms'/> Coba dua skill <sub alias='klod'>Claude</sub> ini."},
+    {"id": "b", "start": 3.10,  "end": 5.70,  "text": "Pertama, Master Reviewer. Review dulu sebelum ke dosen.",     "ssml": "Pertama, <sub alias='master rifiuwer'>Master Reviewer</sub>. Review dulu sebelum ke dosen."},
+    {"id": "c", "start": 5.90,  "end": 9.30,  "text": "Claude review kayak dosen pembimbing: kasih skor, tandai kalimat bermasalah,", "ssml": "<sub alias='klod'>Claude</sub> review kayak dosen pembimbing: kasih skor, tandai kalimat bermasalah,"},
+    {"id": "d", "start": 9.45,  "end": 12.50, "text": "lengkap dengan halamannya, plus versi perbaikannya.",          "ssml": "lengkap dengan halamannya, plus versi perbaikannya."},
+    {"id": "e", "start": 12.90, "end": 15.10, "text": "Kedua, Auto Revision. Buat habis sidang.",                     "ssml": "Kedua, <sub alias='oto rifisyen'>Auto Revision</sub>. Buat habis sidang."},
+    {"id": "f", "start": 15.30, "end": 18.50, "text": "Kirim catatan dosen, bahkan foto tulisan tangan,",             "ssml": "Kirim catatan dosen, bahkan foto tulisan tangan,"},
+    {"id": "g", "start": 18.70, "end": 22.30, "text": "diterjemahin maksudnya, lalu dipecah jadi checklist revisi.",   "ssml": "diterjemahin maksudnya, lalu dipecah jadi <sub alias='cekelis'>checklist</sub> revisi."},
+    {"id": "h", "start": 22.50, "end": 25.20, "text": "Lembar revisinya pun langsung jadi file Word.",                "ssml": "Lembar revisinya pun langsung jadi file <sub alias='werd'>Word</sub>."},
+    {"id": "i", "start": 25.60, "end": 29.40, "text": "Simpan dulu, dan follow researchq.id buat skill lainnya.",      "ssml": "Simpan dulu, dan follow <sub alias='risérc kiu titik ai di'>researchq.id</sub> buat skill lainnya."}
+  ]
+}
