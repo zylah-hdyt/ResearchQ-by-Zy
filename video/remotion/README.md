@@ -28,3 +28,11 @@ create, markup, multi-scene). Tiap scene adalah file sendiri dan juga didaftarka
 
     python scripts/sfx_intro.py raw.wav && ffmpeg -i raw.wav -af loudnorm=I=-18:TP=-2:LRA=11 public/intro-sfx.wav
     npx remotion render ResearchQIntro renders/ResearchQ-Intro-Dark.mp4
+
+## Scopus Finder demo ("Satu prompt, referensinya asli.", 44,7 detik)
+
+Komposisi `ScopusFinderDemo` (`src/scopus/`): Hook → Chat (rekaman layar) → Reveal (3 referensi asli) → Honest (Search
+mati = tidak mengarang) → Outro. Naskah dan sumber referensi: `NASKAH-SCOPUS-FINDER.md`.
+
+    python scripts/sfx_scopus.py raw.wav && ffmpeg -i raw.wav -af loudnorm=I=-20:TP=-2:LRA=11 public/scopus-sfx.wav
+    npx remotion render ScopusFinderDemo renders/Scopus-Finder-Satu-Prompt.mp4
