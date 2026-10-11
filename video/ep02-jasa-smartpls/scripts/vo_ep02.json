@@ -1,0 +1,19 @@
+{
+  "voice": "id-ID-ArdiNeural",
+  "note": "start/end = jendela bicara (detik). Dipakai untuk subtitle karaoke, tts_azure.py / tts_cartesia.py, dan naskah rekam sendiri.",
+  "lines": [
+    {"id": "a",  "start": 0.20,  "end": 2.40,  "text": "Output SmartPLS kamu merah semua?",                       "ssml": "Output <sub alias='smart pi el es'>SmartPLS</sub> kamu merah semua?"},
+    {"id": "b",  "start": 2.50,  "end": 4.60,  "text": "Hipotesisnya banyak yang ditolak?",                       "ssml": "Hipotesisnya banyak yang ditolak?"},
+    {"id": "c",  "start": 4.90,  "end": 7.50,  "text": "Tenang. Merah itu sinyal, bukan vonis.",                  "ssml": "Tenang. <break time='150ms'/> Merah itu sinyal, bukan vonis."},
+    {"id": "d",  "start": 7.60,  "end": 10.80, "text": "Artinya ada yang perlu dicek, di model atau datanya.",    "ssml": "Artinya ada yang perlu dicek, di model atau datanya."},
+    {"id": "e",  "start": 11.20, "end": 14.40, "text": "Bisa karena indikatornya lemah, validitas diskriminan bocor,", "ssml": "Bisa karena indikatornya lemah, validitas diskriminan bocor,"},
+    {"id": "f",  "start": 14.50, "end": 18.50, "text": "modelnya nggak sesuai teori, atau datanya perlu dibersihkan.", "ssml": "modelnya nggak sesuai teori, atau datanya perlu dibersihkan."},
+    {"id": "g",  "start": 19.00, "end": 22.50, "text": "Di ResearchQ, kami telusuri satu per satu,",              "ssml": "Di <sub alias='risérc kiu'>ResearchQ</sub>, kami telusuri satu per satu,"},
+    {"id": "h",  "start": 22.60, "end": 26.50, "text": "lalu perbaiki sesuai kaidah. Bukan diakal-akalin.",       "ssml": "lalu perbaiki sesuai kaidah. <break time='150ms'/> Bukan diakal-akalin."},
+    {"id": "i",  "start": 27.00, "end": 29.90, "text": "Model sederhana atau ribet, mediasi, moderasi,",          "ssml": "Model sederhana atau ribet, mediasi, moderasi,"},
+    {"id": "j",  "start": 30.00, "end": 32.90, "text": "bahkan lima belas variabel sekalipun, bisa.",            "ssml": "bahkan lima belas variabel sekalipun, bisa."},
+    {"id": "k1", "start": 33.30, "end": 35.00, "text": "Kalau memang tetap ditolak?",                             "ssml": "Kalau memang tetap ditolak?"},
+    {"id": "k2", "start": 35.10, "end": 37.30, "text": "Kita bantu bahas dengan benar.",                          "ssml": "Kita bantu bahas dengan benar."},
+    {"id": "l",  "start": 37.60, "end": 41.80, "text": "Komen PLS, nanti tim ResearchQ hubungi kamu.",           "ssml": "Komen <sub alias='pi el es'>PLS</sub>, nanti tim <sub alias='risérc kiu'>ResearchQ</sub> hubungi kamu."}
+  ]
+}

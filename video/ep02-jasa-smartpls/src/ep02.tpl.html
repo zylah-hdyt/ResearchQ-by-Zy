@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="id" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Jasa Olah Data SmartPLS EP02</title>
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:PJS;font-weight:500;src:url(data:font/woff2;base64,{{PJS500}}) format("woff2")}
+@font-face{font-family:PJS;font-weight:700;src:url(data:font/woff2;base64,{{PJS700}}) format("woff2")}
+@font-face{font-family:PJS;font-weight:800;src:url(data:font/woff2;base64,{{PJS800}}) format("woff2")}
+@font-face{font-family:JBM;font-weight:500;src:url(data:font/woff2;base64,{{JBM500}}) format("woff2")}
+@font-face{font-family:IS;font-style:italic;font-weight:400;src:url(data:font/woff2;base64,{{ISI}}) format("woff2")}
+:root{--paper:#FBFAF7;--ink:#1B1A18;--muted:#8C877E;--faint:#CBC5BA;--line:#E3DED5;--acc:#EE6A1F;--accs:#FCE6D8;--red:#D63B2F;--reds:#FBE1DD;--green:#2E9E5B;--greens:#DFF2E6;--sel:#3B6FF0;--side:#DDD5C8}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#F2EFE9}
+#root{position:relative;width:1080px;height:1920px;overflow:hidden;font-family:PJS,sans-serif;color:var(--ink)}
+#bg{position:absolute;inset:0;background:#F2EFE9}
+#vig{position:absolute;inset:0;background:radial-gradient(circle farthest-corner at 50% 38%,rgba(255,255,255,.55) 0%,rgba(255,255,255,0) 62%)}
+#grain{position:absolute;inset:0;opacity:.07;mix-blend-mode:multiply;pointer-events:none}
+#cam{position:absolute;inset:0}
+.clip{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.sc{position:absolute;inset:0}
+.p3{perspective:1600px}.pre{transform-style:preserve-3d}
+.c{position:absolute;left:72px;right:72px;text-align:center}
+.l{position:absolute;left:72px;right:72px;text-align:left}
+.rv{display:block;overflow:hidden;padding:0 8px 16px;margin-bottom:-16px}
+.rv>span{display:inline-block}
+.serif{font-family:IS,serif;font-style:italic;font-weight:400}
+.acc{color:var(--acc)}.mut{color:var(--muted)}.red{color:var(--red)}.grn{color:var(--green)}
+.mono{font-family:JBM;font-weight:500;letter-spacing:3px}
+.big{font-weight:800;letter-spacing:-3px;line-height:1.02}
+.ic{fill:none;stroke:currentColor;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+.emo{position:absolute;width:150px;height:150px;filter:drop-shadow(0 18px 18px rgba(60,40,20,.25))}
+.selw{position:relative;display:inline-block}
+.sel{position:absolute;inset:-6px -14px -2px -14px;border:3px solid var(--sel);opacity:0}
+.sel i{position:absolute;width:16px;height:16px;background:#fff;border:3px solid var(--sel)}
+.sel i:nth-child(1){left:-9px;top:-9px}.sel i:nth-child(2){right:-9px;top:-9px}.sel i:nth-child(3){left:-9px;bottom:-9px}.sel i:nth-child(4){right:-9px;bottom:-9px}
+.hud{position:absolute;font-family:JBM;font-size:22px;letter-spacing:2px;color:var(--muted)}
+.corner{position:absolute;width:34px;height:34px;border-color:rgba(27,26,24,.22);border-style:solid}
+.shadow{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(70,50,30,.26),rgba(70,50,30,0))}
+/* output table */
+.tbl3{position:absolute;left:72px;right:72px;top:560px;height:700px;perspective:1700px}
+.tbl{position:absolute;inset:0;background:var(--paper);border:2px solid var(--line);border-radius:34px;box-shadow:0 60px 100px -50px rgba(60,40,20,.5);overflow:hidden;transform-style:preserve-3d}
+.tbl .th{height:84px;display:flex;align-items:center;gap:14px;padding:0 30px;border-bottom:2px solid var(--line);font-family:JBM;font-size:22px;letter-spacing:1px;color:var(--muted)}
+.tbl .th b{width:14px;height:14px;border-radius:50%;background:#2E7FD9;display:block}
+.trow{display:grid;grid-template-columns:96px 1fr 120px 120px 130px 190px;align-items:center;height:96px;padding:0 24px;border-bottom:1.5px solid #EEE9E1;font-size:30px}
+.trow.h{height:64px;font-family:JBM;font-size:20px;color:var(--muted);letter-spacing:1px}
+.trow .k{font-family:JBM;font-size:24px;color:var(--muted)}
+.trow .v{font-family:JBM;font-size:28px;text-align:right;padding-right:14px}
+.cell{display:inline-block;padding:6px 10px;border-radius:10px}
+.cell.r{background:var(--reds);color:var(--red)}
+.cell.g{background:var(--greens);color:var(--green)}
+.st{font-size:22px;font-weight:800;padding:8px 14px;border-radius:999px;text-align:center}
+.st.r{background:var(--reds);color:var(--red)}.st.g{background:var(--greens);color:var(--green)}
+.ilu{position:absolute;right:28px;bottom:18px;font-family:JBM;font-size:18px;color:var(--muted)}
+/* metric cards */
+.mcs{position:absolute;inset:0;perspective:1500px}
+.mc{position:absolute;width:290px;height:300px;top:760px;background:var(--paper);border:2px solid var(--line);border-radius:30px;box-shadow:0 40px 70px -40px rgba(60,40,20,.5);padding:30px 26px;transform-origin:50% 100%}
+.mc .mk{font-family:JBM;font-size:21px;color:var(--muted);letter-spacing:1px}
+.mc .mv{font-size:76px;font-weight:800;letter-spacing:-2px;margin-top:20px;color:var(--red)}
+.mc .mt{font-family:JBM;font-size:19px;color:var(--muted);margin-top:14px}
+.mc .bar{position:absolute;left:26px;right:26px;bottom:30px;height:10px;border-radius:5px;background:#EEE9E1}
+.mc .bar b{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:var(--red)}
+.mc .bar s{position:absolute;top:-8px;bottom:-8px;width:3px;background:var(--ink)}
+/* causes */
+.cz{position:absolute;inset:0;perspective:1500px}
+.cause{position:absolute;left:72px;right:72px;height:170px;background:var(--paper);border:2px solid var(--line);border-radius:32px;display:flex;align-items:center;gap:28px;padding:0 30px;box-shadow:0 30px 60px -42px rgba(60,40,20,.5);transform-origin:50% 0%}
+.cause img{width:110px;height:110px;flex:none}
+.cause .ct{font-size:40px;font-weight:800;letter-spacing:-1px}
+.cause .cd{font-family:JBM;font-size:21px;color:var(--muted);margin-top:6px;letter-spacing:.5px}
+.cause .no{position:absolute;right:30px;top:24px;font-family:JBM;font-size:22px;color:var(--faint)}
+/* fix table */
+.fx3{position:absolute;left:72px;right:72px;top:500px;height:720px;perspective:1700px}
+.frow{display:grid;grid-template-columns:1fr 150px 70px 170px;align-items:center;height:104px;padding:0 28px;border-bottom:1.5px solid #EEE9E1;font-size:30px}
+.frow .nm{font-weight:700}
+.frow .nm small{display:block;font-family:JBM;font-size:19px;color:var(--muted);font-weight:500;margin-top:4px}
+.frow .old{font-family:JBM;font-size:28px;color:var(--red);text-align:right}
+.frow .arr{text-align:center;color:var(--faint);font-size:30px}
+.flipc{position:relative;height:56px;perspective:600px}
+.flipc .fi{position:absolute;inset:0;transform-style:preserve-3d}
+.flipc .fa,.flipc .fb{position:absolute;inset:0;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:JBM;font-size:28px;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.flipc .fa{background:var(--reds);color:var(--red)}
+.flipc .fb{background:var(--greens);color:var(--green);transform:rotateX(180deg)}
+.kaidah{position:absolute;left:72px;right:72px;top:1250px;text-align:center}
+.kaidah span.k2{display:inline-block;font-size:44px;font-weight:800;letter-spacing:-1px}
+/* network */
+#net{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.nd{position:absolute;width:118px;height:118px;margin:-59px 0 0 -59px;border-radius:50%;background:var(--paper);border:3px solid #2E7FD9;display:flex;align-items:center;justify-content:center;font-family:JBM;font-size:24px;font-weight:500;color:#1F5FAE;box-shadow:0 18px 30px -18px rgba(30,60,120,.5)}
+.nd.m{border-color:var(--acc);color:var(--acc)}
+.tagz{position:absolute;left:72px;right:72px;top:1270px;display:flex;justify-content:center;gap:16px}
+.tz{font-family:JBM;font-size:24px;letter-spacing:1px;padding:12px 20px;border-radius:999px;background:var(--paper);border:2px solid var(--line)}
+/* honest */
+.hc{position:absolute;left:72px;right:72px;background:var(--paper);border:2px solid var(--line);border-radius:34px;padding:34px 40px;box-shadow:0 40px 70px -46px rgba(60,40,20,.5)}
+/* cta */
+.pillb{display:inline-flex;align-items:center;gap:12px;font-weight:800;padding:24px 60px;border-radius:999px;background:var(--acc);color:#fff;font-size:44px;box-shadow:0 14px 0 #B9501A,0 40px 50px -22px rgba(238,106,31,.55)}
+.pillb.dk{background:var(--ink);box-shadow:0 6px 0 #000,0 24px 40px -22px rgba(0,0,0,.5)}
+.pillb svg{width:40px;height:40px}
+.cursor{position:absolute;width:64px;height:64px;left:0;top:0;filter:drop-shadow(0 8px 10px rgba(0,0,0,.25))}
+.ring{position:absolute;width:120px;height:120px;border-radius:50%;border:3px solid var(--acc);opacity:0}
+/* captions */
+#cap{position:absolute;left:72px;width:936px;top:1405px;text-align:center;font-size:42px;font-weight:800;letter-spacing:-.5px;line-height:1.25}
+#cap .ln{position:absolute;left:0;right:0;opacity:0}
+#cap .w{color:rgba(27,26,24,.25);display:inline-block;margin:0 5px}
+#cap .w.kw{font-family:IS,serif;font-style:italic;font-weight:400;font-size:50px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+ <symbol id="i-alert" viewBox="0 0 48 48"><path d="M24 6L44 40H4Z"/><path d="M24 18v10"/><path d="M24 34v.5"/></symbol>
+ <symbol id="i-check" viewBox="0 0 48 48"><path d="M10 25l9 9 19-20"/></symbol>
+ <symbol id="i-chat" viewBox="0 0 48 48"><path d="M8 10h32a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H20l-9 7v-7H8a4 4 0 0 1-4-4V14a4 4 0 0 1 4-4z"/></symbol>
+ <symbol id="i-book" viewBox="0 0 48 48"><path d="M24 12c-5-4-12-4-18-2v28c6-2 13-2 18 2 5-4 12-4 18-2V10c-6-2-13-2-18 2z"/><path d="M24 12v28"/></symbol>
+</defs></svg>
+<div id="root" data-composition-id="main" data-start="0" data-duration="42" data-width="1080" data-height="1920">
+<div id="bg"></div><div id="vig"></div>
+<div id="cam">
+
+<!-- S1 HOOK: output merah -->
+<div id="s1" class="clip" data-start="0" data-duration="4.95">
+ <div class="sc p3"><div class="sc pre" id="s1in">
+  <div class="c big" style="top:300px;font-size:80px" id="s1a"><span class="rv"><span>Output SmartPLS-mu</span></span></div>
+  <div class="c serif red" style="top:385px;font-size:132px;line-height:1.05" id="s1b"><span class="rv"><span><span class="selw">merah semua?<span class="sel" id="sel1"><i></i><i></i><i></i><i></i></span></span></span></span></div>
+  <div class="tbl3"><div class="tbl" id="tbl1">
+   <div class="th"><b></b>PATH COEFFICIENTS · BOOTSTRAPPING</div>
+   <div class="trow h"><div>H</div><div>JALUR</div><div style="text-align:right;padding-right:14px">β</div><div style="text-align:right;padding-right:14px">t</div><div style="text-align:right;padding-right:14px">p</div><div style="text-align:center">KET.</div></div>
+   <div class="trow r1"><div class="k">H1</div><div>KP → KK</div><div class="v">0,412</div><div class="v">4,21</div><div class="v"><span class="cell g">0,000</span></div><div class="st g">Diterima</div></div>
+   <div class="trow r1"><div class="k">H2</div><div>HG → KK</div><div class="v">0,061</div><div class="v">0,84</div><div class="v"><span class="cell r">0,401</span></div><div class="st r stp">Ditolak</div></div>
+   <div class="trow r1"><div class="k">H3</div><div>PR → KP</div><div class="v">0,087</div><div class="v">1,02</div><div class="v"><span class="cell r">0,312</span></div><div class="st r stp">Ditolak</div></div>
+   <div class="trow r1"><div class="k">H4</div><div>KK → LY</div><div class="v">0,044</div><div class="v">0,51</div><div class="v"><span class="cell r">0,611</span></div><div class="st r stp">Ditolak</div></div>
+   <div class="trow r1"><div class="k">H5</div><div>KP → LY</div><div class="v">0,298</div><div class="v">3,12</div><div class="v"><span class="cell g">0,002</span></div><div class="st g">Diterima</div></div>
+   <div class="ilu">*data ilustrasi</div>
+  </div></div>
+  <img class="emo" id="e1" src="{{E_1f631}}" style="left:880px;top:590px;width:130px;height:130px" alt="">
+  <img class="emo" id="e2" src="{{E_1f6a8}}" style="left:60px;top:1190px;width:130px;height:130px" alt="">
+ </div></div>
+</div>
+
+<!-- S2 sinyal bukan vonis -->
+<div id="s2" class="clip" data-start="4.85" data-duration="6.25">
+ <div class="sc" id="s2in">
+  <div class="c big" style="top:330px;font-size:84px" id="s2a"><span class="rv"><span>Merah itu <span class="selw serif acc" style="font-size:110px;letter-spacing:0">sinyal,<span class="sel" id="sel2"><i></i><i></i><i></i><i></i></span></span></span></span></div>
+  <div class="c serif mut" style="top:460px;font-size:96px" id="s2b"><span class="rv"><span>bukan vonis.</span></span></div>
+  <div class="c mono" style="top:640px;font-size:24px;color:var(--muted)" id="s2c">YANG BIASANYA MERAH</div>
+  <div class="mcs">
+   <div class="mc" id="m1" style="left:72px"><div class="mk">OUTER LOADING</div><div class="mv">0,52</div><div class="mt">min. 0,70</div><div class="bar"><b style="width:52%"></b><s style="left:70%"></s></div></div>
+   <div class="mc" id="m2" style="left:395px"><div class="mk">AVE</div><div class="mv">0,41</div><div class="mt">min. 0,50</div><div class="bar"><b style="width:41%"></b><s style="left:50%"></s></div></div>
+   <div class="mc" id="m3" style="left:718px"><div class="mk">HTMT</div><div class="mv">0,94</div><div class="mt">maks. 0,90</div><div class="bar"><b style="width:94%"></b><s style="left:90%"></s></div></div>
+  </div>
+  <div class="c" style="top:1150px;font-size:44px;font-weight:700" id="s2d">Ada yang perlu <span class="serif acc" style="font-size:58px">dicek.</span></div>
+  <img class="emo" id="e3" src="{{E_1f50d}}" style="left:40px;top:700px;width:170px;height:170px" alt="">
+ </div>
+</div>
+
+<!-- S3 penyebab -->
+<div id="s3" class="clip" data-start="11" data-duration="7.95">
+ <div class="sc" id="s3in">
+  <div class="l mono" style="top:300px;font-size:26px;color:var(--muted)" id="s3l">PENYEBAB PALING SERING</div>
+  <div class="l big" style="top:345px;font-size:78px" id="s3a"><span class="rv"><span>Kenapa <span class="serif red" style="font-size:96px;letter-spacing:0">merah?</span></span></span></div>
+  <div class="cz">
+   <div class="cause" id="c1" style="top:520px"><img src="{{E_1f4c9}}" alt=""><div><div class="ct">Indikator lemah</div><div class="cd">OUTER LOADING &lt; 0,70</div></div><div class="no">01</div></div>
+   <div class="cause" id="c2" style="top:710px"><img src="{{E_1f9ea}}" alt=""><div><div class="ct">Validitas diskriminan bocor</div><div class="cd">HTMT TERLALU TINGGI</div></div><div class="no">02</div></div>
+   <div class="cause" id="c3" style="top:900px"><img src="{{E_1f9e9}}" alt=""><div><div class="ct">Model ≠ teori</div><div class="cd">JALUR &amp; INDIKATOR TIDAK SESUAI KONSEP</div></div><div class="no">03</div></div>
+   <div class="cause" id="c4" style="top:1090px"><img src="{{E_1f9f9}}" alt=""><div><div class="ct">Data perlu dibersihkan</div><div class="cd">OUTLIER · POLA JAWABAN SERAGAM</div></div><div class="no">04</div></div>
+  </div>
+ </div>
+</div>
+
+<!-- S4 diperbaiki sesuai kaidah -->
+<div id="s4" class="clip" data-start="18.85" data-duration="8.05">
+ <div class="sc p3"><div class="sc pre" id="s4in">
+  <div class="l big" style="top:300px;font-size:72px" id="s4a"><span class="rv"><span>Di ResearchQ:</span></span></div>
+  <div class="l serif acc" style="top:385px;font-size:88px" id="s4b"><span class="rv"><span>telusuri, lalu perbaiki.</span></span></div>
+  <div class="fx3"><div class="tbl" id="tbl2">
+   <div class="th"><b style="background:var(--green)"></b>CONSTRUCT RELIABILITY &amp; VALIDITY</div>
+   <div class="frow"><div class="nm">Outer loading<small>X1.3 · drop sesuai teori</small></div><div class="old">0,52</div><div class="arr">→</div><div class="flipc"><div class="fi"><div class="fa">0,52</div><div class="fb">dihapus ✓</div></div></div></div>
+   <div class="frow"><div class="nm">AVE<small>Kepuasan</small></div><div class="old">0,41</div><div class="arr">→</div><div class="flipc"><div class="fi"><div class="fa">0,41</div><div class="fb">0,58</div></div></div></div>
+   <div class="frow"><div class="nm">Composite reliability<small>Kepuasan</small></div><div class="old">0,66</div><div class="arr">→</div><div class="flipc"><div class="fi"><div class="fa">0,66</div><div class="fb">0,84</div></div></div></div>
+   <div class="frow"><div class="nm">HTMT<small>KP – KK · respesifikasi</small></div><div class="old">0,94</div><div class="arr">→</div><div class="flipc"><div class="fi"><div class="fa">0,94</div><div class="fb">0,81</div></div></div></div>
+   <div class="frow"><div class="nm">VIF<small>X2 · cek kolinearitas</small></div><div class="old">5,80</div><div class="arr">→</div><div class="flipc"><div class="fi"><div class="fa">5,80</div><div class="fb">2,10</div></div></div></div>
+   <div class="ilu">*data ilustrasi</div>
+  </div></div>
+  <div class="kaidah" id="kd"><span class="k2"><span class="selw">Sesuai kaidah<span class="sel" id="sel4"><i></i><i></i><i></i><i></i></span></span>, <span class="serif mut" style="font-size:54px;font-weight:400">bukan sulap.</span></span></div>
+  <img class="emo" id="e4" src="{{E_1f6e0-fe0f}}" style="left:860px;top:250px" alt="">
+  <img class="emo" id="e5" src="{{E_2705}}" style="left:40px;top:1180px;width:120px;height:120px" alt="">
+ </div></div>
+</div>
+
+<!-- S5 model kompleks -->
+<div id="s5" class="clip" data-start="26.8" data-duration="6.35">
+ <div class="sc" id="s5in">
+  <div class="l mono" style="top:300px;font-size:26px;color:var(--muted)" id="s5l">MODEL APA PUN</div>
+  <div class="l big" style="top:345px;font-size:84px;white-space:nowrap" id="s5a"><span class="rv"><span>Sampai <span class="selw" style="margin-left:12px"><span id="n15">0</span> variabel.<span class="sel" id="sel5"><i></i><i></i><i></i><i></i></span></span></span></span></div>
+  <svg id="netl" width="1080" height="1920" style="position:absolute;left:0;top:0"></svg>
+  <div id="net"></div>
+  <div class="tagz" id="tz" style="top:1290px"><span class="tz">MEDIASI</span><span class="tz">MODERASI</span><span class="tz">SECOND-ORDER</span><span class="tz">MULTIGROUP</span></div>
+  <img class="emo" id="e6" src="{{E_1f92f}}" style="left:860px;top:470px;width:140px;height:140px" alt="">
+ </div>
+</div>
+
+<!-- S6 kalau tetap ditolak -->
+<div id="s6" class="clip" data-start="33.15" data-duration="4.4">
+ <div class="sc" id="s6in">
+  <div class="c big" style="top:340px;font-size:78px" id="s6a"><span class="rv"><span>Kalau tetap</span></span></div>
+  <div class="c serif red" style="top:420px;font-size:130px;line-height:1.05" id="s6b"><span class="rv"><span>ditolak?</span></span></div>
+  <div class="hc" id="h1" style="top:690px;display:flex;align-items:center;gap:22px"><span class="st r" style="font-size:26px">H3 · Ditolak</span><span style="font-family:JBM;font-size:24px;color:var(--muted)">p = 0,312</span></div>
+  <div class="hc" id="h2" style="top:880px;border:3px solid var(--acc)"><div style="display:flex;align-items:center;gap:16px;color:var(--acc)"><svg class="ic" style="width:44px;height:44px"><use href="#i-book"/></svg><span class="mono" style="font-size:22px">DIBAHAS DI BAB 4</span></div>
+   <div style="font-size:44px;font-weight:800;letter-spacing:-1px;margin-top:14px">Hasil tidak signifikan</div>
+   <div class="serif acc" style="font-size:58px">juga sebuah temuan.</div></div>
+  <img class="emo" id="e7" src="{{E_1f4ac}}" style="left:860px;top:1080px;width:140px;height:140px" alt="">
+ </div>
+</div>
+
+<!-- S7 CTA -->
+<div id="s7" class="clip" data-start="37.55" data-duration="4.45">
+ <div class="sc p3">
+  <div class="c mono" style="top:330px;font-size:26px;color:var(--muted)" id="t1">JASA OLAH DATA SMARTPLS</div>
+  <div class="c big" style="top:380px;font-size:66px;letter-spacing:-2px" id="t2">ResearchQ<span class="acc">.</span></div>
+  <div class="c big" style="top:540px;font-size:96px" id="t3"><span class="rv"><span>Komen</span></span></div>
+  <div class="c serif acc" style="top:620px;font-size:230px;line-height:1.05" id="t4"><span class="rv"><span>“PLS”</span></span></div>
+  <div class="c" style="top:930px;font-size:40px;font-weight:700" id="t5">tim ResearchQ yang <span class="serif acc" style="font-size:52px">hubungi kamu.</span></div>
+  <div class="c" style="top:1080px" id="t6"><span class="pillb" id="fbtn">+ Follow @researchq.id</span></div>
+  <div class="c" style="top:1080px;opacity:0" id="t6b"><span class="pillb dk"><svg class="ic" style="stroke:#fff"><use href="#i-check"/></svg>Following</span></div>
+  <img class="emo" id="e8" src="{{E_2728}}" style="left:850px;top:560px;width:130px;height:130px" alt="">
+  <svg class="cursor" id="cur" viewBox="0 0 32 32"><path d="M6 3l20 12-9 2-4 9z" fill="#1B1A18" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>
+  <div class="ring" id="ring"></div>
+ </div>
+</div>
+
+</div><!-- /cam -->
+
+<div id="cap" class="clip" data-start="0" data-duration="42" style="height:120px"></div>
+
+<svg id="grain" width="1080" height="1920"><filter id="gn"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="9" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="1080" height="1920" filter="url(#gn)"/></svg>
+
+<div id="hud" class="clip" data-start="0" data-duration="42">
+ <div class="corner" style="top:190px;left:48px;border-width:3px 0 0 3px"></div>
+ <div class="corner" style="top:190px;right:48px;border-width:3px 3px 0 0"></div>
+ <div class="corner" style="bottom:48px;left:48px;border-width:0 0 3px 3px"></div>
+ <div class="corner" style="bottom:48px;right:48px;border-width:0 3px 3px 0"></div>
+ <div class="hud" style="top:204px;left:96px">JASA · OLAH DATA</div>
+ <div class="hud" style="top:204px;right:96px">SMARTPLS</div>
+ <div style="position:absolute;left:96px;right:96px;top:246px;height:3px;background:rgba(27,26,24,.1)"><div id="prog" style="height:3px;background:var(--acc);transform-origin:0 50%;transform:scaleX(0)"></div></div>
+ <div class="hud" style="bottom:58px;left:96px;font-family:PJS;font-weight:800;font-size:30px;letter-spacing:0;color:var(--ink)">ResearchQ<span class="acc">.</span></div>
+ <div class="hud" style="bottom:62px;right:96px">@RESEARCHQ.ID</div>
+</div>
+
+<audio id="sfx" src="sfx.wav" data-start="0" data-duration="42" data-volume="1"></audio>
+</div>
+
+<script>
+const tl = gsap.timeline({ paused: true });
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+let seed = 23;
+const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+const R = (sel, t, d = 0.55, ease = "power3.out") => tl.fromTo(sel + " .rv>span", { yPercent: 112 }, { yPercent: 0, duration: d, ease }, t);
+document.querySelectorAll("svg.ic use").forEach(u => { const sym = document.querySelector(u.getAttribute("href")); const svg = u.parentNode; svg.setAttribute("viewBox", sym.getAttribute("viewBox")); [...sym.children].forEach(ch => svg.appendChild(ch.cloneNode(true))); u.remove(); });
+const SEL = (id, t) => { tl.fromTo(id, { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power2.out" }, t); tl.fromTo(id + " i", { scale: 0 }, { scale: 1, duration: 0.25, stagger: 0.04, ease: "back.out(3)" }, t + 0.08); };
+const EMO = (id, t, rot = 10, float = true) => {
+  const r0 = rot * (rnd() > 0.5 ? 1 : -1) * 0.5, r1 = r0 + (rnd() * 8 - 4);
+  tl.fromTo(id, { scale: 0, rotation: -rot * 2, y: 40 }, { scale: 1, rotation: r0, y: 0, duration: 0.6, ease: "back.out(2.2)" }, t);
+  if (float) tl.fromTo(id, { y: 0, rotation: r0 }, { y: -16, rotation: r1, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 2, immediateRender: false }, t + 0.6);
+};
+const BG = ["#F2EFE9", "#F6DED7", "#E2ECE3", "#EFE5D8", "#DEE6F2", "#F4E4D6", "#F2EFE9"];
+const BT = [0, 4.85, 11.0, 18.85, 26.8, 33.15, 37.55];
+BT.forEach((t, i) => { if (i) tl.to("#bg", { backgroundColor: BG[i], duration: 0.45, ease: "power2.inOut" }, t - 0.1); });
+tl.fromTo("#prog", { scaleX: 0 }, { scaleX: 1, duration: 42, ease: "none" }, 0);
+for (let t = 0; t < 42; t += 1.4) tl.to("#cam", { x: (rnd() - 0.5) * 6, y: (rnd() - 0.5) * 6, rotation: (rnd() - 0.5) * 0.22, duration: 1.4, ease: "sine.inOut" }, t);
+
+/* ---------- captions (karaoke) ---------- */
+const VO = {{VO_JSON}};
+const KW = ["merah", "ditolak?", "sinyal,", "vonis.", "lemah,", "bocor,", "teori,", "dibersihkan.", "kaidah.", "ResearchQ,", "lima", "belas", "variabel", "benar.", "PLS,"];
+const cap = document.getElementById("cap"); window.__cues = { words: [] };
+const syl = w => Math.max(1, (w.toLowerCase().match(/[aiueo]+/g) || []).length);
+VO.lines.forEach((L, li) => { const nxt = VO.lines[li + 1];
+  const ln = document.createElement("div"); ln.className = "ln"; cap.appendChild(ln);
+  const words = L.text.split(" "); const tot = words.reduce((s, w) => s + syl(w), 0);
+  const span = (L.end - L.start) * 0.94; let t = L.start;
+  tl.fromTo(ln, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.14, ease: "power2.out" }, L.start - 0.06);
+  const tOut = nxt ? Math.min(L.end + 0.05, nxt.start - 0.16) : L.end + 0.05;
+  tl.to(ln, { opacity: 0, duration: 0.08 }, tOut);
+  words.forEach(w => {
+    const s = document.createElement("span"); s.className = "w" + (KW.includes(w) ? " kw" : ""); s.textContent = w; ln.appendChild(s);
+    tl.to(s, { color: KW.includes(w) ? "#EE6A1F" : "#1B1A18", duration: 0.08 }, t);
+    window.__cues.words.push(+t.toFixed(3));
+    t += span * syl(w) / tot;
+  });
+});
+
+/* ---------- S1 ---------- */
+R("#s1a", 0.1, 0.55); R("#s1b", 0.45, 0.6, "back.out(1.4)"); SEL("#sel1", 1.05);
+tl.fromTo("#tbl1", { rotationX: 38, rotationY: -16, z: -400, y: 200, opacity: 0 }, { rotationX: 14, rotationY: -8, z: 0, y: 0, opacity: 1, duration: 0.9, ease: "expo.out" }, 0.35);
+tl.to("#tbl1", { rotationX: 4, rotationY: -2, duration: 3.4, ease: "sine.inOut" }, 1.25);
+tl.fromTo("#tbl1 .r1", { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.35, stagger: 0.09, ease: "power3.out" }, 0.75);
+const redc = document.querySelectorAll("#tbl1 .cell.r");
+redc.forEach((c, i) => { const t0 = 1.5 + i * 0.22; tl.fromTo(c, { scale: 1 }, { scale: 1.25, duration: 0.1, yoyo: true, repeat: 1, ease: "power2.out" }, t0); });
+window.__cues.red = [...redc].map((c, i) => +(1.5 + i * 0.22).toFixed(3));
+document.querySelectorAll("#tbl1 .stp").forEach((s, i) => tl.fromTo(s, { scale: 2.2, rotation: -14, opacity: 0 }, { scale: 1, rotation: -4, opacity: 1, duration: 0.28, ease: "back.out(2)" }, 2.65 + i * 0.28));
+window.__cues.stamps = [0, 1, 2].map(i => +(2.65 + i * 0.28).toFixed(3));
+EMO("#e1", 1.0, 14); EMO("#e2", 2.4, 10);
+tl.to("#s1in", { z: -600, rotationX: 20, opacity: 0, duration: 0.45, ease: "power3.in" }, 4.5);
+
+/* ---------- S2 ---------- */
+tl.fromTo("#s2in", { scale: 1.06, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" }, 4.85);
+R("#s2a", 4.95, 0.55); SEL("#sel2", 5.7); R("#s2b", 6.15, 0.55);
+tl.fromTo("#s2c", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 6.9);
+[["#m1", 7.05, -14], ["#m2", 7.3, 0], ["#m3", 7.55, 14]].forEach(([s, t0, ry]) => {
+  tl.fromTo(s, { rotationX: -85, rotationY: ry, opacity: 0, y: 60 }, { rotationX: 0, rotationY: ry * 0.4, opacity: 1, y: 0, duration: 0.7, ease: "back.out(1.4)" }, t0);
+  tl.fromTo(s + " .bar b", { scaleX: 0 }, { scaleX: 1, transformOrigin: "0 50%", duration: 0.6, ease: "power2.out" }, t0 + 0.3);
+});
+EMO("#e3", 7.0, 8);
+tl.to("#e3", { x: 640, y: 40, duration: 1.8, ease: "sine.inOut" }, 8.3);
+tl.fromTo("#s2d", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 9.0);
+tl.to("#s2in", { x: -500, opacity: 0, duration: 0.4, ease: "power3.in" }, 10.75);
+
+/* ---------- S3 ---------- */
+tl.fromTo("#s3in", { x: 500, opacity: 0 }, { x: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 11.0);
+tl.fromTo("#s3l", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 11.1); R("#s3a", 11.15, 0.5);
+[["#c1", 11.6], ["#c2", 12.75], ["#c3", 14.6], ["#c4", 16.3]].forEach(([s, t0]) => {
+  tl.fromTo(s, { rotationX: -90, opacity: 0 }, { rotationX: 0, opacity: 1, duration: 0.6, ease: "back.out(1.5)" }, t0);
+  tl.fromTo(s + " img", { scale: 0, rotation: -30 }, { scale: 1, rotation: 0, duration: 0.55, ease: "back.out(2.5)" }, t0 + 0.15);
+});
+window.__cues.causes = [11.6, 12.75, 14.6, 16.3];
+tl.to("#s3in", { y: -300, opacity: 0, duration: 0.4, ease: "power3.in" }, 18.6);
+
+/* ---------- S4 ---------- */
+tl.fromTo("#s4in", { y: 300, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 18.85);
+R("#s4a", 19.0, 0.5); R("#s4b", 19.4, 0.6);
+tl.fromTo("#tbl2", { rotationX: 30, z: -300, opacity: 0 }, { rotationX: 8, z: 0, opacity: 1, duration: 0.8, ease: "expo.out" }, 19.6);
+tl.to("#tbl2", { rotationX: 0, duration: 2.5, ease: "sine.inOut" }, 20.4);
+tl.fromTo("#tbl2 .frow", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.35, stagger: 0.08, ease: "power3.out" }, 20.0);
+const FT = [21.2, 21.8, 22.35, 23.0, 23.6]; window.__cues.flips = FT;
+document.querySelectorAll("#tbl2 .fi").forEach((f, i) => tl.to(f, { rotationX: 180, duration: 0.55, ease: "back.out(1.6)" }, FT[i]));
+EMO("#e4", 20.6, 0, false); tl.fromTo("#e4", { rotation: 0 }, { rotation: 25, duration: 0.3, yoyo: true, repeat: 5, ease: "sine.inOut", immediateRender: false }, 21.2);
+tl.fromTo("#kd", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 24.3); SEL("#sel4", 24.7);
+EMO("#e5", 24.4, 8);
+tl.to("#s4in", { z: -500, opacity: 0, duration: 0.4, ease: "power3.in" }, 26.5);
+
+/* ---------- S5 network ---------- */
+tl.fromTo("#s5in", { opacity: 0, scale: 1.05 }, { opacity: 1, scale: 1, duration: 0.45, ease: "power3.out" }, 26.8);
+tl.fromTo("#s5l", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 26.9); R("#s5a", 27.0, 0.5);
+const NN = ["KP", "KK", "LY", "HG", "PR", "CB", "TR", "SQ", "EW", "PI", "BI", "SI", "PV", "RS", "WT"];
+const MED = [1, 6, 9]; // mediator nodes
+const net = document.getElementById("net"), svgL = document.getElementById("netl");
+const nodes = NN.map((n, i) => { const d = document.createElement("div"); d.className = "nd" + (MED.includes(i) ? " m" : ""); d.textContent = n; net.appendChild(d);
+  const ring = i < 5 ? 0 : i < 11 ? 1 : 2; const k = i < 5 ? i : i < 11 ? i - 5 : i - 11; const cnt = [5, 6, 4][ring];
+  return { d, th: k / cnt * Math.PI * 2 + ring * 0.6, r: [150, 290, 370][ring], h: [-190, 0, 175][ring] + (k % 2) * 34, on: 0 }; });
+const EDG = [[3, 0], [4, 0], [0, 1], [1, 2], [0, 2], [5, 1], [6, 1], [7, 6], [8, 9], [9, 2], [10, 9], [11, 10], [12, 2], [13, 12], [14, 13], [3, 6], [4, 9], [7, 1], [11, 2], [14, 2]];
+const lines = EDG.map(() => { const l = document.createElementNS("http://www.w3.org/2000/svg", "line"); l.setAttribute("stroke", "#9DB6DA"); l.setAttribute("stroke-width", "3"); l.setAttribute("stroke-linecap", "round"); svgL.appendChild(l); return l; });
+const NS = { a: 0, n: 0, e: 0 };
+const place = () => {
+  const CX = 540, CY = 840, F = 1000; const pos = nodes.map(o => {
+    const x = Math.cos(o.th + NS.a) * o.r, z = Math.sin(o.th + NS.a) * o.r; const s = F / (F + z);
+    return { x: CX + x * s, y: CY + o.h * s, s, z }; });
+  nodes.forEach((o, i) => { const p = pos[i]; const vis = i < NS.n ? Math.min(1, NS.n - i) : 0;
+    o.d.style.transform = `translate(${p.x}px,${p.y}px) scale(${(0.55 + 0.45 * p.s) * (0.4 + 0.6 * vis)})`; o.d.style.opacity = vis * (0.45 + 0.55 * Math.min(1, p.s)); o.d.style.zIndex = Math.round(1000 - p.z); });
+  EDG.forEach(([a, b], j) => { const A = pos[a], B = pos[b]; const vis = Math.max(0, Math.min(1, NS.e - j)) * (a < NS.n && b < NS.n ? 1 : 0);
+    const l = lines[j]; l.setAttribute("x1", A.x); l.setAttribute("y1", A.y); l.setAttribute("x2", A.x + (B.x - A.x) * vis); l.setAttribute("y2", A.y + (B.y - A.y) * vis); l.setAttribute("opacity", vis ? 0.9 : 0); });
+  document.getElementById("n15").textContent = Math.max(0, Math.min(15, Math.floor(NS.n)));
+};
+place();
+tl.to(NS, { a: 1.1, duration: 6.3, ease: "none", onUpdate: place }, 26.8);
+tl.to(NS, { n: 15, duration: 2.6, ease: "power1.inOut", onUpdate: place }, 27.3);
+tl.to(NS, { e: EDG.length, duration: 3.0, ease: "power1.inOut", onUpdate: place }, 28.0);
+window.__cues.nodes = [...Array(15).keys()].map(i => +(27.3 + 2.6 * (i + 0.5) / 15).toFixed(3));
+SEL("#sel5", 30.0);
+tl.fromTo("#tz .tz", { opacity: 0, y: 20, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, stagger: 0.18, ease: "back.out(2)" }, 29.2);
+EMO("#e6", 30.3, 10);
+tl.to("#s5in", { opacity: 0, scale: 0.94, duration: 0.35, ease: "power2.in" }, 32.85);
+
+/* ---------- S6 ---------- */
+R("#s6a", 33.2, 0.5); R("#s6b", 33.5, 0.6, "back.out(1.4)");
+tl.fromTo("#h1", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" }, 34.1);
+tl.fromTo("#h2", { rotationX: -80, opacity: 0, transformPerspective: 1400, transformOrigin: "50% 0%" }, { rotationX: 0, opacity: 1, duration: 0.65, ease: "back.out(1.4)" }, 35.15);
+EMO("#e7", 35.6, 10);
+
+/* ---------- S7 ---------- */
+tl.fromTo("#t1", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 37.6);
+tl.fromTo("#t2", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 37.7);
+R("#t3", 37.85, 0.5); R("#t4", 38.1, 0.65, "back.out(1.5)");
+tl.fromTo("#t5", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45 }, 38.9);
+tl.fromTo("#t6", { opacity: 0, y: 40, rotationX: 50 }, { opacity: 1, y: 0, rotationX: 0, duration: 0.5, ease: "back.out(1.8)" }, 39.3);
+EMO("#e8", 38.3, 12);
+tl.set("#cur", { opacity: 0 }, 37.55); tl.set("#cur", { opacity: 1 }, 40.0);
+tl.fromTo("#cur", { x: 1020, y: 1500 }, { x: 700, y: 1130, duration: 0.55, ease: "power3.inOut", immediateRender: false }, 40.0);
+tl.to("#cur", { scale: 0.85, duration: 0.07 }, 40.6); tl.to("#cur", { scale: 1, duration: 0.2 }, 40.67);
+tl.to("#fbtn", { y: 12, boxShadow: "0 2px 0 #B9501A,0 10px 20px -12px rgba(238,106,31,.5)", duration: 0.08 }, 40.6);
+tl.set("#t6", { opacity: 0 }, 40.75); tl.set("#t6b", { opacity: 1 }, 40.75);
+tl.fromTo("#t6b", { scale: 0.92 }, { scale: 1, duration: 0.35, ease: "back.out(3)", immediateRender: false }, 40.75);
+tl.set("#ring", { left: 640, top: 1070 }, 0);
+tl.fromTo("#ring", { opacity: 0.9, scale: 0.6 }, { opacity: 0, scale: 2.2, duration: 0.6, ease: "power2.out", immediateRender: false }, 40.62);
+tl.to("#cur", { x: 820, y: 1300, opacity: 0, duration: 0.45, ease: "power2.in" }, 41.2);
+tl.seek(0);
+</script>
+</body>
+</html>
