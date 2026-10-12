@@ -3,7 +3,7 @@ import { CL, EASE, SANS } from "./kit";
 
 // Indonesian subtitles; timings come from scripts/tts_scopus.py (subs-en.json / subs-id.json).
 export type Sub = { start: number; end: number; id: string };
-export const Subtitles: React.FC<{ subs: Sub[] }> = ({ subs }) => {
+export const Subtitles: React.FC<{ subs: Sub[]; top?: number }> = ({ subs, top = 1480 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const t = frame / fps;
@@ -11,7 +11,7 @@ export const Subtitles: React.FC<{ subs: Sub[] }> = ({ subs }) => {
   if (!cur) return null;
   const k = (t - (cur.start - 0.05)) * fps;
   return (
-    <div style={{ position: "absolute", left: 72, right: 72, top: 1480, display: "flex", justifyContent: "center" }}>
+    <div style={{ position: "absolute", left: 72, right: 72, top, display: "flex", justifyContent: "center" }}>
       <div
         style={{
           maxWidth: 936, padding: "16px 28px", borderRadius: 22, background: "rgba(22,22,22,.9)", color: "#fff", textAlign: "center",
