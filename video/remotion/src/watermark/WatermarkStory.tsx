@@ -3,7 +3,7 @@ import { linearTiming, TransitionSeries } from "@remotion/transitions";
 import { slide } from "@remotion/transitions/slide";
 import { AbsoluteFill, staticFile, useVideoConfig } from "remotion";
 import { Subtitles } from "../scopus/Subtitles";
-import { S1Hook, S2Search, S3Myth, S4Explain, S5Copas, S6Right, S7Disclose, S8Cta } from "./Scenes";
+import { S1Hook, S2Search, S3Myth, S4Explain, S5Edit, S6Right, S7Disclose, S8Cta } from "./Scenes";
 import subs from "./subs-id.json";
 
 // "Claude sekarang ada watermark" — storytelling cartoon, 30s (900 frames @30fps), subtitles + SFX for the creator's VO.
@@ -23,7 +23,7 @@ export const WatermarkStory: React.FC = () => {
         <TransitionSeries.Transition presentation={slide({ direction: "from-right" })} timing={TR} />
         <TransitionSeries.Sequence name="Explain" durationInFrames={134} premountFor={fps}><S4Explain /></TransitionSeries.Sequence>
         <TransitionSeries.Transition presentation={slide({ direction: "from-right" })} timing={TR} />
-        <TransitionSeries.Sequence name="Copas" durationInFrames={110} premountFor={fps}><S5Copas /></TransitionSeries.Sequence>
+        <TransitionSeries.Sequence name="Edit" durationInFrames={110} premountFor={fps}><S5Edit /></TransitionSeries.Sequence>
         <TransitionSeries.Transition presentation={slide({ direction: "from-bottom" })} timing={TR} />
         <TransitionSeries.Sequence name="Right" durationInFrames={158} premountFor={fps}><S6Right /></TransitionSeries.Sequence>
         <TransitionSeries.Transition presentation={slide({ direction: "from-right" })} timing={TR} />

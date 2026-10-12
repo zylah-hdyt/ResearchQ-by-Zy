@@ -85,7 +85,7 @@ export const S2Search: React.FC = () => {
     <AbsoluteFill style={{ fontFamily: SANS }}>
       <Desk />
       <Title at={0} top={220}>Langsung panik,<br /><span style={{ color: "#E5484D" }}>nyari cara ngapusnya?</span></Title>
-      <Laptop left={110} top={480} w={860} h={500}>
+      <Laptop left={90} top={470} w={900} h={540}>
         <div style={{ padding: 28 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "16px 22px", borderRadius: 999, border: "3px solid #DADCE0", fontSize: 30, color: T.ink }}>
             🔍 <span>{typed}</span>{Math.floor(f / 7) % 2 === 0 && f < 40 ? <span style={{ borderLeft: "3px solid #2B2420", height: 32 }} /> : null}
@@ -98,7 +98,6 @@ export const S2Search: React.FC = () => {
           ))}
         </div>
       </Laptop>
-      <Guy expr="panic" sweat armL={14} armR={40} style={{ left: 300, top: 1070, width: 420, height: 630 }} />
       <Footer />
     </AbsoluteFill>
   );
@@ -121,13 +120,12 @@ export const S3Myth: React.FC = () => {
         KARAKTER TERSEMBUNYI: <span style={{ fontFamily: SANS, fontWeight: 800, fontSize: 56, color: T.green }}>0</span>
       </div>
       {["Hapus karakter tersembunyi", "Watermark remover", "Bypass AI watermark"].map((t, i) => (
-        <div key={t} style={{ position: "absolute", left: 80, right: 380, top: 900 + i * 120, padding: "20px 26px", borderRadius: 20, background: "#fff", border: "3px solid #2B2420", fontWeight: 800, fontSize: 32, color: T.ink, ...rise(f, 60 + i * 6, 20) }}>
+        <div key={t} style={{ position: "absolute", left: 80, right: 200, top: 920 + i * 130, padding: "20px 26px", borderRadius: 20, background: "#fff", border: "3px solid #2B2420", fontWeight: 800, fontSize: 32, color: T.ink, ...rise(f, 60 + i * 6, 20) }}>
           {t}
           <div style={{ position: "absolute", left: -10, right: -10, top: "50%", height: 8, background: "#E5484D", borderRadius: 4, transformOrigin: "0 50%", scale: `${interpolate(f, [76 + i * 10, 84 + i * 10], [0, 1], CL)} 1`, rotate: "-3deg" }} />
           <span style={{ position: "absolute", right: -70, top: 4, fontSize: 52, color: "#E5484D", opacity: interpolate(f, [80 + i * 10, 84 + i * 10], [0, 1], CL) }}>✗</span>
         </div>
       ))}
-      <Guy expr="confused" armL={8} armR={70} look={-6} style={{ left: 700, top: 960, width: 360, height: 540 }} />
       <Footer />
     </AbsoluteFill>
   );
@@ -160,25 +158,41 @@ export const S4Explain: React.FC = () => {
   );
 };
 
-/* S5 · 14.3–17.7s: the real problem is copy-pasting raw AI answers into the thesis */
-export const S5Copas: React.FC = () => {
+/* S5 · 14.3–17.7s: the pattern fades when you paraphrase & edit the text yourself */
+const SWAP: [string, string | null, number][] = [
+  ["Media sosial", null, 0], ["kini ikut", "sekarang", 22], ["membentuk", "memengaruhi", 34], ["keputusan pembelian", "cara belanja", 46], ["generasi muda", "anak muda", 58], ["lewat ulasan.", null, 0],
+];
+export const S5Edit: React.FC = () => {
   const f = useCurrentFrame();
-  const fly = interpolate(f, [24, 52], [0, 1], { ...CL, easing: EASE });
-  const alarm = f >= 56 && Math.floor(f / 5) % 2 === 0;
+  const lvl = interpolate(f, [22, 34, 46, 58, 74], [1, 0.8, 0.58, 0.36, 0.16], CL);
   return (
     <AbsoluteFill style={{ fontFamily: SANS, background: BG }}>
-      <Title at={0}>Masalahnya itu<br /><Mark at={10}>copas mentah</Mark> ke skripsi</Title>
-      <div style={{ position: "absolute", left: 70, top: 520, width: 420, padding: "24px 26px", borderRadius: "28px 28px 28px 8px", background: "#EFEBE3", ...rise(f, 6) }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, fontWeight: 800, fontSize: 26 }}><Img src={staticFile("claude_logo.png")} style={{ width: 34, height: 34 }} />Jawaban AI</div>
-        {[100, 90, 96, 70].map((w, i) => <div key={i} style={{ height: 14, width: `${w}%`, borderRadius: 7, background: "#CFC8BB", marginTop: 16 }} />)}
+      <Title at={0}>Bisa pudar kalau kamu<br /><Mark at={10}>parafrase & edit</Mark></Title>
+      <div style={{ position: "absolute", left: 70, right: 70, top: 500, padding: "36px 40px", borderRadius: 24, background: "#fff", border: "3px solid #2B2420", fontFamily: "Tinos", fontSize: 40, lineHeight: 1.75, color: "#222", ...rise(f, 4) }}>
+        {SWAP.map(([w, nw, at]) => {
+          const done = nw !== null && f >= at;
+          const typed = nw ? nw.slice(0, Math.max(0, Math.floor((f - at - 4) * 1.6))) : "";
+          return (
+            <span key={w}>
+              {nw === null ? w : (
+                <>
+                  <span style={{ background: done ? "transparent" : T.orangeS, color: done ? "#B9B2A6" : "#222", textDecoration: done ? "line-through" : "none", textDecorationColor: "#E5484D", textDecorationThickness: 4, borderRadius: 6, padding: "0 4px" }}>{w}</span>
+                  {done ? <span style={{ marginLeft: 8, padding: "0 6px", borderRadius: 6, background: "#E6F2E3", color: "#1F6B3A", fontWeight: 700 }}>{typed}</span> : null}
+                </>
+              )}{" "}
+            </span>
+          );
+        })}
       </div>
-      <div style={{ position: "absolute", left: 220 + fly * 420, top: 690 - Math.sin(fly * Math.PI) * 160, width: 120, height: 140, borderRadius: 16, background: T.orange, border: "5px solid #2B2420", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 30, color: "#fff", opacity: f >= 20 && f < 58 ? 1 : 0, rotate: `${fly * 20}deg` }}>Ctrl+V</div>
-      <div style={{ position: "absolute", left: 580, top: 560, width: 430, height: 520, borderRadius: 18, background: "#fff", border: `6px solid ${alarm ? "#E5484D" : "#2B2420"}`, padding: 26, ...rise(f, 10) }}>
-        <div style={{ fontFamily: "Tinos", fontWeight: 700, fontSize: 26, textAlign: "center" }}>BAB II</div>
-        {[90, 100, 96, 100, 80, 94].map((w, i) => <div key={i} style={{ height: 14, width: `${w}%`, borderRadius: 7, background: f >= 56 && i < 4 ? "#F7C7C7" : "#E3E0D8", marginTop: 18 }} />)}
-        {f >= 56 ? <div style={{ position: "absolute", left: 0, right: 0, bottom: 30, textAlign: "center", fontWeight: 800, fontSize: 40, color: "#E5484D", ...pop(f, 56) }}>⚠ COPAS MENTAH</div> : null}
+      <div style={{ position: "absolute", left: 70, right: 70, top: 1010, ...rise(f, 14) }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontFamily: MONO, fontSize: 26, letterSpacing: 2, color: T.ink }}>
+          <span>POLA WATERMARK</span><span style={{ fontWeight: 700, color: lvl > 0.5 ? T.orange : T.mut }}>{lvl > 0.5 ? "KUAT" : "PUDAR"}</span>
+        </div>
+        <div style={{ marginTop: 14, height: 46, borderRadius: 23, background: "#fff", border: "3px solid #2B2420", overflow: "hidden" }}>
+          <div style={{ width: `${lvl * 100}%`, height: "100%", background: lvl > 0.5 ? T.orange : "#C9C1B4" }} />
+        </div>
       </div>
-      <Guy expr={f >= 56 ? "panic" : "neutral"} sweat={f >= 56} armL={f >= 56 ? 150 : 10} armR={10} style={{ left: 120, top: 1010, width: 380, height: 570 }} />
+      <div style={{ position: "absolute", left: 70, top: 1170, display: "flex", alignItems: "center", gap: 14, padding: "20px 28px", borderRadius: 22, background: T.ink, color: "#fff", fontWeight: 800, fontSize: 36, ...pop(f, 74) }}>✍️ Makin kamu tulis ulang, makin pudar</div>
       <Footer />
     </AbsoluteFill>
   );
@@ -219,13 +233,12 @@ export const S7Disclose: React.FC = () => {
     <AbsoluteFill style={{ fontFamily: SANS }}>
       <Room />
       <Title at={0} size={84}>Cantumkan<br /><Mark at={8}>disclosure AI</Mark></Title>
-      <div style={{ position: "absolute", left: 310, top: 520, width: 460, height: 520, borderRadius: 14, background: "#fff", border: "5px solid #2B2420", padding: "30px 32px", rotate: "-3deg", boxShadow: "12px 12px 0 rgba(43,36,32,.12)", ...pop(f, 4), zIndex: 2 }}>
+      <div style={{ position: "absolute", left: 270, top: 540, width: 540, height: 620, borderRadius: 14, background: "#fff", border: "5px solid #2B2420", padding: "30px 32px", rotate: "-3deg", boxShadow: "12px 12px 0 rgba(43,36,32,.12)", ...pop(f, 4), zIndex: 2 }}>
         <div style={{ fontWeight: 800, fontSize: 30, textAlign: "center", lineHeight: 1.2 }}>PERNYATAAN PENGGUNAAN AI</div>
         {[100, 92, 100, 70, 96].map((w, i) => <div key={i} style={{ height: 13, width: `${w}%`, borderRadius: 6, background: "#E3E0D8", marginTop: 20 }} />)}
         <div style={{ position: "absolute", right: 30, bottom: 40, width: 130, height: 130, borderRadius: "50%", border: `8px solid ${T.green}`, color: T.green, fontWeight: 800, fontSize: 70, display: "flex", alignItems: "center", justifyContent: "center", rotate: "-12deg", opacity: interpolate(f, [30, 33], [0, 1], CL), scale: `${interpolate(f, [30, 36], [1.8, 1], CL)}` }}>✓</div>
       </div>
-      <div style={{ position: "absolute", left: 600, top: 990, padding: "12px 22px", borderRadius: 14, background: T.ink, color: "#fff", fontWeight: 800, fontSize: 30, rotate: "4deg", zIndex: 3, ...pop(f, 20) }}>📌 Ikuti aturan kampusmu</div>
-      <Guy expr="happy" armL={120} armR={120} style={{ left: 280, top: 960, width: 520, height: 780 }} />
+      <div style={{ position: "absolute", left: 330, top: 1230, padding: "16px 28px", borderRadius: 14, background: T.ink, color: "#fff", fontWeight: 800, fontSize: 30, rotate: "4deg", zIndex: 3, ...pop(f, 20) }}>📌 Ikuti aturan kampusmu</div>
       <Footer />
     </AbsoluteFill>
   );

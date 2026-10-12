@@ -46,10 +46,13 @@ for t in (246,256,266): add(F(t),click(),0.3); add(F(t),tone(55,0.3,0.06),0.08)
 add(F(302),whoosh(0.5),0.12)
 for i,t in enumerate(range(318,361,7)): add(F(t),pop(),0.07,rng.uniform(-.4,.4)); add(F(t),tone([67,69,71,72,74,76,79][i%7],0.3,0.07),0.05)
 add(F(368),pop(),0.14); add(F(369),tone(84,0.8,0.25),0.09); add(F(384),tone(79,0.4,0.1),0.06)
-# S5 copas
+# S5 paraphrase edit
 add(F(428),whoosh(0.4),0.12)
-for t in (448,452): add(F(t),click(),0.3)
-add(F(456),whoosh(0.5),0.12); add(F(484),alarm(),0.16); add(F(484),hit(70),0.2)
+for k,t in enumerate((450,462,474,486)):
+    add(F(t),click(),0.26); add(F(t+1),pop(),0.08)
+    for j in range(5): add(F(t+4+j*1.5),key(),0.1,rng.uniform(-.3,.3))
+    add(F(t+2),tone([76,74,72,69][k],0.35,0.08),0.06)
+add(F(502),pop(),0.13); add(F(503),tone(79,0.6,0.2),0.08)
 # S6 right way
 add(F(530),whoosh(0.5),0.12)
 for i,t in enumerate((544,554,564)): add(F(t),pop(),0.12); add(F(t),tone([72,76,79][i],0.4,0.1),0.08)
