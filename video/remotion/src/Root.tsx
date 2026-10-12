@@ -5,7 +5,7 @@ import { ConvergeScene } from "./intro/ConvergeScene";
 import { PainScene } from "./intro/PainScene";
 import { ResearchQIntro } from "./intro/ResearchQIntro";
 import { ProblemMasterShort } from "./problem/ProblemMasterShort";
-import { TheoryMasterShort } from "./theory/TheoryMasterShort";
+import { TheoryMasterShort, TheoryMasterShortSubs } from "./theory/TheoryMasterShort";
 import { ChatScene } from "./scopus/ChatScene";
 import { HonestScene } from "./scopus/HonestScene";
 import { HookScene } from "./scopus/HookScene";
@@ -22,7 +22,8 @@ export const RemotionRoot: React.FC = () => (
       <Composition id="IntroConverge" component={ConvergeScene} durationInFrames={69} fps={30} width={1080} height={1920} />
       <Composition id="IntroBrand" component={BrandScene} durationInFrames={255} fps={30} width={1080} height={1920} />
     </Folder>
-    <Composition id="TheoryMasterShort" component={TheoryMasterShort} durationInFrames={1110} fps={30} width={1080} height={1920} />
+    <Composition id="TheoryMasterShort" component={TheoryMasterShort} durationInFrames={1125} fps={30} width={1080} height={1920} />
+    <Composition id="TheoryMasterShortSubs" component={TheoryMasterShortSubs} durationInFrames={1125} fps={30} width={1080} height={1920} />
     <Composition id="ProblemMasterShort" component={ProblemMasterShort} durationInFrames={1200} fps={30} width={1080} height={1920} />
     <Composition id="ScopusFinderDemo" component={ScopusFinderDemo} durationInFrames={1342} fps={30} width={1080} height={1920} />
     <Composition id="ScopusFinderDemoEN" component={ScopusFinderDemoEN} durationInFrames={1342} fps={30} width={1080} height={1920} />

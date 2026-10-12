@@ -1,0 +1,68 @@
+[
+ {
+  "start": 0.15,
+  "end": 2.66,
+  "vo": "Bingung bikin BAB dua, kuantitatif atau kualitatif?",
+  "id": "Bingung bikin BAB 2, kuantitatif atau kualitatif?"
+ },
+ {
+  "start": 2.78,
+  "end": 4.3,
+  "vo": "Ada satu skill yang bisa bantu kamu.",
+  "id": "Ada satu skill yang bisa bantu kamu."
+ },
+ {
+  "start": 4.42,
+  "end": 6.72,
+  "vo": "Contohnya kayak gini. Pilih skill Theory Master di Klod.",
+  "id": "Contohnya kayak gini. Pilih skill Theory Master di Claude."
+ },
+ {
+  "start": 6.84,
+  "end": 9.65,
+  "vo": "Masukin variabel dari BAB satu kamu, terus kirim.",
+  "id": "Masukin variabel dari BAB 1 kamu, terus kirim."
+ },
+ {
+  "start": 10.1,
+  "end": 14.43,
+  "vo": "Klod langsung deteksi jenis penelitiannya, cari jurnal open akses, dan cek de-o-i-nya.",
+  "id": "Claude langsung deteksi jenis penelitiannya, cari jurnal open access, dan cek DOI-nya."
+ },
+ {
+  "start": 14.55,
+  "end": 18.92,
+  "vo": "Hasilnya langsung jadi file Werd. Ada penelitian terdahulu dengan referensi asli,",
+  "id": "Hasilnya langsung jadi file Word. Ada penelitian terdahulu dengan referensi asli,"
+ },
+ {
+  "start": 19.04,
+  "end": 21.01,
+  "vo": "kerangka pemikiran yang udah jadi diagram,",
+  "id": "kerangka pemikiran yang udah jadi diagram,"
+ },
+ {
+  "start": 21.6,
+  "end": 25.69,
+  "vo": "hipotesis yang nyambung sama model, plus daftar pustaka yang link-nya bisa diklik.",
+  "id": "hipotesis yang nyambung sama model, plus daftar pustaka yang link-nya bisa diklik."
+ },
+ {
+  "start": 26.5,
+  "end": 33.31,
+  "vo": "Bisa buat kuantitatif, kualitatif, mikst metod, ar en di, sampai es el ar. Enam gaya sitasi, dan semua referensinya open akses.",
+  "id": "Bisa buat kuantitatif, kualitatif, mixed method, R&D, sampai SLR. Enam gaya sitasi, semua referensinya open access."
+ },
+ {
+  "start": 33.43,
+  "end": 34.86,
+  "vo": "Skill-nya cuma dua puluh sembilan ribu.",
+  "id": "Skill-nya cuma 29 ribu."
+ },
+ {
+  "start": 34.98,
+  "end": 36.62,
+  "vo": "Komen BAB dua, nanti aku kirim link-nya.",
+  "id": "Komen \"BAB 2\", nanti aku kirim link-nya."
+ }
+]

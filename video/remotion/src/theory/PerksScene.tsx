@@ -28,7 +28,7 @@ export const PerksScene: React.FC = () => {
           </div>
         ))}
       </div>
-      <div style={{ position: "absolute", left: 80, right: 80, top: 1440, textAlign: "center", fontFamily: MONO, fontSize: 20, color: T.mut, ...rise(f, 80) }}>BAHASA INDONESIA ATAU INGGRIS · S1 · S2 · S3</div>
+      <div style={{ position: "absolute", left: 80, right: 80, top: 1418, textAlign: "center", fontFamily: MONO, fontSize: 20, color: T.mut, ...rise(f, 80) }}>BAHASA INDONESIA ATAU INGGRIS · S1 · S2 · S3</div>
     </AbsoluteFill>
   );
 };

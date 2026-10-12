@@ -7,17 +7,18 @@ import { DemoScene } from "./DemoScene";
 import { HookScene } from "./HookScene";
 import { PerksScene } from "./PerksScene";
 import { ResultScene } from "./ResultScene";
+import { Subtitles } from "../scopus/Subtitles";
+import subs from "./subs-id.json";
 
-// Theory Master (BAB 2) short, 37s (1110 frames @30fps), no VO. Each scene is padded by the 10-frame slide that
-// overlaps the next one, so scene starts stay at 0 / 100 / 430 / 790 / 960 (SFX cues use the same grid).
+// Theory Master (BAB 2) short, 37.5s (1125 frames @30fps), timed to the Indonesian VO. Each scene is padded by the
+// 10-frame slide that overlaps the next one, so scene starts sit at 0 / 132 / 462 / 792 / 999 (SFX cues use the same grid).
 const TR = linearTiming({ durationInFrames: 10 });
 
-export const TheoryMasterShort: React.FC = () => {
+const Timeline: React.FC = () => {
   const { fps } = useVideoConfig();
   return (
-    <AbsoluteFill style={{ backgroundColor: "#FAF8F4" }}>
       <TransitionSeries>
-        <TransitionSeries.Sequence name="Hook" durationInFrames={110} premountFor={fps}>
+        <TransitionSeries.Sequence name="Hook" durationInFrames={142} premountFor={fps}>
           <HookScene />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition presentation={slide({ direction: "from-bottom" })} timing={TR} />
@@ -25,18 +26,40 @@ export const TheoryMasterShort: React.FC = () => {
           <DemoScene />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition presentation={slide({ direction: "from-right" })} timing={TR} />
-        <TransitionSeries.Sequence name="Result" durationInFrames={370} premountFor={fps}>
+        <TransitionSeries.Sequence name="Result" durationInFrames={340} premountFor={fps}>
           <ResultScene />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition presentation={slide({ direction: "from-right" })} timing={TR} />
-        <TransitionSeries.Sequence name="Perks" durationInFrames={180} premountFor={fps}>
+        <TransitionSeries.Sequence name="Perks" durationInFrames={217} premountFor={fps}>
           <PerksScene />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition presentation={slide({ direction: "from-bottom" })} timing={TR} />
-        <TransitionSeries.Sequence name="CTA" durationInFrames={150} premountFor={fps}>
+        <TransitionSeries.Sequence name="CTA" durationInFrames={126} premountFor={fps}>
           <CtaScene />
         </TransitionSeries.Sequence>
       </TransitionSeries>
+  );
+};
+
+// Main version: Indonesian VO (Cartesia "Andi") + burned-in Indonesian subtitles.
+export const TheoryMasterShort: React.FC = () => {
+  const { fps } = useVideoConfig();
+  return (
+    <AbsoluteFill style={{ backgroundColor: "#FAF8F4" }}>
+      <Timeline />
+      <Subtitles subs={subs} />
+      <Audio src={staticFile("theory-mix-id.wav")} premountFor={fps} />
+    </AbsoluteFill>
+  );
+};
+
+// Subtitles + SFX only, for recording your own voice over it.
+export const TheoryMasterShortSubs: React.FC = () => {
+  const { fps } = useVideoConfig();
+  return (
+    <AbsoluteFill style={{ backgroundColor: "#FAF8F4" }}>
+      <Timeline />
+      <Subtitles subs={subs} />
       <Audio src={staticFile("theory-sfx.wav")} premountFor={fps} />
     </AbsoluteFill>
   );

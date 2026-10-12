@@ -1,7 +1,7 @@
-# Theory Master short (37s) — soft UI SFX; cue times are global frames @30fps (see src/theory/*).
+# Theory Master short (37.5s) — soft UI SFX; cue times are global frames @30fps (see src/theory/*).
 import numpy as np, wave, sys
 from scipy.signal import butter, sosfilt, fftconvolve
-SR=48000; D=1110/30; N=int(SR*D); rng=np.random.default_rng(44); F=lambda f: f/30
+SR=48000; D=1125/30; N=int(SR*D); rng=np.random.default_rng(44); F=lambda f: f/30
 L=np.zeros(N); Rr=np.zeros(N)
 f2=lambda x,k,f: sosfilt(butter(2,f,k,fs=SR,output='sos'),x)
 mf=lambda m:440*2**((m-69)/12); T=lambda n:np.arange(n)/SR
@@ -24,33 +24,34 @@ def whoosh(dur=0.55):
     n=int(dur*SR); x=rng.normal(0,1,n); y=np.zeros(n); ch=int(0.01*SR)
     for s0 in range(0,n,ch): c=s0/n; y[s0:s0+ch]=f2(x[s0:s0+ch],'low',300+1800*np.sin(np.pi*c)**2)
     return y*np.sin(np.pi*T(n)/dur)**2
-# hook
-add(F(0),hit(85),0.3); add(F(0),pop(),0.12)
-for i in range(5): add(F(12+i*4),whoosh(0.2),0.07,-0.3+0.15*i)
-add(F(24),pop(),0.14); add(F(54),whoosh(0.5),0.14); add(F(56),tone(72),0.12); add(F(66),tone(79),0.1); add(F(76),tone(84,1.0,0.3),0.09)
+# hook (direct question, choice flips, then the skill)
+add(F(0),hit(85),0.32); add(F(0),pop(),0.12)
+for k in range(0,62,7): add(F(k),click(),0.22,[-0.35,0.35][(k//7)%2])
+for i in range(3): add(F(30+i*7),pop(),0.11)
+add(F(80),whoosh(0.4),0.16); add(F(86),pop(),0.14); add(F(88),tone(72),0.12); add(F(96),tone(79),0.1); add(F(104),tone(84,1.0,0.3),0.09)
 # demo
-add(F(100),whoosh(0.55),0.13)
-for t in (125,155,290,420): add(F(t),click(),0.34)
-add(F(128),pop(),0.12); add(F(158),pop(),0.12); add(F(159),tone(76),0.09)
-for t in range(196,299,3): add(F(t)+rng.uniform(0,.02),key(),0.11,rng.uniform(-.3,.3))
-add(F(304),pop(),0.13)
-for i,t in enumerate((334,362,380,398)): add(F(t),tone([72,74,76,79][i],0.5,0.12),0.1)
-add(F(404),pop(),0.13); add(F(405),tone(84,0.8,0.25),0.08)
+add(F(132),whoosh(0.55),0.13)
+for t in (157,187,322,452): add(F(t),click(),0.34)
+add(F(160),pop(),0.12); add(F(190),pop(),0.12); add(F(191),tone(76),0.09)
+for t in range(228,331,3): add(F(t)+rng.uniform(0,.02),key(),0.11,rng.uniform(-.3,.3))
+add(F(336),pop(),0.13)
+for i,t in enumerate((366,394,412,430)): add(F(t),tone([72,74,76,79][i],0.5,0.12),0.1)
+add(F(436),pop(),0.13); add(F(437),tone(84,0.8,0.25),0.08)
 # result
-add(F(430),whoosh(0.55),0.13)
-for t in (464,550,640,716): add(F(t),whoosh(0.4),0.07)
-for i in range(3): add(F(492+i*8),pop(),0.09)
-for t in (580,586,592): add(F(t),pop(),0.1)
-for i,t in enumerate((598,604,610)): add(F(t),tone([72,76,79][i],0.4,0.1),0.08)
-for t in (494,580,670,722): add(F(t),tone(81,0.3,0.08),0.06)
-for i in range(3): add(F(670+i*8),pop(),0.08); add(F(720+i*8),pop(),0.08)
+add(F(462),whoosh(0.55),0.13)
+for t in (496,582,672,748): add(F(t),whoosh(0.4),0.07)
+for i in range(3): add(F(524+i*8),pop(),0.09)
+for t in (612,618,624): add(F(t),pop(),0.1)
+for i,t in enumerate((630,636,642)): add(F(t),tone([72,76,79][i],0.4,0.1),0.08)
+for t in (526,612,702,754): add(F(t),tone(81,0.3,0.08),0.06)
+for i in range(3): add(F(702+i*8),pop(),0.08); add(F(752+i*8),pop(),0.08)
 # perks
-add(F(790),whoosh(0.5),0.12)
-for i in range(6): add(F(804+i*9),pop(),0.11); add(F(804+i*9),tone([72,74,76,79,81,84][i],0.35,0.08),0.08)
+add(F(792),whoosh(0.5),0.12)
+for i in range(6): add(F(806+i*9),pop(),0.11); add(F(806+i*9),tone([72,74,76,79,81,84][i],0.35,0.08),0.08)
 # cta
-add(F(960),hit(90),0.3); add(F(968),tone(72),0.12); add(F(974),tone(79,1.0,0.3),0.1); add(F(996),whoosh(0.3),0.06)
-for t in range(1018,1032,3): add(F(t),key(),0.14)
-add(F(1039),click(),0.4); add(F(1042),pop(),0.14); add(F(1052),tone(84,0.8,0.25),0.1); add(F(1060),tone(79),0.08)
+add(F(999),hit(90),0.3); add(F(1007),tone(72),0.12); add(F(1013),tone(79,1.0,0.3),0.1); add(F(1035),whoosh(0.3),0.06)
+for t in range(1057,1071,3): add(F(t),key(),0.14)
+add(F(1078),click(),0.4); add(F(1081),pop(),0.14); add(F(1091),tone(84,0.8,0.25),0.1); add(F(1099),tone(79),0.08)
 ir=rng.normal(0,1,int(0.5*SR))*np.exp(-T(int(0.5*SR))/0.12)*0.015; ir[0]=1; ir=f2(ir,'low',5000)
 L=fftconvolve(L,ir)[:N]; Rr=fftconvolve(Rr,ir)[:N]; L=f2(L,'high',80); Rr=f2(Rr,'high',80)
 m=max(np.abs(L).max(),np.abs(Rr).max()); L/=m; Rr/=m

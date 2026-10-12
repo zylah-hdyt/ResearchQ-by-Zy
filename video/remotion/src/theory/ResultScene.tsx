@@ -103,7 +103,7 @@ export const ResultScene: React.FC = () => {
       <Note at={150} to={208} top={1200}>✓ Diagram + H1–H3 otomatis</Note>
       <Note at={240} to={284} top={1210}>✓ Hipotesis sinkron dengan model</Note>
       <Note at={292} to={360} top={1250}>✓ Link klik · open access</Note>
-      <div style={{ position: "absolute", left: 80, right: 80, top: 1440, fontFamily: MONO, fontSize: 19, color: T.mut, textAlign: "center", opacity: interpolate(f, [70, 80], [0, 1], CL) }}>
+      <div style={{ position: "absolute", left: 80, right: 80, top: 1424, fontFamily: MONO, fontSize: 18, color: T.mut, textAlign: "center", opacity: interpolate(f, [70, 80], [0, 1], CL) }}>
         REFERENSI DI LAYAR ASLI & TERVERIFIKASI · NARASI DISAMARKAN
       </div>
     </AbsoluteFill>

@@ -1,0 +1,20 @@
+{
+  "voice": "env:CARTESIA_VOICE_ID",
+  "voice_name": "Andi - Dynamic Presenter (Cartesia, id)",
+  "language": "id",
+  "total_s": 37.0,
+  "note": "Theory Master BAB 2 VO + subtitle. 'say' = ejaan untuk TTS, 'id' = teks subtitle di layar.",
+  "lines": [
+    {"at": 0.15, "say": "Bingung bikin BAB dua, kuantitatif atau kualitatif?", "id": "Bingung bikin BAB 2, kuantitatif atau kualitatif?"},
+    {"at": 2.0,  "say": "Ada satu skill yang bisa bantu kamu.", "id": "Ada satu skill yang bisa bantu kamu."},
+    {"at": 3.5,  "say": "Contohnya kayak gini. Pilih skill Theory Master di Klod.", "id": "Contohnya kayak gini. Pilih skill Theory Master di Claude."},
+    {"at": 6.5,  "say": "Masukin variabel dari BAB satu kamu, terus kirim.", "id": "Masukin variabel dari BAB 1 kamu, terus kirim."},
+    {"at": 10.1, "say": "Klod langsung deteksi jenis penelitiannya, cari jurnal open akses, dan cek de-o-i-nya.", "id": "Claude langsung deteksi jenis penelitiannya, cari jurnal open access, dan cek DOI-nya."},
+    {"at": 14.5, "say": "Hasilnya langsung jadi file Werd. Ada penelitian terdahulu dengan referensi asli,", "id": "Hasilnya langsung jadi file Word. Ada penelitian terdahulu dengan referensi asli,"},
+    {"at": 19.0, "say": "kerangka pemikiran yang udah jadi diagram,", "id": "kerangka pemikiran yang udah jadi diagram,"},
+    {"at": 21.6, "say": "hipotesis yang nyambung sama model, plus daftar pustaka yang link-nya bisa diklik.", "id": "hipotesis yang nyambung sama model, plus daftar pustaka yang link-nya bisa diklik."},
+    {"at": 26.5, "say": "Bisa buat kuantitatif, kualitatif, mikst metod, ar en di, sampai es el ar. Enam gaya sitasi, dan semua referensinya open akses.", "id": "Bisa buat kuantitatif, kualitatif, mixed method, R&D, sampai SLR. Enam gaya sitasi, semua referensinya open access."},
+    {"at": 32.1, "say": "Skill-nya cuma dua puluh sembilan ribu.", "id": "Skill-nya cuma 29 ribu."},
+    {"at": 34.3, "say": "Komen BAB dua, nanti aku kirim link-nya.", "id": "Komen \"BAB 2\", nanti aku kirim link-nya."}
+  ]
+}

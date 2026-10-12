@@ -1,19 +1,27 @@
-# Skill Theory Master · BAB 2 · 37 detik (tanpa VO, Remotion)
+# Skill Theory Master · BAB 2 · 37,5 detik (VO + subtitle Indonesia, Remotion)
 
 Gaya: layar Claude versi ResearchQ, bukan tiruan langsung video referensi. Putih hangat dengan oranye ResearchQ,
 judul sans tebal dengan coretan marker, progress langkah ala stories di atas (STEP 1–4), logo Claude, dan hasil
-ditampilkan sebagai dokumen Word. Tanpa glow atau neon. Tambahkan sound yang sedang tren di TikTok.
+ditampilkan sebagai dokumen Word. Tanpa glow atau neon. Kalau menambah musik di TikTok, set volumenya rendah.
 
-| Detik | Scene | Isi |
+## Versi
+- `renders/Theory-Master-BAB2.mp4`: **VO Indonesia** (Cartesia "Andi") + subtitle Indonesia. Mix −14 LUFS.
+- `renders/Theory-Master-BAB2-subtitle-only.mp4`: subtitle + SFX tanpa suara, untuk direkam dengan suaramu sendiri.
+
+## Naskah VO (sama dengan subtitle)
+| Detik | Di layar | VO / subtitle |
 |---|---|---|
-| 0–1,8 | **HOOK** | Halaman BAB 2 "Menurut ahli A… B… C…" distabilo lalu dicoret satu per satu. Sticky note dosen: "Teorinya nyambung ke mana?" Teks besar: **"BAB 2 kamu cuma copas definisi?"** |
-| 1,8–3,3 | Janji | Logo Claude berputar masuk · CLAUDE × SKILL RESEARCHQ · **Theory Master** · "BAB 2 yang nyambung, bukan tumpukan definisi." |
-| 3,3–6,3 | Step 1 | Layar Claude: tap "+", pilih **Theory Master · BAB 2** dari menu skill |
-| 6,3–10 | Step 2 | Prompt diketik: variabel dari BAB 1 (SMM, OCR → Keputusan Pembelian, Gen Z TikTok Shop), APA 7, open access, lalu kirim |
-| 10–14,3 | Step 3 | Deteksi jenis penelitian: KUANTITATIF ✓ · cari jurnal open access ✓ · cek DOI ✓ · susun kerangka & hipotesis ✓ · file **BAB2_Tinjauan_Pustaka.docx**, tap Buka |
-| 14,3–26,3 | Step 4 | Dokumen Word di-scroll: 2.2 Penelitian Terdahulu (3 studi asli) → **2.5 Kerangka Pemikiran** tergambar (X1, X2 → Y, H1–H3) → 2.7 Hipotesis → Daftar Pustaka dengan link DOI. Label oranye menjelaskan tiap kelebihan |
-| 26,3–32 | Kelebihan | 5 jenis penelitian · 6 gaya sitasi · referensi open access · kerangka pemikiran visual · nggak ngarang sitasi ("dalam" ditulis benar) · langsung jadi Word |
-| 32–37 | CTA | Kartu harga **"cuma Rp29.000"**, lalu **Komen "BAB 2"**, nanti aku kirim linknya. Simulasi kolom komentar mengetik "BAB 2" lalu terkirim ♥ · Follow @researchq.id |
+| 0,15 | **HOOK:** "Bingung bikin **BAB 2**", kartu KUANTITATIF / KUALITATIF bergantian menyala, tanda "?" bergoyang, chip "mixed method? R&D? SLR?", lalu "Struktur BAB 2-nya beda semua." | Bingung bikin BAB 2, kuantitatif atau kualitatif? |
+| 2,78 | Kilatan oranye, "Ada **1 skill** yang bisa bantu", kartu logo Claude × **Theory Master** | Ada satu skill yang bisa bantu kamu. |
+| 4,42 | "Contohnya kayak gini 👇", lalu layar Claude STEP 1: pilih skill Theory Master | Contohnya kayak gini. Pilih skill Theory Master di Claude. |
+| 6,84 | STEP 2: prompt variabel dari BAB 1 diketik lalu dikirim | Masukin variabel dari BAB 1 kamu, terus kirim. |
+| 10,1 | STEP 3: deteksi KUANTITATIF ✓ · jurnal open access ✓ · cek DOI ✓ · kerangka & hipotesis ✓ · file .docx | Claude langsung deteksi jenis penelitiannya, cari jurnal open access, dan cek DOI-nya. |
+| 14,55 | STEP 4: Word, tabel penelitian terdahulu (3 studi asli) | Hasilnya langsung jadi file Word. Ada penelitian terdahulu dengan referensi asli, |
+| 19,04 | Kerangka pemikiran tergambar (X1, X2 → Y, H1–H3) | kerangka pemikiran yang udah jadi diagram, |
+| 21,6 | Hipotesis H1–H3, daftar pustaka dengan link DOI | hipotesis yang nyambung sama model, plus daftar pustaka yang link-nya bisa diklik. |
+| 26,5 | "Kenapa Theory Master?", 6 kartu kelebihan | Bisa buat kuantitatif, kualitatif, mixed method, R&D, sampai SLR. Enam gaya sitasi, semua referensinya open access. |
+| 33,43 | Kartu harga "cuma **Rp29.000**" | Skill-nya cuma 29 ribu. |
+| 34,98 | **Komen "BAB 2"**, simulasi komentar terkirim ♥, Follow @researchq.id | Komen "BAB 2", nanti aku kirim link-nya. |
 
 **Kebenaran isi:** penelitian terdahulu dan daftar pustaka di layar adalah referensi asli yang sudah diverifikasi.
 Ketiganya open access (Innovative Marketing CC BY; IJDNS dan IRMM terdaftar di DOAJ):

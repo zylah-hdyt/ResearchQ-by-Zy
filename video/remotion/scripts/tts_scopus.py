@@ -4,7 +4,7 @@
 #   python scripts/tts_scopus.py scripts/vo_scopus_id.json <workdir> public/scopus-vo-id.wav src/scopus/subs-id.json
 import json, os, sys, subprocess, urllib.request, wave, numpy as np
 cfg = json.load(open(sys.argv[1])); work = sys.argv[2]; out_wav = sys.argv[3]; out_json = sys.argv[4]
-os.makedirs(work, exist_ok=True); SR = 44100; TOTAL = 1342 / 30
+os.makedirs(work, exist_ok=True); SR = 44100; TOTAL = cfg.get("total_s", 1342 / 30)
 LANG = cfg.get("language", "en")
 VOICE = os.environ[cfg["voice"][4:]] if cfg["voice"].startswith("env:") else cfg["voice"]
 def tts(text, path):
