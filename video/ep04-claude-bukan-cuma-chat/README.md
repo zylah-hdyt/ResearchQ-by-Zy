@@ -31,3 +31,15 @@ ffmpeg -i project/sfx.wav -af "loudnorm=I=-14:TP=-2:LRA=11,alimiter=limit=0.8:le
 ffmpeg -i out/video.mp4 -i out/mix_norm.wav -map 0:v -map 1:a -c:v libx264 -preset slow -crf 19 -pix_fmt yuv420p \
   -movflags +faststart -c:a aac -b:a 192k -shortest renders/EP04-claude-bukan-cuma-chat.mp4
 ```
+
+## Cover (thumbnail TikTok)
+
+`src/cover.tpl.html` berisi dua varian hook; render ke `renders/EP04-cover-A.png` dan `EP04-cover-B.png`
+(1080×1920, teks penting di area tengah 3:4 supaya aman di grid profil).
+- **A** — "Hey Claude, kamu cuma chatbot ya?" → **BUKAN.** · 9 fitur Claude yang jarang orang tahu.
+- **B** — "Claude bukan cuma ~~chat~~." + 9 pill fitur · "Kamu baru pakai 1 dari 9?"
+
+```bash
+python scripts/build.py src/cover.tpl.html out/cover.html
+# buka out/cover.html, set <body data-v="A"> atau "B", screenshot 1080x1920
+```

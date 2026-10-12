@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Cover EP04</title>
+<style>
+@font-face{font-family:PJS;font-weight:500;src:url(data:font/woff2;base64,{{PJS500}}) format("woff2")}
+@font-face{font-family:PJS;font-weight:700;src:url(data:font/woff2;base64,{{PJS700}}) format("woff2")}
+@font-face{font-family:PJS;font-weight:800;src:url(data:font/woff2;base64,{{PJS800}}) format("woff2")}
+@font-face{font-family:JBM;src:url(data:font/woff2;base64,{{JBM}}) format("woff2")}
+@font-face{font-family:SI;font-style:italic;src:url(data:font/woff2;base64,{{ISI}}) format("woff2")}
+:root{--bg:#09090D;--w:#F4F4F6;--g:#8E8E99;--blue:#4D6BFF;--claude:#EF562F}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--bg)}
+.cv{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--bg);font-family:PJS,sans-serif;color:var(--w);display:none}
+body[data-v="A"] #A, body[data-v="B"] #B{display:block}
+.orb{position:absolute;width:1100px;height:1100px;margin:-550px 0 0 -550px;border-radius:50%}
+.abs{position:absolute}.c{position:absolute;left:0;right:0;text-align:center}
+.mono{font-family:JBM;letter-spacing:4px}.si{font-family:SI;font-style:italic;font-weight:400}
+.clogo{-webkit-mask:url(data:image/png;base64,{{CLOGO}}) center/contain no-repeat;mask:url(data:image/png;base64,{{CLOGO}}) center/contain no-repeat;background:var(--claude)}
+.vig{position:absolute;inset:0;background:radial-gradient(circle at 50% 48%,rgba(0,0,0,0) 45%,rgba(0,0,0,.65) 100%)}
+.pill{position:absolute;width:300px;height:108px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:800;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15)}
+.pill.on{background:linear-gradient(180deg,#7C95FF,#3F5CF2);border-color:rgba(150,170,255,.8);box-shadow:0 0 50px rgba(80,110,255,.5)}
+</style>
+</head>
+<body data-v="A">
+
+<!-- A: chat question + "BUKAN." -->
+<div class="cv" id="A">
+ <div class="orb" style="left:280px;top:520px;background:radial-gradient(closest-side,rgba(60,90,255,.6),rgba(60,90,255,0))"></div>
+ <div class="orb" style="left:820px;top:1350px;background:radial-gradient(closest-side,rgba(140,70,255,.5),rgba(140,70,255,0))"></div>
+ <div class="orb" style="left:540px;top:1080px;width:900px;height:900px;margin:-450px 0 0 -450px;background:radial-gradient(closest-side,rgba(239,86,47,.35),rgba(239,86,47,0))"></div>
+ <div class="abs" style="left:70px;top:330px;width:940px;height:200px;border-radius:44px;background:rgba(226,226,232,.95);color:#26262B;box-shadow:0 50px 100px -40px rgba(0,0,0,.9)">
+  <div style="position:absolute;left:46px;top:42px;font-size:46px;font-weight:600">Hey Claude, kamu cuma chatbot ya?</div>
+  <div style="position:absolute;right:30px;bottom:26px;width:72px;height:72px;border-radius:50%;background:#26262B"></div>
+ </div>
+ <div class="abs clogo" style="left:420px;top:620px;width:240px;height:240px"></div>
+ <div class="c" style="top:890px;font-size:250px;font-weight:800;letter-spacing:-10px;line-height:1">BUKAN.</div>
+ <div class="c" style="top:1190px;font-size:76px;font-weight:800;letter-spacing:-2px">9 fitur Claude</div>
+ <div class="c si" style="top:1285px;font-size:84px;color:#B9C4FF">yang jarang orang tahu</div>
+ <div class="c mono" style="top:1460px;font-size:26px;color:var(--g)">CHAT &middot; PROJECTS &middot; SKILLS &middot; MCP &middot; COWORK &middot; CODE</div>
+ <div class="vig"></div>
+</div>
+
+<!-- B: headline + 9 pills -->
+<div class="cv" id="B">
+ <div class="orb" style="left:540px;top:900px;background:radial-gradient(closest-side,rgba(60,90,255,.55),rgba(60,90,255,0))"></div>
+ <div class="orb" style="left:860px;top:1500px;background:radial-gradient(closest-side,rgba(140,70,255,.45),rgba(140,70,255,0))"></div>
+ <div class="abs clogo" style="left:450px;top:300px;width:180px;height:180px"></div>
+ <div class="c" style="top:520px;font-size:150px;font-weight:800;letter-spacing:-6px;line-height:1">Claude</div>
+ <div class="c" style="top:680px;font-size:92px;font-weight:700;color:var(--g)">bukan cuma <span style="position:relative;color:var(--w)">chat.<span style="position:absolute;left:-8px;right:-8px;top:52%;height:12px;border-radius:6px;background:var(--claude)"></span></span></div>
+ <div id="grid"></div>
+ <div class="c" style="top:1420px;font-size:44px;font-weight:700">Kamu baru pakai <span style="color:#9fb0ff">1 dari 9?</span></div>
+ <div class="vig"></div>
+</div>
+
+<script>
+const N = ["Chat", "Projects", "Artifacts", "Skills", "Connectors", "MCP", "Memory", "Cowork", "Claude Code"], g = document.getElementById("grid");
+N.forEach((n, k) => { const d = document.createElement("div"); d.className = "pill" + (k ? " on" : ""); d.style.left = (90 + (k % 3) * 305) + "px"; d.style.top = (900 + Math.floor(k / 3) * 140) + "px"; if (n.length > 9) d.style.fontSize = "34px"; d.textContent = n; if (!k) { d.style.opacity = ".55"; } g.appendChild(d); });
+</script>
+</body>
+</html>
