@@ -1,0 +1,11 @@
+[
+ {"start": 0.2,  "end": 2.4,  "id": "Udah lewat BAB 2, terus BAB 3 mulai dari mana?"},
+ {"start": 2.5,  "end": 4.9,  "id": "Ada satu skill yang bisa nyusunin BAB 3 kamu, jurusan apa pun."},
+ {"start": 5.0,  "end": 7.6,  "id": "Contohnya kayak gini. Pilih skill Method Master di Claude."},
+ {"start": 7.7,  "end": 10.8, "id": "Upload BAB 2 kamu, sebut populasi dan alat analisisnya, lalu kirim."},
+ {"start": 10.9, "end": 14.6, "id": "Claude baca variabel dari BAB 2, terus pilih jalurnya: survei atau eksperimen lab."},
+ {"start": 14.7, "end": 18.6, "id": "Hasilnya BAB 3 lengkap: rumus sampel yang tepat, definisi operasional variabel,"},
+ {"start": 18.7, "end": 22.2, "id": "sampai teknik analisis data lengkap dengan threshold-nya."},
+ {"start": 22.3, "end": 26.2, "id": "Bisa SPSS atau SmartPLS, bahkan penelitian laboratorium. Konsisten sama BAB 1 dan 2."},
+ {"start": 26.3, "end": 29.6, "id": "Komen \"BAB 3\", nanti aku kirim link-nya."}
+]
