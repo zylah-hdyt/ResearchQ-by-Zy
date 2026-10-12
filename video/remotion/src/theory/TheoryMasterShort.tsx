@@ -10,7 +10,7 @@ import { ResultScene } from "./ResultScene";
 import { Subtitles } from "../scopus/Subtitles";
 import subs from "./subs-id.json";
 
-// Theory Master (BAB 2) short, 37.5s (1125 frames @30fps), timed to the Indonesian VO. Each scene is padded by the
+// Theory Master (BAB 2) short, 37.5s (1125 frames @30fps), timed to the voice-over script (subs-id.json). Each scene is padded by the
 // 10-frame slide that overlaps the next one, so scene starts sit at 0 / 132 / 462 / 792 / 999 (SFX cues use the same grid).
 const TR = linearTiming({ durationInFrames: 10 });
 
@@ -41,20 +41,8 @@ const Timeline: React.FC = () => {
   );
 };
 
-// Main version: Indonesian VO (Cartesia "Andi") + burned-in Indonesian subtitles.
+// Subtitles + SFX only (no voice). The creator records their own voice over it; subtitle timing follows the script.
 export const TheoryMasterShort: React.FC = () => {
-  const { fps } = useVideoConfig();
-  return (
-    <AbsoluteFill style={{ backgroundColor: "#FAF8F4" }}>
-      <Timeline />
-      <Subtitles subs={subs} />
-      <Audio src={staticFile("theory-mix-id.wav")} premountFor={fps} />
-    </AbsoluteFill>
-  );
-};
-
-// Subtitles + SFX only, for recording your own voice over it.
-export const TheoryMasterShortSubs: React.FC = () => {
   const { fps } = useVideoConfig();
   return (
     <AbsoluteFill style={{ backgroundColor: "#FAF8F4" }}>

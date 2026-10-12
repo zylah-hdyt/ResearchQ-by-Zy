@@ -1,14 +1,14 @@
-# Skill Theory Master · BAB 2 · 37,5 detik (VO + subtitle Indonesia, Remotion)
+# Skill Theory Master · BAB 2 · 37,5 detik (subtitle Indonesia, VO direkam sendiri, Remotion)
 
 Gaya: layar Claude versi ResearchQ, bukan tiruan langsung video referensi. Putih hangat dengan oranye ResearchQ,
 judul sans tebal dengan coretan marker, progress langkah ala stories di atas (STEP 1–4), logo Claude, dan hasil
 ditampilkan sebagai dokumen Word. Tanpa glow atau neon. Kalau menambah musik di TikTok, set volumenya rendah.
 
 ## Versi
-- `renders/Theory-Master-BAB2.mp4`: **VO Indonesia** (Cartesia "Andi") + subtitle Indonesia. Mix −14 LUFS.
-- `renders/Theory-Master-BAB2-subtitle-only.mp4`: subtitle + SFX tanpa suara, untuk direkam dengan suaramu sendiri.
+- `renders/Theory-Master-BAB2.mp4`: subtitle Indonesia + SFX, **tanpa suara**. Rekam VO-mu sendiri mengikuti naskah
+  dan detik di bawah, lalu gabungkan di CapCut atau di TikTok. Saat menggabungkan, kecilkan SFX ke sekitar 30–50%.
 
-## Naskah VO (sama dengan subtitle)
+## Naskah VO untuk direkam (sama dengan subtitle)
 | Detik | Di layar | VO / subtitle |
 |---|---|---|
 | 0,15 | **HOOK:** "Bingung bikin **BAB 2**", kartu KUANTITATIF / KUALITATIF bergantian menyala, tanda "?" bergoyang, chip "mixed method? R&D? SLR?", lalu "Struktur BAB 2-nya beda semua." | Bingung bikin BAB 2, kuantitatif atau kualitatif? |
