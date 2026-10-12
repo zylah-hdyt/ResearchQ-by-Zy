@@ -3,7 +3,7 @@
 # high bell arps). Every transition/UI sound comes from window.__cues: whoosh into each card, a bell chime
 # tuned to the current chord when a feature pill lights up, pops, ticks, zaps, dings.
 #   node scripts/probe.cjs $PWD/project/index.html > out/cues.json
-#   python scripts/sfx_ep04.py out/cues.json project/sfx.wav
+#   python scripts/sfx_ep04.py out/cues.json project/sfx.wav [--no-music]   (--no-music: SFX only, no bed)
 import json, sys, wave
 import numpy as np
 from scipy.signal import butter, sosfilt, fftconvolve
@@ -35,7 +35,8 @@ class Bus:
         if n > 0: self.x[i:i + n] += s[:n] * g
 
 
-music, drums, sfx, verb = Bus(), Bus(), Bus(), Bus()
+music, drums, sfx, verb, mverb = Bus(), Bus(), Bus(), Bus(), Bus()   # mverb = reverb send of the music bed
+MUSIC = '--no-music' not in sys.argv
 
 # ---------------- instruments ----------------
 def kick():
@@ -99,7 +100,7 @@ def groove(b0, b1, four=False):
         if k:
             drums.add(bt(b), kick(), 0.8); kicks.append(bt(b)); bm, _ = chord_at(b); music.add(bt(b), bass(mf(bm), B * 1.3), 0.28)
         if bar in (1, 3) and (four or bar == 3) or (not four and bar == 1 and int(b // 4) % 2):
-            drums.add(bt(b), clap(), 0.36); verb.add(bt(b), clap(), 0.22)
+            drums.add(bt(b), clap(), 0.36); mverb.add(bt(b), clap(), 0.22)
         drums.add(bt(b), hat(), 0.12 if bar % 1 else 0.07, rng.uniform(-0.4, 0.4))
 groove(11, 74); groove(74, END_GROOVE, four=True)   # features half-time, recap four-on-the-floor
 
@@ -107,7 +108,7 @@ groove(11, 74); groove(74, END_GROOVE, four=True)   # features half-time, recap 
 for i, b in enumerate(np.arange(11, END_GROOVE, 0.5)):
     if rng.uniform() < 0.55:
         _, notes = chord_at(b); m = notes[[4, 2, 3, 1, 4, 0, 2, 3][i % 8]] + 24
-        s = bell(mf(m), 0.6, 0.6); music.add(bt(b), s, 0.05, rng.uniform(-0.6, 0.6)); verb.add(bt(b), s, 0.05)
+        s = bell(mf(m), 0.6, 0.6); music.add(bt(b), s, 0.05, rng.uniform(-0.6, 0.6)); mverb.add(bt(b), s, 0.05)
 
 # sidechain pump
 pump = np.ones(N)
@@ -200,10 +201,12 @@ for t in C['shimmer']: sfx.add(t, shimmer(), 0.28); verb.add(t, shimmer(), 0.4)
 n_ir = int(1.8 * SR); tt = T(n_ir)
 ir = np.stack([rng.normal(0, 1, n_ir), rng.normal(0, 1, n_ir)], 1) * np.exp(-tt / 0.45)[:, None]
 ir = filt(ir, 'low', 6500); ir /= np.sqrt((ir ** 2).sum(0))
+if MUSIC:
+    verb.x += mverb.x
 wet = np.stack([fftconvolve(verb.x[:, k], ir[:, k])[:N] for k in range(2)], 1)
-mix = music.x * 0.95 + drums.x * 0.6 + sfx.x + wet * 0.38
+mix = (music.x * 0.95 + drums.x * 0.6 if MUSIC else 0) + sfx.x + wet * 0.38
 mix = filt(mix, 'high', 25); mix = np.tanh(mix * 1.15) / np.tanh(1.15)
 mix /= max(1e-6, np.max(np.abs(mix)) / 0.89)
 w = wave.open(sys.argv[2], 'wb'); w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR)
 w.writeframes((mix * 32767).astype(np.int16).tobytes()); w.close()
-print('audio ok', sys.argv[2], {k: len(v) for k, v in C.items() if isinstance(v, list)})
+print('audio ok' + ('' if MUSIC else ' (sfx only)'), sys.argv[2], {k: len(v) for k, v in C.items() if isinstance(v, list)})

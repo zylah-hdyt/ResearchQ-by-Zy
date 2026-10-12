@@ -19,7 +19,7 @@ Fakta (ketersediaan Cowork/Claude Code di paket Pro ke atas, Memory bisa diedit/
 terbuka di balik Connectors) mengikuti *Claude Guide Book* ResearchQ (Sep 2026).
 
 - `src/ep04.tpl.html` — komposisi. Semua perubahan teks pakai `tl.set` (renderer seek dengan event ditekan).
-- `scripts/sfx_ep04.py` — musik 120 BPM + sound design dari `window.__cues` (whoosh tiap kartu, chime yang
+- `scripts/sfx_ep04.py` — sound design (render final memakai `--no-music`: **tanpa musik latar**, hanya SFX; tanpa flag itu ada musik 120 BPM) dari `window.__cues` (whoosh tiap kartu, chime yang
   nadanya mengikuti akord, pop, tick, zap, ding, ketikan).
 
 ## Pipeline
@@ -28,9 +28,9 @@ terbuka di balik Connectors) mengikuti *Claude Guide Book* ResearchQ (Sep 2026).
 npm install
 python scripts/build.py src/ep04.tpl.html project/index.html
 node scripts/probe.cjs $PWD/project/index.html > out/cues.json
-python scripts/sfx_ep04.py out/cues.json project/sfx.wav
+python scripts/sfx_ep04.py out/cues.json project/sfx.wav --no-music   # render final: SFX saja, tanpa musik latar
 (cd project && npx hyperframes render -q high -w 4 -o ../out/video.mp4)
-ffmpeg -i project/sfx.wav -af "loudnorm=I=-14:TP=-2:LRA=11,alimiter=limit=0.8:level=false" -ar 48000 out/mix_norm.wav
+ffmpeg -i project/sfx.wav -af "loudnorm=I=-16:TP=-2:LRA=15,alimiter=limit=0.8:level=false" -ar 48000 out/mix_norm.wav
 ffmpeg -i out/video.mp4 -i out/mix_norm.wav -map 0:v -map 1:a -c:v libx264 -preset slow -crf 19 -pix_fmt yuv420p \
   -movflags +faststart -c:a aac -b:a 192k -shortest renders/EP04-claude-bukan-cuma-chat.mp4
 ```
