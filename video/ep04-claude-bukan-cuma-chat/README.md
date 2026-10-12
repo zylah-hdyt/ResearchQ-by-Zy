@@ -1,16 +1,19 @@
-# EP.04 — Claude Bukan Cuma Chat (TikTok 9:16, 48 detik, tanpa VO)
+# EP.04 — Claude Bukan Cuma Chat (TikTok 9:16, 48,7 detik, tanpa VO)
 
 Edukasi untuk orang yang belum kenal Claude sama sekali, gaya "product launch" sinematik: UI gelap,
 glow biru-ungu, kolom chat kaca, kamera sedikit bergoyang seperti layar yang direkam.
 
-Alur:
+Alur (waktu di bawah dihitung setelah cover; semua digeser `OFF = 0,7 s` di template):
+0. 0–0,7 s: **cover A** sebagai frame pertama (hook "BUKAN."), lalu whoosh ke adegan chat.
 1. 0–4 s: kolom chat mengetik "Hey Claude, kamu cuma chatbot ya?", pilih model (Haiku / Sonnet / Opus),
    kirim. Audio hampir sunyi (ketikan, klik) lalu **hit + sub** saat terkirim dan musik masuk.
 2. 4–7 s: logo Claude + "Claude bukan cuma chat." (kata *chat* dicoret).
 3. 7–9,5 s: pemilih mode Chat · Cowork · Claude Code.
 4. 9,5–41 s: 9 kartu fitur (3,5 s/kartu), tiap kartu = pill + satu kalimat + mockup animasi + catatan:
    Chat, Projects, Artifacts, Skills, Connectors, MCP, Memory, Cowork, Claude Code.
-5. 41–44 s: rekap 9 fitur. 44–48 s: "COBA CLAUDE · claude.ai · @researchq.id".
+5. 41–44 s: rekap 9 fitur. 44–48 s: "COBA CLAUDE · claude.ai", lalu wordmark **ResearchQ** + "Edukasi AI & riset · @researchq.id".
+
+Branding: wordmark ResearchQ kecil di kiri atas sepanjang video, di cover, dan besar di kartu penutup.
 
 Fakta (ketersediaan Cowork/Claude Code di paket Pro ke atas, Memory bisa diedit/dimatikan, MCP standar
 terbuka di balik Connectors) mengikuti *Claude Guide Book* ResearchQ (Sep 2026).

@@ -8,8 +8,8 @@ import json, sys, wave
 import numpy as np
 from scipy.signal import butter, sosfilt, fftconvolve
 
-SR = 48000; D = 48.0; N = int(SR * D); rng = np.random.default_rng(404)
 C = json.load(open(sys.argv[1]))['c']
+SR = 48000; D = C.get('dur', 48.0); N = int(SR * D); rng = np.random.default_rng(404)
 B = 60 / C.get('bpm', 120); S0 = C.get('start', 4.0)       # music starts on the send hit
 T = lambda n: np.arange(n) / SR
 mf = lambda m: 440 * 2 ** ((m - 69) / 12)
