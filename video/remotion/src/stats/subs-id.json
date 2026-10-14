@@ -1,14 +1,11 @@
 [
- {"start": 0.2,  "end": 2.2,  "id": "SPSS atau SmartPLS?"},
- {"start": 2.3,  "end": 3.9,  "id": "Kenalan dulu sama dua software ini."},
- {"start": 4.1,  "end": 8.6,  "id": "SPSS itu software statistik umum. Tampilannya mirip Excel: data di tabel, analisis lewat menu."},
- {"start": 8.7,  "end": 13.8, "id": "Cocok buat regresi linear berganda, uji t, uji F, sampai ANOVA."},
+ {"start": 4.1, "end": 8.6, "id": "SPSS itu software statistik umum. Tampilannya mirip Excel: data di tabel, analisis lewat menu."},
+ {"start": 8.7, "end": 13.8, "id": "Cocok buat regresi linear berganda, uji t, uji F, sampai ANOVA."},
  {"start": 14.1, "end": 18.8, "id": "SmartPLS beda. Kamu gambar modelnya: variabel jadi lingkaran, indikator jadi kotak."},
  {"start": 18.9, "end": 23.8, "id": "Lalu SmartPLS menghitung semua hubungan antarvariabel sekaligus, pakai metode PLS-SEM."},
  {"start": 24.1, "end": 29.8, "id": "Di SPSS, kamu uji validitas, reliabilitas, asumsi klasik, baru regresi."},
  {"start": 29.9, "end": 35.8, "id": "Di SmartPLS ada outer model buat ngecek indikator, dan inner model buat uji hipotesis lewat bootstrapping."},
  {"start": 36.1, "end": 41.8, "id": "SPSS mudah dipelajari dan tutorialnya banyak, tapi asumsi klasik wajib terpenuhi, dan mediasi perlu macro tambahan."},
  {"start": 41.9, "end": 47.8, "id": "SmartPLS nggak wajib data normal dan enak buat model kompleks, tapi kamu harus paham outer dan inner model."},
- {"start": 48.1, "end": 54.8, "id": "Jadi, variabel diukur banyak indikator dan ada mediasi atau moderasi? Pakai SmartPLS. Model sederhana atau uji beda? SPSS."},
- {"start": 55.1, "end": 59.6, "id": "Mau? Klik link di bio ya."}
+ {"start": 48.1, "end": 54.8, "id": "Jadi, variabel diukur banyak indikator dan ada mediasi atau moderasi? Pakai SmartPLS. Model sederhana atau uji beda? SPSS."}
 ]
