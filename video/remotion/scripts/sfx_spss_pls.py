@@ -73,9 +73,18 @@ add(F(B+56),pop(),0.15); add(F(B+57),tone(84,0.8,0.25),0.08); add(F(B+66),pop(),
 # transition accents: push-cut hits, stinger sweeps, zoom-through swells
 def boom():
     n=int(0.9*SR); t=T(n); f=55*np.exp(-t*2)+32; return np.sin(2*np.pi*np.cumsum(f)/SR)*env(n,0.004,0.35)
-for t in (120,1440): add(F(t),boom(),0.22); add(F(t),hit(95),0.12)
-for t in (420,1080): add(F(t-2),whoosh(0.35),0.14,-0.6); add(F(t+3),whoosh(0.35),0.14,0.6); add(F(t+6),boom(),0.12)
-for t in (720,1650): add(F(t-8),whoosh(0.5),0.12); add(F(t+2),boom(),0.24)
+def rise_up(dur=0.45):
+    n=int(dur*SR); t=T(n); f=300+1500*(t/dur)**2; return np.sin(2*np.pi*np.cumsum(f)/SR)*(t/dur)**2*np.exp(-np.maximum(0,t-dur*0.9)/0.02)
+# 120 zoom punch into SPSS logo · 1650 zoom punch into CTA
+for t in (120,1650): add(F(t-10),rise_up(0.4),0.07); add(F(t+3),boom(),0.26); add(F(t+3),hit(95),0.12)
+# 420 whip pan + stinger · 1440 zoom-through + stinger
+for t in (420,1440): add(F(t-2),whoosh(0.35),0.15,-0.7); add(F(t+3),whoosh(0.35),0.15,0.7); add(F(t+6),boom(),0.12)
+# 720 card drops away
+add(F(720),whoosh(0.6),0.12); add(F(730),boom(),0.18)
+# 1080 iris opens
+add(F(1078),rise_up(0.35),0.06); add(F(1084),pop(),0.12); add(F(1086),tone(84,0.6,0.2),0.06); add(F(1088),boom(),0.12)
+# in-scene camera push-ins (SPSS table, SmartPLS result)
+add(F(120+124),whoosh(0.4),0.06); add(F(420+178),whoosh(0.4),0.06)
 ir=rng.normal(0,1,int(0.5*SR))*np.exp(-T(int(0.5*SR))/0.12)*0.015; ir[0]=1; ir=f2(ir,'low',5000)
 L=fftconvolve(L,ir)[:N]; Rr=fftconvolve(Rr,ir)[:N]; L=f2(L,'high',80); Rr=f2(Rr,'high',80)
 m=max(np.abs(L).max(),np.abs(Rr).max()); L/=m; Rr/=m

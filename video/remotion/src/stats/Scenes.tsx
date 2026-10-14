@@ -100,6 +100,7 @@ export const S2Spss: React.FC = () => {
     <AbsoluteFill style={{ fontFamily: SANS }}>
       <Bg />
       <Head k="spss" name="SPSS" tag="Statistik umum" />
+      <div style={{ position: "absolute", inset: 0, transformOrigin: "50% 38%", scale: `${interpolate(f, [124, 142, 236, 256], [1, 1.14, 1.14, 1], { ...CL, easing: EASE })}` }}>
       <Win left={60} top={450} w={960} h={600} title="SPSS · Data View" at={8}>
         <div style={{ display: "flex", gap: 26, padding: "12px 22px", borderBottom: `1px solid ${D.line}`, fontSize: 24, color: D.mut }}>
           {["File", "Edit", "Data", "Transform", "Analyze", "Graphs"].map((m) => {
@@ -140,6 +141,7 @@ export const S2Spss: React.FC = () => {
           </div>
         ) : null}
       </Win>
+      </div>
       <div style={{ position: "absolute", left: 60, right: 60, top: 1100, display: "flex", flexWrap: "wrap", gap: 16 }}>
         {["Regresi linear berganda", "Uji t & uji F", "ANOVA", "Korelasi"].map((t, i) => <Chip key={t} at={150 + i * 12} c={D.spss} bg={D.spssS}>{t}</Chip>)}
       </div>
@@ -164,8 +166,9 @@ export const S3Pls: React.FC = () => {
     <AbsoluteFill style={{ fontFamily: SANS }}>
       <Bg />
       <Head k="pls" name="SmartPLS" tag="PLS-SEM · model visual" />
-      <Win left={40} top={450} w={1000} h={850} title="SmartPLS · Model" at={8}>
-        <svg viewBox="0 0 1000 794" width="100%" height="100%" style={{ position: "absolute", inset: 0 }}>
+      <div style={{ position: "absolute", inset: 0, transformOrigin: "68% 50%", scale: `${interpolate(f, [178, 196, 262, 282], [1, 1.16, 1.16, 1], { ...CL, easing: EASE })}` }}>
+      <Win left={40} top={450} w={1000} h={790} title="SmartPLS · Model" at={8}>
+        <svg viewBox="0 0 1000 734" width="100%" height="100%" style={{ position: "absolute", inset: 0 }}>
           <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill={ln} /></marker></defs>
           {IND.map((d, i) => {
             const c = CONS[d.c];
@@ -204,7 +207,8 @@ export const S3Pls: React.FC = () => {
         <div style={{ position: "absolute", left: 420, top: 640, padding: "14px 22px", borderRadius: 14, background: calc ? D.pls : D.card2, color: calc ? D.bg : D.text, border: `2px solid ${D.pls}`, fontWeight: 800, fontSize: 26, ...pop(f, 150), scale: f >= 168 && f < 176 ? "0.94" : "1" }}>▶ Calculate PLS-SEM</div>
         {calc ? <div style={{ position: "absolute", left: 420, top: 726, fontFamily: MONO, fontSize: 17, color: D.mut }}>CONTOH ILUSTRASI</div> : null}
       </Win>
-      <div style={{ position: "absolute", left: 40, right: 40, top: 1340, display: "flex", gap: 16 }}>
+      </div>
+      <div style={{ position: "absolute", left: 40, right: 40, top: 1270, display: "flex", gap: 16 }}>
         <Chip at={70} c={D.spss} bg={D.spssS}>◯ Variabel = lingkaran</Chip>
         <Chip at={84} c={D.pls} bg={D.plsS}>▭ Indikator = kotak</Chip>
       </div>
@@ -243,7 +247,7 @@ export const S4Analysis: React.FC = () => {
       <Title at={0}>Analisisnya<br /><Mark at={10} c={HL}>beda alur</Mark></Title>
       <Col k="spss" left={60} on={!plsOn} at={16} items={[["Uji validitas", "Pearson · r hitung > r tabel"], ["Uji reliabilitas", "Cronbach's α > 0,60"], ["Asumsi klasik", "normalitas · multikol · hetero"], ["Regresi + uji t/F", "Sig. < 0,05"]]} />
       <Col k="pls" left={565} on={plsOn} at={186} items={[["Outer model", "loading > 0,70 · AVE > 0,50"], ["Reliabilitas", "CR > 0,70 · HTMT < 0,90"], ["Inner model", "R² · f² · Q²"], ["Bootstrapping", "t > 1,96 · p < 0,05"]]} />
-      <div style={{ position: "absolute", left: 60, right: 60, top: 1440, fontFamily: MONO, fontSize: 19, color: D.mut, textAlign: "center", ...rise(f, 30) }}>THRESHOLD UMUM · PLS: HAIR ET AL. (2022) · IKUTI ACUAN DOSENMU</div>
+      <div style={{ position: "absolute", left: 60, right: 60, top: 1370, fontFamily: MONO, fontSize: 19, color: D.mut, textAlign: "center", ...rise(f, 30) }}>THRESHOLD UMUM · PLS: HAIR ET AL. (2022) · IKUTI ACUAN DOSENMU</div>
       <Footer />
     </AbsoluteFill>
   );
@@ -270,8 +274,8 @@ export const S5ProCon: React.FC = () => (
   <AbsoluteFill style={{ fontFamily: SANS }}>
     <Bg />
     <Title at={0}>Kelebihan &<br /><Mark at={10} c={HL}>kekurangan</Mark></Title>
-    <ProCon k="spss" top={460} at={14} items={[[true, "Mudah dipelajari"], [true, "Tutorial melimpah"], [false, "Asumsi klasik wajib terpenuhi"], [false, "Mediasi perlu macro (PROCESS)"]]} />
-    <ProCon k="pls" top={1010} at={186} items={[[true, "Tidak wajib data normal"], [true, "Enak untuk model kompleks"], [true, "Fleksibel soal ukuran sampel"], [false, "Wajib paham outer & inner model"]]} />
+    <ProCon k="spss" top={440} at={14} items={[[true, "Mudah dipelajari"], [true, "Tutorial melimpah"], [false, "Asumsi klasik wajib terpenuhi"], [false, "Mediasi perlu macro (PROCESS)"]]} />
+    <ProCon k="pls" top={930} at={186} items={[[true, "Tidak wajib data normal"], [true, "Enak untuk model kompleks"], [true, "Fleksibel soal ukuran sampel"], [false, "Wajib paham outer & inner model"]]} />
     <Footer />
   </AbsoluteFill>
 );

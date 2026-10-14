@@ -47,3 +47,47 @@ export const Finish: React.FC = () => {
     </AbsoluteFill>
   );
 };
+
+type P = TransitionPresentationComponentProps<Record<string, never>>;
+const sm = (a: number, b: number, x: number) => Math.min(1, Math.max(0, (x - a) / (b - a)));
+
+// Zoom punch: dive into a point of the outgoing scene, the next scene zooms out into place.
+const makePunch = (origin: string): React.FC<P> => ({ children, presentationDirection, presentationProgress: p }) => {
+  const e = EASE(p);
+  const style: React.CSSProperties = presentationDirection === "exiting"
+    ? { transformOrigin: origin, scale: `${1 + e * 1.8}`, opacity: 1 - sm(0.45, 0.9, p), filter: `blur(${e * 10}px)` }
+    : { scale: `${1.35 - e * 0.35}`, opacity: sm(0.25, 0.7, p), filter: `blur(${(1 - e) * 8}px)` };
+  return <AbsoluteFill style={style}>{children}</AbsoluteFill>;
+};
+export const zoomPunch = (origin = "50% 50%"): TransitionPresentation<Record<string, never>> => ({ component: makePunch(origin), props: {} });
+
+// Whip pan: fast horizontal throw with blur.
+const Whip: React.FC<P> = ({ children, presentationDirection, presentationProgress: p }) => {
+  const e = EASE(p);
+  const out = presentationDirection === "exiting";
+  return <AbsoluteFill style={{ translate: `${out ? -e * 1080 : (1 - e) * 1080}px 0px`, filter: `blur(${Math.sin(p * Math.PI) * 18}px)` }}>{children}</AbsoluteFill>;
+};
+export const whipPan = (): TransitionPresentation<Record<string, never>> => ({ component: Whip, props: {} });
+
+// Card out: outgoing shrinks into a rounded card and drops away, incoming zooms out from slightly close.
+const CardOut: React.FC<P> = ({ children, presentationDirection, presentationProgress: p }) => {
+  const e = EASE(p);
+  if (presentationDirection === "exiting") {
+    return <AbsoluteFill style={{ scale: `${1 - e * 0.42}`, translate: `0px ${e * e * 700}px`, borderRadius: 70 * e, overflow: "hidden", opacity: 1 - sm(0.6, 1, p), boxShadow: "0 60px 80px -30px rgba(0,0,0,.8)" }}>{children}</AbsoluteFill>;
+  }
+  return <AbsoluteFill style={{ scale: `${1.18 - e * 0.18}`, opacity: sm(0.1, 0.6, p) }}>{children}</AbsoluteFill>;
+};
+export const cardOut = (): TransitionPresentation<Record<string, never>> => ({ component: CardOut, props: {} });
+
+// Iris: next scene opens from the centre in a growing circle.
+const Iris: React.FC<P> = ({ children, presentationDirection, presentationProgress: p }) => {
+  if (presentationDirection === "exiting") return <AbsoluteFill style={{ scale: `${1 + EASE(p) * 0.08}` }}>{children}</AbsoluteFill>;
+  return <AbsoluteFill style={{ clipPath: `circle(${p * p * (3 - 2 * p) * 120}% at 50% 48%)` }}>{children}</AbsoluteFill>;
+};
+export const iris = (): TransitionPresentation<Record<string, never>> => ({ component: Iris, props: {} });
+
+// Short white flash to sell a punch-in cut.
+export const Flash: React.FC<{ c?: string }> = ({ c = "#FFFFFF" }) => {
+  const f = useCurrentFrame();
+  return <AbsoluteFill style={{ background: c, opacity: interpolate(f, [0, 4, 14], [0, 0.55, 0], CL), pointerEvents: "none" }} />;
+};

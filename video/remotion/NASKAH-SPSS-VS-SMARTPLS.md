@@ -1,17 +1,20 @@
 # SPSS atau SmartPLS? — Explainer 60 detik (@researchq.id)
 
-Format: gelap sinematik (navy, aksen biru SPSS & amber SmartPLS, HUD dokumenter, tanpa glow), 1080×1920, 30 fps, 60 detik.
+Format: gelap sinematik (navy, aksen biru SPSS & amber SmartPLS, tanpa glow), 1080×1920, 30 fps, 60 detik.
 Tanpa karakter dan tanpa VO: info disampaikan lewat teks layar + caption, diiringi backsound + SFX.
 File: `renders/SPSS-vs-SmartPLS.mp4` · Composition: `SpssVsPls`
 
 ## Sentuhan premium
 - Transisi bervariasi:
-  - push-cut + flash di detik 4 dan 48
-  - wipe + stinger bar diagonal biru/amber di detik 14
-  - zoom-through blur di detik 24 dan 55
-  - slide + stinger di detik 36
+  - zoom punch masuk ke logo SPSS + flash (detik 4)
+  - whip pan + stinger bar (14)
+  - card-out: adegan mengecil jadi kartu lalu jatuh (24)
+  - iris lingkaran (36)
+  - zoom-through blur + stinger (48)
+  - zoom punch ke CTA + flash (55)
+- Zoom kamera di dalam adegan: tabel Coefficients SPSS dan hasil model SmartPLS.
 - Kamera bergerak pelan (drift/zoom halus) di setiap adegan, judul muncul dengan efek mask reveal, dan ada guncangan kamera kecil saat "VS" muncul.
-- Film grain + vignette halus, plus progress bar tipis di HUD. Tanpa neon atau glow.
+- Film grain + vignette halus. Tanpa neon atau glow.
 - CTA: mockup 3D ebook dengan stempel FREE, bonus "Ebook Panduan SEM-PLS & SPSS", dan tombol "↑ Klik link di bio ya".
 - SFX transisi: sub boom, whoosh stereo kiri→kanan untuk stinger, dan stempel untuk badge FREE.
 
