@@ -3,20 +3,20 @@ import { CL, EASE, Mark, MONO, SANS, T, pop, rise } from "../theory/kit";
 import { Guy } from "./Guy";
 
 // Storytelling scenes for "Claude sekarang ada watermark" (30s). Flat vector, warm palette, no glow.
-const BG = "#F6EFE4";
-const Footer: React.FC = () => (
+export const BG = "#F6EFE4";
+export const Footer: React.FC = () => (
   <>
     <div style={{ position: "absolute", left: 80, bottom: 62, fontFamily: SANS, fontWeight: 800, fontSize: 30, color: T.ink }}>ResearchQ<span style={{ color: T.orange }}>.</span></div>
     <div style={{ position: "absolute", right: 80, bottom: 68, fontFamily: MONO, fontSize: 21, letterSpacing: 2, color: T.mut }}>@RESEARCHQ.ID</div>
   </>
 );
-const Title: React.FC<{ at?: number; top?: number; size?: number; children: React.ReactNode }> = ({ at = 0, top = 230, size = 86, children }) => {
+export const Title: React.FC<{ at?: number; top?: number; size?: number; children: React.ReactNode }> = ({ at = 0, top = 230, size = 86, children }) => {
   const f = useCurrentFrame();
   return <div style={{ position: "absolute", left: 70, right: 70, top, fontFamily: SANS, fontWeight: 800, fontSize: size, letterSpacing: -3.5, lineHeight: 1.04, color: T.ink, ...rise(f, at) }}>{children}</div>;
 };
 
 // Night bedroom (kos): wall, window with moon, poster, bed, floor.
-const Room: React.FC = () => (
+export const Room: React.FC = () => (
   <AbsoluteFill style={{ background: BG }}>
     <div style={{ position: "absolute", left: 0, right: 0, top: 1300, bottom: 0, background: "#E4D3BC" }} />
     <div style={{ position: "absolute", left: 640, top: 560, width: 320, height: 380, borderRadius: 18, background: "#2E3A5C", border: "16px solid #FFFFFF" }}>
@@ -33,7 +33,7 @@ const Room: React.FC = () => (
   </AbsoluteFill>
 );
 // Desk scene: wall + desk top.
-const Desk: React.FC = () => (
+export const Desk: React.FC = () => (
   <AbsoluteFill style={{ background: BG }}>
     <div style={{ position: "absolute", left: 0, right: 0, top: 1180, bottom: 0, background: "#B98552" }} />
     <div style={{ position: "absolute", left: 0, right: 0, top: 1180, height: 24, background: "#A3713F" }} />

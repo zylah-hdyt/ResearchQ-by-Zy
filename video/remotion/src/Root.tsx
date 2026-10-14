@@ -8,6 +8,7 @@ import { ProblemMasterShort } from "./problem/ProblemMasterShort";
 import { TheoryMasterShort } from "./theory/TheoryMasterShort";
 import { MethodMasterShort } from "./method/MethodMasterShort";
 import { WatermarkStory } from "./watermark/WatermarkStory";
+import { SpssVsPls } from "./stats/SpssVsPls";
 import { ChatScene } from "./scopus/ChatScene";
 import { HonestScene } from "./scopus/HonestScene";
 import { HookScene } from "./scopus/HookScene";
@@ -24,6 +25,7 @@ export const RemotionRoot: React.FC = () => (
       <Composition id="IntroConverge" component={ConvergeScene} durationInFrames={69} fps={30} width={1080} height={1920} />
       <Composition id="IntroBrand" component={BrandScene} durationInFrames={255} fps={30} width={1080} height={1920} />
     </Folder>
+    <Composition id="SpssVsPls" component={SpssVsPls} durationInFrames={1800} fps={30} width={1080} height={1920} />
     <Composition id="WatermarkStory" component={WatermarkStory} durationInFrames={900} fps={30} width={1080} height={1920} />
     <Composition id="MethodMasterShort" component={MethodMasterShort} durationInFrames={900} fps={30} width={1080} height={1920} />
     <Composition id="TheoryMasterShort" component={TheoryMasterShort} durationInFrames={1125} fps={30} width={1080} height={1920} />
