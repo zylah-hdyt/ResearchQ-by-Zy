@@ -4,6 +4,17 @@ Format: gelap sinematik (navy, aksen biru SPSS & amber SmartPLS, HUD dokumenter,
 Tanpa karakter dan tanpa VO: info disampaikan lewat teks layar + caption, diiringi backsound + SFX.
 File: `renders/SPSS-vs-SmartPLS.mp4` · Composition: `SpssVsPls`
 
+## Sentuhan premium
+- Transisi bervariasi:
+  - push-cut + flash di detik 4 dan 48
+  - wipe + stinger bar diagonal biru/amber di detik 14
+  - zoom-through blur di detik 24 dan 55
+  - slide + stinger di detik 36
+- Kamera bergerak pelan (drift/zoom halus) di setiap adegan, judul muncul dengan efek mask reveal, dan ada guncangan kamera kecil saat "VS" muncul.
+- Film grain + vignette halus, plus progress bar tipis di HUD. Tanpa neon atau glow.
+- CTA: mockup 3D ebook dengan stempel FREE, bonus "Ebook Panduan SEM-PLS & SPSS", dan tombol "↑ Klik link di bio ya".
+- SFX transisi: sub boom, whoosh stereo kiri→kanan untuk stinger, dan stempel untuk badge FREE.
+
 Adegan: Pembuka (0–4) · SPSS (4–14) · SmartPLS (14–24) · Analisis (24–36) · Plus & minus (36–48) · Keputusan (48–55) · Penutup/CTA teks (55–60).
 
 ## Audio
@@ -30,4 +41,5 @@ Adegan: Pembuka (0–4) · SPSS (4–14) · SmartPLS (14–24) · Analisis (24�
 ## Catatan
 - Angka di output SPSS dan model SmartPLS adalah **contoh ilustrasi** (berlabel di video).
 - Threshold PLS mengikuti cut-off umum Hair et al. (2022), dengan catatan "ikuti acuan dosenmu".
-- CTA hanya teks "Mau? Klik link di bio ya". Tidak ada harga atau klaim lisensi di video.
+- CTA berupa teks "Mau? Klik link di bio ya" + bonus free ebook. Tidak ada harga atau klaim lisensi software di video.
+- Isi ebook yang ditampilkan (langkah analisis, cara baca output, contoh interpretasi) perlu disesuaikan dengan isi ebook aslinya.

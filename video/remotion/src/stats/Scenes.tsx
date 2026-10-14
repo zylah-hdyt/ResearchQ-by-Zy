@@ -22,7 +22,12 @@ const Footer: React.FC = () => (
 );
 const Title: React.FC<{ at?: number; top?: number; size?: number; center?: boolean; children: React.ReactNode }> = ({ at = 0, top = 240, size = 86, center, children }) => {
   const f = useCurrentFrame();
-  return <div style={{ position: "absolute", left: 70, right: 70, top, fontFamily: SANS, fontWeight: 800, fontSize: size, letterSpacing: -3.5, lineHeight: 1.04, color: D.text, textAlign: center ? "center" : "left", ...rise(f, at) }}>{children}</div>;
+  const p = interpolate(f, [at, at + 16], [0, 1], { ...CL, easing: EASE });
+  return (
+    <div style={{ position: "absolute", left: 70, right: 70, top, overflow: "hidden", paddingBottom: 12 }}>
+      <div style={{ fontFamily: SANS, fontWeight: 800, fontSize: size, letterSpacing: -3.5, lineHeight: 1.04, color: D.text, textAlign: center ? "center" : "left", translate: `0px ${(1 - p) * 110}%`, opacity: interpolate(p, [0, 0.3], [0, 1]) }}>{children}</div>
+    </div>
+  );
 };
 const Logo: React.FC<{ k: "spss" | "pls"; size: number; style?: React.CSSProperties }> = ({ k, size, style }) => (
   <div style={{ width: size, height: size, borderRadius: "50%", overflow: "hidden", border: `${Math.max(3, size / 50)}px solid ${k === "spss" ? D.spss : D.pls}`, background: "#fff", boxShadow: "0 24px 40px -24px rgba(0,0,0,.8)", ...style }}>
@@ -64,7 +69,7 @@ export const S1Hook: React.FC = () => {
   const f = useCurrentFrame();
   const split = interpolate(f, [0, 14], [0, 1], { ...CL, easing: EASE });
   return (
-    <AbsoluteFill style={{ fontFamily: SANS }}>
+    <AbsoluteFill style={{ fontFamily: SANS, translate: f >= 20 && f < 28 ? `${Math.sin(f * 9) * 7}px ${Math.cos(f * 7) * 5}px` : "0px 0px" }}>
       <Bg />
       <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 540, background: D.spssS, translate: `${(split - 1) * 540}px 0px` }} />
       <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: 540, background: D.plsS, translate: `${(1 - split) * 540}px 0px` }} />
@@ -302,26 +307,52 @@ export const S6When: React.FC = () => {
   );
 };
 
-/* S7 · 55–60s: CTA text */
+/* S7 · 55–60s: CTA text + free ebook bonus */
+const Ebook: React.FC<{ style?: React.CSSProperties }> = ({ style }) => {
+  const f = useCurrentFrame();
+  const ry = interpolate(f, [12, 36], [-70, -24], { ...CL, easing: EASE }) + Math.sin(f / 18) * 3;
+  return (
+    <div style={{ perspective: 1400, ...style }}>
+      <div style={{ position: "relative", width: 330, height: 450, transformStyle: "preserve-3d", transform: `rotateY(${ry}deg) rotateX(4deg)` }}>
+        <div style={{ position: "absolute", inset: 0, borderRadius: "6px 14px 14px 6px", background: "linear-gradient(160deg, #1B2A44 0%, #0F1828 100%)", border: `2px solid ${D.line}`, padding: "34px 30px", overflow: "hidden", boxShadow: "7px 5px 0 #E2DCCF, 12px 10px 0 #C9C2B4, 24px 30px 40px -10px rgba(0,0,0,.7)" }}>
+          <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 18, background: "rgba(0,0,0,.35)" }} />
+          <div style={{ fontFamily: MONO, fontSize: 18, letterSpacing: 3, color: D.pls }}>EBOOK PANDUAN</div>
+          <div style={{ marginTop: 18, fontWeight: 800, fontSize: 50, lineHeight: 1.02, letterSpacing: -2, color: D.text }}>SEM-PLS<br /><span style={{ color: D.mut, fontSize: 34 }}>&amp;</span><br />SPSS</div>
+          <svg width={270} height={120} style={{ position: "absolute", left: 30, bottom: 70 }}>
+            {[[40, 30], [40, 90], [200, 60]].map(([x, y], i) => <circle key={i} cx={x} cy={y} r={22} fill="none" stroke={i === 2 ? D.pls : D.spss} strokeWidth={4} />)}
+            <path d="M62 34 L176 56 M62 86 L176 64" stroke={D.text} strokeWidth={3} />
+          </svg>
+          <div style={{ position: "absolute", left: 30, bottom: 28, fontFamily: MONO, fontSize: 16, color: D.mut, letterSpacing: 2 }}>RESEARCHQ.ID</div>
+        </div>
+      </div>
+    </div>
+  );
+};
 export const S7Cta: React.FC = () => {
   const f = useCurrentFrame();
   const ring = (f % 40) / 40;
   return (
     <AbsoluteFill style={{ fontFamily: SANS }}>
       <Bg />
-      <div style={{ position: "absolute", left: 0, right: 0, top: 300, display: "flex", justifyContent: "center", gap: 40 }}>
-        <Logo k="spss" size={180} style={pop(f, 2)} />
-        <Logo k="pls" size={180} style={pop(f, 8)} />
+      <div style={{ position: "absolute", left: 0, right: 0, top: 230, textAlign: "center", fontWeight: 800, fontSize: 170, letterSpacing: -7, color: D.text, ...pop(f, 4) }}>Mau?</div>
+      <Ebook style={{ position: "absolute", left: 110, top: 500, ...rise(f, 12, 60) }} />
+      <div style={{ position: "absolute", left: 300, top: 470, width: 130, height: 130, borderRadius: "50%", background: D.pls, color: D.bg, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 38, rotate: "-14deg", border: `4px solid ${D.bg}`, opacity: interpolate(f, [34, 37], [0, 1], CL), scale: `${interpolate(f, [34, 42], [1.9, 1], { ...CL, easing: EASE })}` }}>FREE</div>
+      <div style={{ position: "absolute", left: 540, top: 560, width: 470 }}>
+        <div style={{ fontFamily: MONO, fontSize: 24, letterSpacing: 4, color: D.pls, ...rise(f, 26, 20) }}>BONUS GRATIS</div>
+        <div style={{ marginTop: 12, fontWeight: 800, fontSize: 54, lineHeight: 1.05, letterSpacing: -2, color: D.text, ...rise(f, 30, 20) }}>Ebook Panduan<br /><Mark at={44} c={HL}>SEM-PLS &amp; SPSS</Mark></div>
+        {["Langkah analisis", "Cara baca output", "Contoh interpretasi"].map((t, i) => (
+          <div key={t} style={{ marginTop: i ? 10 : 24, fontSize: 30, fontWeight: 700, color: D.text, ...rise(f, 40 + i * 6, 14) }}><span style={{ color: D.green, marginRight: 10 }}>✓</span>{t}</div>
+        ))}
       </div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 560, textAlign: "center", fontWeight: 800, fontSize: 200, letterSpacing: -8, color: D.text, ...pop(f, 12) }}>Mau?</div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 860, display: "flex", justifyContent: "center", ...pop(f, 22) }}>
-        <div style={{ position: "relative", padding: "26px 46px", borderRadius: 999, background: D.pls, color: D.bg, fontWeight: 800, fontSize: 64 }}>
-          Klik link di bio ya
-          <div style={{ position: "absolute", inset: -4, borderRadius: 999, border: `3px solid ${D.pls}`, scale: `${1 + ring * 0.18} ${1 + ring * 0.5}`, opacity: f > 30 ? 1 - ring : 0 }} />
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1060, display: "flex", justifyContent: "center", ...pop(f, 56) }}>
+        <div style={{ position: "relative", padding: "26px 46px", borderRadius: 999, background: D.pls, color: D.bg, fontWeight: 800, fontSize: 60 }}>
+          ↑ Klik link di bio ya
+          <div style={{ position: "absolute", inset: -4, borderRadius: 999, border: `3px solid ${D.pls}`, scale: `${1 + ring * 0.16} ${1 + ring * 0.5}`, opacity: f > 66 ? 1 - ring : 0 }} />
         </div>
       </div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 1040 - Math.abs(Math.sin(f / 7)) * 24, textAlign: "center", fontSize: 90, fontWeight: 800, color: D.pls, ...rise(f, 30) }}>↑</div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 1200, textAlign: "center", fontFamily: MONO, fontSize: 26, letterSpacing: 3, color: D.mut, ...rise(f, 36) }}>@RESEARCHQ.ID</div>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1250, display: "flex", justifyContent: "center", alignItems: "center", gap: 22, ...rise(f, 66, 14) }}>
+        <Logo k="spss" size={86} /><span style={{ fontFamily: MONO, fontSize: 24, letterSpacing: 3, color: D.mut }}>SPSS · SMARTPLS</span><Logo k="pls" size={86} />
+      </div>
       <Footer />
     </AbsoluteFill>
   );

@@ -65,9 +65,17 @@ for i in range(3): add(F(B+50+i*6),click(),0.12)
 add(F(B+60),whoosh(0.25),0.07); add(F(B+70),pop(),0.12); add(F(B+71),tone(74,0.4,0.1),0.07)
 for i in range(3): add(F(B+80+i*6),click(),0.12)
 add(F(B+110),tone(72,0.4,0.1),0.05)
-# S7 CTA (start 1650)
-B=1650; add(F(B),hit(90),0.3); add(F(B+2),pop(),0.12); add(F(B+8),pop(),0.12); add(F(B+12),pop(),0.14)
-add(F(B+22),pop(),0.14); add(F(B+23),tone(84,0.8,0.25),0.09); add(F(B+30),whoosh(0.3),0.07); add(F(B+31),tone(79,0.5,0.15),0.06)
+# S7 CTA (start 1650) — Mau?, 3D ebook, FREE stamp, link pill
+B=1650; add(F(B+4),pop(),0.14); add(F(B+4),tone(84,0.6,0.2),0.07)
+add(F(B+12),whoosh(0.5),0.12); add(F(B+34),stamp(),0.32); add(F(B+36),tone(88,0.6,0.2),0.06)
+for i in range(3): add(F(B+40+i*6),click(),0.14); add(F(B+40+i*6),tone([76,79,84][i],0.3,0.08),0.05)
+add(F(B+56),pop(),0.15); add(F(B+57),tone(84,0.8,0.25),0.08); add(F(B+66),pop(),0.1)
+# transition accents: push-cut hits, stinger sweeps, zoom-through swells
+def boom():
+    n=int(0.9*SR); t=T(n); f=55*np.exp(-t*2)+32; return np.sin(2*np.pi*np.cumsum(f)/SR)*env(n,0.004,0.35)
+for t in (120,1440): add(F(t),boom(),0.22); add(F(t),hit(95),0.12)
+for t in (420,1080): add(F(t-2),whoosh(0.35),0.14,-0.6); add(F(t+3),whoosh(0.35),0.14,0.6); add(F(t+6),boom(),0.12)
+for t in (720,1650): add(F(t-8),whoosh(0.5),0.12); add(F(t+2),boom(),0.24)
 ir=rng.normal(0,1,int(0.5*SR))*np.exp(-T(int(0.5*SR))/0.12)*0.015; ir[0]=1; ir=f2(ir,'low',5000)
 L=fftconvolve(L,ir)[:N]; Rr=fftconvolve(Rr,ir)[:N]; L=f2(L,'high',80); Rr=f2(Rr,'high',80)
 m=max(np.abs(L).max(),np.abs(Rr).max()); L/=m; Rr/=m
