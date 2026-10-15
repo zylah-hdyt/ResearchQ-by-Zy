@@ -12,9 +12,9 @@ def put(buf, t0, s, g=1.0):
     i = int(t0 * SR); n = min(len(s), N - i)
     if n > 0 and i >= 0: buf[i:i + n] += s[:n] * g
 
-# Am7 · Fmaj7 · Cmaj7 · G(add6) — one chord per bar
-CH = [[57, 60, 64, 67], [53, 57, 60, 64], [48, 55, 59, 64], [55, 59, 62, 64]]
-ROOT = [45, 41, 48, 43]
+# Am9 · Dm9 · G · Cmaj7 — one chord per bar (electric-piano voicing, different from the SPSS bed)
+CH = [[57, 60, 64, 67, 71], [50, 53, 57, 60, 64], [55, 59, 62, 67], [48, 52, 55, 59, 64]]
+ROOT = [45, 38, 43, 36]
 pad = np.zeros(N); pl = np.zeros(N); bass = np.zeros(N); kick = np.zeros(N); clap = np.zeros(N); hat = np.zeros(N); fx = np.zeros(N)
 kenv = np.zeros(N)
 
@@ -24,14 +24,15 @@ for b in range(nb):
     # pad: detuned saws, soft attack, overlaps into next bar
     n = int((BAR + 0.6) * SR); t = T(n)
     a = np.minimum(1, t / 0.35) * np.minimum(1, np.maximum(0, (BAR + 0.6 - t) / 0.6))
-    s = sum(((t * mf(m) * d) % 1 * 2 - 1) for m in ch for d in (0.997, 1.003))
-    put(pad, t0, s * a / 8)
+    s = sum(np.sin(2 * np.pi * mf(m) * t + 1.1 * np.exp(-t / 0.3) * np.sin(2 * np.pi * mf(m) * t)) * np.exp(-t / 1.6) for m in ch)
+    put(pad, t0, s * a / 5)
     groove = 2 <= b < 18 or b >= 20
     lift = 15 <= b < 18
     # pluck arpeggio (8ths), quieter in intro, octave up in the lift section
     if b < 18 or b >= 20:
         seq = [0, 2, 1, 3, 2, 1, 3, 2]
         for k, ix in enumerate(seq):
+            if k % 2 == 0 and k not in (0, 4): continue  # syncopated e-piano stabs instead of a straight arp
             m = ch[ix] + (24 if lift and k % 2 else 12)
             n = int(0.45 * SR); t = T(n); fr = mf(m)
             s = (np.sin(2 * np.pi * fr * t) + 0.25 * np.sin(4 * np.pi * fr * t) * np.exp(-t / 0.05)) * env(n, 0.003, 0.16)
@@ -52,11 +53,11 @@ for b in range(nb):
                 put(kenv, tb, env(int(0.3 * SR), 0.001, 0.09))
             if q in (1, 3):
                 n = int(0.18 * SR)
-                put(clap, tb, f2(rng.normal(0, 1, n), "band", [900, 3200]) * env(n, 0.002, 0.045))
+                tt = T(n); put(clap, tb, (f2(rng.normal(0, 1, n), "band", [2000, 5000]) * env(n, 0.001, 0.012) + np.sin(2 * np.pi * 1750 * tt) * env(n, 0.001, 0.02)) * 0.8)  # rimshot
             # hats on 8ths (swung)
-            for e in range(2):
-                n = int(0.04 * SR)
-                put(hat, tb + e * 0.25 + (0.03 if e else 0), f2(rng.normal(0, 1, n), "high", 7000) * env(n, 0.0005, 0.012), 0.6 if e else 1.0)
+            for e in range(4):  # shaker on 16ths
+                n = int(0.07 * SR)
+                put(hat, tb + e * 0.125 + (0.015 if e % 2 else 0), f2(rng.normal(0, 1, n), "band", [5000, 11000]) * env(n, 0.012, 0.025), [1.0, 0.45, 0.7, 0.45][e])
         if b % 2 == 1:
             n = int(0.3 * SR); t = T(n); fr = 45 + 90 * np.exp(-t * 28)
             put(kick, t0 + 1.25, np.sin(2 * np.pi * np.cumsum(fr) / SR) * env(n, 0.001, 0.12), 0.7)
@@ -81,10 +82,10 @@ put(pad, 45.0, s / 4, 0.8)
 
 # sidechain-ish ducking of pad/bass by the kick
 duck = 1 - 0.35 * np.clip(kenv, 0, 1)
-pad = f2(pad, "low", 1400) * duck
+pad = f2(pad, "low", 2600) * duck
 bass = f2(bass, "low", 400) * duck
 pl = f2(pl, "low", 5000)
-mix = pad * 0.55 + pl * 0.16 + bass * 0.42 + kick * 0.55 + clap * 0.10 + hat * 0.05 + fx * 0.12
+mix = pad * 0.5 + pl * 0.15 + bass * 0.42 + kick * 0.5 + clap * 0.12 + hat * 0.07 + fx * 0.12
 # fade in / out
 t = T(N); mix *= np.minimum(1, t / 0.3) * np.clip((DUR - t) / 1.8, 0, 1)
 # light stereo widening: pluck panned via short delay

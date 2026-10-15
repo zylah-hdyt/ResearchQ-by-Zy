@@ -45,4 +45,24 @@ Tips rekam: bicara santai seperti ngobrol, sekitar 3 kata/detik. Mulai tiap bari
 - Isi paket GENESIS tidak disebut satu per satu karena belum dikonfirmasi. Kalau mau ditampilkan, kirim nama 4 skill-nya.
 
 ## Audio
-Backsound lo-fi sintesis sendiri (bebas hak cipta), 120 BPM. Pergantian adegan jatuh di ketukan, ada breakdown + riser menjelang CTA, dan tiap transisi punya SFX sendiri. Generator: `scripts/music_bab1.py` + `scripts/sfx_bab1.py`, audio akhir sekitar −14 LUFS.
+- Backsound lo-fi sintesis sendiri (bebas hak cipta), 120 BPM, dibuat beda dari video SPSS: progresi Am9 · Dm9 · G · Cmaj7, electric piano dengan stab sinkopasi, rimshot, dan shaker. Pergantian adegan jatuh di ketukan, dengan breakdown + riser menjelang CTA.
+- Bank SFX bervariasi, tiap jenis aksi punya suara sendiri:
+  - popup pertanyaan → bell
+  - kartu → ding notifikasi dua nada
+  - chip fitur → wood block
+  - mengetik prompt → keyboard mekanik (thock + spasi)
+  - Search ON → toggle
+  - kirim → swoosh naik
+  - langkah selesai → ding bell bernada naik
+  - file Word → arpeggio kalimba
+  - 8 blok alur → tangga nada marimba
+  - scroll dokumen → gesekan kertas + thud saat berhenti
+  - grafik tumbuh → bloop
+  - catatan → ding
+  - titik 9/10 → bubble
+  - checklist → kalimba
+  - scroll YouTube → tik roda melambat
+  - harga → ka-ching
+  - komen → ketukan keyboard HP
+  - kartu GENESIS → card flick
+- Generator: `scripts/music_bab1.py` + `scripts/sfx_bab1.py`, audio akhir sekitar −14 LUFS.
