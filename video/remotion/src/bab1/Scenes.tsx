@@ -12,31 +12,26 @@ const RED = "#E5484D";
 export const S1Hook: React.FC = () => {
   const f = useCurrentFrame();
   const sw = f >= 62;
-  const shake = f >= 26 && f < 34 ? `${Math.sin(f * 9) * 8}px ${Math.cos(f * 7) * 6}px` : "0px 0px";
   return (
-    <AbsoluteFill style={{ fontFamily: SANS, color: T.ink, translate: shake }}>
+    <AbsoluteFill style={{ fontFamily: SANS, color: T.ink }}>
       <Paper />
       {!sw ? (
         <>
-          <div style={{ position: "absolute", left: 80, right: 80, top: 240, fontWeight: 800, fontSize: 96, letterSpacing: -4, lineHeight: 1.03 }}>
-            <div style={{ scale: `${interpolate(f, [0, 6], [1.12, 1], { ...CL, easing: EASE })}`, transformOrigin: "0 50%" }}>BAB 1 kamu</div>
-            <div style={{ color: RED }}>direvisi terus?</div>
+          <div style={{ position: "absolute", left: 80, right: 80, top: 240, fontWeight: 800, fontSize: 120, letterSpacing: -5, lineHeight: 1.0 }}>
+            <div style={{ scale: `${interpolate(f, [0, 6], [1.12, 1], { ...CL, easing: EASE })}`, transformOrigin: "0 50%" }}>Bingung buat</div>
+            <div><Mark at={4}>BAB 1</Mark><span style={{ color: RED, display: "inline-block", rotate: `${Math.sin(f / 4) * 8}deg` }}>?</span></div>
           </div>
-          <div style={{ position: "absolute", left: 150, top: 560, width: 780, height: 820, perspective: 1600 }}>
+          <div style={{ position: "absolute", left: 150, top: 580, width: 780, height: 780, perspective: 1600 }}>
             <div style={{ position: "absolute", inset: 0, background: "#fff", border: `2px solid ${T.line}`, borderRadius: 10, padding: "60px 64px", boxShadow: "18px 18px 0 rgba(26,26,26,.07)", transform: `rotateX(${interpolate(f, [0, 20], [24, 8], { ...CL, easing: EASE })}deg) rotateZ(-2deg)`, fontFamily: DOC }}>
               <div style={{ textAlign: "center", fontWeight: 700, fontSize: 34 }}>BAB I<br />PENDAHULUAN</div>
               <div style={{ fontWeight: 700, fontSize: 26, marginTop: 34 }}>1.1 Latar Belakang</div>
-              {[100, 92, 97, 60, 100, 88, 94, 70, 96, 82].map((w, i) => (
-                <div key={i} style={{ position: "relative", height: 13, width: `${w}%`, borderRadius: 5, background: "#E3E0D8", marginTop: 20 }}>
-                  {i % 3 !== 2 ? <div style={{ position: "absolute", left: -6, top: 4, height: 6, borderRadius: 3, background: RED, width: `${interpolate(f, [6 + i * 2, 14 + i * 2], [0, 104], CL)}%` }} /> : null}
-                </div>
-              ))}
+              <div style={{ marginTop: 18, height: 34, width: 4, background: Math.floor(f / 8) % 2 === 0 ? T.ink : "transparent" }} />
+              {[100, 92, 97, 60, 100, 88].map((w, i) => <div key={i} style={{ height: 13, width: `${w}%`, borderRadius: 5, border: "2px dashed #E3E0D8", marginTop: 22 }} />)}
             </div>
           </div>
-          <div style={{ position: "absolute", left: 560, top: 640, padding: "22px 28px", borderRadius: 8, background: "#FFE88A", rotate: "5deg", boxShadow: "10px 10px 0 rgba(26,26,26,.1)", fontWeight: 800, fontSize: 30, lineHeight: 1.2, ...pop(f, 12) }}>
-            <div style={{ fontFamily: MONO, fontSize: 20, color: T.mut }}>CATATAN DOSEN:</div>“Datanya mana?<br />Sumbernya apa?”
-          </div>
-          <div style={{ position: "absolute", left: 200, top: 1060, padding: "12px 34px", border: `8px solid ${RED}`, borderRadius: 14, color: RED, fontWeight: 800, fontSize: 92, letterSpacing: 6, rotate: "-12deg", opacity: interpolate(f, [26, 29], [0, 1], CL), scale: `${interpolate(f, [26, 32], [2, 1], { ...CL, easing: EASE })}` }}>REVISI</div>
+          {([["Mulai dari mana?", 90, 620, -4, 10], ["Datanya dari mana?", 560, 760, 5, 18], ["Gap-nya apa?", 120, 960, 3, 26], ["Rumusan masalahnya?", 520, 1150, -5, 34]] as const).map(([t, x, y, r, at]) => (
+            <div key={t} style={{ position: "absolute", left: x, top: y + Math.sin(f / 9 + at) * 6, padding: "18px 26px", borderRadius: 22, background: T.ink, color: "#fff", fontWeight: 800, fontSize: 36, rotate: `${r}deg`, boxShadow: `8px 8px 0 ${T.orange}`, ...pop(f, at) }}>{t}</div>
+          ))}
         </>
       ) : (
         <>

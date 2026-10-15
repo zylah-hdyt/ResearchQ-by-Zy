@@ -32,10 +32,9 @@ def boom():
     n=int(0.9*SR); t=T(n); f=55*np.exp(-t*2)+32; return np.sin(2*np.pi*np.cumsum(f)/SR)*env(n,0.004,0.35)
 def rise_up(dur=0.45):
     n=int(dur*SR); t=T(n); f=300+1500*(t/dur)**2; return np.sin(2*np.pi*np.cumsum(f)/SR)*(t/dur)**2*np.exp(-np.maximum(0,t-dur*0.9)/0.02)
-# S1 hook: red strikes, note, REVISI stamp, then orange flash + card
-add(F(0),hit(85),0.3)
-for i in range(7): add(F(6+i*3),scribble(0.2),0.06,rng.uniform(-.4,.4))
-add(F(12),pop(),0.13); add(F(26),stamp(),0.4); add(F(26),hit(70),0.2)
+# S1 hook: "Bingung buat BAB 1?" + question chips
+add(F(0),hit(85),0.3); add(F(4),pop(),0.1)
+for i,t in enumerate((10,18,26,34)): add(F(t),pop(),0.13,[-.4,.4,-.3,.3][i]); add(F(t),tone([64,67,69,71][i],0.3,0.08),0.05)
 add(F(60),whoosh(0.3),0.08); add(F(62),hit(95),0.2); add(F(72),pop(),0.14); add(F(73),tone(79,0.6,0.2),0.07)
 for i in range(4): add(F(90+i*3),pop(),0.08); add(F(90+i*3),tone([72,74,76,79][i],0.3,0.08),0.05)
 # S2 demo (120)

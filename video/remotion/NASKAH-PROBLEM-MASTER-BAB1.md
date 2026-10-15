@@ -5,7 +5,7 @@ Gaya UI Claude (warm white, aksen oranye ResearchQ), dengan caption, backsound l
 
 | Detik | Adegan | Transisi masuk |
 |---|---|---|
-| 0–4 | Hook: dokumen BAB 1 dicoret, catatan dosen "Datanya mana?", stempel REVISI, lalu kartu Problem Master | — |
+| 0–4 | Hook: "Bingung buat BAB 1?" + dokumen kosong dengan kursor berkedip dan pertanyaan melayang (Mulai dari mana? Datanya dari mana? Gap-nya apa? Rumusan masalahnya?), lalu kartu Problem Master | — |
 | 4–14 | Tutorial di layar Claude: pilih skill → Search ON → ketik judul & metode → Claude kerja (4 langkah) → BAB1_Pendahuluan.docx | Zoom punch + flash |
 | 14–20 | Alur latar belakang 8 blok: fenomena → Y → X1 → X2 → simultan → objek → gap → urgensi | Whip pan + stinger |
 | 20–30 | Dokumen Word 3D di-scroll dan berhenti di 4 visual, satu per variabel (lihat data di bawah) | Card-out |
@@ -28,7 +28,7 @@ Tips rekam: bicara santai seperti ngobrol, sekitar 3 kata/detik. Mulai tiap bari
 
 | Detik | Caption |
 |---|---|
-| 0.2–2.0 | BAB 1 direvisi terus gara-gara “datanya mana?” |
+| 0.2–2.0 | Bingung buat BAB 1? |
 | 2.1–3.9 | Ada satu skill yang nyusun BAB 1 lengkap plus data asli. |
 | 4.1–8.6 | Pilih skill Problem Master di Claude, aktifkan Search, lalu tulis judul dan metodenya. |
 | 8.7–13.8 | Claude cari data fenomena, cek referensi Scopus 2022–2026, lalu nyusun BAB 1 ke Word. |
