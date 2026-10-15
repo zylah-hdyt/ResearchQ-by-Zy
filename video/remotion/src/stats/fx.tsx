@@ -15,11 +15,11 @@ const ZoomThrough: React.FC<TransitionPresentationComponentProps<Record<string, 
 export const zoomThrough = (): TransitionPresentation<Record<string, never>> => ({ component: ZoomThrough, props: {} });
 
 // Stinger: three diagonal brand bars sweep across the cut.
-export const Stinger: React.FC<{ dur?: number }> = ({ dur = 22 }) => {
+export const Stinger: React.FC<{ dur?: number; colors?: string[] }> = ({ dur = 22, colors = [D.spss, D.pls, D.text] }) => {
   const f = useCurrentFrame();
   return (
     <AbsoluteFill style={{ pointerEvents: "none", overflow: "hidden" }}>
-      {[D.spss, D.pls, D.text].map((c, i) => {
+      {colors.map((c, i) => {
         const x = interpolate(f, [i * 3, dur - 6 + i * 3], [-1700, 1900], { ...CL, easing: EASE });
         return <div key={c} style={{ position: "absolute", top: -300, bottom: -300, left: x, width: [520, 380, 70][i], background: c, transform: "skewX(-18deg)", opacity: i === 2 ? 0.9 : 1 }} />;
       })}
