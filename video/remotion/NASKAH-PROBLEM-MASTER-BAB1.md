@@ -23,7 +23,8 @@ Gaya UI Claude (warm white, aksen oranye ResearchQ), dengan caption, backsound l
 | 1.3 | X1 | 9 dari 10 Gen Z pernah nonton live shopping; 62% bertransaksi | Jakpat (2024, semester 2), n = 2.474 |
 | 1.4 | X2 | 91,2% riset produk online sebelum membeli; 86% terpengaruh likes & komentar positif | Accenture (2023) |
 
-## Caption
+## Naskah VO (sama persis dengan caption, ikuti timing)
+Tips rekam: bicara santai seperti ngobrol, sekitar 3 kata/detik. Mulai tiap baris tepat di detik awalnya; jeda kecil di koma sudah dihitung. Saat mixing, turunkan backsound sekitar 6–8 dB di bawah suara.
 
 | Detik | Caption |
 |---|---|
