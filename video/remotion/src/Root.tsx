@@ -13,6 +13,7 @@ import { ProblemBab1 } from "./bab1/ProblemBab1";
 import { SkillsLibrary } from "./library/Library";
 import { SkillsShort } from "./library/Short";
 import { PovResearchQ } from "./pov/Pov";
+import { SkillsCine } from "./cine/Cine";
 import { ChatScene } from "./scopus/ChatScene";
 import { HonestScene } from "./scopus/HonestScene";
 import { HookScene } from "./scopus/HookScene";
@@ -31,6 +32,7 @@ export const RemotionRoot: React.FC = () => (
     </Folder>
     <Composition id="SkillsShort" component={SkillsShort} durationInFrames={750} fps={30} width={1080} height={1920} />
     <Composition id="PovResearchQ" component={PovResearchQ} durationInFrames={420} fps={30} width={1080} height={1920} />
+    <Composition id="SkillsCine" component={SkillsCine} durationInFrames={750} fps={30} width={1080} height={1920} />
     <Composition id="SkillsLibrary" component={SkillsLibrary} durationInFrames={1530} fps={30} width={1080} height={1920} />
     <Composition id="ProblemBab1" component={ProblemBab1} durationInFrames={1440} fps={30} width={1080} height={1920} />
     <Composition id="SpssVsPls" component={SpssVsPls} durationInFrames={1800} fps={30} width={1080} height={1920} />
