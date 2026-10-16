@@ -49,19 +49,19 @@ Gaya mengikuti analisis video referensi (@robiimotion):
 ## Audio: SFX saja, tanpa backsound (`scripts/sfx_library.py`, sekitar −17 LUFS)
 Backsound dihapus supaya kreator bisa memasang musik sendiri. File SFX terpisah: `renders/ResearchQ-Skills-Library-SFX.wav`.
 
-**Setiap skill punya suara**, dan timbre-nya khas per sistem:
+**Setiap skill punya suara**: popup UI kering tanpa bell dan tanpa dengung, dicocokkan dengan video referensi kreator (chip yang muncul pakai "bloop" nada naik yang pendek + klik renyah, momen kode pakai cericit digital bertingkat). Nada naik 2 semitone di tiap baris, dan teksturnya sedikit beda per sistem:
 
 | Sistem | Suara tiap skill |
 |---|---|
-| GENESIS | Sonar kaca (ping + gema) |
-| CATALYST | Marimba + bubble blip |
-| NEXUS | Data blip digital (3 nada cepat) |
-| ORACLE | Bell hangat |
-| KERNEL | Beep 8-bit |
-| VERDICT | Ketukan palu/kayu |
-| SPIRAL | Kalimba |
-| VITALS | Beep monitor jantung (yang terakhir lebih tinggi) |
-| PRISM | Chime kristal |
+| GENESIS | Pop bersih |
+| CATALYST | Double pop seperti bubble |
+| NEXUS | Cericit data digital + pop |
+| ORACLE | Pop + hembusan angin |
+| KERNEL | Blip sistem (cericit pendek + klik tajam) |
+| VERDICT | Pop rendah yang mantap |
+| SPIRAL | Swoop naik yang lebih panjang |
+| VITALS | Double tick-pop cepat |
+| PRISM | Pop terang + angin |
 
 - **Transisi:** tiap transisi punya bunyi sendiri:
   - nada cincin untuk iris
@@ -72,7 +72,7 @@ Backsound dihapus supaya kreator bisa memasang musik sendiri. File SFX terpisah:
   - whoosh dalam + boom untuk dive
   - whoosh berpindah kiri-kanan untuk swing
   - zap untuk irisan
-  - bell sonar untuk cincin titik
+  - swoop + whoosh untuk cincin titik
   - thud untuk kartu jatuh
-- **Lainnya:** tick per kata di hook, riser + boom saat logo, tick hitungan + bell, kaskade tick 44 chip, boom "44 skill", kilau saat kilatan putih, ketukan HP saat mengetik komen, dan hit penutup.
+- **Lainnya:** tick per kata di hook, riser + boom saat logo, tick hitungan + pop, kaskade tick 44 chip, boom "44 skill", kilau saat kilatan putih, ketukan HP saat mengetik komen, dan hit penutup.
 - **Saran mixing:** taruh musik sekitar 6–10 dB di bawah SFX supaya suara skill tetap terdengar.

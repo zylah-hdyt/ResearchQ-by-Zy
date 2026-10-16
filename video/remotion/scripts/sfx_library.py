@@ -1,7 +1,6 @@
 # ResearchQ Skills Library (51s, 1530 frames @30fps) — SFX ONLY (no music; the creator adds their own backsound).
-# Every skill reveal has a sound, and each system has its own timbre that fits its field:
-#   GENESIS glass sonar · CATALYST marimba blips · NEXUS digital data blips · ORACLE warm bells · KERNEL 8-bit square
-#   beeps · VERDICT wood/gavel knocks · SPIRAL kalimba · VITALS heart-monitor beeps · PRISM crystal chimes.
+# Every skill reveal has a sound: dry UI pops (upward pitch bloop + crisp click + air), matched to the creator's
+# reference clip, with a light texture per system (clean, bubbly, data chatter, airy, system blip, low, swoop, double, bright).
 # Each transition has its own sound too (iris ring, block-wipe thwack, shutter, push-up whoosh, blinds ratchet, dive,
 # swing, slices, sonar ring, card drop). Scene starts: hook 0 · logo 120 · systems 285 + i·110 · wall 1275 · CTA 1383.
 # (scripts/audio_library.py is the earlier beat-driven version, kept for reference.)
@@ -56,21 +55,38 @@ def swish(dur=.1):
     n=int(dur*SR); t=T(n); x=noise(n); y=np.zeros(n); ch=int(.005*SR)
     for s0 in range(0,n,ch): c=s0/n; y[s0:s0+ch]=f2(x[s0:s0+ch],'band',[1500+3000*c,3000+7000*c])
     return y*(t/dur)**1.5
-SCALES=[[74,77,79,81,84,86],[67,69,72,74,76,79],[72,74,76,79,81,84],[69,72,74,76,79,81],
-        [72,76,79,84,88,91],[55,57,60,62,64,67],[74,76,79,81,83,86],[81,81,81,81,81,81],[79,83,86,88,91,93]]
+# Skill reveals — matched to the uploaded reference (UI chips pop in with short UPWARD pitch "bloops" + a crisp click,
+# code moments use stepped digital chatter). No bells, no ringing tails: every sound is short and dry.
+def pop(f0,f1,dur=.075,click=.5,air=.25):
+    n=int(dur*SR); t=T(n); f=f0+(f1-f0)*(t/dur)**.55
+    s=np.sin(2*np.pi*np.cumsum(f)/SR)*np.minimum(1,t/.002)*np.exp(-t/(dur*.45))
+    k=int(.004*SR); s[:k]+=f2(noise(k),'band',[3000,9000])*click*np.linspace(1,0,k)
+    m=int(.06*SR); a=np.zeros(max(n,m)); a[:n]+=s; tt=T(m); a[:m]+=f2(noise(m),'band',[4000,11000])*np.exp(-tt/.02)*air
+    return a
+def chatter(base,steps=5,dur=.026):
+    out=np.zeros(int(steps*dur*SR)+10)
+    for k in range(steps):
+        n=int(dur*SR); t=T(n); fr=base*2**(rng.integers(-3,8)/12); seg=np.sign(np.sin(2*np.pi*fr*t))*np.exp(-t/.015)*.5
+        out[k*n:(k+1)*n]+=seg
+    return f2(out,'band',[500,5000])
+def double_pop(f0,f1):
+    a=pop(f0,f1,.06); b=pop(f0*1.25,f1*1.25,.05,click=.3); o=np.zeros(len(a)+int(.045*SR)); o[:len(a)]+=a; o[int(.045*SR):int(.045*SR)+len(b)]+=b; return o
+def air_puff(dur=.16):
+    n=int(dur*SR); t=T(n); return f2(noise(n),'band',[1800,7000])*np.sin(np.pi*t/dur)**2
 COUNTS=[4,5,6,5,5,5,4,4,6]
+# per system: pop range (start Hz) rises a step each row; texture varies lightly per system
 def skill_sound(i,j):
-    m=SCALES[i][j]
-    if i==0: return sonar(m)
-    if i==1: b=bubble_blip(m+12)*.4; s=marimba(m); s[:len(b)]+=b; return s
-    if i==2: return data_blip(m)
-    if i==3: return bell(m)
-    if i==4: return square_beep(m)
-    if i==5: return gavel(m)
-    if i==6: return kalimba(m)
-    if i==7: return monitor(86 if j==COUNTS[7]-1 else 81)   # flat beeps, last one higher like a monitor alert
-    return crystal(m)
-GAIN=[.16,.2,.22,.12,.13,.3,.2,.14,.12]
+    up=2**(j*2/12)                       # +2 semitones per row
+    if i==0: return pop(420*up,1250*up)                                   # GENESIS: clean pop
+    if i==1: return double_pop(380*up,1000*up)                            # CATALYST: bubbly double pop
+    if i==2: c=chatter(900*up); p=pop(500*up,1400*up); c[:len(p)]+=p*.6; return c   # NEXUS: data chatter + pop
+    if i==3: a=pop(360*up,1050*up,.09); a[:int(.16*SR)]+=air_puff()[:min(len(a),int(.16*SR))]*.5; return a   # ORACLE: pop + air
+    if i==4: c=chatter(1200*up,3,.02); p=pop(600*up,1600*up,.06,click=.9); c[:len(p)]+=p; return c          # KERNEL: system blip
+    if i==5: return pop(220*up,520*up,.09,click=.9,air=.1)               # VERDICT: low firm pop
+    if i==6: return pop(300*up,1500*up,.11,click=.3)                      # SPIRAL: long rising swoop
+    if i==7: return double_pop(700*up,1300*up)                            # VITALS: quick double tick-pop
+    return pop(520*up,1800*up,.07,click=.6,air=.5)                        # PRISM: bright airy pop
+GAIN=[.34,.3,.3,.32,.28,.38,.3,.28,.3]
 
 # ---------- generic ----------
 def tick(f=4200,d=.005):
@@ -113,11 +129,11 @@ put(F(96),riser(F(24)),.22)
 # ---------- logo 120–285 ----------
 put(F(120),boom(30,.7),.55); put(F(120),sparkle(1.0),.16)
 for k in range(24): t=156+36*(1-(1-k/24)**2); put(F(t),tick(5200,.004),.07,rng.uniform(-.3,.3))
-put(F(192),bell(81),.14); put(F(200),bell(76),.12)
+put(F(192),pop(500,1500,.09),.35); put(F(200),pop(400,1200,.09),.32)
 for t in (208,212,220,224,228,232): put(F(t),tap(),.14)
 # ---------- transitions ----------
 TS=[285+i*110 for i in range(9)]+[1275]
-put(F(TS[0]),glass(86,1.2),.14); put(F(TS[0]),whoosh(.4,300,2500,True),.12); put(F(TS[0]+4),glass(93,1.0),.08)  # iris ring
+put(F(TS[0]),whoosh(.4,300,2500,True),.16); put(F(TS[0]+4),pop(350,1100,.12,click=.2,air=.4),.25)  # iris ring
 put(F(TS[1]),whoosh(.35,300,3500),.2,-.6); put(F(TS[1]+6),thud(160),.35,.4)                                     # block wipe
 put(F(TS[2]+2),shutter(),.4); put(F(TS[2]+2),whoosh(.3,200,1500),.1)                                             # split shutter
 put(F(TS[3]),whoosh(.45,300,5000,True),.22)                                                                     # push up
@@ -125,7 +141,7 @@ for k in range(12): put(F(TS[4])+k*.025,tick(2600+k*120,.006),.12,(k%2-.5)*.4)  
 put(F(TS[5]),whoosh(.45,120,1200,True),.2); put(F(TS[5]+12),boom(34,.4,1.0),.4)                                 # dive
 put(F(TS[6]),whoosh(.45,250,2600),.2,.7); put(F(TS[6]+5),whoosh(.35,200,1800),.12,-.7)                          # swing
 for k in range(5): put(F(TS[7])+k*.035,zap(2600-k*250,400),.3,(-1)**k*.5)                                       # slices
-put(F(TS[8]),bell(74,1.6),.12); put(F(TS[8]),glass(98,1.2),.08); put(F(TS[8])+.18,glass(98,1.0),.04)            # ring from dot
+put(F(TS[8]),pop(300,1400,.14,click=.2,air=.5),.3); put(F(TS[8]),whoosh(.4,400,4000,True),.14)            # ring from dot
 put(F(TS[9]),whoosh(.5,200,1600),.16); put(F(TS[9]+11),thud(90),.4)                                              # card drop
 # ---------- skills: one sound per skill, timbre per system ----------
 for i in range(9):
@@ -135,19 +151,19 @@ for i in range(9):
         t=F(t0+round(27.5+j*6.875))
         put(t-.08,swish(.08),.05,.5)
         put(t,skill_sound(i,j),GAIN[i],(j%2-.5)*.45)
-    if i==4: put(F(t0+3),glass(88,.8),.1); put(F(t0+8),glass(93,1.0),.1)
+    if i==4: put(F(t0+3),double_pop(600,1500),.3)
 # ---------- wall ----------
 for j in range(44): put(F(1286+j*0.9),tick(rng.uniform(3200,6800),.004),.07,rng.uniform(-.7,.7))
-put(F(1330),boom(28,.7),.55); put(F(1330),bell(74,2.0),.1)
+put(F(1330),boom(28,.7),.55)
 put(F(1360),riser(.55),.16); put(F(1384),sparkle(1.0),.24); put(F(1385),boom(40,.3,.8),.35)
 # ---------- CTA ----------
 for t in (1389,1392): put(F(t),tap(),.12)
-put(F(1395),thud(140),.32); put(F(1395),bell(86,1.3),.1)
+put(F(1395),thud(140),.32); put(F(1395),pop(450,1300,.08),.3)
 for t in (1409,1413,1417): put(F(t),tap(),.12)
 for i in range(9): put(F(1421+i*2),tick(3900+i*150,.004),.08,(i-4)/8)
 for t in range(1443,1459,3): put(F(t),tap(),.32,rng.uniform(-.1,.1))
-put(F(1465),swish(.12),.1); put(F(1465),glass(91,.8),.12); put(F(1475),bubble_blip(84),.12)
-put(F(1513),boom(34,.6),.4); put(F(1513),bell(74,2.2),.1)
+put(F(1465),swish(.12),.1); put(F(1465),double_pop(500,1300),.3); put(F(1475),bubble_blip(84),.12)
+put(F(1513),boom(34,.6),.4)
 
 ir=noise(int(.9*SR))*np.exp(-T(int(.9*SR))/.25)*.02; ir[0]=1; ir=f2(ir,'low',7000)
 out=np.stack([fftconvolve(out[:,c],ir)[:N] for c in (0,1)],1)
