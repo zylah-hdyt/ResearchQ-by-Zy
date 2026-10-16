@@ -19,10 +19,28 @@ Semua potongan dikunci ke **120 BPM** (1 ketukan = 15 frame). Pakai musik 120 BP
 | 15–20 | **Dinding 44 skill**, lalu "44 skill · 9 sistem · semua jurusan · S1–S3 · dosen" |
 | 20–25 | **CTA (opsi B):** "Mulai dari **Rp29.000** per skill · akun Claude gratis · sekali beli" → "**Komen nama sistemnya** 👇" (9 chip sistem menyala bergantian) → contoh komen "NEXUS" → "nanti aku kirim link-nya" · lynk.id/resq |
 
-## SFX (`scripts/sfx_short.py`, sekitar −16 LUFS)
-- Setiap hard cut memakai bunyi yang sama: whoosh pendek + cut-hit.
-- **Semua chip skill memakai satu popup yang sama.**
-- Lainnya: tick per kata di hook, tick saat jurusan berganti, keyboard saat mengetik prompt, thud saat dokumen mendarat + swell, kaskade tick 44 chip + boom, ketukan HP saat komen, dan boom penutup.
-- Saran mixing: musik sekitar 6–10 dB di bawah SFX.
+## SFX: rekaman asli, bukan sintesis (`scripts/sfx_short.py`, sekitar −16 LUFS)
+Semua bunyi diambil dari library **uisfx** (lisensi CC0 1.0, bebas dipakai komersial, tanpa atribusi wajib). Filenya ada di `sfx/uisfx/`. Pack yang dipakai: **studio** (UI), **cinematic** (impact/transisi), dan **mechanical/soft** (ketikan).
+
+| Momen | Bunyi |
+|---|---|
+| Kata di hook | studio · hover |
+| "Semua ada skill-nya" | cinematic · open |
+| **Setiap chip skill (semua sama)** | **studio · reaction** |
+| Setiap hard cut / transisi | cinematic · swipe + snap + press |
+| 4 kartu sistem inti | cinematic · select |
+| Pita S1/S2/S3/Dosen | cinematic · swipe |
+| Mengetik prompt | mechanical · typing (pitch sedikit acak) |
+| Kirim prompt | studio · press + cinematic · send |
+| Dokumen mendarat | cinematic · drop + start |
+| Cap ✓ | studio · check |
+| "44 skill" | cinematic · level-up |
+| Harga | cinematic · purchase |
+| Chip 9 sistem | studio · progress-step |
+| Ketik komen | soft · typing |
+| Komen terkirim / hati | studio · send + reaction |
+| Penutup | cinematic · complete |
+
+Saran mixing: musik sekitar 6–10 dB di bawah SFX.
 
 Data grafik: e-Conomy SEA 2024 (Google, Temasek, Bain & Company). Nama sistem dan skill: ResearchQ_Library_Skills.pdf.
