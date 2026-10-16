@@ -1,5 +1,6 @@
 # "Jurusan kamu apa?" — ResearchQ Skills Library · 25 detik (@researchq.id)
 
+**Font: Poppins** (judul 800, aksen Poppins italic 500/600, label kecil JetBrains Mono).
 Composition: `SkillsShort` · File: `renders/ResearchQ-Skills-Jurusan-25s.mp4` · 1080×1920, 30 fps.
 **Tanpa musik (SFX saja)**, jadi musik dipilih sendiri. File SFX terpisah: `renders/ResearchQ-Skills-Jurusan-25s-SFX.wav`.
 
@@ -10,16 +11,17 @@ Semua potongan dikunci ke **120 BPM** (1 ketukan = 0,5 detik = 15 frame). Pakai 
 
 | Detik | Adegan |
 |---|---|
-| 0–2 | **Hook:** "*Jurusan kamu apa?*" + "Tunggu jurusanmu muncul ↓", lalu push-in |
+| 0–2 | **Hook:** "*Jurusan kamu apa?*" + "**S1 · S2 · S3 · Dosen**" + "tunggu jurusanmu muncul ↓", lalu push-in |
 | 2 | **Teknik Informatika** → KERNEL · ✦ Scaffold Designer (latar tosca penuh) |
 | 3 | **Ilmu Hukum** → VERDICT · ✦ Statute Scanner (komposisi dibalik ke kanan) |
 | 4 | **Pendidikan · PTK** → SPIRAL · ✦ Cycle Designer |
 | 5 | **Kesehatan & Kedokteran** → VITALS · ✦ Power Calculator |
-| 6–8 | **Jurusan lain?** Nama jurusan berganti cepat (Manajemen, Akuntansi, Psikologi…), lalu "Semua jurusan." + 4 kartu (GENESIS, CATALYST, NEXUS, ORACLE) muncul satu per ketukan |
-| 8 | **Mau terbit jurnal?** → PRISM · ✦ Journal Matcher |
-| 9–15 | **Momen bukti (melambat):** "1 prompt → draft BAB 1." Prompt Problem Master diketik, kirim, lalu dokumen BAB 1 terbang naik cepat dan mendarat pelan (speed ramp) dengan grafik + 3 cap ✓ |
+| 6–8 | **Jurusan lain?** 16 nama jurusan berganti sangat cepat (Manajemen, Akuntansi, Psikologi, Komunikasi, Ekonomi, Sosiologi, Ilmu Politik, Bahasa & Sastra, Agama Islam, Pertanian, Teknik Sipil, Arsitektur, Farmasi, Keperawatan, Statistika, Pariwisata), lalu "Semua jurusan." + 4 kartu (GENESIS, CATALYST, NEXUS, ORACLE) muncul satu per ketukan |
+| 8 | **Dosen & Peneliti** → PRISM · ✦ Journal Matcher ("Dari manuskrip sampai terbit jurnal.") |
+| 9–14 | **Momen bukti (melambat):** "1 prompt → draft BAB 1." Prompt Problem Master diketik, kirim, lalu dokumen BAB 1 terbang naik cepat dan mendarat pelan (speed ramp) dengan grafik + 3 cap ✓ |
+| 14–15 | **Jenjang:** 4 pita warna masuk bergantian per setengah ketukan: **S1 · Skripsi → S2 · Tesis → S3 · Disertasi → Dosen · Publikasi & penelitian** |
 | 15–20 | **Dinding 44 skill** meledak masuk, zoom out, lalu "**44 skill · 9 sistem** · semua jurusan · S1–S3 · dosen" |
-| 20–25 | **CTA:** "*Jurusanmu yang mana?* Komen di bawah 👇". Contoh: komen "Hukum" → dibalas @researchq.id "pakai **VERDICT** ⚖️". Lalu "Mulai Rp29.000 / skill · akun Claude gratis · lynk.id/resq" |
+| 20–25 | **CTA:** "*Jurusanmu yang mana?* Komen di bawah 👇" + chip S1 · S2 · S3 · Dosen. Contoh: komen "Hukum" → dibalas @researchq.id "pakai **VERDICT** ⚖️". Lalu "Mulai Rp29.000 / skill · akun Claude gratis · lynk.id/resq" |
 
 ## Kenapa lebih tidak membosankan
 - Penonton punya alasan untuk bertahan: menunggu jurusannya muncul.

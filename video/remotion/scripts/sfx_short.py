@@ -1,5 +1,6 @@
 # "Jurusan kamu apa?" Skills Library short (25s, 750 frames @30fps) — SFX only, on a 120 BPM grid (1 beat = 15 f).
-# Cuts: hook 0 · montage 60/90/120/150 · 4-tile beat 180 (tiles 186/201/216/231) · PRISM 240 · demo 270 · wall 450 · CTA 600.
+# Cuts: hook 0 · montage 60/90/120/150 · 4-tile beat 180 (tiles 186/201/216/231) · PRISM 240 · demo 270 · levels 420
+# (bands 420/428/435/443) · wall 450 · CTA 600.
 # Skill chips everywhere use ONE identical pop (by request). Every hard cut gets the same cut-hit + whoosh.
 import numpy as np, wave, sys
 from scipy.signal import butter, sosfilt, fftconvolve
@@ -49,7 +50,8 @@ def swell(dur=2.0):
 # hook
 for k,t in enumerate((0,6,12)): put(F(t),tick(3200+k*400,.008),.2,(k-1)*.3)
 put(F(12),pop(400,1100,.09),.3)
-for t in (24,30): put(F(t),tap(),.18)
+for k,t in enumerate((20,24,28,32)): put(F(t),tick(2600+k*300,.008),.18,(k-1.5)*.25)
+put(F(34),tap(),.15)
 put(F(46),riser(F(14)),.3)
 # montage cuts (same cut sound each time) + the one skill pop
 for t in (60,90,120,150,240):
@@ -57,7 +59,7 @@ for t in (60,90,120,150,240):
     put(F(t+8),thud(150),.28); put(F(t+14),POP,.42)
 # four-tile beat
 put(F(180),cut_hit(),.55)
-for k in range(8): put(F(180+k*4),tick(3000+k*220,.005),.14,(k%2-.5)*.4)
+for k in range(16): put(F(180+k*2),tick(2800+k*120,.004),.12,(k%2-.5)*.4)
 for t in (186,201,216,231): put(F(t),cut_hit(),.4); put(F(t+2),POP,.38)
 # demo (slow moment)
 for k,t in enumerate((270,274,278)): put(F(t),tick(2800+k*300,.008),.18)
@@ -68,6 +70,8 @@ put(F(316),tap(),.4); put(F(318),whoosh(.35,400,5000,True),.25)
 put(F(322),whoosh(.5,150,1800),.2); put(F(334),thud(100),.45); put(F(334),swell(2.5),.22)
 for k in range(2): put(F(370+k*8),bloop(240+k*40,780+k*80),.25)
 for t in (360,375,390): put(F(t),POP,.42)
+# levels beat S1/S2/S3/Dosen (420–450)
+for k in range(4): t=420+round(k*7.5); put(F(t)-.05,whoosh(.12,600,5000,True),.16,(-1)**k*.6); put(F(t+2),cut_hit(),.42)
 # wall
 put(F(450),cut_hit(),.55); put(F(450),boom(34,.4,1.0),.35)
 for j in range(44): put(F(450+rng.uniform(0,14)),tick(rng.uniform(3200,6800),.004),.08,rng.uniform(-.7,.7))

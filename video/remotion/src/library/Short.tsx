@@ -1,14 +1,20 @@
 import { Audio } from "@remotion/media";
+import { loadFont } from "@remotion/fonts";
 import { AbsoluteFill, Easing, Img, interpolate, random, Sequence, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { SERIF } from "../scopus/kit";
-import { CL, DOC, EASE, MONO, SANS } from "../theory/kit";
+import { CL, DOC, EASE, MONO } from "../theory/kit";
 import { alpha, Icon, SYSTEMS, tint } from "./data";
 
 // "Jurusan kamu apa?" — ResearchQ Skills Library, 25s (750 frames @30fps). SFX only; the creator adds music.
 // Everything sits on a 120 BPM grid (1 beat = 15 frames) so cuts land on the beat of any 120/60/240 BPM track.
-// 0–60 hook · 60–270 montage (field → system, hard cuts every 2 beats, 4-tile beat at 180) · 270–450 slow demo moment
-// (speed ramp into a real-looking BAB 1 output) · 450–600 wall of 44 · 600–750 CTA "komen jurusanmu".
+// 0–60 hook · 60–270 montage (field → system, hard cuts every 2 beats, 4-tile beat at 180, PRISM for lecturers at 240)
+// · 270–420 demo moment (speed ramp into a BAB 1 output) · 420–450 levels beat S1/S2/S3/Dosen · 450–600 wall · 600–750 CTA.
 const BG = "#0B0D12", INK = "#F2EFE9", ORANGE = "#EE6A1F";
+const SANS = "Poppins";
+for (const [w, st] of [["400", "normal"], ["500", "normal"], ["600", "normal"], ["700", "normal"], ["800", "normal"], ["500", "italic"], ["600", "italic"]] as const) {
+  loadFont({ family: SANS, url: staticFile(`fonts/poppins-latin-${w}-${st}.woff2`), weight: w, style: st });
+}
+// Accent line style (replaces the serif italic): Poppins medium italic.
+const ACC: React.CSSProperties = { fontFamily: SANS, fontStyle: "italic", fontWeight: 500 };
 const S = (n: string) => SYSTEMS.findIndex((s) => s.name === n);
 
 const Grain: React.FC = () => {
@@ -42,12 +48,13 @@ const Hook: React.FC = () => {
   return (
     <AbsoluteFill style={{ background: BG, overflow: "hidden" }}>
       <AbsoluteFill style={{ transformOrigin: "50% 46%", scale: `${1 + push * 1.8}`, filter: `blur(${push * 8}px)` }}>
-        <div style={{ position: "absolute", left: 0, right: 0, top: 600, textAlign: "center", fontFamily: SERIF, fontStyle: "italic", fontSize: 190, lineHeight: 0.95, color: INK }}>
+        <div style={{ position: "absolute", left: 0, right: 0, top: 560, textAlign: "center", ...ACC, fontSize: 150, lineHeight: 1.08, color: INK }}>
           <div><W at={0}>Jurusan</W></div>
           <div><W at={6}>kamu</W> <W at={12} style={{ color: "#F59A5C" }}>apa?</W></div>
         </div>
-        <div style={{ position: "absolute", left: 0, right: 0, top: 1060, textAlign: "center", fontFamily: SANS, fontWeight: 800, fontSize: 50, letterSpacing: -1, color: "#B8B3AA" }}>
-          <W at={24}>Tunggu jurusanmu muncul</W> <W at={30}><span style={{ display: "inline-block", translate: `0px ${Math.abs(Math.sin(f / 4)) * 10}px` }}>↓</span></W>
+        <div style={{ position: "absolute", left: 0, right: 0, top: 1000, textAlign: "center", fontFamily: SANS, fontWeight: 800, fontSize: 50, letterSpacing: -1, color: "#B8B3AA" }}>
+          <div><W at={20}>S1</W> <W at={22}>·</W> <W at={24}>S2</W> <W at={26}>·</W> <W at={28}>S3</W> <W at={30}>·</W> <W at={32} style={{ color: "#F59A5C" }}>Dosen</W></div>
+          <div style={{ fontSize: 42, fontWeight: 600, marginTop: 10 }}><W at={34}>tunggu jurusanmu muncul</W> <W at={36}><span style={{ display: "inline-block", translate: `0px ${Math.abs(Math.sin(f / 4)) * 10}px` }}>↓</span></W></div>
         </div>
       </AbsoluteFill>
       <Grain />
@@ -64,21 +71,21 @@ const Cut: React.FC<{ sys: number; label: string; skill: string; sub: string; fl
   return (
     <AbsoluteFill style={{ background: s.color, overflow: "hidden", translate: shake }}>
       <AbsoluteFill style={{ scale: `${1 + f * 0.0022}` }}>
-        <div style={{ position: "absolute", [flip ? "left" : "right"]: -60, top: 1180, fontFamily: SANS, fontWeight: 800, fontSize: 700, lineHeight: 1, letterSpacing: -40, color: "transparent", WebkitTextStroke: "3px rgba(255,255,255,.22)" }}>{String(sys + 1).padStart(2, "0")}</div>
+        <div style={{ position: "absolute", [flip ? "left" : "right"]: -60, top: 1180, fontFamily: SANS, fontWeight: 800, fontSize: 700, lineHeight: 1, letterSpacing: -30, color: "transparent", WebkitTextStroke: "3px rgba(255,255,255,.22)" }}>{String(sys + 1).padStart(2, "0")}</div>
         <div style={{ position: "absolute", left: 80, right: 80, top: 400, textAlign: align, fontFamily: MONO, fontSize: 28, letterSpacing: 8, color: "rgba(255,255,255,.75)" }}>JURUSAN / KEBUTUHAN</div>
-        <div style={{ position: "absolute", left: 70, right: 70, top: 460, textAlign: align, fontFamily: SANS, fontWeight: 800, fontSize: 132, letterSpacing: -6, lineHeight: 0.98, color: "#fff", transformOrigin: flip ? "100% 0%" : "0% 0%", ...slam(f, 0) }}>{label}</div>
+        <div style={{ position: "absolute", left: 70, right: 70, top: 460, textAlign: align, fontFamily: SANS, fontWeight: 800, fontSize: 116, letterSpacing: -4, lineHeight: 0.98, color: "#fff", transformOrigin: flip ? "100% 0%" : "0% 0%", ...slam(f, 0) }}>{label}</div>
         <div style={{ position: "absolute", left: 80, right: 80, top: 1000, height: 4, background: "rgba(255,255,255,.9)", transformOrigin: flip ? "100% 50%" : "0% 50%", scale: `${interpolate(f, [4, 10], [0, 1], { ...CL, easing: EASE })} 1` }} />
         <div style={{ position: "absolute", left: 80, right: 80, top: 1040, display: "flex", flexDirection: flip ? "row-reverse" : "row", alignItems: "center", gap: 28, ...slam(f, 8, 1.2) }}>
           <div style={{ width: 150, height: 150, borderRadius: 36, background: "rgba(255,255,255,.16)", border: "3px solid rgba(255,255,255,.7)", display: "flex", alignItems: "center", justifyContent: "center" }}><Icon i={sys} c="#fff" size={96} /></div>
           <div style={{ textAlign: align }}>
             <div style={{ fontFamily: MONO, fontSize: 24, letterSpacing: 6, color: "rgba(255,255,255,.8)" }}>SISTEM</div>
-            <div style={{ fontFamily: SANS, fontWeight: 800, fontSize: 120, letterSpacing: -5, lineHeight: 1, color: "#fff" }}>{s.name}</div>
+            <div style={{ fontFamily: SANS, fontWeight: 800, fontSize: 120, letterSpacing: -3, lineHeight: 1, color: "#fff" }}>{s.name}</div>
           </div>
         </div>
         <div style={{ position: "absolute", left: 80, right: 80, top: 1250, display: "flex", justifyContent: flip ? "flex-end" : "flex-start", ...slam(f, 14, 1.25) }}>
           <span style={{ padding: "18px 30px", borderRadius: 999, background: "#fff", color: s.color, fontFamily: SANS, fontWeight: 800, fontSize: 46 }}>✦ {skill}</span>
         </div>
-        <div style={{ position: "absolute", left: 80, right: 80, top: 1370, textAlign: align, fontFamily: SERIF, fontStyle: "italic", fontSize: 52, color: "rgba(255,255,255,.9)", opacity: interpolate(f, [17, 21], [0, 1], CL) }}>{sub}</div>
+        <div style={{ position: "absolute", left: 80, right: 80, top: 1370, textAlign: align, ...ACC, fontSize: 52, color: "rgba(255,255,255,.9)", opacity: interpolate(f, [17, 21], [0, 1], CL) }}>{sub}</div>
       </AbsoluteFill>
       <Flash />
       <Grain />
@@ -87,18 +94,18 @@ const Cut: React.FC<{ sys: number; label: string; skill: string; sub: string; fl
 };
 
 /* ---- 2b · Four-tile beat: every other major → the core thesis flow (60 frames) ---- */
-const MAJORS = ["Manajemen", "Akuntansi", "Psikologi", "Komunikasi", "Ekonomi", "Pendidikan", "Sosiologi", "Pertanian"];
+const MAJORS = ["Manajemen", "Akuntansi", "Psikologi", "Komunikasi", "Ekonomi", "Sosiologi", "Ilmu Politik", "Bahasa & Sastra", "Agama Islam", "Pertanian", "Teknik Sipil", "Arsitektur", "Farmasi", "Keperawatan", "Statistika", "Pariwisata"];
 const Quad: React.FC = () => {
   const f = useCurrentFrame();
-  const word = MAJORS[Math.min(MAJORS.length - 1, Math.floor(f / 4))];
+  const word = MAJORS[Math.min(MAJORS.length - 1, Math.floor(f / 2))];
   const core = ["GENESIS", "CATALYST", "NEXUS", "ORACLE"].map(S);
   const hero = ["Judul Generator", "Theory Master", "SmartPLS Doctor", "Pembimbing Simulator"];
   return (
     <AbsoluteFill style={{ background: BG, overflow: "hidden" }}>
       <div style={{ position: "absolute", left: 80, right: 80, top: 240, fontFamily: MONO, fontSize: 28, letterSpacing: 8, color: "#8D95A3" }}>JURUSAN LAIN?</div>
-      <div style={{ position: "absolute", left: 70, right: 70, top: 290, fontFamily: SANS, fontWeight: 800, fontSize: 132, letterSpacing: -6, color: INK, scale: `${interpolate(f < 32 ? f % 4 : f - 32, [0, 3], [1.12, 1], CL)}` }}>{f < 32 ? word : "Semua jurusan."}</div>
-      <div style={{ position: "absolute", left: 80, right: 80, top: 470, fontFamily: SERIF, fontStyle: "italic", fontSize: 58, color: "#CFCAC1", opacity: interpolate(f, [4, 10], [0, 1], CL) }}>Alur skripsi kuanti & kuali, dari judul sampai sidang:</div>
-      <div style={{ position: "absolute", left: 60, right: 60, top: 640, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 22 }}>
+      <div style={{ position: "absolute", left: 70, right: 70, top: 300, fontFamily: SANS, fontWeight: 800, fontSize: 96, letterSpacing: -3, whiteSpace: "nowrap", color: INK, scale: `${interpolate(f < 32 ? f % 2 : f - 32, [0, 2], [1.08, 1], CL)}` }}>{f < 32 ? word : "Semua jurusan."}</div>
+      <div style={{ position: "absolute", left: 80, right: 80, top: 470, ...ACC, fontSize: 58, color: "#CFCAC1", opacity: interpolate(f, [4, 10], [0, 1], CL) }}>Kuanti & kuali, dari judul sampai sidang:</div>
+      <div style={{ position: "absolute", left: 60, right: 60, top: 700, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 22 }}>
         {core.map((i, k) => {
           const s = SYSTEMS[i];
           const at = 6 + k * 15;
@@ -124,7 +131,7 @@ const Demo: React.FC = () => {
   const f = useCurrentFrame();
   const typed = PROMPT.slice(0, Math.floor(interpolate(f, [8, 44], [0, PROMPT.length], CL)));
   const sent = f >= 50;
-  const ramp = interpolate(f, [50, 64, 180], [0, 0.82, 1], { ...CL, easing: Easing.out(Easing.quad) }); // fast in, slow-mo settle
+  const ramp = interpolate(f, [50, 64, 150], [0, 0.82, 1], { ...CL, easing: Easing.out(Easing.quad) }); // fast in, slow-mo settle
   const ui = interpolate(f, [50, 58], [1, 0], CL);
   const checks = ["Data per variabel", "Referensi Scopus 2022–2026", "Langsung ke Word"];
   return (
@@ -166,6 +173,26 @@ const Demo: React.FC = () => {
   );
 };
 
+/* ---- 3b · Levels beat 420–450: S1 → S2 → S3 → Dosen ---- */
+const LEVELS: [string, string, string][] = [["S1", "Skripsi", "#2453E8"], ["S2", "Tesis", "#16A34A"], ["S3", "Disertasi", "#7C3AED"], ["Dosen", "Publikasi & penelitian", "#E11D2E"]];
+const Levels: React.FC = () => {
+  const f = useCurrentFrame();
+  return (
+    <AbsoluteFill style={{ background: BG, overflow: "hidden" }}>
+      {LEVELS.map(([lv, what, c], k) => {
+        const at = Math.round(k * 7.5);
+        return (
+          <div key={lv} style={{ position: "absolute", left: 0, right: 0, top: 160 + k * 400, height: 380, background: c, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 80px", translate: `${f >= at ? interpolate(f, [at, at + 5], [k % 2 ? 1080 : -1080, 0], { ...CL, easing: Easing.out(Easing.cubic) }) : (k % 2 ? 1080 : -1080)}px 0px` }}>
+            <span style={{ fontFamily: SANS, fontWeight: 800, fontSize: 150, letterSpacing: -5, color: "#fff" }}>{lv}</span>
+            <span style={{ fontFamily: SANS, fontStyle: "italic", fontWeight: 600, fontSize: 46, lineHeight: 1.15, color: "rgba(255,255,255,.92)", textAlign: "right", maxWidth: 360 }}>{what}</span>
+          </div>
+        );
+      })}
+      <Grain />
+    </AbsoluteFill>
+  );
+};
+
 /* ---- 4 · Wall 450–600 ---- */
 const ALL = SYSTEMS.flatMap((s) => s.skills.map((k) => ({ k, c: s.color })));
 const Wall: React.FC = () => {
@@ -183,9 +210,9 @@ const Wall: React.FC = () => {
         </div>
       </AbsoluteFill>
       <div style={{ position: "absolute", left: 0, right: 0, top: 700, textAlign: "center", opacity: dim }}>
-        <div style={{ fontFamily: SANS, fontWeight: 800, fontSize: 230, letterSpacing: -10, lineHeight: 0.9, color: INK, ...slam(f, 60, 1.25) }}>44 skill</div>
-        <div style={{ fontFamily: SANS, fontWeight: 800, fontSize: 130, letterSpacing: -5, color: "#F59A5C", ...slam(f, 75, 1.25) }}>9 sistem</div>
-        <div style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: 62, color: "#CFCAC1", marginTop: 14, opacity: interpolate(f, [90, 98], [0, 1], CL) }}>semua jurusan · S1–S3 · dosen</div>
+        <div style={{ fontFamily: SANS, fontWeight: 800, fontSize: 230, letterSpacing: -6, lineHeight: 0.9, color: INK, ...slam(f, 60, 1.25) }}>44 skill</div>
+        <div style={{ fontFamily: SANS, fontWeight: 800, fontSize: 130, letterSpacing: -3, color: "#F59A5C", ...slam(f, 75, 1.25) }}>9 sistem</div>
+        <div style={{ ...ACC, fontSize: 62, color: "#CFCAC1", marginTop: 14, opacity: interpolate(f, [90, 98], [0, 1], CL) }}>semua jurusan · S1–S3 · dosen</div>
       </div>
       <Flash />
       <Grain />
@@ -203,9 +230,9 @@ const Cta: React.FC = () => {
   const end = interpolate(f, [136, 150], [0, 1], CL);
   return (
     <AbsoluteFill style={{ background: BG, overflow: "hidden" }}>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 260, textAlign: "center", fontFamily: SERIF, fontStyle: "italic", fontSize: 110, lineHeight: 1, color: INK }}><W at={0}>Jurusanmu</W> <W at={5}>yang</W> <W at={9} style={{ color: "#F59A5C" }}>mana?</W></div>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 250, textAlign: "center", ...ACC, fontSize: 96, lineHeight: 1.1, color: INK }}><W at={0}>Jurusanmu</W> <W at={5}>yang</W> <W at={9} style={{ color: "#F59A5C" }}>mana?</W></div>
       <div style={{ position: "absolute", left: 0, right: 0, top: 520, textAlign: "center", fontFamily: SANS, fontWeight: 800, fontSize: 96, letterSpacing: -4, color: INK, ...slam(f, 15, 1.3) }}>Komen di bawah 👇</div>
-      <div style={{ position: "absolute", left: 80, right: 80, top: 800 }}>
+      <div style={{ position: "absolute", left: 80, right: 80, top: 830 }}>
         {sent ? (
           <div style={{ display: "flex", gap: 16, alignItems: "center", marginBottom: 20, ...slam(f, 52, 1.15) }}>
             <div style={{ width: 62, height: 62, borderRadius: "50%", background: "#2A2F3A" }} />
@@ -223,6 +250,9 @@ const Cta: React.FC = () => {
           <span style={{ flex: 1, fontFamily: SANS, fontSize: 32, fontWeight: 700, color: typed && !sent ? INK : "#5E6573" }}>{sent ? "Tambahkan komentar…" : typed || "Tambahkan komentar…"}</span>
           <span style={{ width: 58, height: 58, borderRadius: "50%", background: typed ? ORANGE : "#3A2A20", color: "#fff", fontWeight: 800, fontSize: 30, display: "flex", alignItems: "center", justifyContent: "center" }}>↑</span>
         </div>
+      </div>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 690, display: "flex", justifyContent: "center", gap: 14, opacity: interpolate(f, [20, 26], [0, 1], CL) }}>
+        {["S1", "S2", "S3", "Dosen"].map((t) => <span key={t} style={{ padding: "10px 24px", borderRadius: 999, border: "2px solid #3A3F4B", color: "#CFCAC1", fontFamily: SANS, fontWeight: 600, fontSize: 30 }}>{t}</span>)}
       </div>
       <div style={{ position: "absolute", left: 0, right: 0, top: 1300, textAlign: "center", fontFamily: SANS, fontWeight: 800, fontSize: 48, color: INK, ...slam(f, 90, 1.2) }}>Mulai <span style={{ color: "#F59A5C" }}>Rp29.000</span> / skill</div>
       <div style={{ position: "absolute", left: 0, right: 0, top: 1380, textAlign: "center", fontFamily: MONO, fontSize: 24, letterSpacing: 4, color: "#7E8592", opacity: interpolate(f, [100, 108], [0, 1], CL) }}>AKUN CLAUDE GRATIS · LYNK.ID/RESQ</div>
@@ -249,8 +279,9 @@ export const SkillsShort: React.FC = () => {
         <Sequence key={sys} from={60 + k * 30} durationInFrames={30} name={label}><Cut sys={S(sys)} label={label} skill={skill} sub={sub} flip={k % 2 === 1} /></Sequence>
       ))}
       <Sequence from={180} durationInFrames={60} name="Semua jurusan"><Quad /></Sequence>
-      <Sequence from={240} durationInFrames={30} name="Publikasi"><Cut sys={S("PRISM")} label="Mau terbit jurnal?" skill="Journal Matcher" sub="Cocokkan jurnal sampai balas reviewer." /></Sequence>
-      <Sequence from={270} durationInFrames={180} name="Demo"><Demo /></Sequence>
+      <Sequence from={240} durationInFrames={30} name="Publikasi"><Cut sys={S("PRISM")} label="Dosen & Peneliti" skill="Journal Matcher" sub="Dari manuskrip sampai terbit jurnal." /></Sequence>
+      <Sequence from={270} durationInFrames={150} name="Demo"><Demo /></Sequence>
+      <Sequence from={420} durationInFrames={30} name="Jenjang"><Levels /></Sequence>
       <Sequence from={450} durationInFrames={150} name="Wall"><Wall /></Sequence>
       <Sequence from={600} durationInFrames={150} name="CTA"><Cta /></Sequence>
       <Audio src={staticFile("short-sfx.wav")} premountFor={fps} />
