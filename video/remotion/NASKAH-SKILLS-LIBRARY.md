@@ -6,7 +6,8 @@ Gaya mengikuti analisis video referensi (@robiimotion):
 - Kamera push-in dengan defocus dan sedikit chromatic split.
 - Logo asterisk 3D di latar krem.
 - Fly-through 9 sistem, kilatan putih, lalu CTA.
-- Film grain dan vignette. Glow dibuat halus (cahaya blur lembut, tanpa neon).
+- Film grain dan vignette.
+- Taste pass (supaya tidak terkesan AI): tanpa glow/cakrawala berpendar, garis tipis ala editorial, angka sistem besar dalam bentuk outline, strip warna sistem di tepi kiri, dan easing yang bervariasi.
 
 | Detik | Adegan |
 |---|---|
@@ -31,18 +32,47 @@ Gaya mengikuti analisis video referensi (@robiimotion):
 
 "Mulai dari Rp29.000" sesuai harga satuan di PDF (PRISM per skill Rp49.000, jadi "mulai dari" tetap akurat).
 
-## Audio (`scripts/audio_library.py`, sekitar −13 LUFS): versi beat 131 BPM
-- Grid: 1 bar = 55 frame, dan semua momen besar jatuh tepat di downbeat.
-- Struktur:
-  - 0–4 detik: build-up (pad gelap, kick ter-filter, snare roll makin rapat, riser, jeda sesaat)
-  - **DROP di detik 4** tepat saat logo muncul
-  - groove penuh: kick four-on-the-floor, clap di ketukan 2 & 4, hi-hat 16th + open hat, bass offbeat, pad yang "memompa" (sidechain)
-  - mulai KERNEL energi naik dengan arpeggio 16th
-  - detik 42,5: breakdown + snare roll
-  - **DROP kedua di detik 44,3** saat "44 skill"
-  - impact saat kilatan putih, groove CTA, hit penutup + ekor akor
-- Tiap sistem masuk: reverse cymbal → crash + sub boom tepat di downbeat, dan glitch tick saat huruf nama terbentuk.
-- **Tiap skill muncul:** swish masuk + synth stab supersaw + snap, jatuh pas di ketukan 1/8 dan nadanya naik tiap baris (visual baris skill ikut dikunci ke grid yang sama).
-- KERNEL: vocal chop "hey-hey" untuk pengingat "Itu baru 4 dari 9".
-- Hook: tick/kaca per kata. Hitungan 44 & 9 mendarat dengan stab akor. Komen diketik dengan ketukan HP.
-- Visual ikut berdenyut kecil mengikuti beat: logo 3D, nama sistem, dan dinding skill setelah drop.
+## Transisi (beda di tiap pergantian)
+| Detik | Dari → ke | Transisi |
+|---|---|---|
+| 9,5 | Logo → GENESIS | Iris terbuka dari kotak ikon + cincin warna sistem |
+| 13,2 | GENESIS → CATALYST | Blok warna hijau menyapu layar |
+| 16,8 | CATALYST → NEXUS | Split shutter, layar terbelah atas-bawah |
+| 20,5 | NEXUS → ORACLE | Push ke atas dengan blur kecepatan |
+| 24,2 | ORACLE → KERNEL | Venetian blinds, bilah horizontal terbuka |
+| 27,8 | KERNEL → VERDICT | Dive, kamera menyelam ke ikon |
+| 31,5 | VERDICT → SPIRAL | Card swing berengsel |
+| 35,2 | SPIRAL → VITALS | 5 irisan horizontal bergantian |
+| 38,8 | VITALS → PRISM | Cincin terbuka dari titik track |
+| 42,5 | PRISM → dinding | Mengecil jadi kartu lalu jatuh |
+
+## Audio: SFX saja, tanpa backsound (`scripts/sfx_library.py`, sekitar −17 LUFS)
+Backsound dihapus supaya kreator bisa memasang musik sendiri. File SFX terpisah: `renders/ResearchQ-Skills-Library-SFX.wav`.
+
+**Setiap skill punya suara**, dan timbre-nya khas per sistem:
+
+| Sistem | Suara tiap skill |
+|---|---|
+| GENESIS | Sonar kaca (ping + gema) |
+| CATALYST | Marimba + bubble blip |
+| NEXUS | Data blip digital (3 nada cepat) |
+| ORACLE | Bell hangat |
+| KERNEL | Beep 8-bit |
+| VERDICT | Ketukan palu/kayu |
+| SPIRAL | Kalimba |
+| VITALS | Beep monitor jantung (yang terakhir lebih tinggi) |
+| PRISM | Chime kristal |
+
+- **Transisi:** tiap transisi punya bunyi sendiri:
+  - nada cincin untuk iris
+  - whoosh + thud untuk blok warna
+  - klik shutter
+  - whoosh naik untuk push
+  - ratchet untuk blinds
+  - whoosh dalam + boom untuk dive
+  - whoosh berpindah kiri-kanan untuk swing
+  - zap untuk irisan
+  - bell sonar untuk cincin titik
+  - thud untuk kartu jatuh
+- **Lainnya:** tick per kata di hook, riser + boom saat logo, tick hitungan + bell, kaskade tick 44 chip, boom "44 skill", kilau saat kilatan putih, ketukan HP saat mengetik komen, dan hit penutup.
+- **Saran mixing:** taruh musik sekitar 6–10 dB di bawah SFX supaya suara skill tetap terdengar.

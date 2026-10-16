@@ -1,16 +1,20 @@
 import { Audio } from "@remotion/media";
+import { linearTiming, TransitionSeries } from "@remotion/transitions";
 import { AbsoluteFill, Easing, Img, interpolate, random, Sequence, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { SERIF } from "../scopus/kit";
 import { CL, EASE, MONO, SANS } from "../theory/kit";
 import { alpha, Icon, SYSTEMS, tint } from "./data";
+import { blinds, blockWipe, dive, irisIcon, pushUp, ringDot, slices, splitShutter, swing, toCard } from "./trans";
 
 // ResearchQ Skills Library — cinematic catalogue, 51s (1530 frames @30fps), no VO.
 // Look taken from the reference analysis: dark stage + soft warm horizon, word-by-word serif italic, camera push-ins
 // with defocus and a light chromatic split, cream logo reveal, fly-through of the 9 systems, white flash, CTA.
-// Timeline (131 BPM grid, 1 bar = 55 f): hook 0–120 (build) · DROP 120 logo/counter 120–285 · systems 285 + i·110
-// (each 124 long, 14 overlap) · wall 1275 (breakdown) · DROP 1330 "44 skill" · flash 1385 · CTA 1383–1530.
+// Timeline: hook 0–120 · logo 120–285 · systems 285 + i·110 (each 124 long, 14-frame custom transitions) · wall 1275
+// ("44 skill" at 1330) · flash 1385 · CTA 1383–1530. SFX only — the creator adds their own music.
 const BG = "#0B0D12", ORANGE = "#EE6A1F", CREAM = "#F2EFE9";
-const SYS0 = 285, SLOT = 110;
+const SLOT = 110, TF = 14;
+// One transition per boundary: logo→GENESIS … PRISM→wall.
+const TRANS = [irisIcon, blockWipe, splitShutter, pushUp, blinds, dive, swing, slices, ringDot, toCard];
 
 const Grain: React.FC = () => {
   const f = useCurrentFrame();
@@ -25,9 +29,10 @@ const Grain: React.FC = () => {
     </AbsoluteFill>
   );
 };
-const Horizon: React.FC<{ c?: string; o?: number }> = ({ c = ORANGE, o = 0.55 }) => {
+// Taste pass: no glowing horizon. A single hairline rule stands in for it.
+const Horizon: React.FC<{ c?: string; o?: number }> = ({ c = ORANGE }) => {
   const f = useCurrentFrame();
-  return <div style={{ position: "absolute", left: -300, right: -300, top: 1380 + Math.sin(f / 40) * 14, height: 900, borderRadius: "50%", background: `radial-gradient(ellipse at 50% 30%, ${alpha(c, o)} 0%, ${alpha(c, o * 0.35)} 35%, rgba(0,0,0,0) 70%)`, filter: "blur(30px)" }} />;
+  return <div style={{ position: "absolute", left: 80, top: 1640, height: 2, width: interpolate(f, [0, 20], [0, 920], { ...CL, easing: EASE }), background: alpha(c, 0.5) }} />;
 };
 const Footer: React.FC<{ dark?: boolean }> = ({ dark = true }) => (
   <>
@@ -90,14 +95,13 @@ const Count: React.FC<{ to: number; at: number; label: string }> = ({ to, at, la
 const Logo: React.FC = () => {
   const f = useCurrentFrame();
   const ry = interpolate(f, [0, 165], [-46, 32]);
-  const out = interpolate(f, [151, 165], [0, 1], CL);
   const inP = interpolate(f, [0, 14], [0, 1], { ...CL, easing: EASE });
   return (
-    <AbsoluteFill style={{ background: CREAM, overflow: "hidden", opacity: 1 - out }}>
+    <AbsoluteFill style={{ background: CREAM, overflow: "hidden" }}>
       <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 40%, rgba(255,255,255,.7) 0%, rgba(242,239,233,0) 60%, rgba(120,110,95,.25) 100%)" }} />
-      <AbsoluteFill style={{ filter: `blur(${out * 18 + (1 - inP) * 10}px)`, opacity: 1 - out * 0.9, scale: `${1.06 - inP * 0.06 + out * 0.08}` }}>
+      <AbsoluteFill style={{ filter: `blur(${(1 - inP) * 10}px)`, scale: `${1.06 - inP * 0.06}` }}>
         <div style={{ position: "absolute", left: 340, top: 330, width: 400, height: 400, perspective: 1400 }}>
-          <div style={{ position: "absolute", inset: 0, transformStyle: "preserve-3d", transform: `rotateX(14deg) rotateY(${ry}deg) scale(${1 + 0.05 * Math.exp(-((f % 13.75) / 3))})` }}>
+          <div style={{ position: "absolute", inset: 0, transformStyle: "preserve-3d", transform: `rotateX(14deg) rotateY(${ry}deg)` }}>
             {Array.from({ length: 14 }).map((_, k) => (
               <Img key={k} src={staticFile("claude_logo_t.png")} style={{ position: "absolute", inset: 0, width: 400, height: 400, transform: `translateZ(${(k - 13) * 2.4}px)`, filter: k < 13 ? `brightness(${0.42 + k * 0.025}) saturate(1.1)` : "none" }} />
             ))}
@@ -133,14 +137,13 @@ const SystemScene: React.FC<{ i: number }> = ({ i }) => {
   const f = useCurrentFrame();
   const s = SYSTEMS[i];
   const c = tint(s.color, 0.32);
-  const inP = interpolate(f, [0, 16], [0, 1], { ...CL, easing: EASE });
-  const outP = interpolate(f, [SLOT, SLOT + 14], [0, 1], { ...CL, easing: Easing.in(Easing.cubic) });
   const cam = interpolate(f, [0, SLOT + 14], [0, 1]);
   return (
-    <AbsoluteFill style={{ opacity: Math.min(inP * 1.4, 1 - outP), scale: `${1.16 - inP * 0.16 - outP * 0.1}`, filter: `blur(${(1 - inP) * 16 + outP * 14}px)` }}>
+    <AbsoluteFill>
       <AbsoluteFill style={{ background: BG }} />
-      <div style={{ position: "absolute", left: -200, right: -200, top: -500, height: 1300, background: `radial-gradient(ellipse at 30% 50%, ${alpha(s.color, 0.3)} 0%, rgba(0,0,0,0) 62%)` }} />
-      <Horizon c={s.color} o={0.42} />
+      <div style={{ position: "absolute", right: -40, top: 1010, fontFamily: SANS, fontWeight: 800, fontSize: 620, letterSpacing: -30, lineHeight: 1, color: "transparent", WebkitTextStroke: `2px ${alpha(s.color, 0.32)}`, translate: `${-cam * 60}px 0px` }}>{String(i + 1).padStart(2, "0")}</div>
+      <div style={{ position: "absolute", left: 80, right: 80, top: 210, height: 1, background: "rgba(255,255,255,.1)" }} />
+      <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 14, background: s.color }} />
       <AbsoluteFill style={{ translate: `0px ${-cam * 24}px` }}>
         <div style={{ position: "absolute", left: 80, top: 230, fontFamily: MONO, fontSize: 24, letterSpacing: 5, color: c }}>SISTEM {String(i + 1).padStart(2, "0")} / 09 · {s.verb}</div>
         <div style={{ position: "absolute", left: 80, top: 300, width: 150, height: 150, borderRadius: 38, background: alpha(s.color, 0.16), border: `2px solid ${alpha(s.color, 0.55)}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -148,7 +151,7 @@ const SystemScene: React.FC<{ i: number }> = ({ i }) => {
         </div>
         <div style={{ position: "absolute", left: 260, top: 318, fontFamily: MONO, fontSize: 24, letterSpacing: 3, color: "#8D95A3" }}>{s.role.toUpperCase()}</div>
         <div style={{ position: "absolute", left: 260, top: 360, padding: "8px 18px", borderRadius: 999, border: `2px solid ${alpha(s.color, 0.5)}`, color: c, fontFamily: SANS, fontWeight: 700, fontSize: 26 }}>{s.field}</div>
-        <div style={{ position: "absolute", left: 72, top: 470, fontFamily: SANS, fontWeight: 800, fontSize: 168, letterSpacing: -6, lineHeight: 1, color: "#F1EEE8", transformOrigin: "0% 50%", scale: `${1 + 0.025 * Math.exp(-((f % 27.5) / 4))}` }}>
+        <div style={{ position: "absolute", left: 72, top: 470, fontFamily: SANS, fontWeight: 800, fontSize: 168, letterSpacing: -6, lineHeight: 1, color: "#F1EEE8" }}>
           {s.name.split("").map((ch, k) => <W key={k} at={6 + k * 2}>{ch}</W>)}
         </div>
         <div style={{ position: "absolute", left: 80, right: 60, top: 660, fontFamily: SERIF, fontStyle: "italic", fontSize: 64, lineHeight: 1.1, color: c }}>
@@ -183,11 +186,11 @@ const SystemScene: React.FC<{ i: number }> = ({ i }) => {
 const ALL = SYSTEMS.flatMap((s) => s.skills.map((k) => ({ k, c: s.color })));
 const Wall: React.FC = () => {
   const f = useCurrentFrame();
-  const z = interpolate(f, [0, 55], [2.3, 1.08], { ...CL, easing: Easing.out(Easing.cubic) }) - interpolate(f, [55, 62], [0, 0.08], CL) + 0.04 * Math.exp(-(Math.max(0, f - 55) % 13.75) / 3) * (f >= 55 ? 1 : 0);
+  const z = interpolate(f, [0, 55], [2.3, 1], { ...CL, easing: Easing.out(Easing.cubic) });
   const dim = interpolate(f, [55, 60], [0, 1], CL);
   const flash = interpolate(f, [100, 110, 135], [0, 1, 1], CL);
   return (
-    <AbsoluteFill style={{ background: BG, overflow: "hidden", opacity: interpolate(f, [0, 10], [0, 1], CL) }}>
+    <AbsoluteFill style={{ background: BG, overflow: "hidden" }}>
       <Horizon o={0.35} />
       <AbsoluteFill style={{ scale: `${z}`, rotate: `${(z - 1) * -3}deg`, filter: `blur(${dim * 3}px)`, opacity: 1 - dim * 0.55 }}>
         <div style={{ position: "absolute", left: 40, right: 40, top: 260, display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 14 }}>
@@ -263,11 +266,17 @@ export const SkillsLibrary: React.FC = () => {
   return (
     <AbsoluteFill style={{ background: BG }}>
       <Sequence durationInFrames={150} name="Hook"><Hook /></Sequence>
-      <Sequence from={120} durationInFrames={165} name="Logo"><Logo /></Sequence>
-      {SYSTEMS.map((s, i) => (
-        <Sequence key={s.name} from={SYS0 + i * SLOT} durationInFrames={SLOT + 14} name={s.name}><SystemScene i={i} /></Sequence>
-      ))}
-      <Sequence from={1275} durationInFrames={135} name="Wall"><Wall /></Sequence>
+      <Sequence from={120} durationInFrames={1277} name="Systems">
+        <TransitionSeries>
+          <TransitionSeries.Sequence durationInFrames={179} name="Logo"><Logo /></TransitionSeries.Sequence>
+          {SYSTEMS.flatMap((sy, i) => [
+            <TransitionSeries.Transition key={`t${i}`} presentation={TRANS[i](sy.color)} timing={linearTiming({ durationInFrames: TF })} />,
+            <TransitionSeries.Sequence key={sy.name} durationInFrames={SLOT + TF} name={sy.name}><SystemScene i={i} /></TransitionSeries.Sequence>,
+          ])}
+          <TransitionSeries.Transition presentation={TRANS[9]("#FFFFFF")} timing={linearTiming({ durationInFrames: TF })} />
+          <TransitionSeries.Sequence durationInFrames={122} name="Wall"><Wall /></TransitionSeries.Sequence>
+        </TransitionSeries>
+      </Sequence>
       <Sequence from={1383} durationInFrames={147} name="CTA"><Cta /></Sequence>
       <Audio src={staticFile("library-audio.wav")} premountFor={fps} />
     </AbsoluteFill>
