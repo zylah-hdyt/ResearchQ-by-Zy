@@ -182,7 +182,7 @@ Object.entries(S).forEach(([id, [a, b]]) => { if (b < DUR) tl.to("#" + id, { opa
 const orbs = (t, ax, ay, bx, by) => { tl.to("#orbA", { left: ax, top: ay, duration: 1.0, ease: "power2.inOut" }, t); tl.to("#orbB", { left: bx, top: by, duration: 1.0, ease: "power2.inOut" }, t); };
 /* gentle camera life */
 tl.to("#cam", { scale: 1.02, duration: 4.8, ease: "sine.inOut", yoyo: true, repeat: 7 }, 0);
-const pop = (sel, t, from = {}, d = 0.42) => { tl.fromTo(sel, { opacity: 0, scale: 0.6, y: 30, ...from }, { opacity: 1, scale: 1, y: 0, x: 0, duration: d, ease: "back.out(2)", immediateRender: false }, t); };
+const pop = (sel, t, from = {}, d = 0.42) => { tl.fromTo(sel, { opacity: 0, scale: 0.6, y: 30, ...from }, { opacity: 1, scale: 1, y: 0, x: 0, rotation: 0, rotationX: 0, duration: d, ease: "back.out(2)", immediateRender: false }, t); };
 
 /* ---------- subtitles: chunks of <=4 words, active word highlighted ---------- */
 const subs = $("#subs"), chunks = [];
