@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="id" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Claude vs Skill EP05</title>
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:PJS;font-weight:500;src:url(data:font/woff2;base64,{{PJS500}}) format("woff2")}
+@font-face{font-family:PJS;font-weight:700;src:url(data:font/woff2;base64,{{PJS700}}) format("woff2")}
+@font-face{font-family:PJS;font-weight:800;src:url(data:font/woff2;base64,{{PJS800}}) format("woff2")}
+@font-face{font-family:JBM;src:url(data:font/woff2;base64,{{JBM}}) format("woff2")}
+@font-face{font-family:SI;font-style:italic;src:url(data:font/woff2;base64,{{ISI}}) format("woff2")}
+:root{--bg:#09090D;--w:#F4F4F6;--g:#8E8E99;--d:#55555F;--glass:rgba(255,255,255,.06);--gl:rgba(255,255,255,.13);--blue:#4D6BFF;--claude:#EF562F;--ok:#4ADE80;--act:#FF9A6B}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--bg)}
+#root{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--bg);font-family:PJS,sans-serif;color:var(--w)}
+#cam{position:absolute;inset:0;transform-origin:50% 45%}
+.orb{position:absolute;width:1000px;height:1000px;margin:-500px 0 0 -500px;border-radius:50%}
+.sc{position:absolute;inset:0;opacity:0}
+.abs{position:absolute}.c{position:absolute;left:0;right:0;text-align:center}
+.mono{font-family:JBM;letter-spacing:3px}.si{font-family:SI;font-style:italic;font-weight:400}
+.clogo{-webkit-mask:url(data:image/png;base64,{{CLOGO}}) center/contain no-repeat;mask:url(data:image/png;base64,{{CLOGO}}) center/contain no-repeat;background:var(--claude)}
+.glass{background:var(--glass);border:1.5px solid var(--gl);border-radius:36px;box-shadow:0 40px 90px -40px rgba(0,0,0,.9)}
+.pill{display:inline-flex;align-items:center;gap:14px;padding:16px 46px;border-radius:999px;font-size:52px;font-weight:800;letter-spacing:1px;color:#fff;background:linear-gradient(180deg,#7C95FF,#3F5CF2);box-shadow:0 0 70px rgba(80,110,255,.55),inset 0 2px 0 rgba(255,255,255,.35)}
+.pill.or{background:linear-gradient(180deg,#FF8A63,#E2492A);box-shadow:0 0 70px rgba(239,86,47,.5),inset 0 2px 0 rgba(255,255,255,.35)}
+.rq{font-weight:800;letter-spacing:-1px;color:var(--w)}.rq b{color:var(--claude);font-weight:800}
+.ic{fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.lg{position:absolute;width:230px;height:230px;margin:-115px 0 0 -115px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#15151C;border:2px solid var(--gl);box-shadow:0 30px 70px -30px rgba(0,0,0,.9)}
+.lgl{position:absolute;width:300px;margin-left:-150px;text-align:center;font-size:44px;font-weight:800}
+.chip{position:absolute;display:inline-flex;align-items:center;gap:16px;padding:20px 32px;border-radius:24px;font-size:38px;font-weight:700;background:#17171F;border:1.5px solid var(--gl);white-space:nowrap}
+.step{display:flex;align-items:center;gap:22px;font-size:36px;font-weight:600;height:62px}
+.step .n{width:52px;height:52px;border-radius:14px;border:2.5px solid #3A3A45;display:flex;align-items:center;justify-content:center;font-family:JBM;font-size:24px;flex:none}
+.bub{position:absolute;right:110px;max-width:760px;padding:22px 32px;border-radius:32px 32px 10px 32px;background:#2A2A33;font-size:34px;font-weight:500;line-height:1.3}
+.tag{position:absolute;left:120px;font-family:JBM;font-size:22px;color:var(--g);letter-spacing:2px}
+/* subtitles */
+.subl{position:absolute;left:70px;right:70px;top:1310px;text-align:center;font-size:58px;font-weight:800;line-height:1.16;letter-spacing:-.5px;opacity:0;text-shadow:0 6px 24px rgba(0,0,0,.85)}
+.subl span{display:inline-block;margin:0 7px;color:#fff;transform-origin:50% 80%}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+ <symbol id="i-box" viewBox="0 0 100 100"><path d="M50 10 L88 30 L88 72 L50 92 L12 72 L12 30 Z"/><path d="M12 30 L50 50 L88 30 M50 50 L50 92"/></symbol>
+ <symbol id="i-chat" viewBox="0 0 48 48"><path d="M8 10h32a4 4 0 0 1 4 4v16a4 4 0 0 1-4 4H22l-9 8v-8H8a4 4 0 0 1-4-4V14a4 4 0 0 1 4-4z"/></symbol>
+ <symbol id="i-loop" viewBox="0 0 48 48"><path d="M38 18a15 15 0 0 0-27-4M10 30a15 15 0 0 0 27 4"/><path d="M38 8v10H28M10 40V30h10"/></symbol>
+ <symbol id="i-down" viewBox="0 0 48 48"><path d="M24 8v30M12 27l12 12 12-12"/></symbol>
+</defs></svg>
+
+<div id="root" data-composition-id="main" data-start="0" data-duration="38.7" data-fps="60" data-width="1080" data-height="1920">
+<div id="cam">
+ <div class="orb" id="orbA" style="left:300px;top:600px;background:radial-gradient(closest-side,rgba(60,90,255,.5),rgba(60,90,255,0))"></div>
+ <div class="orb" id="orbB" style="left:820px;top:1300px;background:radial-gradient(closest-side,rgba(140,70,255,.42),rgba(140,70,255,0))"></div>
+ <div class="orb" id="orbC" style="left:540px;top:820px;background:radial-gradient(closest-side,rgba(239,86,47,.4),rgba(239,86,47,0));opacity:0"></div>
+
+ <!-- S1 HOOK -->
+ <div id="s1" class="sc" style="opacity:1">
+  <div class="c" id="h1" style="top:330px;font-size:92px;font-weight:800;letter-spacing:-3px">Bedanya apa<span style="color:var(--claude)">?</span></div>
+  <div class="abs glass" id="cardC" style="left:100px;top:560px;width:400px;height:470px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px"><div class="clogo" style="width:190px;height:190px"></div><div style="font-size:64px;font-weight:800">Claude</div></div>
+  <div class="abs glass" id="cardS" style="left:580px;top:560px;width:400px;height:470px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px"><svg class="ic" style="width:190px;height:190px;color:#8FA2FF;stroke-width:4"><use href="#i-box"/></svg><div style="font-size:64px;font-weight:800">Skill</div></div>
+  <div class="abs" id="qm" style="left:470px;top:725px;width:140px;height:140px;border-radius:50%;background:var(--w);color:var(--bg);font-size:96px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 0 60px rgba(255,255,255,.35)">?</div>
+ </div>
+
+ <!-- S2 CLAUDE = AI -->
+ <div id="s2" class="sc">
+  <div id="s2a">
+   <div class="abs clogo" id="c2logo" style="left:390px;top:380px;width:300px;height:300px"></div>
+   <div class="c" id="c2t" style="top:740px;font-size:120px;font-weight:800;letter-spacing:-4px">Claude itu <span class="pill" id="c2ai" style="font-size:96px;padding:8px 40px;vertical-align:12px">AI</span></div>
+  </div>
+  <div id="s2b">
+   <div class="c mono" id="c2k" style="top:420px;font-size:26px;color:var(--g)">SAMA KAYAK</div>
+   <div class="lg" id="lgG" style="left:210px;top:700px"><img src="data:image/svg+xml;base64,{{OPENAI}}" style="width:130px;height:130px"></div>
+   <div class="lg" id="lgC" style="left:540px;top:700px;width:270px;height:270px;margin:-135px 0 0 -135px;border-color:rgba(239,86,47,.6);box-shadow:0 0 90px rgba(239,86,47,.35)"><div class="clogo" style="width:160px;height:160px"></div></div>
+   <div class="lg" id="lgM" style="left:870px;top:700px"><img src="data:image/svg+xml;base64,{{GEMINI}}" style="width:130px;height:130px"></div>
+   <div class="lgl" id="lbG" style="left:210px;top:850px">ChatGPT</div>
+   <div class="lgl" id="lbC" style="left:540px;top:870px;color:#FFB59A">Claude</div>
+   <div class="lgl" id="lbM" style="left:870px;top:850px">Gemini</div>
+   <div class="c si" id="c2s" style="top:1010px;font-size:76px;color:#B9C4FF">sama-sama asisten AI</div>
+  </div>
+ </div>
+
+ <!-- S3 FITUR SKILL DI CLAUDE -->
+ <div id="s3" class="sc">
+  <div class="c mono" style="top:300px;font-size:26px;color:var(--g)">DI DALAM CLAUDE</div>
+  <div class="abs glass" id="menu" style="left:220px;top:380px;width:640px;height:800px;background:rgba(255,255,255,.05)">
+   <div style="position:absolute;left:40px;top:40px;display:flex;align-items:center;gap:20px"><div class="clogo" style="width:64px;height:64px"></div><div style="font-size:48px;font-weight:800">Claude</div></div>
+   <div class="abs" id="mhl" style="left:24px;top:170px;width:592px;height:104px;border-radius:24px;background:rgba(255,255,255,.08)"></div>
+   <div class="abs" style="left:56px;top:170px;right:40px">
+    <div class="mi" style="height:120px;display:flex;align-items:center;font-size:44px;font-weight:700;color:#C9C9D2">+ Chat baru</div>
+    <div class="mi" style="height:120px;display:flex;align-items:center;font-size:44px;font-weight:700;color:#C9C9D2">Projects</div>
+    <div class="mi" style="height:120px;display:flex;align-items:center;font-size:44px;font-weight:700;color:#C9C9D2">Artifacts</div>
+    <div class="mi" id="miS" style="height:120px;display:flex;align-items:center;gap:18px;font-size:44px;font-weight:800;color:#C9C9D2">Skills <span id="miT" class="mono" style="font-size:20px;color:#fff;background:var(--blue);padding:8px 14px;border-radius:999px">FITUR</span></div>
+    <div class="mi" style="height:120px;display:flex;align-items:center;font-size:44px;font-weight:700;color:#C9C9D2">Connectors</div>
+   </div>
+  </div>
+ </div>
+
+ <!-- S4 SKILL = KEAHLIAN KHUSUS -->
+ <div id="s4" class="sc">
+  <div class="c" id="s4h" style="top:290px;font-size:80px;font-weight:800;letter-spacing:-2px">Skill = <span class="si" id="s4k" style="font-size:96px;color:#B9C4FF">keahlian khusus</span></div>
+  <div class="abs" id="core" style="left:390px;top:500px;width:300px;height:300px;border-radius:50%;background:#15151C;border:2px solid rgba(239,86,47,.55);box-shadow:0 0 90px rgba(239,86,47,.3)"><div class="clogo" style="position:absolute;left:60px;top:60px;width:180px;height:180px"></div></div>
+  <div class="abs" id="ring4" style="left:390px;top:500px;width:300px;height:300px;border-radius:50%;border:5px solid #8FA2FF"></div>
+  <div class="abs glass" id="sk" style="left:260px;top:430px;width:560px;height:130px;border-radius:28px;background:rgba(30,30,44,.97);border-color:rgba(120,145,255,.7);display:flex;align-items:center;gap:22px;padding:0 30px"><svg class="ic" style="width:70px;height:70px;color:#8FA2FF;flex:none"><use href="#i-box"/></svg><div><div class="mono" style="font-size:18px;color:var(--g)">SKILL.md</div><div style="font-size:38px;font-weight:800">Analisis output SPSS</div></div></div>
+  <div class="chip" id="task" style="left:0;right:0;margin:0 auto;width:fit-content;top:850px"><span style="color:var(--ok)">&#10003;</span> Tugas tertentu: analisis SPSS</div>
+  <div class="abs glass" id="steps" style="left:150px;top:980px;width:780px;height:290px;padding:30px 40px;background:rgba(255,255,255,.05)">
+   <div class="mono" style="font-size:20px;color:var(--g);margin-bottom:10px">CARA KERJA YANG UDAH DISIAPIN</div>
+   <div class="step"><div class="n" id="n1">1</div>Baca tabel output</div>
+   <div class="step"><div class="n" id="n2">2</div>Cek nilai signifikansi</div>
+   <div class="step"><div class="n" id="n3">3</div>Tulis narasi hasil</div>
+  </div>
+ </div>
+
+ <!-- S5 PROMPT -->
+ <div id="s5" class="sc">
+  <div class="c" style="top:290px"><span class="pill or" id="p5p">PROMPT</span></div>
+  <div class="c" id="p5h" style="top:430px;font-size:62px;font-weight:800;letter-spacing:-1px">= instruksi yang kamu ketik</div>
+  <div class="abs" id="bar5" style="left:90px;top:560px;width:900px;height:130px;border-radius:40px;background:rgba(226,226,232,.95);color:#26262B;display:flex;align-items:center;padding:0 40px;font-size:36px;font-weight:600"><span id="typed5"></span></div>
+  <div class="bub" id="b1" style="top:740px">Tolong analisis output SPSS ini, bahasa formal</div><div class="tag" id="t1" style="top:775px">KE-1</div>
+  <div class="bub" id="b2" style="top:900px">Tolong analisis output SPSS ini, bahasa formal</div><div class="tag" id="t2" style="top:935px">KE-2</div>
+  <div class="bub" id="b3" style="top:1060px">Tolong analisis output SPSS ini, bahasa formal</div><div class="tag" id="t3" style="top:1095px">KE-3</div>
+ </div>
+
+ <!-- S6 SKILL = PAKET -->
+ <div id="s6" class="sc">
+  <div class="c" style="top:290px"><span class="pill" id="p6p">SKILL</span></div>
+  <div class="c" id="p6h" style="top:430px;font-size:62px;font-weight:800;letter-spacing:-1px">= disiapin sekali</div>
+  <div class="abs" id="boxw" style="left:340px;top:640px;width:400px;height:400px;color:#8FA2FF"><svg class="ic" style="width:400px;height:400px;stroke-width:2.6"><use href="#i-box"/></svg></div>
+  <div class="abs" id="lid" style="left:340px;top:560px;width:400px;height:80px;display:flex;align-items:center;justify-content:center"><div class="mono" id="stamp" style="font-size:30px;color:#fff;background:var(--blue);padding:10px 22px;border-radius:12px;box-shadow:0 0 40px rgba(80,110,255,.6)">SKILL</div></div>
+  <div class="chip" id="it1" style="left:110px;top:540px">Instruksi</div>
+  <div class="chip" id="it2" style="left:390px;top:500px">Alur kerja</div>
+  <div class="chip" id="it3" style="left:640px;top:560px">Panduan khusus</div>
+  <div class="chip u" id="u1" style="left:90px;top:1080px"><span style="color:var(--ok)">&#10003;</span> dipakai</div>
+  <div class="chip u" id="u2" style="left:400px;top:1110px"><span style="color:var(--ok)">&#10003;</span> dipakai</div>
+  <div class="chip u" id="u3" style="left:710px;top:1080px"><span style="color:var(--ok)">&#10003;</span> dipakai</div>
+  <svg class="abs ic" id="loop" style="left:480px;top:1180px;width:120px;height:120px;color:#8FA2FF"><use href="#i-loop"/></svg>
+ </div>
+
+ <!-- S7 SUMMARY -->
+ <div id="s7" class="sc">
+  <div class="c si" id="g7" style="top:330px;font-size:110px">Gampangnya:</div>
+  <div class="abs glass" id="r7a" style="left:90px;top:560px;width:900px;height:200px;display:flex;align-items:center;gap:30px;padding:0 44px">
+   <div style="width:110px;height:110px;border-radius:28px;background:rgba(239,86,47,.18);color:#FF9A6B;display:flex;align-items:center;justify-content:center;flex:none"><svg class="ic" style="width:66px;height:66px"><use href="#i-chat"/></svg></div>
+   <div><div style="font-size:66px;font-weight:800">Prompt</div><div class="si" style="font-size:58px;color:#C9C9D2">= <span id="k7a" style="background-image:linear-gradient(rgba(239,86,47,.45),rgba(239,86,47,.45));background-repeat:no-repeat;background-size:0% 40%;background-position:0 85%;padding:0 8px">perintahnya</span></div></div></div>
+  <div class="abs glass" id="r7b" style="left:90px;top:800px;width:900px;height:200px;display:flex;align-items:center;gap:30px;padding:0 44px">
+   <div style="width:110px;height:110px;border-radius:28px;background:rgba(77,107,255,.2);color:#8FA2FF;display:flex;align-items:center;justify-content:center;flex:none"><svg class="ic" style="width:70px;height:70px"><use href="#i-box"/></svg></div>
+   <div><div style="font-size:66px;font-weight:800">Skill</div><div class="si" style="font-size:58px;color:#C9C9D2">= <span id="k7b" style="background-image:linear-gradient(rgba(77,107,255,.5),rgba(77,107,255,.5));background-repeat:no-repeat;background-size:0% 40%;background-position:0 85%;padding:0 8px">paket keahliannya</span></div></div></div>
+ </div>
+
+ <!-- S8 CTA -->
+ <div id="s8" class="sc">
+  <div class="c" id="q8" style="top:330px;font-size:104px;font-weight:800;letter-spacing:-3px"><span class="w8">Udah</span> <span class="w8">paham</span> <span class="w8">kan?</span></div>
+  <div class="abs" id="cm" style="left:410px;top:540px;width:260px;height:200px;color:#fff"><svg class="ic" style="width:260px;height:200px;stroke-width:2.4" viewBox="0 0 48 44"><use href="#i-chat"/></svg><div style="position:absolute;left:0;right:0;top:56px;display:flex;justify-content:center;gap:16px"><i style="width:20px;height:20px;border-radius:50%;background:#fff;display:block"></i><i style="width:20px;height:20px;border-radius:50%;background:#fff;display:block"></i><i style="width:20px;height:20px;border-radius:50%;background:#fff;display:block"></i></div></div>
+  <div class="c" id="k8" style="top:790px;font-size:66px;font-weight:800">Komen yang <span style="color:#FF9A6B">belum paham</span></div>
+  <svg class="abs ic" id="dn" style="left:500px;top:890px;width:80px;height:80px;color:#FF9A6B"><use href="#i-down"/></svg>
+  <div class="abs" id="dv8" style="left:340px;top:1030px;width:400px;height:2px;background:rgba(255,255,255,.18)"></div>
+  <div class="c rq" id="rq8" style="top:1070px;font-size:110px;letter-spacing:-4px">Research<b>Q</b></div>
+  <div class="c mono" id="rq8s" style="top:1210px;font-size:26px;color:var(--g)">@RESEARCHQ.ID &middot; EDUKASI AI &amp; RISET</div>
+ </div>
+</div>
+ <div id="subs"></div>
+ <div class="abs rq" id="wm" style="left:60px;top:196px;font-size:30px;opacity:.85">Research<b>Q</b></div>
+ <div class="abs" style="inset:0;pointer-events:none;background:radial-gradient(circle at 50% 46%,rgba(0,0,0,0) 48%,rgba(0,0,0,.55) 100%)"></div>
+ <audio id="sfx" src="sfx.wav" data-start="0" data-duration="38.7" data-volume="1"></audio>
+</div>
+
+<script>
+/* HyperFrames seeks with totalTime(t, true): events are suppressed, so all text/state changes are tl.set steps. */
+const tl = gsap.timeline({ paused: true });
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+const DUR = 38.7, W = {{WORDS}};
+const CUE = window.__cues = { dur: DUR, whoosh: [], pop: [], tick: [], type: [], chime: [], click: [], zap: [], ding: [], shimmer: [], swoosh: [] };
+const q = s => Array.from(document.querySelectorAll(s)), $ = s => document.querySelector(s);
+const cue = (k, v) => CUE[k].push(+(+v).toFixed(3));
+/* word timing lookup: first word matching `re` (case-insensitive, punctuation ignored) starting at/after `after` */
+const at = (word, after = 0) => { const k = word.toLowerCase(); const w = W.find(x => x.s >= after - 1e-6 && x.w.toLowerCase().replace(/[^\w-]/g, "") === k); if (!w) throw new Error("word " + word); return w.s; };
+
+/* scene windows from the narration */
+const S = { s1: [0, at("jadi") - 0.2], s2: [at("jadi") - 0.2, at("nah") - 0.15], s3: [at("nah") - 0.15, at("skill", 12.5) - 0.15], s4: [at("skill", 12.5) - 0.15, at("kalau") - 0.2],
+  s5: [at("kalau") - 0.2, at("sedangkan") - 0.15], s6: [at("sedangkan") - 0.15, at("gampangnya") - 0.15], s7: [at("gampangnya") - 0.15, at("sekarang") - 0.15], s8: [at("sekarang") - 0.15, DUR + 1] };
+Object.entries(S).forEach(([id, [a, b]]) => { if (a > 0) { tl.set("#" + id, { opacity: 1 }, a); cue("whoosh", a); } tl.set("#" + id, { opacity: 0 }, b); });
+Object.entries(S).forEach(([id, [a, b]]) => { if (b < DUR) tl.to("#" + id, { opacity: 0, scale: 0.96, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, b - 0.2); });
+const orbs = (t, ax, ay, bx, by) => { tl.to("#orbA", { left: ax, top: ay, duration: 1.0, ease: "power2.inOut" }, t); tl.to("#orbB", { left: bx, top: by, duration: 1.0, ease: "power2.inOut" }, t); };
+/* gentle camera life */
+tl.to("#cam", { scale: 1.02, duration: 4.8, ease: "sine.inOut", yoyo: true, repeat: 7 }, 0);
+const pop = (sel, t, from = {}, d = 0.42) => { tl.fromTo(sel, { opacity: 0, scale: 0.6, y: 30, ...from }, { opacity: 1, scale: 1, y: 0, x: 0, duration: d, ease: "back.out(2)", immediateRender: false }, t); };
+
+/* ---------- subtitles: chunks of <=4 words, active word highlighted ---------- */
+const subs = $("#subs"), chunks = [];
+let cur = [];
+W.forEach((w, i) => { cur.push(w); if (/[.,?:]$/.test(w.w) || cur.length === 4 || i === W.length - 1) { chunks.push(cur); cur = []; } });
+chunks.forEach((ch, ci) => {
+  const d = document.createElement("div"); d.className = "subl"; subs.appendChild(d);
+  const spans = ch.map(w => { const s = document.createElement("span"); s.textContent = w.w; d.appendChild(s); d.appendChild(document.createTextNode(" ")); return s; });
+  const t0 = ch[0].s - 0.06, next = chunks[ci + 1] ? chunks[ci + 1][0].s - 0.06 : Infinity, t1 = Math.min(next, ch[ch.length - 1].e + 0.7);
+  tl.set(d, { opacity: 1 }, t0); tl.set(d, { opacity: 0 }, t1);
+  tl.fromTo(d, { y: 16 }, { y: 0, duration: 0.18, ease: "power2.out", immediateRender: false }, t0);
+  ch.forEach((w, k) => { tl.set(spans[k], { color: "#FF9A6B" }, w.s); tl.fromTo(spans[k], { scale: 1.12 }, { scale: 1, duration: 0.18, immediateRender: false }, w.s); tl.set(spans[k], { color: "#FFFFFF" }, Math.min(w.e + 0.05, ch[k + 1] ? ch[k + 1].s : w.e + 0.05)); });
+});
+
+/* ---------- S1 hook ---------- */
+gsap.set(["#h1", "#cardC", "#cardS", "#qm"], { opacity: 0 });
+tl.fromTo("#cardC", { opacity: 0, x: -300, rotation: -8 }, { opacity: 1, x: 0, rotation: -3, duration: 0.55, ease: "expo.out", immediateRender: false }, 0.05);
+tl.fromTo("#cardS", { opacity: 0, x: 300, rotation: 8 }, { opacity: 1, x: 0, rotation: 3, duration: 0.55, ease: "expo.out", immediateRender: false }, 0.12); cue("whoosh", 0.05); cue("shimmer", 0.1);
+pop("#qm", 0.45, { rotation: -90 }); cue("pop", 0.45);
+tl.to("#qm", { y: -14, duration: 0.35, yoyo: true, repeat: 7, ease: "sine.inOut" }, 0.9);
+pop("#h1", at("bedanya") - 0.05); cue("tick", at("bedanya"));
+tl.to("#cardC", { scale: 1.08, boxShadow: "0 0 90px rgba(239,86,47,.55)", borderColor: "rgba(239,86,47,.8)", duration: 0.2, yoyo: true, repeat: 1 }, at("claude")); cue("chime", at("claude"));
+tl.to("#cardS", { scale: 1.08, boxShadow: "0 0 90px rgba(80,110,255,.6)", borderColor: "rgba(120,145,255,.9)", duration: 0.2, yoyo: true, repeat: 1 }, at("skill")); cue("chime", at("skill"));
+const kt = at("ketuker");
+tl.to("#cardC", { x: 480, rotation: 6, duration: 0.3, ease: "power3.inOut" }, kt - 0.05); tl.to("#cardS", { x: -480, rotation: -6, duration: 0.3, ease: "power3.inOut" }, kt - 0.05);
+tl.to("#qm", { rotation: 360, duration: 0.6, ease: "power2.inOut" }, kt - 0.05); cue("swoosh", kt - 0.05);
+tl.to("#cardC", { x: 0, rotation: -3, duration: 0.3, ease: "power3.inOut" }, kt + 0.35); tl.to("#cardS", { x: 0, rotation: 3, duration: 0.3, ease: "power3.inOut" }, kt + 0.35); cue("swoosh", kt + 0.35);
+
+/* ---------- S2 Claude = AI, sama kayak ChatGPT / Gemini ---------- */
+const a2 = S.s2[0];
+orbs(a2 - 0.2, 540, 600, 540, 1300);
+tl.to("#orbC", { opacity: 1, duration: 0.5 }, a2); tl.to("#orbC", { opacity: 0, duration: 0.5 }, at("sama", 7.5));
+gsap.set(["#c2logo"], { scale: 0, transformOrigin: "50% 50%" }); gsap.set(["#c2t", "#c2ai", "#s2b > *"], { opacity: 0 });
+tl.to("#c2logo", { scale: 1, rotation: 30, duration: 0.7, ease: "back.out(1.6)" }, a2 + 0.05); cue("shimmer", a2 + 0.05);
+tl.fromTo("#c2t", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "expo.out", immediateRender: false }, at("claude", 6) - 0.1);
+pop("#c2ai", at("ai") - 0.05, { scale: 0.3 }); cue("pop", at("ai"));
+const sm = at("sama", 7.5);
+tl.to("#s2a", { opacity: 0, y: -80, scale: 0.9, duration: 0.3, ease: "power2.in" }, sm - 0.25);
+tl.fromTo("#c2k", { opacity: 0 }, { opacity: 1, duration: 0.3, immediateRender: false }, sm);
+pop("#lgC", sm, { scale: 0.4 }); pop("#lbC", sm + 0.1); cue("pop", sm);
+pop("#lgG", at("chatgpt") - 0.05, { x: -120 }); pop("#lbG", at("chatgpt") + 0.05); cue("pop", at("chatgpt")); cue("zap", at("chatgpt"));
+pop("#lgM", at("gemini") - 0.05, { x: 120 }); pop("#lbM", at("gemini") + 0.05); cue("pop", at("gemini")); cue("zap", at("gemini"));
+tl.fromTo("#c2s", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, immediateRender: false }, at("gemini") + 0.3); cue("tick", at("gemini") + 0.3);
+
+/* ---------- S3 fitur Skill di Claude ---------- */
+const a3 = S.s3[0];
+orbs(a3 - 0.2, 300, 700, 860, 1250);
+pop("#menu", a3 + 0.05, { scale: 0.9, rotationX: 20 }, 0.5);
+gsap.set("#miT", { opacity: 0, scale: 0.4 });
+const f3 = at("fitur");
+[0, 1, 2, 3].forEach(k => { tl.to("#mhl", { top: 170 + k * 120, duration: 0.16, ease: "power2.inOut" }, f3 + k * 0.17); cue("tick", f3 + k * 0.17); });
+const sk3 = at("skill", 11.8);
+tl.set("#mhl", { background: "linear-gradient(90deg,rgba(77,107,255,.55),rgba(77,107,255,.2))", boxShadow: "0 0 60px rgba(80,110,255,.5)" }, sk3 - 0.1);
+tl.to("#miS", { color: "#ffffff", scale: 1.06, duration: 0.2, transformOrigin: "0% 50%" }, sk3 - 0.1);
+tl.to("#miT", { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(3)" }, sk3); cue("chime", sk3);
+
+/* ---------- S4 Skill = keahlian khusus ---------- */
+const a4 = S.s4[0];
+orbs(a4 - 0.2, 540, 650, 300, 1300);
+gsap.set(["#s4h", "#s4k", "#core", "#sk", "#task", "#steps"], { opacity: 0 }); gsap.set("#ring4", { opacity: 0, scale: 1 });
+tl.fromTo("#s4h", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, immediateRender: false }, a4 + 0.05);
+tl.fromTo("#s4k", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, immediateRender: false }, at("keahlian") - 0.05); cue("tick", at("keahlian"));
+pop("#core", a4 + 0.3, { scale: 0.3 }); cue("pop", a4 + 0.3);
+const dk = at("claude", 15);
+tl.fromTo("#sk", { opacity: 0, x: 700, y: -60, rotation: 10 }, { opacity: 1, x: 0, y: 0, rotation: -2, duration: 0.55, ease: "expo.out", immediateRender: false }, at("ibarat") - 0.05); cue("whoosh", at("ibarat") + 0.2);
+tl.to("#sk", { y: 120, scale: 0.55, opacity: 0, duration: 0.35, ease: "power3.in" }, dk - 0.3);
+tl.fromTo("#ring4", { opacity: 1, scale: 1 }, { opacity: 0, scale: 1.6, duration: 0.7, ease: "power2.out", immediateRender: false }, dk + 0.05); cue("ding", dk + 0.05);
+tl.to("#core", { borderColor: "rgba(120,145,255,.9)", boxShadow: "0 0 110px rgba(80,110,255,.55)", duration: 0.3 }, dk + 0.05);
+pop("#task", at("tugas") - 0.1, { scale: 0.7 }); cue("pop", at("tugas"));
+const cr = at("cara");
+tl.fromTo("#steps", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.45, ease: "expo.out", immediateRender: false }, cr - 0.15);
+["#n1", "#n2", "#n3"].forEach((s, k) => { const t = cr + 0.3 + k * 0.4; tl.set(s, { backgroundColor: "#4ADE80", borderColor: "#4ADE80", color: "#09090D", textContent: "✓" }, t); tl.fromTo(s, { scale: 1.3 }, { scale: 1, duration: 0.2, immediateRender: false }, t); cue("tick", t); });
+
+/* ---------- S5 prompt ---------- */
+const a5 = S.s5[0];
+orbs(a5 - 0.2, 760, 620, 260, 1300);
+gsap.set(["#p5p", "#p5h", "#bar5", "#b1", "#b2", "#b3", "#t1", "#t2", "#t3"], { opacity: 0 });
+pop("#p5p", at("prompt") - 0.1, { scale: 0.5 }); cue("chime", at("prompt"));
+tl.fromTo("#p5h", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, immediateRender: false }, at("instruksi") - 0.1);
+pop("#bar5", a5 + 0.15, { scale: 0.95 });
+const MSG = "Tolong analisis output SPSS ini, bahasa formal", typed = $("#typed5"), tStart = at("instruksi") + 0.1, tEnd = at("setiap") - 0.35;
+const cs = MSG.split("").map(ch => { const s = document.createElement("span"); s.textContent = ch; s.style.display = "none"; typed.appendChild(s); return s; });
+cs.forEach((s, i) => { const t = tStart + (tEnd - tStart) * i / cs.length; tl.set(s, { display: "inline" }, t); if (i % 3 === 0) cue("type", t); });
+cue("click", tEnd + 0.05);
+tl.to("#typed5", { opacity: 0, duration: 0.12 }, tEnd + 0.08);
+const st = at("setiap");
+[["#b1", "#t1", tEnd + 0.1], ["#b2", "#t2", st + 0.25], ["#b3", "#t3", st + 0.75]].forEach(([b, t, tt]) => { pop(b, tt, { x: 80 }); pop(t, tt + 0.05); cue("pop", tt); });
+
+/* ---------- S6 Skill = paket ---------- */
+const a6 = S.s6[0];
+orbs(a6 - 0.2, 540, 820, 860, 1350);
+gsap.set(["#p6p", "#p6h", "#boxw", "#lid", "#it1", "#it2", "#it3", "#u1", "#u2", "#u3", "#loop"], { opacity: 0 });
+pop("#boxw", a6 + 0.1, { scale: 0.7 }); cue("pop", a6 + 0.1);
+pop("#p6p", at("skill", 24.5) - 0.1, { scale: 0.5 }); cue("chime", at("skill", 24.5));
+tl.fromTo("#p6h", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, immediateRender: false }, at("nyiapin") - 0.1);
+[["#it1", at("instruksi", 25.5)], ["#it2", at("alur")], ["#it3", at("panduan")]].forEach(([s, t]) => {
+  pop(s, t - 0.1, { y: -80 }); cue("pop", t);
+  tl.to(s, { left: 440, top: 780, scale: 0.4, opacity: 0, duration: 0.35, ease: "power3.in" }, t + 0.45); cue("swoosh", t + 0.45); });
+tl.fromTo("#lid", { opacity: 0, y: -60 }, { opacity: 1, y: 0, duration: 0.3, ease: "bounce.out", immediateRender: false }, at("khusus", 27.5) + 0.3); cue("click", at("khusus", 27.5) + 0.45);
+const dg = at("digunakan");
+[["#u1", dg], ["#u2", dg + 0.3], ["#u3", at("berkali-kali")]].forEach(([s, t]) => { pop(s, t, { y: -60 }); cue("tick", t); });
+pop("#loop", at("berkali-kali") + 0.15, { rotation: -180 }); tl.to("#loop", { rotation: 360, duration: 1.2, ease: "power2.inOut" }, at("berkali-kali") + 0.3); cue("ding", at("berkali-kali") + 0.2);
+
+/* ---------- S7 summary ---------- */
+const a7 = S.s7[0];
+orbs(a7 - 0.2, 300, 650, 820, 1150);
+gsap.set(["#g7", "#r7a", "#r7b"], { opacity: 0 });
+tl.fromTo("#g7", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "expo.out", immediateRender: false }, a7 + 0.1); cue("tick", a7 + 0.15);
+pop("#r7a", at("prompt", 30) - 0.1, { x: -120 }); cue("pop", at("prompt", 30));
+tl.to("#k7a", { backgroundSize: "100% 40%", duration: 0.4, ease: "power2.out" }, at("perintahnya") - 0.05); cue("swoosh", at("perintahnya"));
+pop("#r7b", at("skill", 32) - 0.1, { x: 120 }); cue("pop", at("skill", 32));
+tl.to("#k7b", { backgroundSize: "100% 40%", duration: 0.45, ease: "power2.out" }, at("keahliannya") - 0.05); cue("ding", at("keahliannya"));
+
+/* ---------- S8 CTA ---------- */
+const a8 = S.s8[0];
+orbs(a8 - 0.2, 540, 600, 540, 1200);
+gsap.set([".w8", "#cm", "#k8", "#dn", "#dv8", "#rq8", "#rq8s"], { opacity: 0 });
+q(".w8").forEach((w, k) => { const t = [at("udah"), at("paham", 34), at("kan")][k] - 0.05; pop(w, t); cue("pop", t); });
+const km = at("komen");
+pop("#cm", km - 0.1, { scale: 0.3 }); cue("chime", km);
+q("#cm i").forEach((d, k) => tl.to(d, { y: -12, duration: 0.18, yoyo: true, repeat: 5 }, km + 0.3 + k * 0.08));
+tl.fromTo("#k8", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, immediateRender: false }, km);
+pop("#dn", km + 0.4); tl.to("#dn", { y: 18, duration: 0.3, yoyo: true, repeat: 7, ease: "sine.inOut" }, km + 0.8);
+const e8 = W[W.length - 1].e + 0.15;
+tl.fromTo("#dv8", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.4, immediateRender: false }, e8);
+tl.fromTo("#rq8", { opacity: 0, y: 40, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.6, ease: "expo.out", immediateRender: false }, e8 + 0.1); cue("shimmer", e8 + 0.1);
+tl.fromTo("#rq8s", { opacity: 0 }, { opacity: 1, duration: 0.4, immediateRender: false }, e8 + 0.5); cue("tick", e8 + 0.5);
+tl.to("#wm", { opacity: 0, duration: 0.3 }, e8);
+
+tl.seek(0);
+</script>
+</body>
+</html>
