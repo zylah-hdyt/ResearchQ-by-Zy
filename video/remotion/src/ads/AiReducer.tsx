@@ -216,7 +216,35 @@ const Cta: React.FC = () => {
   );
 };
 
-export const AiReducerAd: React.FC = () => {
+/* ---- Subtitles for the creator's own voice-over (same lines as NASKAH + .srt). *word* = orange keyword. ---- */
+export const SUBS: [number, number, string][] = [
+  [0.0, 1.4, "Sering ngerjain riset pakai *AI*,"],
+  [1.4, 3.0, "pas dicek malah *100%* terdeteksi AI?"],
+  [3.0, 5.0, "Biasanya karena kalimatnya *kaku* dan polanya khas AI."],
+  [5.0, 6.6, "Coba skill *AI Detection Reducer*."],
+  [6.6, 8.0, "Upload drafmu, minta dirapikan."],
+  [8.0, 9.6, "Kalimat kaku diganti jadi lebih *natural*,"],
+  [9.6, 11.0, "makna, data, dan sitasinya *tetap*."],
+  [11.0, 13.0, "Pas dicek ulang, skornya bisa *turun jauh*."],
+  [13.0, 15.0, "Mau? Komen *AI*, nanti aku kirim link-nya."],
+];
+const Subtitles: React.FC = () => {
+  const f = useCurrentFrame();
+  const t = f / 30;
+  const cue = SUBS.find(([a, b]) => t >= a && t < b);
+  if (!cue) return null;
+  const [a] = cue;
+  const p = interpolate(f, [a * 30, a * 30 + 4], [0, 1], { ...CL, easing: EASE });
+  return (
+    <div style={{ position: "absolute", left: 70, right: 70, top: 1440, display: "flex", justifyContent: "center", opacity: p, translate: `0px ${(1 - p) * 14}px` }}>
+      <div style={{ maxWidth: 940, padding: "12px 26px", borderRadius: 18, background: "rgba(0,0,0,.62)", textAlign: "center", fontFamily: SANS, fontWeight: 700, fontSize: 48, lineHeight: 1.25, color: "#fff" }}>
+        {cue[2].split(/(\*[^*]+\*)/).map((seg, k) => seg.startsWith("*") ? <span key={k} style={{ color: OR }}>{seg.slice(1, -1)}</span> : <span key={k}>{seg}</span>)}
+      </div>
+    </div>
+  );
+};
+
+export const AiReducerAd: React.FC<{ subs?: boolean }> = ({ subs = true }) => {
   const { fps } = useVideoConfig();
   return (
     <AbsoluteFill style={{ background: "#000" }}>
@@ -229,6 +257,7 @@ export const AiReducerAd: React.FC = () => {
       {([[71, 1], [146, -1], [236, 1], [326, -1], [386, 1]] as const).map(([t, d]) => (
         <Sequence key={t} from={t} durationInFrames={12}><StreakCut dir={d} /></Sequence>
       ))}
+      {subs ? <Subtitles /> : null}
       <Audio src={staticFile("aireducer-sfx.wav")} premountFor={fps} />
     </AbsoluteFill>
   );

@@ -1,0 +1,35 @@
+1
+00:00:00,000 --> 00:00:01,400
+Sering ngerjain riset pakai AI,
+
+2
+00:00:01,400 --> 00:00:03,000
+pas dicek malah 100% terdeteksi AI?
+
+3
+00:00:03,000 --> 00:00:05,000
+Biasanya karena kalimatnya kaku dan polanya khas AI.
+
+4
+00:00:05,000 --> 00:00:06,600
+Coba skill AI Detection Reducer.
+
+5
+00:00:06,600 --> 00:00:08,000
+Upload drafmu, minta dirapikan.
+
+6
+00:00:08,000 --> 00:00:09,600
+Kalimat kaku diganti jadi lebih natural,
+
+7
+00:00:09,600 --> 00:00:11,000
+makna, data, dan sitasinya tetap.
+
+8
+00:00:11,000 --> 00:00:13,000
+Pas dicek ulang, skornya bisa turun jauh.
+
+9
+00:00:13,000 --> 00:00:15,000
+Mau? Komen AI, nanti aku kirim link-nya.

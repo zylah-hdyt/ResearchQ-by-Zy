@@ -17,6 +17,27 @@ Langsung ke situasi yang sering dialami: draf yang dibantu AI, begitu dicek, sko
 | 11–13 | Cek ulang (ILUSTRASI): gauge turun 100% → 15% + disclaimer | tick turun, level-up |
 | 13–15 | "Komen AI 👇 nanti aku kirim link-nya" + kotak CATATAN + RESEARCHQ.ID | snap, complete |
 
+## Naskah VO + subtitle
+Subtitle sudah tertanam di video (pita gelap di y≈1440, kata kunci oranye). Rekam VO mengikuti tabel ini, tempo santai-cepat.
+Versi tanpa subtitle (`-NoSub.mp4`) + file `.srt` disediakan kalau mau atur subtitle sendiri di CapCut/TikTok.
+
+| Waktu | VO / subtitle |
+|---|---|
+| 0.0–1.4 dtk | Sering ngerjain riset pakai AI, |
+| 1.4–3.0 dtk | pas dicek malah 100% terdeteksi AI? |
+| 3.0–5.0 dtk | Biasanya karena kalimatnya kaku dan polanya khas AI. |
+| 5.0–6.6 dtk | Coba skill AI Detection Reducer. |
+| 6.6–8.0 dtk | Upload drafmu, minta dirapikan. |
+| 8.0–9.6 dtk | Kalimat kaku diganti jadi lebih natural, |
+| 9.6–11.0 dtk | makna, data, dan sitasinya tetap. |
+| 11.0–13.0 dtk | Pas dicek ulang, skornya bisa turun jauh. |
+| 13.0–15.0 dtk | Mau? Komen AI, nanti aku kirim link-nya. |
+
+## SFX
+Dikurangi jadi 12 bunyi saja (dari 86) dan volumenya diturunkan (−22 LUFS) supaya tidak bertabrakan dengan VO:
+hentakan di "100%", whoosh di tiap pergantian scene, notifikasi saat gauge 100%, send, satu centang, bunyi "lega" di 15%,
+snap di CTA, penutup.
+
 ## Klaim pengaman (semua tampil di layar)
 - Label **ILUSTRASI** di layar detector dan cek ulang.
 - "*Ilustrasi pada satu contoh paragraf. Hasil berbeda di tiap detektor dan tidak dijamin."
