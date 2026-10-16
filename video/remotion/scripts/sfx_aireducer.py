@@ -1,5 +1,5 @@
 # AI Detection Reducer ad (AiReducerAd, 15s, 450 frames @30fps). SFX only, real CC0 samples from uisfx
-# (sfx/uisfx/, see LICENSE-AUDIO.txt). 120 BPM grid. Hook 0 · detector 60 · skill 150 · rewrite 240 · re-scan 330 · CTA 390.
+# (sfx/uisfx/, see LICENSE-AUDIO.txt). 120 BPM grid. Hook 0 · detector 75 · skill 150 · rewrite 240 · re-scan 330 · CTA 390.
 import numpy as np, subprocess, wave, sys, os
 SR=48000; N=int(SR*450/30); F=lambda f: f/30; rng=np.random.default_rng(5)
 FF='/usr/local/lib/python3.11/dist-packages/imageio_ffmpeg/binaries/ffmpeg-linux-x86_64-v7.0.2'
@@ -21,14 +21,15 @@ def whoosh(t,g=.85,pan=0.0,rate=1.0): put(t-5,'cinematic-swipe',g,pan,rate)
 def streak(t,pan=0.0): put(t,'cinematic-swipe',.7,pan,.85)
 
 # hook: words, "100%?" hits hard
-for k,t in enumerate((0,4,9,11)): put(t,'studio-hover',.75,[-.3,.3,-.2,.2][k])
-put(14,'cinematic-drop',.9); put(14,'cinematic-snap',.7)
-put(26,'studio-notification',.45)
-streak(56,.4); whoosh(60,.8)
+for k,t in enumerate((0,3,6,9,11)): put(t,'studio-hover',.7,[-.3,.3,-.2,.2,0][k])
+put(16,'studio-hover',.5)
+put(24,'cinematic-drop',.9); put(24,'cinematic-snap',.7)
+put(30,'studio-notification',.5)
+streak(71,.4); whoosh(75,.8)
 # detector: gauge climbs (progress ticks), phrases flagged, alert at 100
-for i in range(12): put(66+i*3,'studio-progress-step',.25+.02*i,(i-6)/12,rate=1+.03*i)
-for k in range(4): put(82+k*8,'studio-hover',.45,(k-1.5)/3)
-put(100,'studio-notification',.7); put(100,'cinematic-press',.5)
+for i in range(12): put(81+i*3,'studio-progress-step',.25+.02*i,(i-6)/12,rate=1+.03*i)
+for k in range(4): put(97+k*8,'studio-hover',.45,(k-1.5)/3)
+put(115,'studio-notification',.7); put(115,'cinematic-press',.5)
 # skill: title, typing, send
 streak(146,-.4); whoosh(150,.8); put(152,'cinematic-open',.55)
 for t in range(164,212,2):

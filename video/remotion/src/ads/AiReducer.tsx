@@ -3,10 +3,10 @@ import { AbsoluteFill, Easing, Img, interpolate, Sequence, staticFile, useCurren
 import { ACC, CL, Cam, EASE, Glow, Grain, inFocus, IO, LINE, MONO, MUT, OR, PANEL, PANEL2, Ribbons, SANS, slam, StreakCut, TXT, Vignette, W, Mark } from "../cine/Cine";
 
 // Ad: AI Detection Reducer (ORACLE), 15s (450 frames @30fps), same dark cinematic look as SkillsCine. SFX only.
-// Honest framing: detectors misjudge human writing (Liang et al., Patterns 2023); the 100% → 15% scores are an
-// on-screen illustration, results vary per detector and are not guaranteed; the skill edits wording and keeps
-// meaning, data and citations. 120 BPM grid (15 f):
-// 0–60 hook · 60–150 detector says 100% · 150–240 skill prompt · 240–330 rewrite · 330–390 re-scan 15% · 390–450 CTA + claim.
+// Hook: research drafted with AI help gets flagged 100% when checked. Claims on screen: the 100% → 15% scores are an
+// illustration, results vary per detector and are not guaranteed; the skill edits wording and keeps meaning, data and
+// citations; follow campus AI rules and disclose when required. 120 BPM grid (15 f):
+// 0–75 hook · 75–150 detector says 100% · 150–240 skill prompt · 240–330 rewrite · 330–390 re-scan 15% · 390–450 CTA + claim.
 const RED = "#FF5A4E", GREEN = "#5BD68A";
 const SKILL = "AI Detection Reducer";
 
@@ -72,22 +72,23 @@ const Paper: React.FC<{ f: number; mode: "flag" | "rewrite"; top: number }> = ({
   );
 };
 
-/* ---- 1 · Hook 0–60 ---- */
+/* ---- 1 · Hook 0–75: "sering ngerjain riset pakai AI, pas dicek malah 100% terdeteksi AI" ---- */
 const Hook: React.FC = () => {
   const f = useCurrentFrame();
-  const dive = interpolate(f, [50, 60], [0, 1], { ...CL, easing: Easing.in(Easing.cubic) });
-  const shake = f >= 14 && f < 20 ? `${Math.sin(f * 7) * 10}px ${Math.cos(f * 9) * 6}px` : "0px 0px";
+  const dive = interpolate(f, [65, 75], [0, 1], { ...CL, easing: Easing.in(Easing.cubic) });
+  const shake = f >= 24 && f < 30 ? `${Math.sin(f * 7) * 10}px ${Math.cos(f * 9) * 6}px` : "0px 0px";
   return (
     <AbsoluteFill style={{ background: "#070402", overflow: "hidden" }}>
       <Glow x={540 + Math.sin(f / 11) * 60} y={1260} r={1000} o={0.48} />
-      <Cam s={interpolate(f, [0, 50], [1, 1.05]) + dive * 1.6} blur={dive * 10}>
-        <div style={{ position: "absolute", left: 0, right: 0, top: 600, textAlign: "center", fontFamily: SANS, fontWeight: 800, letterSpacing: -4, lineHeight: 1.04, color: "#fff", translate: shake }}>
-          <div style={{ fontSize: 120 }}><W f={f} at={0}>Nulis</W> <W f={f} at={4}>sendiri,</W></div>
-          <div style={{ fontSize: 120 }}><W f={f} at={9}>dibilang</W> <W f={f} at={11}>AI</W></div>
-          <div style={{ fontSize: 250, letterSpacing: -10, color: RED, ...slam(f, 14, 1.5) }}>100%?</div>
+      <Cam s={interpolate(f, [0, 65], [1, 1.05]) + dive * 1.6} blur={dive * 10}>
+        <div style={{ position: "absolute", left: 0, right: 0, top: 500, textAlign: "center", fontFamily: SANS, fontWeight: 800, letterSpacing: -3, lineHeight: 1.06, color: "#fff", translate: shake }}>
+          <div style={{ fontSize: 92 }}><W f={f} at={0}>Sering</W> <W f={f} at={3}>ngerjain</W> <W f={f} at={6}>riset</W></div>
+          <div style={{ fontSize: 92 }}><W f={f} at={9}>pakai</W> <W f={f} at={11} style={{ color: OR }}>AI,</W></div>
+          <div style={{ fontSize: 60, fontWeight: 600, letterSpacing: -1, color: "#CFCAC1", marginTop: 26 }}><W f={f} at={16}>pas dicek malah…</W></div>
+          <div style={{ fontSize: 270, letterSpacing: -10, lineHeight: 1, color: RED, marginTop: 10, ...slam(f, 24, 1.5) }}>100%</div>
+          <div style={{ fontSize: 88 }}><W f={f} at={30}>terdeteksi</W> <W f={f} at={33}>AI.</W></div>
         </div>
       </Cam>
-      <Note top={1430} o={interpolate(f, [26, 32], [0, 1], CL) * (1 - dive)}>AI detector bisa salah menilai tulisan manusia<br /><span style={{ fontFamily: MONO, fontSize: 19, letterSpacing: 1, color: "#6A665F" }}>Liang dkk., Patterns, 2023</span></Note>
       <Vignette />
       <Grain />
     </AbsoluteFill>
@@ -152,7 +153,7 @@ const Rewrite: React.FC = () => {
     <AbsoluteFill style={{ background: "#000", overflow: "hidden" }}>
       <Glow x={980} y={1800} r={700} o={0.32} />
       <Tag top={220}>DITULIS ULANG</Tag>
-      <div style={{ position: "absolute", left: 76, right: 70, top: 262, fontFamily: SANS, fontWeight: 800, fontSize: 84, letterSpacing: -3, lineHeight: 1.02, color: "#fff" }}><W f={f} at={0}>Lebih natural,</W><br /><W f={f} at={4} style={{ color: OR }}>tetap tulisanmu.</W></div>
+      <div style={{ position: "absolute", left: 76, right: 70, top: 262, fontFamily: SANS, fontWeight: 800, fontSize: 84, letterSpacing: -3, lineHeight: 1.02, color: "#fff" }}><W f={f} at={0}>Lebih natural,</W><br /><W f={f} at={4} style={{ color: OR }}>gaya bahasamu.</W></div>
       <Cam s={interpolate(f, [0, 90], [1.1, 1.02], { easing: Easing.out(Easing.quad) })} ry={interpolate(f, [0, 90], [8, -3])} rx={interpolate(f, [0, 12], [14, 3], CL)} blur={inFocus(f, 8)}>
         <Paper f={f} mode="rewrite" top={520} />
         {checks.map((t, k) => (
@@ -202,7 +203,7 @@ const Cta: React.FC = () => {
         <div style={{ position: "absolute", left: 0, right: 0, top: 520, textAlign: "center", ...ACC, fontSize: 50, color: "#CFCAC1" }}><W f={f} at={8}>nanti aku kirim link-nya</W></div>
         <div style={{ position: "absolute", left: 90, right: 90, top: 700, padding: "28px 32px", borderRadius: 26, background: PANEL2, border: `2px solid ${LINE}`, fontFamily: SANS, fontSize: 32, lineHeight: 1.45, color: "#D6D1C8", opacity: interpolate(f, [12, 18], [0, 1], CL) }}>
           <div style={{ fontFamily: MONO, fontSize: 20, letterSpacing: 4, color: MUT, marginBottom: 10 }}>CATATAN</div>
-          Untuk merapikan tulisanmu sendiri, bukan menyamarkan karya orang lain. Ikuti aturan kampus soal penggunaan AI dan cantumkan bila diwajibkan.
+          Untuk merapikan draf jadi gaya bahasamu sendiri, bukan menyalin karya orang lain. Tetap ikuti aturan kampus soal AI dan cantumkan penggunaannya bila diwajibkan.
         </div>
       </Cam>
       <div style={{ position: "absolute", left: 0, right: 0, top: 1300, display: "flex", alignItems: "center", justifyContent: "center", gap: 16, opacity: interpolate(f, [20, 26], [0, 1], CL) }}>
@@ -219,13 +220,13 @@ export const AiReducerAd: React.FC = () => {
   const { fps } = useVideoConfig();
   return (
     <AbsoluteFill style={{ background: "#000" }}>
-      <Sequence durationInFrames={60} name="Hook"><Hook /></Sequence>
-      <Sequence from={60} durationInFrames={90} name="Detector 100%"><Detector /></Sequence>
+      <Sequence durationInFrames={75} name="Hook"><Hook /></Sequence>
+      <Sequence from={75} durationInFrames={75} name="Detector 100%"><Detector /></Sequence>
       <Sequence from={150} durationInFrames={90} name="Skill"><Skill /></Sequence>
       <Sequence from={240} durationInFrames={90} name="Rewrite"><Rewrite /></Sequence>
       <Sequence from={330} durationInFrames={60} name="Cek ulang 15%"><Rescan /></Sequence>
       <Sequence from={390} durationInFrames={60} name="CTA"><Cta /></Sequence>
-      {([[56, 1], [146, -1], [236, 1], [326, -1], [386, 1]] as const).map(([t, d]) => (
+      {([[71, 1], [146, -1], [236, 1], [326, -1], [386, 1]] as const).map(([t, d]) => (
         <Sequence key={t} from={t} durationInFrames={12}><StreakCut dir={d} /></Sequence>
       ))}
       <Audio src={staticFile("aireducer-sfx.wav")} premountFor={fps} />
