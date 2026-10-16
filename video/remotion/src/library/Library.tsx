@@ -12,7 +12,7 @@ import { blinds, blockWipe, dive, irisIcon, pushUp, ringDot, slices, splitShutte
 // Timeline: hook 0–120 · logo 120–285 · systems 285 + i·110 (each 124 long, 14-frame custom transitions) · wall 1275
 // ("44 skill" at 1330) · flash 1385 · CTA 1383–1530. SFX only — the creator adds their own music.
 const BG = "#0B0D12", ORANGE = "#EE6A1F", CREAM = "#F2EFE9";
-const SLOT = 110, TF = 14;
+const SLOT = 110, TF = 20;
 // One transition per boundary: logo→GENESIS … PRISM→wall.
 const TRANS = [irisIcon, blockWipe, splitShutter, pushUp, blinds, dive, swing, slices, ringDot, toCard];
 
@@ -266,15 +266,15 @@ export const SkillsLibrary: React.FC = () => {
   return (
     <AbsoluteFill style={{ background: BG }}>
       <Sequence durationInFrames={150} name="Hook"><Hook /></Sequence>
-      <Sequence from={120} durationInFrames={1277} name="Systems">
+      <Sequence from={120} durationInFrames={1283} name="Systems">
         <TransitionSeries>
-          <TransitionSeries.Sequence durationInFrames={179} name="Logo"><Logo /></TransitionSeries.Sequence>
+          <TransitionSeries.Sequence durationInFrames={165 + TF} name="Logo"><Logo /></TransitionSeries.Sequence>
           {SYSTEMS.flatMap((sy, i) => [
             <TransitionSeries.Transition key={`t${i}`} presentation={TRANS[i](sy.color)} timing={linearTiming({ durationInFrames: TF })} />,
             <TransitionSeries.Sequence key={sy.name} durationInFrames={SLOT + TF} name={sy.name}><SystemScene i={i} /></TransitionSeries.Sequence>,
           ])}
           <TransitionSeries.Transition presentation={TRANS[9]("#FFFFFF")} timing={linearTiming({ durationInFrames: TF })} />
-          <TransitionSeries.Sequence durationInFrames={122} name="Wall"><Wall /></TransitionSeries.Sequence>
+          <TransitionSeries.Sequence durationInFrames={108 + TF} name="Wall"><Wall /></TransitionSeries.Sequence>
         </TransitionSeries>
       </Sequence>
       <Sequence from={1383} durationInFrames={147} name="CTA"><Cta /></Sequence>

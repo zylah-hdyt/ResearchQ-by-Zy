@@ -74,19 +74,13 @@ def double_pop(f0,f1):
 def air_puff(dur=.16):
     n=int(dur*SR); t=T(n); return f2(noise(n),'band',[1800,7000])*np.sin(np.pi*t/dur)**2
 COUNTS=[4,5,6,5,5,5,4,4,6]
-# per system: pop range (start Hz) rises a step each row; texture varies lightly per system
+# ONE identical pop for every skill in every system (same pitch, same level, centred) — by request.
+POP=None
 def skill_sound(i,j):
-    up=2**(j*2/12)                       # +2 semitones per row
-    if i==0: return pop(420*up,1250*up)                                   # GENESIS: clean pop
-    if i==1: return double_pop(380*up,1000*up)                            # CATALYST: bubbly double pop
-    if i==2: c=chatter(900*up); p=pop(500*up,1400*up); c[:len(p)]+=p*.6; return c   # NEXUS: data chatter + pop
-    if i==3: a=pop(360*up,1050*up,.09); a[:int(.16*SR)]+=air_puff()[:min(len(a),int(.16*SR))]*.5; return a   # ORACLE: pop + air
-    if i==4: c=chatter(1200*up,3,.02); p=pop(600*up,1600*up,.06,click=.9); c[:len(p)]+=p; return c          # KERNEL: system blip
-    if i==5: return pop(220*up,520*up,.09,click=.9,air=.1)               # VERDICT: low firm pop
-    if i==6: return pop(300*up,1500*up,.11,click=.3)                      # SPIRAL: long rising swoop
-    if i==7: return double_pop(700*up,1300*up)                            # VITALS: quick double tick-pop
-    return pop(520*up,1800*up,.07,click=.6,air=.5)                        # PRISM: bright airy pop
-GAIN=[.34,.3,.3,.32,.28,.38,.3,.28,.3]
+    global POP
+    if POP is None: POP=pop(480,1300,.075,click=.5,air=.25)
+    return POP
+GAIN=[.34]*9
 
 # ---------- generic ----------
 def tick(f=4200,d=.005):
@@ -131,27 +125,19 @@ put(F(120),boom(30,.7),.55); put(F(120),sparkle(1.0),.16)
 for k in range(24): t=156+36*(1-(1-k/24)**2); put(F(t),tick(5200,.004),.07,rng.uniform(-.3,.3))
 put(F(192),pop(500,1500,.09),.35); put(F(200),pop(400,1200,.09),.32)
 for t in (208,212,220,224,228,232): put(F(t),tap(),.14)
-# ---------- transitions ----------
+# ---------- transitions: same clear effect on every system change ----------
 TS=[285+i*110 for i in range(9)]+[1275]
-put(F(TS[0]),whoosh(.4,300,2500,True),.16); put(F(TS[0]+4),pop(350,1100,.12,click=.2,air=.4),.25)  # iris ring
-put(F(TS[1]),whoosh(.35,300,3500),.2,-.6); put(F(TS[1]+6),thud(160),.35,.4)                                     # block wipe
-put(F(TS[2]+2),shutter(),.4); put(F(TS[2]+2),whoosh(.3,200,1500),.1)                                             # split shutter
-put(F(TS[3]),whoosh(.45,300,5000,True),.22)                                                                     # push up
-for k in range(12): put(F(TS[4])+k*.025,tick(2600+k*120,.006),.12,(k%2-.5)*.4)                                  # blinds ratchet
-put(F(TS[5]),whoosh(.45,120,1200,True),.2); put(F(TS[5]+12),boom(34,.4,1.0),.4)                                 # dive
-put(F(TS[6]),whoosh(.45,250,2600),.2,.7); put(F(TS[6]+5),whoosh(.35,200,1800),.12,-.7)                          # swing
-for k in range(5): put(F(TS[7])+k*.035,zap(2600-k*250,400),.3,(-1)**k*.5)                                       # slices
-put(F(TS[8]),pop(300,1400,.14,click=.2,air=.5),.3); put(F(TS[8]),whoosh(.4,400,4000,True),.14)            # ring from dot
-put(F(TS[9]),whoosh(.5,200,1600),.16); put(F(TS[9]+11),thud(90),.4)                                              # card drop
+WH=whoosh(.62,220,3600); HIT=thud(110)
+for k,t in enumerate(TS):
+    put(F(t)-.12,WH,.3,(-1)**k*.35)
+    put(F(t+9),HIT,.32)
 # ---------- skills: one sound per skill, timbre per system ----------
 for i in range(9):
     t0=TS[i]
     for k in range(6): put(F(t0+6+k*2),tick(2200+k*260,.003),.05,(k%2-.5)*.4)   # name assembling
     for j in range(COUNTS[i]):
         t=F(t0+round(27.5+j*6.875))
-        put(t-.08,swish(.08),.05,.5)
-        put(t,skill_sound(i,j),GAIN[i],(j%2-.5)*.45)
-    if i==4: put(F(t0+3),double_pop(600,1500),.3)
+        put(t,skill_sound(i,j),GAIN[i])
 # ---------- wall ----------
 for j in range(44): put(F(1286+j*0.9),tick(rng.uniform(3200,6800),.004),.07,rng.uniform(-.7,.7))
 put(F(1330),boom(28,.7),.55)

@@ -49,30 +49,8 @@ Gaya mengikuti analisis video referensi (@robiimotion):
 ## Audio: SFX saja, tanpa backsound (`scripts/sfx_library.py`, sekitar −17 LUFS)
 Backsound dihapus supaya kreator bisa memasang musik sendiri. File SFX terpisah: `renders/ResearchQ-Skills-Library-SFX.wav`.
 
-**Setiap skill punya suara**: popup UI kering tanpa bell dan tanpa dengung, dicocokkan dengan video referensi kreator (chip yang muncul pakai "bloop" nada naik yang pendek + klik renyah, momen kode pakai cericit digital bertingkat). Nada naik 2 semitone di tiap baris, dan teksturnya sedikit beda per sistem:
+**Setiap skill punya suara yang sama persis**: satu popup UI pendek (bloop naik + klik renyah, gaya video referensi kreator) untuk ke-44 skill di semua sistem. Nada, volume, dan posisinya sama, tidak dibedakan.
 
-| Sistem | Suara tiap skill |
-|---|---|
-| GENESIS | Pop bersih |
-| CATALYST | Double pop seperti bubble |
-| NEXUS | Cericit data digital + pop |
-| ORACLE | Pop + hembusan angin |
-| KERNEL | Blip sistem (cericit pendek + klik tajam) |
-| VERDICT | Pop rendah yang mantap |
-| SPIRAL | Swoop naik yang lebih panjang |
-| VITALS | Double tick-pop cepat |
-| PRISM | Pop terang + angin |
-
-- **Transisi:** tiap transisi punya bunyi sendiri:
-  - nada cincin untuk iris
-  - whoosh + thud untuk blok warna
-  - klik shutter
-  - whoosh naik untuk push
-  - ratchet untuk blinds
-  - whoosh dalam + boom untuk dive
-  - whoosh berpindah kiri-kanan untuk swing
-  - zap untuk irisan
-  - swoop + whoosh untuk cincin titik
-  - thud untuk kartu jatuh
+- **Transisi:** setiap pergantian sistem diberi efek suara yang sama dan jelas (whoosh menyapu + hit rendah). Durasi transisi visual diperpanjang dari 14 jadi 20 frame supaya efeknya lebih terasa.
 - **Lainnya:** tick per kata di hook, riser + boom saat logo, tick hitungan + pop, kaskade tick 44 chip, boom "44 skill", kilau saat kilatan putih, ketukan HP saat mengetik komen, dan hit penutup.
 - **Saran mixing:** taruh musik sekitar 6–10 dB di bawah SFX supaya suara skill tetap terdengar.
