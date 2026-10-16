@@ -1,138 +1,175 @@
-# ResearchQ Skills Library (51s, 1530 frames @30fps) — cinematic score + SFX in one pass, modelled on the reference:
-# dark sub-bass drone, booms on the big moments, near-silence on the logo, precise UI ticks, bright sparkle on the white
-# flash. Systems sit on a 131 BPM grid (2 bars = 110 frames), so every system entry lands on a downbeat.
-# Timeline: hook 0–150 · logo 135–285 · systems 285 + i·110 · wall 1275 · flash ~1395 · CTA 1395–1530.
+# ResearchQ Skills Library (51s, 1530 frames @30fps) — beat-driven score + SFX.
+# 131 BPM, 1 beat = 13.75 frames, 1 bar = 55 frames, downbeats at 10 + 55k (so 120, 285, 1275, 1330, 1385 are downbeats).
+# Arrangement: 0–120 filtered build + snare roll + gap → DROP 120 (logo) · 285–1275 full groove (9 systems, 2 bars each;
+# energy lift with 16th arp from KERNEL) · 1275 breakdown + roll → DROP 1330 ("44 skill") · 1385 flash impact · CTA groove
+# · final hit 1495 + tail. Skill reveals = sidechained synth stab + snap + swish on the 8th-note grid, rising in pitch.
 import numpy as np, wave, sys
 from scipy.signal import butter, sosfilt, fftconvolve
-SR=48000; N=int(SR*1530/30); rng=np.random.default_rng(44); F=lambda f: f/30
+SR=48000; N=int(SR*1530/30); rng=np.random.default_rng(131)
 T=lambda n: np.arange(n)/SR; mf=lambda m: 440*2**((m-69)/12)
 f2=lambda x,k,f: sosfilt(butter(2,f,k,fs=SR,output='sos'),x)
+noise=lambda n: rng.normal(0,1,n)
 def env(n,a,d): t=T(n); return np.minimum(1,t/max(a,1e-4))*np.exp(-t/d)
-mus=np.zeros((N,2)); sfx=np.zeros((N,2))
-def put(buf,t0,s,g=1.0,pan=0.0):
+BEAT=60/131; FR=lambda f: f/30; DB=lambda k: FR(10)+k*4*BEAT   # k-th bar downbeat (seconds)
+def bar_of(frame): return (frame-10)/55
+tracks={k:np.zeros((N,2)) for k in ('kick','drums','bass','pad','lead','sfx')}
+kenv=np.zeros(N)
+def put(name,t0,s,g=1.0,pan=0.0):
     i=int(t0*SR); n=min(len(s),N-i)
     if n<=0 or i<0: return
-    a=(pan+1)*np.pi/4; buf[i:i+n,0]+=s[:n]*g*np.cos(a); buf[i:i+n,1]+=s[:n]*g*np.sin(a)
-noise=lambda n: rng.normal(0,1,n)
+    a=(pan+1)*np.pi/4; tracks[name][i:i+n,0]+=s[:n]*g*np.cos(a); tracks[name][i:i+n,1]+=s[:n]*g*np.sin(a)
 
-# ---------------- score ----------------
-def pad(chord,dur,a=0.6,r=0.8,bright=900):
+# ---------- instruments ----------
+def kick(punch=1.0):
+    n=int(.42*SR); t=T(n); f=48+110*np.exp(-t*30)+60*np.exp(-t*90); ph=2*np.pi*np.cumsum(f)/SR
+    k=np.tanh(1.8*np.sin(ph))*env(n,.001,.16); c=int(.004*SR); k[:c]+=f2(noise(c),'band',[2500,6000])*.6*punch; return k
+def clap():
+    n=int(.25*SR); t=T(n); x=f2(noise(n),'band',[900,4200])
+    e=sum(np.exp(-np.maximum(0,t-d)/.008)*(t>=d) for d in (0,.009,.018))*.6+np.exp(-np.maximum(0,t-.026)/.07)*(t>=.026)
+    body=np.sin(2*np.pi*190*t)*np.exp(-t/.03)*.4; return x*e+body
+def snare_hit():
+    n=int(.18*SR); t=T(n); return f2(noise(n),'band',[1200,7000])*np.exp(-t/.05)+np.sin(2*np.pi*210*t)*np.exp(-t/.03)*.5
+def hat(open_=False):
+    n=int((.22 if open_ else .05)*SR); t=T(n); return f2(noise(n),'high',7500)*np.exp(-t/(.07 if open_ else .012))
+def crash(dur=1.8):
+    n=int(dur*SR); t=T(n); x=f2(noise(n),'high',4500); return x*np.exp(-t/.6)*np.minimum(1,t/.002)
+def saw(f,t): return 2*((f*t)%1)-1
+def bass_note(m,dur):
+    n=int(dur*SR); t=T(n); s=saw(mf(m),t)*.6+np.sin(2*np.pi*mf(m)*t)*.8
+    return f2(s,'low',600)*env(n,.003,dur*.6)
+def pad(chord,dur,bright=2200):
     n=int(dur*SR); t=T(n); s=np.zeros(n)
     for m in chord:
-        for d in (0.996,1.0,1.004):
-            ph=2*np.pi*mf(m)*d*t+rng.uniform(0,6); s+=np.sin(ph)+0.25*np.sin(2*ph)
-    e=np.minimum(1,t/a)*np.minimum(1,np.maximum(0,(dur-t)/r))
-    return f2(s*e/len(chord)/3,'low',bright)
-def sub(m,dur,a=0.5,r=0.6):
-    n=int(dur*SR); t=T(n); e=np.minimum(1,t/a)*np.minimum(1,np.maximum(0,(dur-t)/r))
-    return (np.sin(2*np.pi*mf(m)*t)+0.3*np.sin(4*np.pi*mf(m)*t))*e
-# hook: dark Dm(add9) drone that swells into the push-in
-put(mus,0,pad([50,57,62,64,65],4.9,a=1.2,r=0.3,bright=700),0.9)
-put(mus,0,sub(26,4.9,a=1.5,r=0.2),0.55)
-# logo: near silence, only a high airy pad (the reference's breathing room)
-put(mus,4.5,pad([74,77,81,84],4.6,a=0.8,r=1.0,bright=3500),0.22)
-# systems: 2-bar chords (110 frames) cycling Dm9 · Bbmaj7 · Fmaj7 · C6, with a soft muted-bass 8th pulse
-CH=[[50,53,57,60,64],[46,50,53,57,62],[41,48,52,57,60],[48,52,55,57,62]]
-RT=[38,34,41,36]
-beat=60/131
-for i in range(9):
-    t0=F(285+i*110); dur=F(124); ch=CH[i%4]
-    put(mus,t0,pad(ch,dur,a=0.25,r=0.5,bright=1500+i*120),0.75)
-    put(mus,t0,sub(RT[i%4]-12,dur,a=0.08,r=0.4),0.5)
-    for k in range(16):
-        n=int(0.18*SR); tt=T(n); m=RT[i%4]+(12 if k%4==2 else 0)
-        put(mus,t0+k*beat/2,np.tanh(2*np.sin(2*np.pi*mf(m)*tt))*env(n,0.004,0.06),0.16 if k%2 else 0.24)
-        if k%2: put(mus,t0+k*beat/2,f2(noise(int(.05*SR)),'band',[6000,11000])*env(int(.05*SR),.004,.012),0.05)
-# wall: wide sustained chord + riser, CTA: warm resolve and long tail
-put(mus,F(1250),pad([50,57,62,65,69,74],F(150),a=0.8,r=0.4,bright=2600),0.8)
-put(mus,F(1275),sub(26,F(120),a=0.05,r=0.6),0.6)
-put(mus,F(1395),pad([46,53,58,62,65,70],F(135),a=0.3,r=1.6,bright=1800),0.7)
-put(mus,F(1395),sub(34,F(135),a=0.1,r=1.5),0.45)
-for k in range(12):
-    n=int(0.18*SR); tt=T(n)
-    put(mus,F(1410)+k*beat,np.tanh(2*np.sin(2*np.pi*mf(34)*tt))*env(n,0.004,0.07),0.16)
-
-# ---------------- sfx bank ----------------
-def bell(m,dur=1.4):
-    f=mf(m); n=int(dur*SR); t=T(n)
-    return sum(a*np.sin(2*np.pi*f*r*t)*np.exp(-t/d) for r,a,d in ((1,1,.7),(2.76,.4,.25),(5.4,.2,.09),(8.93,.1,.04)))*np.minimum(1,t/.002)
-def glass(m,dur=1.0):
-    f=mf(m); n=int(dur*SR); t=T(n); return (np.sin(2*np.pi*f*t)*np.exp(-t/.35)+.3*np.sin(2*np.pi*f*2.32*t)*np.exp(-t/.1))*np.minimum(1,t/.001)
-def pluck(m,dur=0.5):
-    f=mf(m); n=int(dur*SR); t=T(n); return (np.sin(2*np.pi*f*t)+.35*np.sin(2*np.pi*f*3*t)*np.exp(-t/.03))*np.exp(-t/.14)*np.minimum(1,t/.001)
-def tick(f=4200,d=0.006):
-    n=int(.03*SR); t=T(n); return np.sin(2*np.pi*f*t)*np.exp(-t/d)+f2(noise(n),'high',5000)*np.exp(-t/.002)*.3
-def tap():
-    n=int(.02*SR); t=T(n); return np.sin(2*np.pi*1900*t)*np.exp(-t/.004)*.7+f2(noise(n),'high',4000)*np.exp(-t/.002)*.3
-def boom(base=32,dec=0.55,dur=1.6):
-    n=int(dur*SR); t=T(n); f=70*np.exp(-t*3)+base; ph=2*np.pi*np.cumsum(f)/SR
-    return (np.sin(ph)+.25*np.sin(2*ph))*env(n,.004,dec)+f2(noise(n),'low',400)*env(n,.001,.04)*.6
-def thump():
-    n=int(.35*SR); t=T(n); f=90*np.exp(-t*12)+45; return np.sin(2*np.pi*np.cumsum(f)/SR)*env(n,.002,.09)
-def whoosh(dur=0.5,lo=300,hi=2600):
-    n=int(dur*SR); x=noise(n); y=np.zeros(n); ch=int(.01*SR)
-    for s0 in range(0,n,ch): c=s0/n; y[s0:s0+ch]=f2(x[s0:s0+ch],'band',[lo,lo+(hi-lo)*np.sin(np.pi*c)**2+50])
-    return y*np.sin(np.pi*T(n)/dur)**2
+        for d in (.993,1.0,1.007): s+=saw(mf(m)*d,t+rng.uniform(0,1))
+    e=np.minimum(1,t/.05)*np.minimum(1,np.maximum(0,(dur-t)/.08)); return f2(s*e/len(chord)/3,'low',bright)
+def pluck(m,dur=.22):
+    n=int(dur*SR); t=T(n); s=saw(mf(m),t)*.5+np.sin(2*np.pi*mf(m)*t); return f2(s,'low',3500)*env(n,.002,.07)
+def stab(chord,dur=.32,bright=4200):  # skill reveal: bright detuned supersaw chord stab
+    n=int(dur*SR); t=T(n); s=np.zeros(n)
+    for m in chord:
+        for d in (.99,.997,1.0,1.003,1.01): s+=saw(mf(m)*d,t+rng.uniform(0,1))
+    s=f2(s/len(chord)/5,'low',bright)*env(n,.002,.09)
+    return s
+def snap():
+    n=int(.06*SR); t=T(n); return f2(noise(n),'band',[2000,6500])*np.exp(-t/.01)+np.sin(2*np.pi*1400*t)*np.exp(-t/.008)*.4
+def swish(dur=.12):
+    n=int(dur*SR); t=T(n); x=noise(n); y=np.zeros(n); ch=int(.005*SR)
+    for s0 in range(0,n,ch): c=s0/n; y[s0:s0+ch]=f2(x[s0:s0+ch],'band',[800+5000*c,1600+8000*c])
+    return y*(t/dur)**2
 def riser(dur=1.0):
     n=int(dur*SR); t=T(n); x=noise(n); y=np.zeros(n); ch=int(.01*SR)
-    for s0 in range(0,n,ch): c=s0/n; y[s0:s0+ch]=f2(x[s0:s0+ch],'band',[300+5000*c**2,500+9000*c**2])
-    tone=np.sin(2*np.pi*np.cumsum(200+1400*(t/dur)**2)/SR)*.3
-    return (y+tone)*(t/dur)**2.2
-def sparkle(dur=0.9):
-    n=int(dur*SR); out=np.zeros(n)
-    for _ in range(14):
-        b=glass(rng.choice([96,98,100,103,105,108]),0.5)*rng.uniform(.2,.5); o=int(rng.uniform(0,dur*0.6)*SR); out[o:o+len(b)]+=b[:n-o]
-    k=int(.004*SR); out[:k]+=f2(noise(k),'high',9000)*3
-    return out
-def scribble(dur=0.35):
-    n=int(dur*SR); return f2(noise(n),'band',[1500,5500])*np.abs(np.sin(2*np.pi*14*T(n)))*env(n,.01,dur)
+    for s0 in range(0,n,ch): c=s0/n; y[s0:s0+ch]=f2(x[s0:s0+ch],'band',[300+6000*c**2,600+10000*c**2])
+    return (y+np.sin(2*np.pi*np.cumsum(180+1600*(t/dur)**2)/SR)*.35)*(t/dur)**2.4
+def boom(base=30,dec=.7,dur=1.8):
+    n=int(dur*SR); t=T(n); f=80*np.exp(-t*3)+base; return np.tanh(1.5*np.sin(2*np.pi*np.cumsum(f)/SR))*env(n,.002,dec)
+def rev_cym(dur=.9):
+    c=crash(dur)[::-1]; return c*np.linspace(0,1,len(c))**1.5
+def glass(m,dur=.8):
+    f=mf(m); n=int(dur*SR); t=T(n); return (np.sin(2*np.pi*f*t)*np.exp(-t/.3)+.3*np.sin(2*np.pi*f*2.32*t)*np.exp(-t/.08))
+def tick(f=4200,d=.005):
+    n=int(.03*SR); t=T(n); return np.sin(2*np.pi*f*t)*np.exp(-t/d)
+def tap():
+    n=int(.02*SR); t=T(n); return np.sin(2*np.pi*1900*t)*np.exp(-t/.004)*.7+f2(noise(n),'high',4000)*np.exp(-t/.002)*.3
+def chop(m):  # pitched vocal-like "hey" chop for the re-hook
+    n=int(.22*SR); t=T(n); f=mf(m); s=sum(np.sin(2*np.pi*f*h*t)/h for h in range(1,8))
+    form=f2(s,'band',[600,2400]); return form*env(n,.01,.08)
 
-# hook
-for i,t in enumerate((6,16,26,36)): put(sfx,F(t),tick(3600+i*300),0.12,[-.3,.3,-.2,.2][i]); put(sfx,F(t),glass(86+i*2,0.6),0.04)
-for i,t in enumerate((60,66,74)): put(sfx,F(t),tick(2600+i*200,0.01),0.14,(i-1)*.3)
-put(sfx,F(74),glass(93,1.2),0.07); put(sfx,F(84),scribble(),0.08,0.2)
-put(sfx,F(104),riser(1.0),0.16)
-put(sfx,F(135),boom(30,0.6),0.6); put(sfx,F(135),sparkle(1.0),0.12)
-# logo: counters + soft taps, then defocus
-for k in range(26):
-    t=36+36*(1-(1-k/26)**2); put(sfx,F(135+t),tick(5200,0.004),0.05,rng.uniform(-.3,.3))
-put(sfx,F(135+72),bell(81),0.1); put(sfx,F(135+80),bell(74),0.09)
-for j,t in enumerate((88,92,100,104,108,112)): put(sfx,F(135+t),tap(),0.12)
-put(sfx,F(135+112),glass(91,1.0),0.06)
-put(sfx,F(271),whoosh(0.5,200,1400),0.12)
-# systems: whoosh in, thump on the downbeat, signature bell per system, icon draw, one pluck per skill
-SIG=[62,65,67,69,72,74,77,79,81]
-SCALE=[62,65,67,69,72,74,77,79,81,84]
-COUNTS=[4,5,6,5,5,5,4,4,6]  # skills per system (sum 44)
+# chords per 2-bar block (Dm · Bb · F · C) and roots
+CH=[[62,65,69,72],[58,62,65,69],[60,65,69,72],[60,64,67,72]]
+RT=[38,34,41,36]
+def chord_at(frame): return int(max(0,frame-285)//110)%4 if frame>=285 else 0
+
+# ---------- arrangement ----------
+def groove(b0,b1,arp=False,bass=True,hats=True,full=True):
+    for b in range(b0,b1):
+        for q in range(4):
+            tb=DB(b)+q*BEAT; fr=10+b*55+q*13.75
+            put('kick',tb,kick(),1.0); i=int(tb*SR); kenv[i:i+int(.3*SR)]=np.maximum(kenv[i:i+int(.3*SR)],env(int(.3*SR),.001,.12)[:max(0,min(int(.3*SR),N-i))])
+            if q in (1,3): put('drums',tb,clap(),.55)
+            if hats:
+                for e in range(4):
+                    put('drums',tb+e*BEAT/4,hat(),[.18,.09,.14,.09][e],.25)
+                put('drums',tb+BEAT/2,hat(True),.22,-.25)
+            ci=chord_at(fr);
+            if bass:
+                for e in (1,3): put('bass',tb+e*BEAT/4,bass_note(RT[ci],BEAT/4*.9),.8)
+            if arp:
+                ch=CH[ci]
+                for e in range(4): put('lead',tb+e*BEAT/4,pluck(ch[(q*4+e)%4]+12),.22,(e%2-.5)*.6)
+        if full:
+            ci=chord_at(10+b*55); put('pad',DB(b),pad(CH[ci],4*BEAT,2600),.55)
+# intro build 0–120: dark pad, filtered kick on beats from bar 1, accelerating snare roll, riser, 1/4-bar gap
+put('pad',0,f2(pad([50,57,62,65],FR(112),900),'low',900),.6)
+put('bass',0,np.sin(2*np.pi*mf(26)*T(int(FR(112)*SR)))*np.minimum(1,T(int(FR(112)*SR))/1.5),.35)
+for q in range(8):
+    tb=DB(1)+q*BEAT
+    if tb<FR(113): put('kick',tb,f2(kick(.3),'low',300),.5)
+for k in range(28):
+    t=FR(65)+ (FR(113)-FR(65))*(1-(1-k/28)**1.6)
+    put('drums',t,snare_hit(),.06+.2*k/28)
+put('sfx',FR(65),riser(FR(113)-FR(65)),.13)
+put('sfx',FR(96),rev_cym(FR(24)/1.0),.25)
+# DROP 120 → groove until the wall (bars 2..23), lift with arp from KERNEL (frame 725 = bar 13)
+groove(2,5)                         # logo bars
+groove(5,13)                        # GENESIS → ORACLE
+groove(13,23,arp=True)              # KERNEL → PRISM, more energy
+# wall breakdown 1275–1330: pad + riser + roll, gap, DROP 1330 → groove through CTA
+put('pad',DB(23),pad([62,65,69,74],4*BEAT,1800),.6)
+for k in range(24):
+    t=DB(23)+4*BEAT*(1-(1-k/24)**1.5)
+    if t<FR(1323): put('drums',t,snare_hit(),.1+.32*k/24)
+put('sfx',DB(23),riser(FR(1323)-DB(23)),.24)
+groove(24,27,arp=True)              # 1330–1495
+groove(27,28,arp=False,hats=False)  # last bar lighter
+# final chord tail
+TL=FR(1530)-DB(27); put('pad',DB(27),pad([50,57,62,65,69],TL,1600)*np.linspace(1,0,int(TL*SR)),.6)
+
+# ---------- SFX ----------
+for i,t in enumerate((6,16,26,36)): put('sfx',FR(t),tick(3600+i*300),.12,[-.3,.3,-.2,.2][i])
+for i,t in enumerate((60,66,74)): put('sfx',FR(t),glass(86+i*3,.6),.07,(i-1)*.3)
+for at in (120,1330): put('sfx',FR(at),boom(30,.8),.6); put('drums',FR(at),crash(2.2),.35)
+put('sfx',FR(120),glass(98,1.2),.08)
+# counters (logo local 36–72 → 156–192), landing stabs
+for k in range(24):
+    t=156+36*(1-(1-k/24)**2); put('sfx',FR(t),tick(5200,.004),.05,rng.uniform(-.3,.3))
+put('sfx',FR(192),stab([62,69,74,77],.4),.3); put('sfx',FR(203),stab([58,65,70,74],.4),.26)
+# systems: reverse cymbal into each downbeat, crash + sub on it, name-assembly glitch, skill stabs
 for i in range(9):
-    t0=285+i*110
-    put(sfx,F(t0-6),whoosh(0.45,250,3000),0.12,(-1)**i*0.4); put(sfx,F(t0),thump(),0.32)
-    put(sfx,F(t0+4),bell(SIG[i]+12,1.6),0.09); put(sfx,F(t0+4),f2(riser(0.6),'low',3000),0.04)
-    for j in range(COUNTS[i]):
-        put(sfx,F(t0+30+j*9),pluck(SCALE[(i+j*2)%len(SCALE)]+12),0.12,(j%2-.5)*.5); put(sfx,F(t0+30+j*9),tick(3000,0.004),0.04)
-    if i==4: put(sfx,F(t0+2),glass(88,0.8),0.08); put(sfx,F(t0+6),glass(93,1.0),0.08)
-# wall
-put(sfx,F(1255),riser(0.7),0.12)
-for j in range(44): put(sfx,F(1275+j*0.9),tick(rng.uniform(3500,6500),0.004),0.05,rng.uniform(-.6,.6))
-put(sfx,F(1331),boom(28,0.7),0.55); put(sfx,F(1331),bell(74,2.0),0.07)
-put(sfx,F(1370),riser(0.7),0.14)
-put(sfx,F(1392),sparkle(1.0),0.2); put(sfx,F(1393),boom(40,0.3,0.8),0.3)
-# CTA
-for t in (1401,1404): put(sfx,F(t),tap(),0.1)
-put(sfx,F(1407),thump(),0.3); put(sfx,F(1407),bell(86,1.4),0.09)
-for t in (1421,1425,1429): put(sfx,F(t),tap(),0.1)
-for i in range(9): put(sfx,F(1433+i*2),tick(4000+i*150,0.004),0.06,(i-4)/8)
-for t in range(1455,1471,3): put(sfx,F(t),tap(),0.3,rng.uniform(-.1,.1))
-put(sfx,F(1477),whoosh(0.25,800,4000),0.08); put(sfx,F(1478),glass(91,0.8),0.09); put(sfx,F(1487),pluck(86),0.1)
-put(sfx,F(1515),boom(34,0.6),0.35); put(sfx,F(1515),bell(74,2.5),0.08)
+    t0=285+i*110; ci=i%4; ch=CH[ci]
+    put('sfx',FR(t0)-.9,rev_cym(.9),.18); put('drums',FR(t0),crash(1.4),.22,(-1)**i*.3); put('sfx',FR(t0),boom(36,.35,.9),.3)
+    for k in range(len(['x']*7)): put('sfx',FR(t0+6+k*2),tick(2500+k*350,.003),.05,(k%2-.5)*.4)
+    n_sk=[4,5,6,5,5,5,4,4,6][i]
+    for j in range(n_sk):
+        t=FR(t0+27.5+j*6.875)
+        lift=[0,2,4,5,7,9][j]
+        put('sfx',t-.11,swish(.11),.12,.5)
+        put('sfx',t,stab([m+lift for m in ch],.3),.34,(j%2-.5)*.5)
+        put('sfx',t,snap(),.22)
+    if i==4: put('sfx',FR(t0+4),chop(69),.5); put('sfx',FR(t0+10),chop(72),.45)
+# wall chip cascade (32nd-note glitch ticks over the breakdown)
+for j in range(44): put('sfx',FR(1275)+j*BEAT/8,tick(rng.uniform(3000,7000),.004),.06,rng.uniform(-.7,.7))
+put('sfx',FR(1330),stab([62,69,74,77,81],.5),.3)
+# flash 1385
+put('sfx',FR(1385),boom(40,.4,1.0),.45); put('drums',FR(1385),crash(2.0),.3)
+for k in range(10): put('sfx',FR(1385)+k*.04,glass(rng.choice([98,101,103,105]),.4),.08,rng.uniform(-.6,.6))
+# CTA (Sequence starts 1383): price, chips, typing, sent, end hit
+put('sfx',FR(1383+12),stab([58,65,70,74],.35),.25)
+for i in range(9): put('sfx',FR(1383+38+i*2),tick(3800+i*160,.004),.06,(i-4)/8)
+for t in range(1383+60,1383+76,3): put('sfx',FR(t),tap(),.3)
+put('sfx',FR(1383+82),swish(.12),.12); put('sfx',FR(1383+82),stab([65,69,72,77],.3),.25)
+put('sfx',FR(1495),boom(32,.8),.5); put('drums',FR(1495),crash(2.5),.3)
 
-def verb(x,dec=0.35,mix=0.02):
-    ir=noise(int(1.2*SR))*np.exp(-T(int(1.2*SR))/dec)*mix; ir[0]=1; ir=f2(ir,'low',7000)
+# ---------- mix ----------
+duck=1-0.55*np.clip(kenv,0,1)
+for k in ('pad','bass','lead'): tracks[k]*=duck[:,None]
+def verb(x,dec=.35,mix=.02):
+    ir=noise(int(1.0*SR))*np.exp(-T(int(1.0*SR))/dec)*mix; ir[0]=1; ir=f2(ir,'low',7000)
     return np.stack([fftconvolve(x[:,c],ir)[:N] for c in (0,1)],1)
-mus=verb(mus,0.6,0.015); sfx=verb(sfx,0.3,0.02)
-t=T(N)[:,None]; mus*=np.minimum(1,t/0.4)*np.clip((N/SR-t)/1.2,0,1)
-for name,b in (('mus',mus),('sfx',sfx)):
-    b=f2(b.T,'high',28).T; b/=np.abs(b).max()
-    pcm=(b*32767*0.8).astype(np.int16); w=wave.open(sys.argv[1].replace('.wav',f'_{name}.wav'),'wb')
-    w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes(pcm.tobytes()); w.close()
-print('library audio ok')
+tracks['pad']=verb(tracks['pad'],.6,.02); tracks['lead']=verb(tracks['lead'],.4,.03); tracks['sfx']=verb(tracks['sfx'],.3,.02)
+gain={'kick':.9,'drums':.55,'bass':.6,'pad':.32,'lead':.4,'sfx':.75}
+mix=sum(tracks[k]*g for k,g in gain.items())
+mix=f2(mix.T,'high',28).T
+t=T(N)[:,None]; mix*=np.minimum(1,t/.05)*np.clip((N/SR-t)/.6,0,1)
+mix=np.tanh(1.3*mix/np.abs(mix).max())/np.tanh(1.3)
+pcm=(mix*32767*.9).astype(np.int16); w=wave.open(sys.argv[1],'wb')
+w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes(pcm.tobytes()); w.close(); print('library beat ok')

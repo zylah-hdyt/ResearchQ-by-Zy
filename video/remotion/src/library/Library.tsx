@@ -7,7 +7,8 @@ import { alpha, Icon, SYSTEMS, tint } from "./data";
 // ResearchQ Skills Library — cinematic catalogue, 51s (1530 frames @30fps), no VO.
 // Look taken from the reference analysis: dark stage + soft warm horizon, word-by-word serif italic, camera push-ins
 // with defocus and a light chromatic split, cream logo reveal, fly-through of the 9 systems, white flash, CTA.
-// Timeline: hook 0–150 · logo/counter 135–285 · systems 285 + i·110 (each 124 long, 14 overlap) · wall 1275–1410 · CTA 1395–1530.
+// Timeline (131 BPM grid, 1 bar = 55 f): hook 0–120 (build) · DROP 120 logo/counter 120–285 · systems 285 + i·110
+// (each 124 long, 14 overlap) · wall 1275 (breakdown) · DROP 1330 "44 skill" · flash 1385 · CTA 1383–1530.
 const BG = "#0B0D12", ORANGE = "#EE6A1F", CREAM = "#F2EFE9";
 const SYS0 = 285, SLOT = 110;
 
@@ -45,7 +46,7 @@ const W: React.FC<{ at: number; children: React.ReactNode; style?: React.CSSProp
 const Hook: React.FC = () => {
   const f = useCurrentFrame();
   const out1 = interpolate(f, [52, 62], [0, 1], CL);
-  const push = interpolate(f, [104, 135], [0, 1], { ...CL, easing: Easing.in(Easing.cubic) });
+  const push = interpolate(f, [96, 120], [0, 1], { ...CL, easing: Easing.in(Easing.cubic) });
   const ca = push * 18;
   const orbX = interpolate(f, [0, 6, 16, 26, 36, 60, 74, 90], [300, 330, 760, 330, 760, 260, 820, 860], CL);
   const orbY = interpolate(f, [0, 6, 16, 26, 36, 60, 74, 90], [620, 640, 760, 880, 1000, 800, 940, 1000], CL);
@@ -53,7 +54,7 @@ const Hook: React.FC = () => {
   return (
     <AbsoluteFill style={{ background: BG, overflow: "hidden" }}>
       <Horizon />
-      <div style={{ position: "absolute", left: orbX - 9, top: orbY - 9, width: 18, height: 18, borderRadius: "50%", background: "#F6B27E", opacity: interpolate(f, [0, 4, 96, 104], [0, 1, 1, 0], CL) }} />
+      <div style={{ position: "absolute", left: orbX - 9, top: orbY - 9, width: 18, height: 18, borderRadius: "50%", background: "#F6B27E", opacity: interpolate(f, [0, 4, 90, 96], [0, 1, 1, 0], CL) }} />
       <AbsoluteFill style={{ transformOrigin: "62% 52%", scale: `${1 + push * 2.6}`, filter: `blur(${push * 10}px)` }}>
         <div style={{ position: "absolute", left: 0, right: 0, top: 560, textAlign: "center", fontFamily: SERIF, fontStyle: "italic", fontSize: 128, lineHeight: 1.0, color: "#ECE8E1", opacity: 1 - out1, filter: `blur(${out1 * 12}px)`, translate: `0px ${-out1 * 60}px` }}>
           {lines.map(([t, at]) => <div key={t}><W at={at}>{t}</W></div>)}
@@ -88,15 +89,15 @@ const Count: React.FC<{ to: number; at: number; label: string }> = ({ to, at, la
 };
 const Logo: React.FC = () => {
   const f = useCurrentFrame();
-  const ry = interpolate(f, [0, 150], [-46, 28]);
-  const out = interpolate(f, [136, 150], [0, 1], CL);
+  const ry = interpolate(f, [0, 165], [-46, 32]);
+  const out = interpolate(f, [151, 165], [0, 1], CL);
   const inP = interpolate(f, [0, 14], [0, 1], { ...CL, easing: EASE });
   return (
     <AbsoluteFill style={{ background: CREAM, overflow: "hidden", opacity: 1 - out }}>
       <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 40%, rgba(255,255,255,.7) 0%, rgba(242,239,233,0) 60%, rgba(120,110,95,.25) 100%)" }} />
       <AbsoluteFill style={{ filter: `blur(${out * 18 + (1 - inP) * 10}px)`, opacity: 1 - out * 0.9, scale: `${1.06 - inP * 0.06 + out * 0.08}` }}>
         <div style={{ position: "absolute", left: 340, top: 330, width: 400, height: 400, perspective: 1400 }}>
-          <div style={{ position: "absolute", inset: 0, transformStyle: "preserve-3d", transform: `rotateX(14deg) rotateY(${ry}deg)` }}>
+          <div style={{ position: "absolute", inset: 0, transformStyle: "preserve-3d", transform: `rotateX(14deg) rotateY(${ry}deg) scale(${1 + 0.05 * Math.exp(-((f % 13.75) / 3))})` }}>
             {Array.from({ length: 14 }).map((_, k) => (
               <Img key={k} src={staticFile("claude_logo_t.png")} style={{ position: "absolute", inset: 0, width: 400, height: 400, transform: `translateZ(${(k - 13) * 2.4}px)`, filter: k < 13 ? `brightness(${0.42 + k * 0.025}) saturate(1.1)` : "none" }} />
             ))}
@@ -147,7 +148,7 @@ const SystemScene: React.FC<{ i: number }> = ({ i }) => {
         </div>
         <div style={{ position: "absolute", left: 260, top: 318, fontFamily: MONO, fontSize: 24, letterSpacing: 3, color: "#8D95A3" }}>{s.role.toUpperCase()}</div>
         <div style={{ position: "absolute", left: 260, top: 360, padding: "8px 18px", borderRadius: 999, border: `2px solid ${alpha(s.color, 0.5)}`, color: c, fontFamily: SANS, fontWeight: 700, fontSize: 26 }}>{s.field}</div>
-        <div style={{ position: "absolute", left: 72, top: 470, fontFamily: SANS, fontWeight: 800, fontSize: 168, letterSpacing: -6, lineHeight: 1, color: "#F1EEE8" }}>
+        <div style={{ position: "absolute", left: 72, top: 470, fontFamily: SANS, fontWeight: 800, fontSize: 168, letterSpacing: -6, lineHeight: 1, color: "#F1EEE8", transformOrigin: "0% 50%", scale: `${1 + 0.025 * Math.exp(-((f % 27.5) / 4))}` }}>
           {s.name.split("").map((ch, k) => <W key={k} at={6 + k * 2}>{ch}</W>)}
         </div>
         <div style={{ position: "absolute", left: 80, right: 60, top: 660, fontFamily: SERIF, fontStyle: "italic", fontSize: 64, lineHeight: 1.1, color: c }}>
@@ -155,7 +156,7 @@ const SystemScene: React.FC<{ i: number }> = ({ i }) => {
         </div>
         <div style={{ position: "absolute", left: 80, right: 80, top: 860 }}>
           {s.skills.map((k, j) => {
-            const at = 30 + j * 9;
+            const at = Math.round(27.5 + j * 6.875);
             const p = interpolate(f, [at, at + 12], [0, 1], { ...CL, easing: EASE });
             return (
               <div key={k} style={{ display: "flex", alignItems: "center", gap: 26, height: 92, marginBottom: 12, padding: "0 28px", borderRadius: 20, background: "rgba(255,255,255,.045)", border: "1px solid rgba(255,255,255,.07)", borderLeft: `5px solid ${s.color}`, opacity: p, translate: `${(1 - p) * 80}px 0px`, filter: `blur(${(1 - p) * 8}px)` }}>
@@ -182,9 +183,9 @@ const SystemScene: React.FC<{ i: number }> = ({ i }) => {
 const ALL = SYSTEMS.flatMap((s) => s.skills.map((k) => ({ k, c: s.color })));
 const Wall: React.FC = () => {
   const f = useCurrentFrame();
-  const z = interpolate(f, [0, 70], [2.3, 1], { ...CL, easing: Easing.out(Easing.cubic) });
-  const dim = interpolate(f, [56, 70], [0, 1], CL);
-  const flash = interpolate(f, [116, 124, 135], [0, 1, 1], CL);
+  const z = interpolate(f, [0, 55], [2.3, 1.08], { ...CL, easing: Easing.out(Easing.cubic) }) - interpolate(f, [55, 62], [0, 0.08], CL) + 0.04 * Math.exp(-(Math.max(0, f - 55) % 13.75) / 3) * (f >= 55 ? 1 : 0);
+  const dim = interpolate(f, [55, 60], [0, 1], CL);
+  const flash = interpolate(f, [100, 110, 135], [0, 1, 1], CL);
   return (
     <AbsoluteFill style={{ background: BG, overflow: "hidden", opacity: interpolate(f, [0, 10], [0, 1], CL) }}>
       <Horizon o={0.35} />
@@ -215,7 +216,7 @@ const Cta: React.FC = () => {
   const typed = word.slice(0, Math.max(0, Math.floor((f - 60) / 3)));
   const sent = f >= 82;
   const hi = Math.floor(f / 7) % 9;
-  const endFade = interpolate(f, [120, 135], [0, 1], CL);
+  const endFade = interpolate(f, [130, 145], [0, 1], CL);
   return (
     <AbsoluteFill style={{ background: BG, overflow: "hidden" }}>
       <AbsoluteFill style={{ background: "#FFFFFF", opacity: interpolate(f, [0, 10], [1, 0], CL) }} />
@@ -262,12 +263,12 @@ export const SkillsLibrary: React.FC = () => {
   return (
     <AbsoluteFill style={{ background: BG }}>
       <Sequence durationInFrames={150} name="Hook"><Hook /></Sequence>
-      <Sequence from={135} durationInFrames={150} name="Logo"><Logo /></Sequence>
+      <Sequence from={120} durationInFrames={165} name="Logo"><Logo /></Sequence>
       {SYSTEMS.map((s, i) => (
         <Sequence key={s.name} from={SYS0 + i * SLOT} durationInFrames={SLOT + 14} name={s.name}><SystemScene i={i} /></Sequence>
       ))}
       <Sequence from={1275} durationInFrames={135} name="Wall"><Wall /></Sequence>
-      <Sequence from={1395} durationInFrames={135} name="CTA"><Cta /></Sequence>
+      <Sequence from={1383} durationInFrames={147} name="CTA"><Cta /></Sequence>
       <Audio src={staticFile("library-audio.wav")} premountFor={fps} />
     </AbsoluteFill>
   );

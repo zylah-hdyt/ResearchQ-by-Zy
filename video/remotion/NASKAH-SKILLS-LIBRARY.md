@@ -31,15 +31,18 @@ Gaya mengikuti analisis video referensi (@robiimotion):
 
 "Mulai dari Rp29.000" sesuai harga satuan di PDF (PRISM per skill Rp49.000, jadi "mulai dari" tetap akurat).
 
-## Audio (`scripts/audio_library.py`, sekitar −14 LUFS)
-- Skor sinematik: drone sub-bass Dm(add9) saat hook, nyaris hening saat logo (hanya pad tinggi), lalu fly-through dengan akor 2 bar (Dm9 · Bbmaj7 · Fmaj7 · C6) dan pulsa bass lembut 131 BPM, sehingga tiap sistem masuk tepat di ketukan.
-- SFX:
-  - tick kaca per kata
-  - riser + boom besar saat push-in
-  - tick hitungan + bell saat 44 dan 9 mendarat
-  - whoosh + thump + bell khas tiap sistem (nada beda per sistem)
-  - pluck bernada per nama skill
-  - kaskade tick 44 chip + boom
-  - kilau tinggi saat kilatan putih
-  - ketukan HP saat mengetik komen
-  - boom penutup
+## Audio (`scripts/audio_library.py`, sekitar −13 LUFS): versi beat 131 BPM
+- Grid: 1 bar = 55 frame, dan semua momen besar jatuh tepat di downbeat.
+- Struktur:
+  - 0–4 detik: build-up (pad gelap, kick ter-filter, snare roll makin rapat, riser, jeda sesaat)
+  - **DROP di detik 4** tepat saat logo muncul
+  - groove penuh: kick four-on-the-floor, clap di ketukan 2 & 4, hi-hat 16th + open hat, bass offbeat, pad yang "memompa" (sidechain)
+  - mulai KERNEL energi naik dengan arpeggio 16th
+  - detik 42,5: breakdown + snare roll
+  - **DROP kedua di detik 44,3** saat "44 skill"
+  - impact saat kilatan putih, groove CTA, hit penutup + ekor akor
+- Tiap sistem masuk: reverse cymbal → crash + sub boom tepat di downbeat, dan glitch tick saat huruf nama terbentuk.
+- **Tiap skill muncul:** swish masuk + synth stab supersaw + snap, jatuh pas di ketukan 1/8 dan nadanya naik tiap baris (visual baris skill ikut dikunci ke grid yang sama).
+- KERNEL: vocal chop "hey-hey" untuk pengingat "Itu baru 4 dari 9".
+- Hook: tick/kaca per kata. Hitungan 44 & 9 mendarat dengan stab akor. Komen diketik dengan ketukan HP.
+- Visual ikut berdenyut kecil mengikuti beat: logo 3D, nama sistem, dan dinding skill setelah drop.
