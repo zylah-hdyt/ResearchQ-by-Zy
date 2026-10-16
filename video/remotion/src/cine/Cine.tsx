@@ -8,35 +8,35 @@ import { alpha, Icon, SYSTEMS, tint } from "../library/data";
 // Same story and 120 BPM grid as SkillsShort (1 beat = 15 f), SFX only (the creator adds music):
 // 0–60 hook · 60–120 core flow · 120–150 levels · 150–270 field systems · 270–300 dosen (PRISM) · 300–450 demo
 // · 450–600 wall · 600–750 CTA → white mark → wordmark.
-const SANS = "Poppins", MONO = "JetBrainsMono";
+export const SANS = "Poppins", MONO = "JetBrainsMono";
 for (const [w, st] of [["400", "normal"], ["500", "normal"], ["600", "normal"], ["700", "normal"], ["800", "normal"], ["500", "italic"], ["600", "italic"]] as const) {
   loadFont({ family: SANS, url: staticFile(`fonts/poppins-latin-${w}-${st}.woff2`), weight: w, style: st });
 }
 loadFont({ family: MONO, url: staticFile("fonts/jetbrains-mono-latin-500-normal.woff2"), weight: "500" });
-const CL = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
-const EASE = Easing.bezier(0.16, 1, 0.3, 1);
-const IO = Easing.bezier(0.65, 0, 0.35, 1);
-const OR = "#F28A2E", ORL = "#FFC46B", PANEL = "#141414", PANEL2 = "#1B1B1B", LINE = "#2A2A2A", TXT = "#EDEBE6", MUT = "#8A867F";
-const ACC: React.CSSProperties = { fontFamily: SANS, fontStyle: "italic", fontWeight: 500 };
+export const CL = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
+export const EASE = Easing.bezier(0.16, 1, 0.3, 1);
+export const IO = Easing.bezier(0.65, 0, 0.35, 1);
+export const OR = "#F28A2E", ORL = "#FFC46B", PANEL = "#141414", PANEL2 = "#1B1B1B", LINE = "#2A2A2A", TXT = "#EDEBE6", MUT = "#8A867F";
+export const ACC: React.CSSProperties = { fontFamily: SANS, fontStyle: "italic", fontWeight: 500 };
 const S = (n: string) => SYSTEMS.findIndex((s) => s.name === n);
 
 /* ---------------- shared pieces ---------------- */
-const Glow: React.FC<{ x: number; y: number; r: number; o: number }> = ({ x, y, r, o }) => (
+export const Glow: React.FC<{ x: number; y: number; r: number; o: number }> = ({ x, y, r, o }) => (
   <div style={{ position: "absolute", left: x - r, top: y - r, width: r * 2, height: r * 2, borderRadius: "50%", background: `radial-gradient(circle, rgba(242,138,46,${o}) 0%, rgba(200,90,20,${o * 0.45}) 40%, rgba(0,0,0,0) 70%)` }} />
 );
 // Camera: moves the whole "world" of a scene (translate / scale / tilt / defocus).
-const Cam: React.FC<{ x?: number; y?: number; s?: number; rx?: number; ry?: number; rz?: number; blur?: number; children: React.ReactNode }> = ({ x = 0, y = 0, s = 1, rx = 0, ry = 0, rz = 0, blur = 0, children }) => (
+export const Cam: React.FC<{ x?: number; y?: number; s?: number; rx?: number; ry?: number; rz?: number; blur?: number; children: React.ReactNode }> = ({ x = 0, y = 0, s = 1, rx = 0, ry = 0, rz = 0, blur = 0, children }) => (
   <AbsoluteFill style={{ perspective: 1800 }}>
     <AbsoluteFill style={{ transformOrigin: "50% 50%", transform: `translate(${x}px, ${y}px) scale(${s}) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg)`, filter: blur > 0.3 ? `blur(${blur}px)` : undefined }}>{children}</AbsoluteFill>
   </AbsoluteFill>
 );
-const Mark: React.FC<{ size: number; c?: string }> = ({ size, c = "#fff" }) => (
+export const Mark: React.FC<{ size: number; c?: string }> = ({ size, c = "#fff" }) => (
   <svg viewBox="0 0 100 100" width={size} height={size}>
     {Array.from({ length: 12 }).map((_, k) => <rect key={k} x={47} y={6} width={6} height={44} rx={3} fill={c} transform={`rotate(${k * 30} 50 50)`} />)}
   </svg>
 );
 // Light ribbons: short bright dashes travelling along curves (soft orange halo + hot core).
-const Ribbons: React.FC<{ arcs: string[]; f: number; at?: number; gap?: number; len?: number; w?: number; h?: number }> = ({ arcs, f, at = 0, gap = 5, len = 26, w = 1080, h = 1920 }) => (
+export const Ribbons: React.FC<{ arcs: string[]; f: number; at?: number; gap?: number; len?: number; w?: number; h?: number }> = ({ arcs, f, at = 0, gap = 5, len = 26, w = 1080, h = 1920 }) => (
   <svg width={w} height={h} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
     {arcs.map((d, k) => {
       const p = interpolate(f, [at + k * gap, at + k * gap + len], [0, 1], { ...CL, easing: IO });
@@ -53,13 +53,13 @@ const Ribbons: React.FC<{ arcs: string[]; f: number; at?: number; gap?: number; 
   </svg>
 );
 // Cut accent: one fast streak across the frame (used on the big section changes).
-const StreakCut: React.FC<{ dir?: 1 | -1 }> = ({ dir = 1 }) => {
+export const StreakCut: React.FC<{ dir?: 1 | -1 }> = ({ dir = 1 }) => {
   const f = useCurrentFrame();
   const d = dir === 1 ? "M-200 1500 C 300 1100, 700 800, 1300 300" : "M1280 1500 C 800 1150, 400 750, -200 350";
   return <AbsoluteFill style={{ pointerEvents: "none" }}><Ribbons arcs={[d, d.replace(/1500/g, "1650").replace(/300/g, "420")]} f={f} gap={2} len={11} /></AbsoluteFill>;
 };
-const Vignette: React.FC = () => <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 45%, rgba(0,0,0,.65) 100%)", pointerEvents: "none" }} />;
-const Grain: React.FC = () => {
+export const Vignette: React.FC = () => <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 45%, rgba(0,0,0,.65) 100%)", pointerEvents: "none" }} />;
+export const Grain: React.FC = () => {
   const f = useCurrentFrame();
   const s = Math.floor(f / 2);
   return (
@@ -72,14 +72,14 @@ const Grain: React.FC = () => {
   );
 };
 // Word reveal: rises out of a blur.
-const W: React.FC<{ f: number; at: number; children: React.ReactNode; style?: React.CSSProperties }> = ({ f, at, children, style }) => {
+export const W: React.FC<{ f: number; at: number; children: React.ReactNode; style?: React.CSSProperties }> = ({ f, at, children, style }) => {
   const p = interpolate(f, [at, at + 7], [0, 1], { ...CL, easing: EASE });
   return <span style={{ display: "inline-block", opacity: p, filter: `blur(${(1 - p) * 12}px)`, translate: `0px ${(1 - p) * 34}px`, ...style }}>{children}</span>;
 };
-const slam = (f: number, at: number, from = 1.3) => ({ opacity: f >= at ? 1 : 0, scale: `${interpolate(f, [at, at + 5], [from, 1], { ...CL, easing: Easing.out(Easing.cubic) })}` });
+export const slam = (f: number, at: number, from = 1.3) => ({ opacity: f >= at ? 1 : 0, scale: `${interpolate(f, [at, at + 5], [from, 1], { ...CL, easing: Easing.out(Easing.cubic) })}` });
 // Scene-in defocus: every scene arrives slightly out of focus and pushed, like a rack focus after a whip.
-const inFocus = (f: number, n = 6) => interpolate(f, [0, n], [10, 0], CL);
-const Spinner: React.FC<{ f: number; ok: boolean; size?: number }> = ({ f, ok, size = 34 }) => (
+export const inFocus = (f: number, n = 6) => interpolate(f, [0, n], [10, 0], CL);
+export const Spinner: React.FC<{ f: number; ok: boolean; size?: number }> = ({ f, ok, size = 34 }) => (
   <span style={{ width: size, height: size, borderRadius: "50%", border: `3px solid ${ok ? OR : MUT}`, borderTopColor: ok ? OR : "transparent", rotate: ok ? "0deg" : `${f * 16}deg`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: size * 0.55, color: OR, fontWeight: 800, flex: "none" }}>{ok ? "✓" : ""}</span>
 );
 
