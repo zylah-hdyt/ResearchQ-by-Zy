@@ -47,7 +47,7 @@ tr{break-inside:avoid}
 th{background:#0b0b0b;color:#fff;text-align:left;font-weight:600;padding:6px 8px}
 td{border-bottom:1px solid var(--line);padding:5px 8px;vertical-align:top}
 tr:has(strong) td{background:#fff3e8}
-p:has(+pre),h2+p,h3+p{break-after:avoid}
+p:has(+pre),ol:has(+pre),ul:has(+pre),h2+p,h3+p{break-after:avoid}
 hr{border:0;border-top:1px dashed var(--line);margin:18px 0}
 ul,ol{padding-left:20px;margin:4px 0}
 li{margin:2px 0}
