@@ -35,3 +35,13 @@ Suara, transkrip, timing kata, dan SFX sama persis dengan versi terang. Yang ber
 panggung hitam + cahaya oranye, kamera 3D bergerak di atas layar Claude versi gelap, garis cahaya oranye mengitari kolom input saat prompt mulai diketik dan saat dikirim,
 kamera menyelam ke kata "Claude-nya" untuk pindah dari grup chat ke layar Claude, dan penutup logo putih → wordmark.
 File: `renders/ResearchQ-Mahasiswa-Udik-Cinematic.mp4` (subtitle karaoke) dan `-Cinematic-NoSub.mp4`.
+
+## Versi 3 — gaya referensi @jipraks "Full otomatis" (`MahasiswaUdikRef`, `src/udik/UdikRef.tsx`, `src/udik/backdrops.tsx`)
+Analisis referensi (50,8 dtk, 9:16, −15 LUFS, VO laki-laki tenang):
+- **Latar:** hampir hitam, tapi tiap bagian punya tint berbeda (hijau di atas, biru di bawah, lantai grid dengan pantulan) sehingga tidak monoton.
+- **Judul:** huruf condensed tebal (outline redup dulu, lalu terisi warna aksen tepat saat kata diucapkan), tetap di atas sepanjang bagian.
+- **Struktur:** label mono kecil bernomor ("01 PRODUKSI") + angka hantu besar; diagram node yang disusun berurutan dengan panah; kartu kecil dihubungkan garis lengkung dengan titik yang berjalan menuju pill "VIDEO"; kartu "Tinjauan independen" dengan sudut viewfinder, baris centang/silang, garis scan, stempel "BELUM" → "LAYAK TAYANG"; jendela terminal mengetik; kartu jadwal.
+- **Caption:** gaya TikTok, 2–3 kata per layar, kata yang sedang diucapkan masuk kotak putih, kata kunci kotak aksen, diletakkan sekitar 70% tinggi layar.
+Penerapan di sini: warna tetap ResearchQ (hitam, oranye, putih) dan latar berganti tiap bagian — ember (hook), navy (pertanyaan), grid lantai (layar Claude), scan oranye (hasil), dot-matrix (ingat), plum (pertanyaan akhir), grid + pantulan wordmark (penutup).
+Kartu pertanyaan → garis + titik → pill "JAWABAN ?" yang menyala jadi "▸ CLAUDE" saat temanmu menyebut Claude-nya; kartu hasil punya stempel BERES.
+File: `renders/ResearchQ-Mahasiswa-Udik-Ref.mp4` (caption) dan `-Ref-NoCaption.mp4`.

@@ -2,39 +2,40 @@ import { Audio } from "@remotion/media";
 import { AbsoluteFill, Easing, Img, interpolate, Sequence, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { CL, Cam, EASE, Glow, Grain, Mark, MONO, OR, Ribbons, SANS, Vignette } from "../cine/Cine";
 import { F, P1, P2, P3, Q3, QS, SEND, Subs, T, rise, typed, wf, ws } from "./Udik";
+import { Backdrop, BackdropVariant } from "./backdrops";
 
 // "Mahasiswa udik" — style 1: dark cinematic UI fly-through (black stage, orange light, a 3D camera over a dark Claude-style screen,
 // light streaks round the input, white mark → wordmark). Same VO, same word timings, same sparse SFX as the light version.
-const INK = "#F4F1EC", MUTE = "#9A958C", RED = "#FF5A4E", GREEN = "#3DD68C";
-const DK_BG = "#1F1E1D", DK_BUB = "#34322F", DK_LINE = "#3B3935", DK_PANEL = "#171615";
-const AV = ["#F28A2E", "#5B7CFA", "#3DD68C", "#A78BFA", "#F472B6"];
+export const INK = "#F4F1EC", MUTE = "#9A958C", RED = "#FF5A4E", GREEN = "#3DD68C";
+export const DK_BG = "#1F1E1D", DK_BUB = "#34322F", DK_LINE = "#3B3935", DK_PANEL = "#171615";
+export const AV = ["#F28A2E", "#5B7CFA", "#3DD68C", "#A78BFA", "#F472B6"];
 const pop = (g: number, at: number) => ({ opacity: g >= at ? 1 : 0, scale: `${interpolate(g, [at, at + 6], [1.35, 1], { ...CL, easing: Easing.out(Easing.cubic) })}` });
 
-const Stage: React.FC<{ glow?: [number, number, number, number]; children: React.ReactNode }> = ({ glow = [540, 1500, 1000, 0.42], children }) => (
+export const Stage: React.FC<{ glow?: [number, number, number, number]; variant?: BackdropVariant; children: React.ReactNode }> = ({ glow = [540, 1500, 1000, 0.42], variant = "warm", children }) => (
   <AbsoluteFill style={{ background: "#060504", overflow: "hidden" }}>
-    <Glow x={glow[0]} y={glow[1]} r={glow[2]} o={glow[3]} />
+    {variant === "warm" ? <Glow x={glow[0]} y={glow[1]} r={glow[2]} o={glow[3]} /> : <Backdrop variant={variant} />}
     {children}
     <Vignette />
     <Grain />
   </AbsoluteFill>
 );
-const KW: React.FC<{ g: number; at: number; acc?: boolean; red?: boolean; children: React.ReactNode }> = ({ g, at, acc, red, children }) => {
+export const KW: React.FC<{ g: number; at: number; acc?: boolean; red?: boolean; children: React.ReactNode }> = ({ g, at, acc, red, children }) => {
   const p = rise(g, at, 9);
   return (
     <span style={{ display: "inline-block", opacity: g >= at ? p : 0, filter: `blur(${(1 - p) * 12}px)`, transform: `translateY(${(1 - p) * 34}px)`, color: red ? RED : acc ? OR : INK, marginRight: "0.2em" }}>{children}</span>
   );
 };
-const Kin: React.FC<{ g: number; top: number; size: number; words: [string, number, ("acc" | "red")?][]; mute?: boolean; align?: "left" | "center" }> = ({ g, top, size, words, mute, align = "left" }) => (
+export const Kin: React.FC<{ g: number; top: number; size: number; words: [string, number, ("acc" | "red")?][]; mute?: boolean; align?: "left" | "center" }> = ({ g, top, size, words, mute, align = "left" }) => (
   <div style={{ position: "absolute", left: 76, right: 76, top, fontFamily: SANS, fontWeight: 800, fontSize: size, letterSpacing: -2.5, lineHeight: 1.04, color: mute ? MUTE : INK, textAlign: align }}>
     {words.map(([w, at, k], i) => <KW key={i} g={g} at={at} acc={k === "acc"} red={k === "red"}>{w}</KW>)}
   </div>
 );
-const Avatar: React.FC<{ i: number; size?: number }> = ({ i, size = 90 }) => (
+export const Avatar: React.FC<{ i: number; size?: number }> = ({ i, size = 90 }) => (
   <div style={{ width: size, height: size, borderRadius: "50%", background: AV[i], display: "flex", alignItems: "center", justifyContent: "center", border: "4px solid #060504", flex: "none" }}>
     <svg viewBox="0 0 24 24" width={size * 0.55} height={size * 0.55} fill="none" stroke="#111" strokeWidth={1.9} strokeLinecap="round"><circle cx="12" cy="8.5" r="3.6" /><path d="M5 20c1.2-4 4-5.6 7-5.6s5.8 1.6 7 5.6" /></svg>
   </div>
 );
-const Icon: React.FC<{ n: string; c?: string; size: number; sw?: number }> = ({ n, c = INK, size, sw = 1.8 }) => {
+export const Icon: React.FC<{ n: string; c?: string; size: number; sw?: number }> = ({ n, c = INK, size, sw = 1.8 }) => {
   const P: Record<string, React.ReactNode> = {
     clock: <><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></>,
     check: <path d="M4 12.5l5 5L20 6.5" />,
@@ -49,10 +50,10 @@ const Icon: React.FC<{ n: string; c?: string; size: number; sw?: number }> = ({ 
   };
   return <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke={c} strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round" style={{ overflow: "visible" }}>{P[n]}</svg>;
 };
-const Tag: React.FC<{ g: number; at: number; children: React.ReactNode }> = ({ g, at, children }) => (
+export const Tag: React.FC<{ g: number; at: number; children: React.ReactNode }> = ({ g, at, children }) => (
   <div style={{ position: "absolute", left: 80, right: 80, top: 130, fontFamily: MONO, fontSize: 22, letterSpacing: 6, color: OR, opacity: rise(g, at, 8) }}>{children}</div>
 );
-const Win: React.FC<{ style: React.CSSProperties; children?: React.ReactNode }> = ({ style, children }) => (
+export const Win: React.FC<{ style: React.CSSProperties; children?: React.ReactNode }> = ({ style, children }) => (
   <div style={{ position: "absolute", borderRadius: 30, background: DK_PANEL, border: `2px solid ${DK_LINE}`, boxShadow: "0 70px 120px -50px rgba(0,0,0,.95)", fontFamily: SANS, color: INK, ...style }}>{children}</div>
 );
 
@@ -119,7 +120,7 @@ const Questions: React.FC = () => {
 };
 
 /* ---- C · The Claude screen (dark), camera drifting, light streaks round the input ---- */
-const Skel: React.FC<{ g: number; at: number; widths: number[]; head?: string[] }> = ({ g, at, widths, head }) => (
+export const Skel: React.FC<{ g: number; at: number; widths: number[]; head?: string[] }> = ({ g, at, widths, head }) => (
   <div style={{ display: "flex", gap: 22, opacity: g >= at ? 1 : 0 }}>
     <Img src={staticFile("claude_logo_t.png")} style={{ width: 54, height: 54, flex: "none", marginTop: 4 }} />
     <div style={{ flex: 1 }}>
@@ -136,7 +137,7 @@ const Skel: React.FC<{ g: number; at: number; widths: number[]; head?: string[] 
     </div>
   </div>
 );
-const ClaudeScreen: React.FC = () => {
+export const ClaudeScreen: React.FC<{ variant?: BackdropVariant }> = ({ variant = "warm" }) => {
   const g = useCurrentFrame() + F(T.c);
   const t = g / 30;
   const arrive = interpolate(g, [F(T.c), F(T.c) + 16], [0, 1], { ...CL, easing: EASE });
@@ -152,7 +153,7 @@ const ClaudeScreen: React.FC = () => {
   const camX = interpolate(g, [F(T.c), F(T.d)], [30, -30]);
   const arcs = ["M-60 1170 C 300 1060, 760 1060, 1140 1180", "M1140 1440 C 780 1520, 300 1520, -60 1430", "M60 1000 C 20 1180, 30 1360, 140 1470"];
   return (
-    <Stage glow={[540, 1400, 900, 0.3]}>
+    <Stage glow={[540, 1400, 900, 0.3]} variant={variant}>
       <Cam x={camX} s={interpolate(arrive, [0, 1], [1.12, 1])} rx={interpolate(arrive, [0, 1], [24, 2])} ry={interpolate(g, [F(T.c), F(T.d)], [-8, 6])} blur={(1 - arrive) * 12} rz={interpolate(g, [F(T.c), F(T.d)], [0.8, -0.6])}>
         <div style={{ position: "absolute", left: 30, right: 30, top: 90, bottom: 510, borderRadius: 46, background: DK_BG, border: `2px solid ${DK_LINE}`, boxShadow: "0 80px 140px -50px rgba(0,0,0,.95)", overflow: "hidden", fontFamily: SANS }}>
           <div style={{ position: "absolute", left: 0, right: 0, top: 20, height: 100, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 40px" }}>
