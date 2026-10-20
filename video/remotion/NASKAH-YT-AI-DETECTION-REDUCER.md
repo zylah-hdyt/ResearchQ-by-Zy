@@ -6,7 +6,7 @@
 
 Cara kerja:
 1. Kamu rekam **narasi motion** per segmen (S01–S10) di bawah. Satu file per segmen.
-2. Kamu rekam **demo layar** (D1–D5) langsung di Claude kamu, pakai prompt & paragraf contoh di bawah.
+2. Kamu rekam **demo layar** (D1–D4) langsung di Claude kamu, pakai prompt & paragraf contoh di bawah.
 3. Kirim semua file narasi. Aku bikin motion-nya di Remotion, sinkron ke suaramu kata per kata, lalu aku siapkan slot demo (slate "DEMO" + durasi) di timeline supaya tinggal kamu tempel rekaman layarnya.
 
 ---
@@ -19,7 +19,7 @@ Cara kerja:
 - Bebas ubah kata-kata supaya terdengar seperti kamu. Kasih tahu saja kalau ada istilah yang kamu ganti, karena visualnya ikut kata kunci.
 - Kalimat di **tebal** = kata kunci yang nanti muncul sebagai teks besar di layar.
 
-**Demo layar (D1–D5)**
+**Demo layar (D1–D4)**
 - Rekam di 1920×1080, browser fullscreen, zoom 110–125% supaya teks terbaca di HP.
 - Mulai chat baru di setiap demo. Pastikan skill AI Detection Reducer sudah aktif.
 - Kamu bisa ngomong langsung sambil demo, atau rekam diam lalu isi suara belakangan. Dua-duanya bisa aku masukkan.
