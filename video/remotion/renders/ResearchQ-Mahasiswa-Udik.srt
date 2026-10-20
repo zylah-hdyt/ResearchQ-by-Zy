@@ -1,0 +1,103 @@
+1
+00:00:00,150 --> 00:00:01,480
+Katanya masih mahasiswa,
+
+2
+00:00:01,530 --> 00:00:03,580
+tapi mau pake AI aja semua
+
+3
+00:00:03,630 --> 00:00:05,960
+harus nunggu dijelasin orang lain.
+
+4
+00:00:06,010 --> 00:00:07,960
+Claude bisa buat skripsi nggak?
+
+5
+00:00:08,010 --> 00:00:10,220
+Limitnya biar gak cepet habis gimana?
+
+6
+00:00:10,270 --> 00:00:11,480
+Fiturnya apa aja?
+
+7
+00:00:11,530 --> 00:00:12,580
+Harga paketnya berapa?
+
+8
+00:00:12,630 --> 00:00:15,020
+Apakah kelebihannya dibandingkan AI lain?
+
+9
+00:00:15,070 --> 00:00:16,520
+Bro kenapa gak lu tanya langsung
+
+10
+00:00:16,570 --> 00:00:18,100
+ke Claude-nya langsung?
+
+11
+00:00:18,150 --> 00:00:18,960
+Tinggal tanya,
+
+12
+00:00:19,010 --> 00:00:19,140
+Claude,
+
+13
+00:00:19,190 --> 00:00:21,700
+jelasin dong fitur-fitur lu apa aja?
+
+14
+00:00:21,750 --> 00:00:22,660
+Harga paket,
+
+15
+00:00:22,710 --> 00:00:23,420
+kelebihan,
+
+16
+00:00:23,470 --> 00:00:25,260
+dan cara memaksimalkan penggunaan.
+
+17
+00:00:25,310 --> 00:00:27,620
+Gimana biar limitnya nggak cepet habis?
+
+18
+00:00:27,670 --> 00:00:30,660
+Apa bedanya Claude dibandingkan AI lainnya?
+
+19
+00:00:30,710 --> 00:00:31,540
+Beres,
+
+20
+00:00:31,590 --> 00:00:33,620
+lo bisa dapet penjelasan awal tanpa
+
+21
+00:00:33,670 --> 00:00:35,840
+harus nunggu orang lain bikin tutorial.
+
+22
+00:00:35,890 --> 00:00:36,480
+Lo masih mahasiswa,
+
+23
+00:00:36,530 --> 00:00:38,240
+punya rasa ingin tahu itu penting.
+
+24
+00:00:38,290 --> 00:00:40,080
+Jangan semua hal harus disuapin.
+
+25
+00:00:40,130 --> 00:00:41,900
+Kalau semuanya harus dijelaskan orang lain,
+
+26
+00:00:41,950 --> 00:00:44,370
+kapan lo belajar mencari tahu sendiri?
