@@ -16,6 +16,7 @@ import { PovResearchQ } from "./pov/Pov";
 import { SkillsCine } from "./cine/Cine";
 import { AiReducerAd } from "./ads/AiReducer";
 import { ClaudeProVO } from "./claudepro/ClaudePro";
+import { ReducerLight } from "./ads/ReducerLight";
 import { ChatScene } from "./scopus/ChatScene";
 import { HonestScene } from "./scopus/HonestScene";
 import { HookScene } from "./scopus/HookScene";
@@ -37,6 +38,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="SkillsCine" component={SkillsCine} durationInFrames={750} fps={30} width={1080} height={1920} />
     <Composition id="AiReducerAd" component={AiReducerAd} durationInFrames={450} fps={30} width={1080} height={1920} defaultProps={{ subs: true }} />
     <Composition id="ClaudeProVO" component={ClaudeProVO} durationInFrames={930} fps={30} width={1080} height={1920} defaultProps={{ subs: true }} />
+    <Composition id="ReducerLight" component={ReducerLight} durationInFrames={450} fps={30} width={1080} height={1920} />
     <Composition id="SkillsLibrary" component={SkillsLibrary} durationInFrames={1530} fps={30} width={1080} height={1920} />
     <Composition id="ProblemBab1" component={ProblemBab1} durationInFrames={1440} fps={30} width={1080} height={1920} />
     <Composition id="SpssVsPls" component={SpssVsPls} durationInFrames={1800} fps={30} width={1080} height={1920} />
