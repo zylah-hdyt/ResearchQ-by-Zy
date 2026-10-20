@@ -2,7 +2,7 @@
 
 Dibuat dari rekaman suaramu (`sfx/vo/Sharing_Claude.m4a`). Komposisi `SharingClaude` (`src/sharing/Sharing.tsx`), 1922 frame @30fps.
 Audio: 1,95 detik pertama dipotong (hanya noise napas), denoise ringan, EQ presence, kompresi, loudnorm −16 LUFS, lalu ekor hening 3 detik untuk end card.
-SFX hanya ±25 bunyi, pelan (−24 LUFS) di bawah suaramu, tanpa musik (`scripts/sfx_sharing.py`).
+SFX hanya ±17 bunyi, pelan (−28 LUFS) di bawah suaramu, tanpa musik dan tanpa suara transisi antar scene (`scripts/sfx_sharing.py`).
 Timing visual dikunci ke kata yang kamu ucapkan (transkrip lokal Whisper, dikoreksi manual → `src/sharing/words.ts`).
 
 ## Transkrip (sudah dikoreksi)
