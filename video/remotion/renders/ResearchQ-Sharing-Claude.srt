@@ -1,0 +1,175 @@
+1
+00:00:00,120 --> 00:00:01,020
+Buat lo yang mau beli akun
+
+2
+00:00:01,070 --> 00:00:02,720
+Claude sharing karena lebih murah,
+
+3
+00:00:02,770 --> 00:00:04,180
+tonton video ini sampai habis.
+
+4
+00:00:04,230 --> 00:00:05,540
+Ada beberapa risiko yang wajib lo
+
+5
+00:00:05,590 --> 00:00:06,640
+tahu sebelum beli.
+
+6
+00:00:06,690 --> 00:00:07,240
+Pertama,
+
+7
+00:00:07,290 --> 00:00:08,500
+soal limit penggunaan.
+
+8
+00:00:08,550 --> 00:00:09,100
+Misalnya,
+
+9
+00:00:09,150 --> 00:00:10,520
+satu akun Claude pro seharga 20
+
+10
+00:00:10,570 --> 00:00:12,080
+dolar dipakai 5 orang.
+
+11
+00:00:12,130 --> 00:00:13,540
+Memang kalau dibagi rata,
+
+12
+00:00:13,590 --> 00:00:15,360
+biayanya cuma 4 dolar per orang.
+
+13
+00:00:15,410 --> 00:00:17,980
+Tapi penggunaan kalian berbagi kapasitas akun
+
+14
+00:00:18,030 --> 00:00:18,900
+yang sama.
+
+15
+00:00:18,950 --> 00:00:20,680
+Kalau pengguna lain lebih banyak memakai
+
+16
+00:00:20,730 --> 00:00:21,460
+Claude-nya,
+
+17
+00:00:21,510 --> 00:00:23,800
+lo bisa lebih cepat habis limitnya.
+
+18
+00:00:23,850 --> 00:00:24,340
+Kedua,
+
+19
+00:00:24,390 --> 00:00:26,300
+soal memori dan konteks pekerjaan.
+
+20
+00:00:26,350 --> 00:00:27,160
+Bayangin,
+
+21
+00:00:27,210 --> 00:00:29,080
+lu pakai Claude buat penelitian,
+
+22
+00:00:29,130 --> 00:00:30,960
+sementara pengguna lain memakainya buat coding
+
+23
+00:00:31,010 --> 00:00:32,060
+atau bisnis.
+
+24
+00:00:32,110 --> 00:00:33,600
+Claude punya fitur memori dan bisa
+
+25
+00:00:33,650 --> 00:00:36,080
+menggunakan konteks dari pekerjaan sebelumnya.
+
+26
+00:00:36,130 --> 00:00:37,900
+Kalau informasi yang tersedia nggak relevan,
+
+27
+00:00:37,950 --> 00:00:40,120
+jawabannya berpotensi kurang sesuai dengan kebutuhan
+
+28
+00:00:40,170 --> 00:00:40,700
+lu.
+
+29
+00:00:40,750 --> 00:00:41,280
+Ketiga,
+
+30
+00:00:41,330 --> 00:00:43,020
+soal privacy ini penting banget.
+
+31
+00:00:43,070 --> 00:00:44,400
+Kalau menggunakan akun yang sama,
+
+32
+00:00:44,450 --> 00:00:45,940
+percakapan dan file yang lu simpan
+
+33
+00:00:45,990 --> 00:00:47,720
+itu berisiko diakses pengguna lain,
+
+34
+00:00:47,770 --> 00:00:50,040
+apalagi kalau itu ada data-data penting.
+
+35
+00:00:50,090 --> 00:00:51,800
+Jadi akun sharing emang lebih hemat
+
+36
+00:00:51,850 --> 00:00:52,640
+dan lebih murah,
+
+37
+00:00:52,690 --> 00:00:54,440
+tapi lu juga perlu mempertimbangkan soal
+
+38
+00:00:54,490 --> 00:00:55,000
+limit,
+
+39
+00:00:55,050 --> 00:00:56,380
+privasi dan kenyamanan kerja.
+
+40
+00:00:56,430 --> 00:00:57,080
+So,
+
+41
+00:00:57,130 --> 00:00:57,940
+buat pekerjaan serius,
+
+42
+00:00:57,990 --> 00:00:59,320
+akun pribadi itu jelas,
+
+43
+00:00:59,370 --> 00:01:00,620
+jauh lebih ideal.
+
+44
+00:01:00,670 --> 00:01:02,030
+Thank you.
