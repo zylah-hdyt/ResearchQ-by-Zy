@@ -1,6 +1,6 @@
-# AI Detection Reducer — Iklan versi "product film" terang (16,5 detik, 9:16)
+# AI Detection Reducer — Iklan versi "product film" terang (17,3 detik, 9:16) — VO bahasa Inggris + subtitle bahasa Indonesia
 
-Komposisi `ReducerLight` (`src/ads/ReducerLight.tsx`), 495 frame @30fps. SFX dirancang ulang dari nol (`scripts/sfx_reducerlight.py`);
+Komposisi `ReducerLight` (`src/ads/ReducerLight.tsx`), 520 frame @30fps. SFX dirancang ulang dari nol (`scripts/sfx_reducerlight.py`);
 VO dan musik ditambahkan kreator. Teks di layar = naskah VO, jadi sekaligus berfungsi sebagai subtitle.
 
 ## Analisis video referensi (jup.creatives, konsep iklan Apple Health)
@@ -72,3 +72,25 @@ Semua bunyi dirancang dengan DSP lalu dilewatkan reverb stereo yang sama, jadi t
 - 12,5 dtk: whoosh ke CTA, 12,9 dtk kartu mendarat, 13,4 dtk hentakan + chime di "Rp29.000"
 Level −18 LUFS, supaya VO dan musik tetap di depan.
 - Pilih musik ±120–125 BPM yang **drop di detik 6** (frame 180), seperti referensi.
+
+
+## Update: VO bahasa Inggris + subtitle Indonesia
+- VO dibuat dengan Cartesia TTS (model sonic-2, suara "Julia – Gentle Guide": lembut, tenang, ala iklan Apple), satu file per baris
+  (`scripts/vo_reducer_en.py`, API key dibaca dari env `CARTESIA_API_KEY`), lalu ditempatkan di timeline (`scripts/vo_reducer_place.py`):
+  dipotong ke bagian bicara, jeda baris 2 dipendekkan + tempo 1,12×, baris 4 tempo 1,08×, kompresor ringan, −16 LUFS.
+- Teks kinetik di layar sekarang bahasa Inggris dan tiap kata muncul tepat saat diucapkan (timing dari transkrip Whisper atas VO).
+- Subtitle Indonesia di pita gelap (y≈1440). Baris "ResearchQ." dan CTA tidak diberi pita karena teks di layar sudah bahasa Indonesia.
+- SFX diturunkan ke −22 LUFS (volume 0,8 di mix) supaya VO di depan. Durasi jadi 17,3 detik agar baris CTA utuh.
+
+| Detik | VO (EN) | Subtitle (ID) |
+|---|---|---|
+| 0.0–2.3 | Wrote your thesis with a little help from AI? | Draf skripsimu dibantu AI? |
+| 2.4–6.05 | Stiff sentences. Predictable patterns. Rising AI signals. | Kalimat kaku. Pola ketebak. Sinyal AI makin tinggi. |
+| 6.1–7.9 | So how do you make it sound like you? | Terus, gimana biar kedengeran kayak kamu? |
+| 7.95–10.0 | AI Detection Reducer cleans it all up. | AI Detection Reducer merapikan semuanya. |
+| 10.1–11.0 | ResearchQ. | — (teks di layar sudah bahasa Indonesia) |
+| 11.05–13.1 | Your writing, at its most natural. | Tulisanmu, versi paling natural. |
+| 13.2–17.0 | Just twenty-nine thousand rupiah. Or comment AI for the link. | — (teks di layar sudah bahasa Indonesia) |
+
+File: `renders/ResearchQ-AI-Detection-Reducer-Light.mp4` (subtitle tertanam), `-NoSub.mp4`, `.srt` (ID), `-EN.srt`,
+`-VO-EN.wav`, `-SFX.wav`.
