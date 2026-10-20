@@ -10,7 +10,7 @@ import { CL, EASE, Mark, MONO, SANS } from "../cine/Cine";
 // keeping meaning, citations and the writer's voice; NOT a guarantee of passing AI detectors. The HIGH → LOW is the
 // skill's own "AI-pattern status" metric, not a detector score.
 // 0–66 hook · 66–180 three problem cards · 180–240 collage + question (drop) · 240–300 glass "it fixes it"
-// · 300–330 icon · 330–375 closing line · 375–495 CTA: product card (cropped from the creator poster) + Rp29.000 or comment "AI".
+// · 300–330 icon · 330–375 closing line · 390–520 CTA: the real Linktree page (link in bio) with the two skill links tapped, or comment "AI".
 const BG = "#FBFAF8", INK = "#151413", MUTE = "#8C877E", OR = "#EE6A1F", ORS = "#F59A5C";
 
 /* ---- kinetic word: enters as two halves that slide together out of a blur; orange while it is the spoken word ---- */
@@ -209,25 +209,41 @@ const Closing: React.FC = () => {
   );
 };
 
-/* ---- 7 · CTA 375–495: the product card + price, or comment "AI" ---- */
+/* ---- 7 · CTA 390–520: "link di bio" — the real Linktree page; the two links that carry the skill pop out, big and tappable ---- */
+const PH_W = 420, PH_S = PH_W / 1290, PH_H = 1703 * PH_S; // phone viewport; screenshot crop is 1290×1703 px
+const LINKS: [number, number, number, string][] = [[1230, 1425, 420, "lt_btn_research.png"], [1476, 1671, 432, "lt_btn_ebook.png"]];
 const Cta: React.FC = () => {
-  const f = useCurrentFrame() + 375;
-  const p = (at: number, d = 8) => interpolate(f, [at, at + d], [0, 1], { ...CL, easing: EASE });
-  const card = p(376, 16);
-  const float = Math.sin((f - 378) / 14) * 8;
+  const g = useCurrentFrame() + 390;
+  const p = (at: number, d = 8) => interpolate(g, [at, at + d], [0, 1], { ...CL, easing: EASE });
+  const phone = p(391, 16);
+  const press = (at: number) => interpolate(g, [at + 8, at + 11, at + 15], [1, 0.95, 1], CL);
   return (
-    <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 38%, #FFE7D6 0%, #FBFAF8 62%)", overflow: "hidden" }}>
-      <Img src={staticFile("oracle_badge.png")} style={{ position: "absolute", left: 540 - 220, top: 210, width: 440, opacity: p(378), translate: `0px ${(1 - p(378)) * -30}px` }} />
-      <div style={{ position: "absolute", left: 540 - 300, top: 380, width: 600, perspective: 1600 }}>
-        <Img src={staticFile("reducer_card.png")} style={{ width: 600, display: "block", borderRadius: 44, boxShadow: "0 60px 110px -40px rgba(140,50,0,.45)", transform: `translateY(${(1 - card) * 160 + float}px) rotateY(${(1 - card) * -28}deg) rotateX(${(1 - card) * 14}deg) scale(${0.86 + card * 0.14})`, opacity: card }} />
+    <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 42%, #FFE7D6 0%, #FBFAF8 62%)", overflow: "hidden" }}>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 150, textAlign: "center", fontFamily: SANS, fontWeight: 600, fontSize: 38, color: MUTE, opacity: p(392) }}>Ambil AI Detection Reducer di</div>
+      <Line f={g} top={200} size={104} end={520} accentLast words={[["Klik", 397], ["link", 409], ["di", 414], ["bio", 417]]} />
+      {/* phone with the real Linktree page */}
+      <div style={{ position: "absolute", left: 540 - PH_W / 2 - 12, top: 345, width: PH_W + 24, borderRadius: 54, background: "#151413", padding: 12, boxShadow: "0 50px 90px -40px rgba(120,40,0,.45)", opacity: phone, transform: `translateY(${(1 - phone) * 180}px) rotate(${(1 - phone) * 5}deg)` }}>
+        <div style={{ position: "relative", width: PH_W, height: PH_H, borderRadius: 42, overflow: "hidden" }}>
+          <Img src={staticFile("linktree_crop.png")} style={{ width: PH_W, display: "block" }} />
+          {LINKS.map(([t, b, at], k) => (
+            <div key={k} style={{ position: "absolute", left: 10, right: 10, top: t * PH_S - 4, height: (b - t) * PH_S + 8, borderRadius: 999, border: `4px solid ${OR}`, opacity: p(at, 5) }} />
+          ))}
+        </div>
       </div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 1130, textAlign: "center", fontFamily: SANS }}>
-        <div style={{ fontWeight: 600, fontSize: 40, color: MUTE, opacity: p(382) }}>cuma</div>
-        <div style={{ fontWeight: 800, fontSize: 150, letterSpacing: -6, lineHeight: 1, color: INK, opacity: f >= 388 ? 1 : 0, scale: `${interpolate(f, [388, 394], [1.35, 1], { ...CL, easing: Easing.out(Easing.cubic) })}` }}>Rp<span style={{ color: OR }}>29.000</span></div>
-      </div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 1340, textAlign: "center", fontFamily: SANS, fontWeight: 700, fontSize: 46, color: INK, opacity: p(451), translate: `0px ${(1 - p(451)) * 24}px` }}>atau komen <span style={{ color: OR }}>AI</span> 👇 aku kirim link-nya</div>
-      <div style={{ position: "absolute", left: 100, right: 100, top: 1430, textAlign: "center", fontFamily: SANS, fontWeight: 500, fontSize: 24, lineHeight: 1.4, color: "#9A958C", opacity: p(458) }}>Alat bantu editorial, bukan jaminan lolos AI detector.</div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 1490, textAlign: "center", fontFamily: SANS, fontWeight: 600, fontSize: 30, color: INK, opacity: p(463) }}>researchq<span style={{ color: OR }}>.</span>id</div>
+      {/* the two links, pulled out of the page at readable size */}
+      {LINKS.map(([, , at, file], k) => {
+        const e = p(at, 10);
+        const ring = interpolate(g, [at + 8, at + 22], [0, 1], { ...CL, easing: EASE });
+        return (
+          <div key={file} style={{ position: "absolute", left: 90, width: 900, top: 975 + k * 150, opacity: e, transform: `translateY(${(1 - e) * -120}px) scale(${(0.6 + e * 0.4) * press(at)})` }}>
+            <Img src={staticFile(file)} style={{ width: 900, display: "block", borderRadius: 999, boxShadow: `0 0 0 6px ${OR}, 0 0 0 ${6 + ring * 26}px rgba(238,106,31,${0.35 * (1 - ring)})` }} />
+            <div style={{ position: "absolute", right: 120, top: 44, width: 64, height: 64, borderRadius: "50%", background: "rgba(21,20,19,.82)", border: "5px solid #fff", opacity: interpolate(g, [at + 4, at + 8], [0, 1], CL), scale: `${press(at)}` }} />
+          </div>
+        );
+      })}
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1300, textAlign: "center", fontFamily: SANS, fontWeight: 700, fontSize: 50, color: INK, opacity: p(446), translate: `0px ${(1 - p(446)) * 24}px` }}>atau komen <span style={{ color: OR }}>AI</span> 👇 aku kirim link-nya</div>
+      <div style={{ position: "absolute", left: 100, right: 100, top: 1385, textAlign: "center", fontFamily: SANS, fontWeight: 500, fontSize: 24, color: "#9A958C", opacity: p(458) }}>Alat bantu editorial, bukan jaminan lolos AI detector.</div>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1432, textAlign: "center", fontFamily: SANS, fontWeight: 600, fontSize: 30, color: INK, opacity: p(462) }}>researchq<span style={{ color: OR }}>.</span>id</div>
     </AbsoluteFill>
   );
 };
@@ -241,7 +257,7 @@ export const REDUCER_VO: [number, number, string, string][] = [
   [7.95, 10.0, "AI Detection Reducer cleans it all up.", "AI Detection Reducer merapikan semuanya."],
   [10.1, 11.0, "ResearchQ.", ""],
   [11.05, 13.1, "Your writing, at its most natural.", "Tulisanmu, versi paling natural."],
-  [13.2, 17.0, "Just twenty-nine thousand rupiah. Or comment AI for the link.", ""],
+  [13.2, 17.0, "Tap the link in bio. Or comment AI, and I'll send you the link.", ""],
 ];
 const SubsID: React.FC = () => {
   const f = useCurrentFrame(); const t = f / 30;

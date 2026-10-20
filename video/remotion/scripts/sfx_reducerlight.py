@@ -154,8 +154,9 @@ put(300 - 0.62 * 0.5 * 30, whoosh(0.5, 300, 5000, p0=0.4, p1=-0.4), 0.35)   # ic
 put(300, sub_boom(62, 36, 1.0, 0.25, 0.3), 0.30); put(302, chime((2093.0,)), 0.18)
 put(371, shimmer(0.5, 12), 0.14)                                            # "natural."
 put(390 - 0.62 * 0.6 * 30, whoosh(0.6, p0=0.6, p1=-0.6), 0.40)              # into the CTA
-put(396, thump(), 0.30)                                                     # card settles
-put(403, sub_boom(84, 44, 0.9, 0.2, 0.25), 0.55); put(403, chime((1568.0, 2093.0), 0.05), 0.22)  # Rp29.000
+put(400, thump(), 0.30)                                                     # phone settles
+for f, p in ((428, 0.2), (440, -0.2)): put(f, tick(p), 0.30); put(f, bloop(), 0.22)              # taps on the two links
+put(446, chime((1568.0, 2093.0), 0.05), 0.14)                               # "atau komen AI"
 
 mix = out[:N]
 mix = np.stack([hp(mix[:, c], 28) for c in range(2)], 1)

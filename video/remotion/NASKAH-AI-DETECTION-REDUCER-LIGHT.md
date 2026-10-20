@@ -94,3 +94,11 @@ Level −18 LUFS, supaya VO dan musik tetap di depan.
 
 File: `renders/ResearchQ-AI-Detection-Reducer-Light.mp4` (subtitle tertanam), `-NoSub.mp4`, `.srt` (ID), `-EN.srt`,
 `-VO-EN.wav`, `-SFX.wav`.
+
+
+## Update: CTA "link di bio" (tanpa harga di VO)
+- Baris VO terakhir sekarang: "Tap the link in bio. Or comment AI, and I'll send you the link." (suara Lauren, sonic-3, emosi excited).
+- Visual CTA: "Ambil AI Detection Reducer di / Klik link di **bio**" → HP berisi halaman Linktree asli @Researchq.id →
+  tombol **Claude Skill for Research** dan **Ebook, Software & Claude Skill** disorot di HP lalu muncul besar di bawahnya
+  dengan efek tap → "atau komen AI 👇 aku kirim link-nya" → catatan kecil → researchq.id.
+- SFX CTA: whoosh masuk, HP mendarat, dua tap (tick + bloop) di tiap tombol, chime kecil di "komen AI".
