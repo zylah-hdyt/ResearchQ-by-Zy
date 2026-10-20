@@ -23,5 +23,5 @@ ResearchQ.
 Your writing, at its most natural.
 
 7
-00:00:13,200 --> 00:00:17,000
+00:00:15,400 --> 00:00:19,200
 Tap the link in bio. Or comment AI, and I'll send you the link.

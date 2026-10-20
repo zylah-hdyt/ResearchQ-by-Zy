@@ -102,3 +102,8 @@ File: `renders/ResearchQ-AI-Detection-Reducer-Light.mp4` (subtitle tertanam), `-
   tombol **Claude Skill for Research** dan **Ebook, Software & Claude Skill** disorot di HP lalu muncul besar di bawahnya
   dengan efek tap → "atau komen AI 👇 aku kirim link-nya" → catatan kecil → researchq.id.
 - SFX CTA: whoosh masuk, HP mendarat, dua tap (tick + bloop) di tiap tombol, chime kecil di "komen AI".
+
+### Revisi: harga tetap tampil, hanya VO harga yang dihapus (durasi 19,5 dtk)
+- 13,0–15,2 dtk: badge ORACLE + kartu produk + "cuma **Rp29.000**" (tanpa suara harga; ada hentakan + chime di angka).
+- 15,2–19,5 dtk: "Klik link di bio" + Linktree (Claude Skill for Research, Ebook, Software & Claude Skill) + "atau komen AI".
+  VO: "Tap the link in bio. Or comment AI, and I'll send you the link." mulai 15,4 dtk.

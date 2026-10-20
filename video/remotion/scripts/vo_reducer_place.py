@@ -1,9 +1,9 @@
-# Place an English VO line set on the ReducerLight timeline (520 frames = 17.33s).
+# Place an English VO line set on the ReducerLight timeline (586 frames = 19.53s).
 # Each line is trimmed to its speech and, only if it overruns its slot, sped up (max 1.15x, pauses tightened first).
 # Usage: python3 vo_reducer_place.py <voice_dir_under_sfx/vo> <out.wav>
 import numpy as np, wave, subprocess, os, sys
 FF = '/usr/local/lib/python3.11/dist-packages/imageio_ffmpeg/binaries/ffmpeg-linux-x86_64-v7.0.2'
-SR = 48000; N = int(SR * 520 / 30)
+SR = 48000; N = int(SR * 586 / 30)
 D = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 VDIR, OUT = sys.argv[1], sys.argv[2]
 def load(p, tempo=1.0):
@@ -22,7 +22,7 @@ def tighten(a, maxgap=0.12):
         if q and run * 0.01 > maxgap: continue
         out.append(a[k * blk:(k + 1) * blk])
     return np.concatenate(out)
-SLOTS = [(0.05, 2.30), (2.32, 6.02), (6.10, 7.90), (7.95, 10.05), (10.10, 11.00), (11.05, 13.15), (13.20, 17.20)]
+SLOTS = [(0.05, 2.30), (2.32, 6.02), (6.10, 7.90), (7.95, 10.05), (10.10, 11.00), (11.05, 13.15), (15.40, 19.40)]
 out = np.zeros(N)
 for ln, (st, en) in enumerate(SLOTS, 1):
     p = f'{D}/sfx/vo/{VDIR}/line{ln}.wav'

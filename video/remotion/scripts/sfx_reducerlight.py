@@ -1,4 +1,4 @@
-# AI Detection Reducer light ad (ReducerLight, 17.3s, 520 frames @30fps) — SFX sound design, built from scratch with DSP
+# AI Detection Reducer light ad (ReducerLight, 19.5s, 586 frames @30fps) — SFX sound design, built from scratch with DSP
 # (no sample packs): layered whooshes with a moving band and stereo sweep, a riser into the drop at 6.0s, a sub-boom
 # impact, a morph "bloop" (same one for all three cards), glass chimes and shimmer, all through a shared stereo reverb.
 # Mixed to sit under the creator's VO + music. Usage: python3 sfx_reducerlight.py out.wav
@@ -6,7 +6,7 @@ import numpy as np, wave, sys
 from scipy.signal import fftconvolve, butter, sosfilt
 
 SR = 48000
-N = int(SR * 520 / 30)
+N = int(SR * 586 / 30)
 rng = np.random.default_rng(21)
 T = lambda d: np.arange(int(d * SR)) / SR
 
@@ -154,9 +154,12 @@ put(300 - 0.62 * 0.5 * 30, whoosh(0.5, 300, 5000, p0=0.4, p1=-0.4), 0.35)   # ic
 put(300, sub_boom(62, 36, 1.0, 0.25, 0.3), 0.30); put(302, chime((2093.0,)), 0.18)
 put(371, shimmer(0.5, 12), 0.14)                                            # "natural."
 put(390 - 0.62 * 0.6 * 30, whoosh(0.6, p0=0.6, p1=-0.6), 0.40)              # into the CTA
-put(400, thump(), 0.30)                                                     # phone settles
-for f, p in ((428, 0.2), (440, -0.2)): put(f, tick(p), 0.30); put(f, bloop(), 0.22)              # taps on the two links
-put(446, chime((1568.0, 2093.0), 0.05), 0.14)                               # "atau komen AI"
+put(396, thump(), 0.30)                                                     # product card settles
+put(403, sub_boom(84, 44, 0.9, 0.2, 0.25), 0.55); put(403, chime((1568.0, 2093.0), 0.05), 0.22)  # Rp29.000
+put(456 - 0.62 * 0.6 * 30, whoosh(0.6, p0=-0.6, p1=0.6), 0.38)             # into "link di bio"
+put(466, thump(), 0.28)                                                     # phone settles
+for f, p in ((494, 0.2), (506, -0.2)): put(f, tick(p), 0.30); put(f, bloop(), 0.22)              # taps on the two links
+put(512, chime((1568.0, 2093.0), 0.05), 0.14)                               # "atau komen AI"
 
 mix = out[:N]
 mix = np.stack([hp(mix[:, c], 28) for c in range(2)], 1)

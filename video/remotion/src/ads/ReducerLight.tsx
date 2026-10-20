@@ -2,7 +2,7 @@ import { Audio } from "@remotion/media";
 import { AbsoluteFill, Easing, Img, interpolate, random, Sequence, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { CL, EASE, Mark, MONO, SANS } from "../cine/Cine";
 
-// AI Detection Reducer ad, 17.3s (520 frames @30fps), English VO (Cartesia, voice "Julia") + Indonesian subtitles, light "product film" look modelled on the jup.creatives
+// AI Detection Reducer ad, 19.5s (586 frames @30fps), English VO (Cartesia, voice "Julia") + Indonesian subtitles, light "product film" look modelled on the jup.creatives
 // Apple Health edit: kinetic split-word type on off-white, a colour blob that morphs into UI cards, a ring collage
 // around a question, a soft glass scene, the app icon, a closing line and a signature.
 // On-screen words = the VO script (the creator records it), so the type doubles as subtitles.
@@ -209,7 +209,27 @@ const Closing: React.FC = () => {
   );
 };
 
-/* ---- 7 · CTA 390–520: "link di bio" — the real Linktree page; the two links that carry the skill pop out, big and tappable ---- */
+/* ---- 7a · CTA price 390–456: ORACLE badge, product card, Rp29.000 (on screen only; the VO no longer says the price) ---- */
+const PriceCta: React.FC = () => {
+  const f = useCurrentFrame() + 375;
+  const p = (at: number, d = 8) => interpolate(f, [at, at + d], [0, 1], { ...CL, easing: EASE });
+  const card = p(376, 16);
+  const float = Math.sin((f - 378) / 14) * 8;
+  return (
+    <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 38%, #FFE7D6 0%, #FBFAF8 62%)", overflow: "hidden" }}>
+      <Img src={staticFile("oracle_badge.png")} style={{ position: "absolute", left: 540 - 220, top: 210, width: 440, opacity: p(378), translate: `0px ${(1 - p(378)) * -30}px` }} />
+      <div style={{ position: "absolute", left: 540 - 300, top: 380, width: 600, perspective: 1600 }}>
+        <Img src={staticFile("reducer_card.png")} style={{ width: 600, display: "block", borderRadius: 44, boxShadow: "0 60px 110px -40px rgba(140,50,0,.45)", transform: `translateY(${(1 - card) * 160 + float}px) rotateY(${(1 - card) * -28}deg) rotateX(${(1 - card) * 14}deg) scale(${0.86 + card * 0.14})`, opacity: card }} />
+      </div>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1130, textAlign: "center", fontFamily: SANS }}>
+        <div style={{ fontWeight: 600, fontSize: 40, color: MUTE, opacity: p(382) }}>cuma</div>
+        <div style={{ fontWeight: 800, fontSize: 150, letterSpacing: -6, lineHeight: 1, color: INK, opacity: f >= 386 ? 1 : 0, scale: `${interpolate(f, [386, 392], [1.35, 1], { ...CL, easing: Easing.out(Easing.cubic) })}` }}>Rp<span style={{ color: OR }}>29.000</span></div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+/* ---- 7b · CTA link 456–586 (internal frames 390–520): "link di bio" — the real Linktree page; the two links that carry the skill pop out, big and tappable ---- */
 const PH_W = 420, PH_S = PH_W / 1290, PH_H = 1703 * PH_S; // phone viewport; screenshot crop is 1290×1703 px
 const LINKS: [number, number, number, string][] = [[1230, 1425, 420, "lt_btn_research.png"], [1476, 1671, 432, "lt_btn_ebook.png"]];
 const Cta: React.FC = () => {
@@ -257,7 +277,7 @@ export const REDUCER_VO: [number, number, string, string][] = [
   [7.95, 10.0, "AI Detection Reducer cleans it all up.", "AI Detection Reducer merapikan semuanya."],
   [10.1, 11.0, "ResearchQ.", ""],
   [11.05, 13.1, "Your writing, at its most natural.", "Tulisanmu, versi paling natural."],
-  [13.2, 17.0, "Tap the link in bio. Or comment AI, and I'll send you the link.", ""],
+  [15.4, 19.2, "Tap the link in bio. Or comment AI, and I'll send you the link.", ""],
 ];
 const SubsID: React.FC = () => {
   const f = useCurrentFrame(); const t = f / 30;
@@ -281,7 +301,8 @@ export const ReducerLight: React.FC<{ subs?: boolean }> = ({ subs = true }) => {
       <Sequence from={240} durationInFrames={60} name="Dirapikan"><Fix /></Sequence>
       <Sequence from={300} durationInFrames={30} name="Ikon"><IconScene /></Sequence>
       <Sequence from={330} durationInFrames={60} name="Penutup"><Closing /></Sequence>
-      <Sequence from={390} durationInFrames={130} name="CTA"><Cta /></Sequence>
+      <Sequence from={390} durationInFrames={66} name="CTA harga"><PriceCta /></Sequence>
+      <Sequence from={456} durationInFrames={130} name="CTA link di bio"><Cta /></Sequence>
       {subs ? <SubsID /> : null}
       <Audio src={staticFile("reducerlight-vo.wav")} premountFor={fps} />
       <Audio src={staticFile("reducerlight-sfx.wav")} premountFor={fps} volume={0.8} />
