@@ -1,6 +1,6 @@
-# AI Detection Reducer — Iklan versi "product film" terang (15 detik, 9:16)
+# AI Detection Reducer — Iklan versi "product film" terang (16,5 detik, 9:16)
 
-Komposisi `ReducerLight` (`src/ads/ReducerLight.tsx`), 450 frame @30fps. SFX saja (10 bunyi, `scripts/sfx_reducerlight.py`);
+Komposisi `ReducerLight` (`src/ads/ReducerLight.tsx`), 495 frame @30fps. SFX dirancang ulang dari nol (`scripts/sfx_reducerlight.py`);
 VO dan musik ditambahkan kreator. Teks di layar = naskah VO, jadi sekaligus berfungsi sebagai subtitle.
 
 ## Analisis video referensi (jup.creatives, konsep iklan Apple Health)
@@ -37,8 +37,8 @@ the bigger picture? Apple Health brings it all together. Health. Listen to your 
 | 6.0–8.0 | Gimana biar kedengeran kayak kamu? |
 | 8.0–10.0 | AI Detection Reducer merapikan semuanya. |
 | 10.0–11.0 | ResearchQ. |
-| 11.0–12.7 | Tulisanmu, versi paling natural. |
-| 12.7–15.0 | Komen AI, nanti aku kirim link-nya. |
+| 11.0–12.5 | Tulisanmu, versi paling natural. |
+| 12.5–16.5 | AI Detection Reducer cuma Rp29.000. Atau komen AI, aku kirim link-nya. |
 
 Detail visual:
 - **0–2,2:** kata terbelah dua lalu menyatu, kata aktif oranye + glow.
@@ -46,8 +46,8 @@ Detail visual:
 - **6–8 (drop):** kolase 14 frasa AI-ism bahasa Indonesia dari panduan ("Tidak dapat dipungkiri bahwa…", "Selain itu,", dll.) mengelilingi pertanyaan, lalu dicoret.
 - **8–10:** flash oranye → dunia gradien hangat + kartu kaca: Makna tetap ✓, Sitasi utuh ✓, Gaya bahasamu ✓, **AI-pattern status HIGH → LOW**.
 - **10–11:** ikon ResearchQ di gradien oranye.
-- **11–12,7:** "Tulisanmu, versi paling natural." ("natural." oranye + glow).
-- **12,7–15:** "Komen AI 👇 nanti aku kirim link-nya", catatan kecil, "made by researchq.id".
+- **11–12,5:** "Tulisanmu, versi paling natural." ("natural." oranye + glow).
+- **12,5–16,5 (CTA):** badge ORACLE · Research Mentor + kartu produk AI Detection Reducer (dipotong dari poster resmi) melayang masuk 3D → "cuma **Rp29.000**" → "atau komen AI 👇 aku kirim link-nya" → catatan kecil → researchq.id.
 
 ## Klaim (sesuai panduan PDF)
 - HIGH → LOW adalah metrik **AI-pattern status** milik skill (bagian Format Output di panduan), bukan skor detektor eksternal.
@@ -55,5 +55,20 @@ Detail visual:
   (Panduan: "bukan mesin cheat AI detector", "Jangan menganggap output skill ini otomatis lolos AI detector".)
 
 ## Rekaman VO & musik
-- Rekam VO mengikuti tabel di atas; file `renders/ResearchQ-AI-Detection-Reducer-Light-15s.srt` berisi timing yang sama.
+- Rekam VO mengikuti tabel di atas; file `renders/ResearchQ-AI-Detection-Reducer-Light.srt` berisi timing yang sama.
+
+## Sound design (baru, tanpa sample pack)
+Semua bunyi dirancang dengan DSP lalu dilewatkan reverb stereo yang sama, jadi terdengar satu "ruang":
+- 0–1,2 dtk: tick halus di tiap kata + sub "dum" pendek di "AI?"
+- 2,0 dtk: whoosh berlapis (pita frekuensi bergerak + sapuan stereo kiri→kanan) masuk ke kartu
+- 2,6 / 3,6 / 4,6 dtk: bloop morph (sama untuk ketiga kartu)
+- 5,0→6,0 dtk: **riser** naik (noise + nada meluncur, vibrato makin cepat) lalu putus tepat di drop
+- 6,0 dtk: **impact** (sub-boom 68→34 Hz + hentakan + ekor reverb)
+- 7,1 dtk: sapuan "coret" saat frasa AI dicoret
+- 8,0 dtk: reverse whoosh tersedot ke flash oranye + shimmer kaca
+- 9,3 dtk: chime dua nada saat HIGH → LOW
+- 10,0 dtk: whoosh + sub + chime tinggi di ikon
+- 12,0 dtk: shimmer kecil di "natural."
+- 12,5 dtk: whoosh ke CTA, 12,9 dtk kartu mendarat, 13,4 dtk hentakan + chime di "Rp29.000"
+Level −18 LUFS, supaya VO dan musik tetap di depan.
 - Pilih musik ±120–125 BPM yang **drop di detik 6** (frame 180), seperti referensi.

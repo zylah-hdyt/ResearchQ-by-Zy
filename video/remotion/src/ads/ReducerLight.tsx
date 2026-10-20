@@ -1,8 +1,8 @@
 import { Audio } from "@remotion/media";
-import { AbsoluteFill, Easing, interpolate, random, Sequence, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Easing, Img, interpolate, random, Sequence, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { CL, EASE, Mark, MONO, SANS } from "../cine/Cine";
 
-// AI Detection Reducer ad, 15s (450 frames @30fps), light "product film" look modelled on the jup.creatives
+// AI Detection Reducer ad, 16.5s (495 frames @30fps), light "product film" look modelled on the jup.creatives
 // Apple Health edit: kinetic split-word type on off-white, a colour blob that morphs into UI cards, a ring collage
 // around a question, a soft glass scene, the app icon, a closing line and a signature.
 // On-screen words = the VO script (the creator records it), so the type doubles as subtitles.
@@ -10,7 +10,7 @@ import { CL, EASE, Mark, MONO, SANS } from "../cine/Cine";
 // keeping meaning, citations and the writer's voice; NOT a guarantee of passing AI detectors. The HIGH → LOW is the
 // skill's own "AI-pattern status" metric, not a detector score.
 // 0–66 hook · 66–180 three problem cards · 180–240 collage + question (drop) · 240–300 glass "it fixes it"
-// · 300–330 icon · 330–380 closing line · 380–450 CTA + note + signature.
+// · 300–330 icon · 330–375 closing line · 375–495 CTA: product card (cropped from the creator poster) + Rp29.000 or comment "AI".
 const BG = "#FBFAF8", INK = "#151413", MUTE = "#8C877E", OR = "#EE6A1F", ORS = "#F59A5C";
 
 /* ---- kinetic word: enters as two halves that slide together out of a blur; orange while it is the spoken word ---- */
@@ -204,25 +204,30 @@ const Closing: React.FC = () => {
   const f = useCurrentFrame() + 330;
   return (
     <AbsoluteFill style={{ background: BG }}>
-      <Line f={f} top={850} size={84} end={380} accentLast words={[["Tulisanmu,", 332], ["versi", 344], ["paling", 352], ["natural.", 360]]} />
+      <Line f={f} top={850} size={84} end={375} accentLast words={[["Tulisanmu,", 332], ["versi", 344], ["paling", 352], ["natural.", 360]]} />
     </AbsoluteFill>
   );
 };
 
-/* ---- 7 · CTA 380–450 ---- */
+/* ---- 7 · CTA 375–495: the product card + price, or comment "AI" ---- */
 const Cta: React.FC = () => {
-  const f = useCurrentFrame() + 380;
-  const p = (at: number) => interpolate(f, [at, at + 8], [0, 1], { ...CL, easing: EASE });
+  const f = useCurrentFrame() + 375;
+  const p = (at: number, d = 8) => interpolate(f, [at, at + d], [0, 1], { ...CL, easing: EASE });
+  const card = p(378, 16);
+  const float = Math.sin((f - 378) / 14) * 8;
   return (
-    <AbsoluteFill style={{ background: BG }}>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 640, textAlign: "center", fontFamily: SANS }}>
-        <div style={{ fontWeight: 800, fontSize: 120, letterSpacing: -4, color: INK, opacity: p(382), scale: `${1.15 - p(382) * 0.15}` }}>Komen <span style={{ color: OR }}>AI</span> 👇</div>
-        <div style={{ fontWeight: 500, fontSize: 46, color: MUTE, marginTop: 10, opacity: p(390) }}>nanti aku kirim link-nya</div>
+    <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 38%, #FFE7D6 0%, #FBFAF8 62%)", overflow: "hidden" }}>
+      <Img src={staticFile("oracle_badge.png")} style={{ position: "absolute", left: 540 - 220, top: 210, width: 440, opacity: p(380), translate: `0px ${(1 - p(380)) * -30}px` }} />
+      <div style={{ position: "absolute", left: 540 - 300, top: 380, width: 600, perspective: 1600 }}>
+        <Img src={staticFile("reducer_card.png")} style={{ width: 600, display: "block", borderRadius: 44, boxShadow: "0 60px 110px -40px rgba(140,50,0,.45)", transform: `translateY(${(1 - card) * 160 + float}px) rotateY(${(1 - card) * -28}deg) rotateX(${(1 - card) * 14}deg) scale(${0.86 + card * 0.14})`, opacity: card }} />
       </div>
-      <div style={{ position: "absolute", left: 120, right: 120, top: 1000, textAlign: "center", fontFamily: SANS, fontWeight: 500, fontSize: 28, lineHeight: 1.45, color: "#8C877E", opacity: p(398) }}>
-        Alat bantu editorial, bukan jaminan lolos AI detector.<br />Tetap ikuti aturan kampus soal penggunaan AI.
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1130, textAlign: "center", fontFamily: SANS }}>
+        <div style={{ fontWeight: 600, fontSize: 40, color: MUTE, opacity: p(398) }}>cuma</div>
+        <div style={{ fontWeight: 800, fontSize: 150, letterSpacing: -6, lineHeight: 1, color: INK, opacity: f >= 402 ? 1 : 0, scale: `${interpolate(f, [402, 408], [1.35, 1], { ...CL, easing: Easing.out(Easing.cubic) })}` }}>Rp<span style={{ color: OR }}>29.000</span></div>
       </div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 1240, textAlign: "center", fontFamily: SANS, fontWeight: 600, fontSize: 36, color: INK, opacity: p(410) }}>made by researchq<span style={{ color: OR }}>.</span>id</div>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1340, textAlign: "center", fontFamily: SANS, fontWeight: 700, fontSize: 46, color: INK, opacity: p(426), translate: `0px ${(1 - p(426)) * 24}px` }}>atau komen <span style={{ color: OR }}>AI</span> 👇 aku kirim link-nya</div>
+      <div style={{ position: "absolute", left: 100, right: 100, top: 1430, textAlign: "center", fontFamily: SANS, fontWeight: 500, fontSize: 24, lineHeight: 1.4, color: "#9A958C", opacity: p(440) }}>Alat bantu editorial, bukan jaminan lolos AI detector.</div>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1490, textAlign: "center", fontFamily: SANS, fontWeight: 600, fontSize: 30, color: INK, opacity: p(450) }}>researchq<span style={{ color: OR }}>.</span>id</div>
     </AbsoluteFill>
   );
 };
@@ -234,8 +239,8 @@ export const REDUCER_VO: [number, number, string][] = [
   [6.0, 8.0, "Gimana biar kedengeran kayak kamu?"],
   [8.0, 10.0, "AI Detection Reducer merapikan semuanya."],
   [10.0, 11.0, "ResearchQ."],
-  [11.0, 12.7, "Tulisanmu, versi paling natural."],
-  [12.7, 15.0, "Komen AI, nanti aku kirim link-nya."],
+  [11.0, 12.5, "Tulisanmu, versi paling natural."],
+  [12.5, 16.5, "AI Detection Reducer cuma Rp29.000. Atau komen AI, aku kirim link-nya."],
 ];
 
 export const ReducerLight: React.FC = () => {
@@ -247,8 +252,8 @@ export const ReducerLight: React.FC = () => {
       <Sequence from={180} durationInFrames={60} name="Kolase"><Collage /></Sequence>
       <Sequence from={240} durationInFrames={60} name="Dirapikan"><Fix /></Sequence>
       <Sequence from={300} durationInFrames={30} name="Ikon"><IconScene /></Sequence>
-      <Sequence from={330} durationInFrames={50} name="Penutup"><Closing /></Sequence>
-      <Sequence from={380} durationInFrames={70} name="CTA"><Cta /></Sequence>
+      <Sequence from={330} durationInFrames={45} name="Penutup"><Closing /></Sequence>
+      <Sequence from={375} durationInFrames={120} name="CTA"><Cta /></Sequence>
       <Audio src={staticFile("reducerlight-sfx.wav")} premountFor={fps} />
     </AbsoluteFill>
   );
