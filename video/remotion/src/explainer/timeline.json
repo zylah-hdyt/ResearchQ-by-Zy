@@ -1,0 +1,916 @@
+{
+ "fps": 30,
+ "frames": 1893,
+ "scenes": [
+  {
+   "name": "hook",
+   "start": 0.35,
+   "end": 5.884,
+   "lines": [
+    {
+     "n": 1,
+     "start": 0.35,
+     "end": 2.47,
+     "en": "Your thesis draft had some help from AI.",
+     "id": "Draf skripsimu dibantu AI.",
+     "words": [
+      [
+       "thesis",
+       0.48
+      ],
+      [
+       "draft",
+       0.8
+      ],
+      [
+       "had",
+       1.14
+      ],
+      [
+       "some",
+       1.38
+      ],
+      [
+       "help",
+       1.52
+      ],
+      [
+       "from",
+       1.72
+      ],
+      [
+       "AI.",
+       1.92
+      ]
+     ]
+    },
+    {
+     "n": 2,
+     "start": 2.69,
+     "end": 5.504,
+     "en": "Now it reads stiff, and every paragraph sounds the same.",
+     "id": "Sekarang tulisannya kaku, dan tiap paragraf terdengar sama.",
+     "words": [
+      [
+       "Now",
+       2.7
+      ],
+      [
+       "it",
+       2.86
+      ],
+      [
+       "reads",
+       3.04
+      ],
+      [
+       "stiff",
+       3.2
+      ],
+      [
+       "and",
+       3.48
+      ],
+      [
+       "every",
+       4.02
+      ],
+      [
+       "paragraph",
+       4.28
+      ],
+      [
+       "sounds",
+       4.62
+      ],
+      [
+       "the",
+       5
+      ],
+      [
+       "same.",
+       5.24
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "what",
+   "start": 5.884,
+   "end": 15.389,
+   "lines": [
+    {
+     "n": 3,
+     "start": 5.884,
+     "end": 9.366,
+     "en": "Meet AI Detection Reducer, a ResearchQ skill for Claude.",
+     "id": "Kenalan dengan AI Detection Reducer, skill ResearchQ untuk Claude.",
+     "words": [
+      [
+       "Neat",
+       5.84
+      ],
+      [
+       "AI",
+       6.12
+      ],
+      [
+       "Detection",
+       6.32
+      ],
+      [
+       "Reducer,",
+       6.76
+      ],
+      [
+       "a",
+       7.6
+      ],
+      [
+       "research",
+       7.84
+      ],
+      [
+       "Q",
+       8.28
+      ],
+      [
+       "skill",
+       8.58
+      ],
+      [
+       "for",
+       8.78
+      ],
+      [
+       "Claude.",
+       9
+      ]
+     ]
+    },
+    {
+     "n": 4,
+     "start": 9.586,
+     "end": 15.009,
+     "en": "It audits your writing and rewrites what sounds machine-made, keeping your meaning, voice, and citations.",
+     "id": "Ia mengaudit tulisanmu dan menulis ulang bagian yang terdengar seperti mesin, tanpa mengubah makna, gaya, dan sitasi.",
+     "words": [
+      [
+       "It",
+       9.58
+      ],
+      [
+       "audits",
+       9.7
+      ],
+      [
+       "your",
+       10.04
+      ],
+      [
+       "writing",
+       10.18
+      ],
+      [
+       "and",
+       10.46
+      ],
+      [
+       "rewrites",
+       10.78
+      ],
+      [
+       "what",
+       11.2
+      ],
+      [
+       "sounds",
+       11.36
+      ],
+      [
+       "machine",
+       11.62
+      ],
+      [
+       "made,",
+       11.96
+      ],
+      [
+       "keeping",
+       12.62
+      ],
+      [
+       "your",
+       12.86
+      ],
+      [
+       "meaning,",
+       13.08
+      ],
+      [
+       "voice,",
+       13.62
+      ],
+      [
+       "and",
+       14.26
+      ],
+      [
+       "citations.",
+       14.34
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "activate",
+   "start": 15.389,
+   "end": 20.479,
+   "lines": [
+    {
+     "n": 5,
+     "start": 15.389,
+     "end": 20.099,
+     "en": "No setup. Just ask Claude in plain words: remove the AI-isms from this paragraph.",
+     "id": "Tanpa setting. Cukup minta ke Claude dengan bahasa biasa: hapus pola AI dari paragraf ini.",
+     "words": [
+      [
+       "No",
+       15.36
+      ],
+      [
+       "setup.",
+       15.58
+      ],
+      [
+       "Just",
+       16.54
+      ],
+      [
+       "ask",
+       16.76
+      ],
+      [
+       "Claude",
+       17.02
+      ],
+      [
+       "in",
+       17.36
+      ],
+      [
+       "plain",
+       17.52
+      ],
+      [
+       "words,",
+       17.7
+      ],
+      [
+       "remove",
+       18.14
+      ],
+      [
+       "the",
+       18.3
+      ],
+      [
+       "AI",
+       18.54
+      ],
+      [
+       "isms",
+       18.8
+      ],
+      [
+       "from",
+       19.24
+      ],
+      [
+       "this",
+       19.44
+      ],
+      [
+       "paragraph.",
+       19.58
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "modes",
+   "start": 20.479,
+   "end": 31.25,
+   "lines": [
+    {
+     "n": 6,
+     "start": 20.479,
+     "end": 22.06,
+     "en": "It works in three modes.",
+     "id": "Ada tiga mode.",
+     "words": [
+      [
+       "It",
+       20.42
+      ],
+      [
+       "works",
+       20.64
+      ],
+      [
+       "in",
+       20.94
+      ],
+      [
+       "three",
+       21.26
+      ],
+      [
+       "modes.",
+       21.52
+      ]
+     ]
+    },
+    {
+     "n": 7,
+     "start": 22.28,
+     "end": 24.81,
+     "en": "Rewrite fixes the text and shows you what changed.",
+     "id": "Rewrite memperbaiki teks dan menunjukkan apa yang diubah.",
+     "words": [
+      [
+       "Rewrite",
+       22.28
+      ],
+      [
+       "fixes",
+       22.64
+      ],
+      [
+       "the",
+       22.94
+      ],
+      [
+       "text",
+       23.18
+      ],
+      [
+       "and",
+       23.46
+      ],
+      [
+       "shows",
+       23.78
+      ],
+      [
+       "you",
+       23.98
+      ],
+      [
+       "what",
+       24.16
+      ],
+      [
+       "changed.",
+       24.26
+      ]
+     ]
+    },
+    {
+     "n": 8,
+     "start": 25.03,
+     "end": 27.23,
+     "en": "Detect only flags the patterns, so you decide.",
+     "id": "Detect hanya menandai polanya, kamu yang memutuskan.",
+     "words": [
+      [
+       "Detect",
+       25.1
+      ],
+      [
+       "only",
+       25.3
+      ],
+      [
+       "flags",
+       25.54
+      ],
+      [
+       "the",
+       25.82
+      ],
+      [
+       "pattern",
+       26
+      ],
+      [
+       "so",
+       26.32
+      ],
+      [
+       "you",
+       26.62
+      ],
+      [
+       "decide,",
+       26.74
+      ]
+     ]
+    },
+    {
+     "n": 9,
+     "start": 27.45,
+     "end": 30.87,
+     "en": "And Edit fixes your file directly, touching only what needs it.",
+     "id": "Edit langsung memperbaiki file-mu, hanya di bagian yang perlu.",
+     "words": [
+      [
+       "and",
+       27.48
+      ],
+      [
+       "Edit",
+       27.58
+      ],
+      [
+       "fixes",
+       27.8
+      ],
+      [
+       "your",
+       28.12
+      ],
+      [
+       "file",
+       28.34
+      ],
+      [
+       "directly,",
+       28.58
+      ],
+      [
+       "touching",
+       29.7
+      ],
+      [
+       "only",
+       30
+      ],
+      [
+       "what",
+       30.3
+      ],
+      [
+       "needs",
+       30.44
+      ],
+      [
+       "it.",
+       30.66
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "aiisms",
+   "start": 31.25,
+   "end": 37.948,
+   "lines": [
+    {
+     "n": 10,
+     "start": 31.25,
+     "end": 33.05,
+     "en": "It sorts AI-isms by severity.",
+     "id": "Pola AI dikelompokkan berdasarkan tingkat keparahan.",
+     "words": [
+      [
+       "It",
+       31.24
+      ],
+      [
+       "sorts",
+       31.36
+      ],
+      [
+       "AI",
+       31.52
+      ],
+      [
+       "-isms",
+       31.84
+      ],
+      [
+       "by",
+       32.16
+      ],
+      [
+       "severity.",
+       32.46
+      ]
+     ]
+    },
+    {
+     "n": 11,
+     "start": 33.27,
+     "end": 37.568,
+     "en": "Vague claims like 'studies show', formulaic openings, and everything grouped in threes.",
+     "id": "Klaim tanpa sumber seperti \"studies show\", pembuka formulaik, sampai semuanya serba tiga.",
+     "words": [
+      [
+       "Vague",
+       33.36
+      ],
+      [
+       "claims",
+       33.56
+      ],
+      [
+       "like",
+       33.86
+      ],
+      [
+       "studies",
+       34.06
+      ],
+      [
+       "show",
+       34.36
+      ],
+      [
+       "Formulate",
+       34.82
+      ],
+      [
+       "openings",
+       35.32
+      ],
+      [
+       "and",
+       35.72
+      ],
+      [
+       "everything",
+       36.18
+      ],
+      [
+       "grouped",
+       36.54
+      ],
+      [
+       "in",
+       36.9
+      ],
+      [
+       "threes.",
+       37.08
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "thesis",
+   "start": 37.948,
+   "end": 42.948,
+   "lines": [
+    {
+     "n": 12,
+     "start": 37.948,
+     "end": 42.568,
+     "en": "For theses, it respects each chapter, from the flow of Chapter One to the numbers in Chapter Four.",
+     "id": "Untuk skripsi, ia menghormati tiap bab: dari alur BAB 1 sampai angka di BAB 4.",
+     "words": [
+      [
+       "For",
+       37.9
+      ],
+      [
+       "theses,",
+       38.04
+      ],
+      [
+       "it",
+       38.58
+      ],
+      [
+       "respects",
+       38.7
+      ],
+      [
+       "each",
+       38.94
+      ],
+      [
+       "chapter",
+       39.42
+      ],
+      [
+       "from",
+       39.82
+      ],
+      [
+       "the",
+       40.34
+      ],
+      [
+       "flow",
+       40.46
+      ],
+      [
+       "of",
+       40.62
+      ],
+      [
+       "Chapter",
+       40.76
+      ],
+      [
+       "1",
+       40.96
+      ],
+      [
+       "to",
+       41.24
+      ],
+      [
+       "the",
+       41.38
+      ],
+      [
+       "numbers",
+       41.48
+      ],
+      [
+       "in",
+       41.72
+      ],
+      [
+       "Chapter",
+       41.9
+      ],
+      [
+       "4.",
+       42.1
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "report",
+   "start": 42.948,
+   "end": 50.771,
+   "lines": [
+    {
+     "n": 13,
+     "start": 42.948,
+     "end": 50.391,
+     "en": "Every rewrite ends with a status report: the AI-pattern level, and checks that meaning, voice, and citations are intact.",
+     "id": "Setiap rewrite ditutup laporan status: level pola AI, dan pengecekan bahwa makna, gaya, dan sitasi tetap utuh.",
+     "words": [
+      [
+       "Every",
+       42.9
+      ],
+      [
+       "rewrite",
+       43.2
+      ],
+      [
+       "ends",
+       43.54
+      ],
+      [
+       "with",
+       43.98
+      ],
+      [
+       "a",
+       44.22
+      ],
+      [
+       "status",
+       44.34
+      ],
+      [
+       "report.",
+       44.52
+      ],
+      [
+       "The",
+       45.56
+      ],
+      [
+       "AI",
+       45.74
+      ],
+      [
+       "pattern",
+       45.96
+      ],
+      [
+       "level",
+       46.28
+      ],
+      [
+       "and",
+       46.62
+      ],
+      [
+       "checks",
+       46.96
+      ],
+      [
+       "that",
+       47.24
+      ],
+      [
+       "meaning,",
+       47.46
+      ],
+      [
+       "voice",
+       48.18
+      ],
+      [
+       "and",
+       48.44
+      ],
+      [
+       "citations",
+       48.84
+      ],
+      [
+       "are",
+       49.42
+      ],
+      [
+       "intact.",
+       49.84
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "honest",
+   "start": 50.771,
+   "end": 57.132,
+   "lines": [
+    {
+     "n": 14,
+     "start": 50.771,
+     "end": 56.752,
+     "en": "It's an editing tool, not a detector cheat. Review every change, and follow your campus rules.",
+     "id": "Ini alat bantu editorial, bukan alat curang AI detector. Cek setiap perubahan, dan ikuti aturan kampusmu.",
+     "words": [
+      [
+       "It's",
+       50.74
+      ],
+      [
+       "an",
+       50.96
+      ],
+      [
+       "editing",
+       51.04
+      ],
+      [
+       "tool,",
+       51.38
+      ],
+      [
+       "not",
+       52.12
+      ],
+      [
+       "a",
+       52.38
+      ],
+      [
+       "detector",
+       52.54
+      ],
+      [
+       "cheat.",
+       52.84
+      ],
+      [
+       "Review",
+       54.08
+      ],
+      [
+       "every",
+       54.46
+      ],
+      [
+       "change",
+       54.78
+      ],
+      [
+       "and",
+       55.08
+      ],
+      [
+       "follow",
+       55.48
+      ],
+      [
+       "your",
+       55.76
+      ],
+      [
+       "campus",
+       55.96
+      ],
+      [
+       "rules.",
+       56.18
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "cta",
+   "start": 57.132,
+   "end": 63.1,
+   "lines": [
+    {
+     "n": 15,
+     "start": 57.132,
+     "end": 60.892,
+     "en": "Get it from the link in the description, or comment AI and I'll send it.",
+     "id": "Ambil lewat link di deskripsi, atau komen AI, nanti aku kirim.",
+     "words": [
+      [
+       "Get",
+       57.1
+      ],
+      [
+       "it",
+       57.26
+      ],
+      [
+       "from",
+       57.36
+      ],
+      [
+       "the",
+       57.52
+      ],
+      [
+       "link",
+       57.66
+      ],
+      [
+       "in",
+       57.82
+      ],
+      [
+       "the",
+       58.02
+      ],
+      [
+       "description",
+       58.08
+      ],
+      [
+       "or",
+       58.42
+      ],
+      [
+       "comment",
+       59.12
+      ],
+      [
+       "AI",
+       59.42
+      ],
+      [
+       "and",
+       59.74
+      ],
+      [
+       "I'll",
+       60.2
+      ],
+      [
+       "send",
+       60.5
+      ],
+      [
+       "it.",
+       60.72
+      ]
+     ]
+    }
+   ]
+  }
+ ]
+}

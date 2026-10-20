@@ -1,0 +1,124 @@
+{
+ "scenes": [
+  {
+   "name": "hook",
+   "lines": [
+    {
+     "en": "Your thesis draft had some help from AI.",
+     "id": "Draf skripsimu dibantu AI.",
+     "emo": "curious"
+    },
+    {
+     "en": "Now it reads stiff, and every paragraph sounds the same.",
+     "id": "Sekarang tulisannya kaku, dan tiap paragraf terdengar sama.",
+     "emo": "serious"
+    }
+   ]
+  },
+  {
+   "name": "what",
+   "lines": [
+    {
+     "en": "Meet AI Detection Reducer, a ResearchQ skill for Claude.",
+     "id": "Kenalan dengan AI Detection Reducer, skill ResearchQ untuk Claude.",
+     "emo": "confident"
+    },
+    {
+     "en": "It audits your writing and rewrites what sounds machine-made, keeping your meaning, voice, and citations.",
+     "id": "Ia mengaudit tulisanmu dan menulis ulang bagian yang terdengar seperti mesin, tanpa mengubah makna, gaya, dan sitasi.",
+     "emo": "warm"
+    }
+   ]
+  },
+  {
+   "name": "activate",
+   "lines": [
+    {
+     "en": "No setup. Just ask Claude in plain words: remove the AI-isms from this paragraph.",
+     "id": "Tanpa setting. Cukup minta ke Claude dengan bahasa biasa: hapus pola AI dari paragraf ini.",
+     "emo": "calm"
+    }
+   ]
+  },
+  {
+   "name": "modes",
+   "lines": [
+    {
+     "en": "It works in three modes.",
+     "id": "Ada tiga mode.",
+     "emo": "confident"
+    },
+    {
+     "en": "Rewrite fixes the text and shows you what changed.",
+     "id": "Rewrite memperbaiki teks dan menunjukkan apa yang diubah.",
+     "emo": "calm"
+    },
+    {
+     "en": "Detect only flags the patterns, so you decide.",
+     "id": "Detect hanya menandai polanya, kamu yang memutuskan.",
+     "emo": "calm"
+    },
+    {
+     "en": "And Edit fixes your file directly, touching only what needs it.",
+     "id": "Edit langsung memperbaiki file-mu, hanya di bagian yang perlu.",
+     "emo": "calm"
+    }
+   ]
+  },
+  {
+   "name": "aiisms",
+   "lines": [
+    {
+     "en": "It sorts AI-isms by severity.",
+     "id": "Pola AI dikelompokkan berdasarkan tingkat keparahan.",
+     "emo": "serious"
+    },
+    {
+     "en": "Vague claims like 'studies show', formulaic openings, and everything grouped in threes.",
+     "id": "Klaim tanpa sumber seperti \"studies show\", pembuka formulaik, sampai semuanya serba tiga.",
+     "emo": "curious"
+    }
+   ]
+  },
+  {
+   "name": "thesis",
+   "lines": [
+    {
+     "en": "For theses, it respects each chapter, from the flow of Chapter One to the numbers in Chapter Four.",
+     "id": "Untuk skripsi, ia menghormati tiap bab: dari alur BAB 1 sampai angka di BAB 4.",
+     "emo": "confident"
+    }
+   ]
+  },
+  {
+   "name": "report",
+   "lines": [
+    {
+     "en": "Every rewrite ends with a status report: the AI-pattern level, and checks that meaning, voice, and citations are intact.",
+     "id": "Setiap rewrite ditutup laporan status: level pola AI, dan pengecekan bahwa makna, gaya, dan sitasi tetap utuh.",
+     "emo": "confident"
+    }
+   ]
+  },
+  {
+   "name": "honest",
+   "lines": [
+    {
+     "en": "It's an editing tool, not a detector cheat. Review every change, and follow your campus rules.",
+     "id": "Ini alat bantu editorial, bukan alat curang AI detector. Cek setiap perubahan, dan ikuti aturan kampusmu.",
+     "emo": "sympathetic"
+    }
+   ]
+  },
+  {
+   "name": "cta",
+   "lines": [
+    {
+     "en": "Get it from the link in the description, or comment AI and I'll send it.",
+     "id": "Ambil lewat link di deskripsi, atau komen AI, nanti aku kirim.",
+     "emo": "excited"
+    }
+   ]
+  }
+ ]
+}
