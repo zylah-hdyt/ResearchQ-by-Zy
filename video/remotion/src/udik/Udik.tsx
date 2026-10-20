@@ -13,19 +13,19 @@ loadFont({ family: "Tinos", url: staticFile("fonts/tinos-latin-400-normal.woff2"
 const BG = "#FBFAF8", INK = "#151413", MUTE = "#6F6A63", RED = "#E5484D", GREEN = "#1F9D55";
 const CL_BG = "#F5F3EC", CL_INK = "#1F1E1D", CL_CLAY = "#D97757", CL_BUB = "#E8E4D8", CL_LINE = "#DAD6C8";
 const AV = ["#EE6A1F", "#2453E8", "#16A34A", "#7C3AED", "#E5398A"];
-const clean = (s: string) => s.toLowerCase().replace(/[.,?!]/g, "");
-const idx = (word: string, n = 0): number => {
+export const clean = (s: string) => s.toLowerCase().replace(/[.,?!]/g, "");
+export const idx = (word: string, n = 0): number => {
   let c = 0;
   for (let i = 0; i < WORDS.length; i++) if (clean(WORDS[i][0]) === clean(word)) { if (c === n) return i; c++; }
   throw new Error("word not found: " + word + " #" + n);
 };
-const ws = (word: string, n = 0) => WORDS[idx(word, n)][1];
-const wf = (word: string, n = 0) => Math.round(ws(word, n) * 30);
-const F = (s: number) => Math.round(s * 30);
-const rise = (g: number, at: number, d = 10) => interpolate(g, [at, at + d], [0, 1], { ...CL, easing: EASE });
-const pop = (g: number, at: number) => ({ opacity: g >= at ? 1 : 0, scale: `${interpolate(g, [at, at + 6], [1.35, 1], { ...CL, easing: Easing.out(Easing.cubic) })}` });
-const sliceWords = (a: [string, number], b: [string, number]) => WORDS.slice(idx(a[0], a[1]), idx(b[0], b[1]) + 1);
-const T = { b: 6.0, c: 16.8, d: 30.71, e: 35.89, f: 40.13, end: 44.0, total: 48.5 };
+export const ws = (word: string, n = 0) => WORDS[idx(word, n)][1];
+export const wf = (word: string, n = 0) => Math.round(ws(word, n) * 30);
+export const F = (s: number) => Math.round(s * 30);
+export const rise = (g: number, at: number, d = 10) => interpolate(g, [at, at + d], [0, 1], { ...CL, easing: EASE });
+export const pop = (g: number, at: number) => ({ opacity: g >= at ? 1 : 0, scale: `${interpolate(g, [at, at + 6], [1.35, 1], { ...CL, easing: Easing.out(Easing.cubic) })}` });
+export const sliceWords = (a: [string, number], b: [string, number]) => WORDS.slice(idx(a[0], a[1]), idx(b[0], b[1]) + 1);
+export const T = { b: 6.0, c: 16.8, d: 30.71, e: 35.89, f: 40.13, end: 44.0, total: 48.5 };
 
 /* ---------------- small parts ---------------- */
 const KW: React.FC<{ g: number; at: number; acc?: boolean; red?: boolean; children: React.ReactNode }> = ({ g, at, acc, red, children }) => {
@@ -94,7 +94,7 @@ const Hook: React.FC = () => {
 };
 
 /* ---- B · The questions, asked to friends ---- */
-const QS: [string, string, number][] = [
+export const QS: [string, string, number][] = [
   ["Claude bisa buat skripsi nggak?", "claude", 0], ["Limitnya biar nggak cepet habis gimana?", "limitnya", 0], ["Fiturnya apa aja?", "fiturnya", 0],
   ["Harga paketnya berapa?", "harga", 0], ["Apa kelebihannya dibandingkan AI lain?", "apakah", 0],
 ];
@@ -123,11 +123,11 @@ const Questions: React.FC = () => {
 };
 
 /* ---- C · The Claude screen ---- */
-const P1 = sliceWords(["claude", 1], ["penggunaan", 0]);
-const P2 = sliceWords(["gimana", 1], ["habis", 1]);
-const P3 = sliceWords(["apa", 2], ["lainnya", 0]);
-const SEND = [ws("penggunaan") + 0.55, ws("habis", 1) + 0.5, ws("lainnya") + 0.5];
-const typed = (tokens: [string, number][], t: number) => tokens.filter(([, s]) => t >= s + 0.04).map(([w]) => w).join(" ");
+export const P1 = sliceWords(["claude", 1], ["penggunaan", 0]);
+export const P2 = sliceWords(["gimana", 1], ["habis", 1]);
+export const P3 = sliceWords(["apa", 2], ["lainnya", 0]);
+export const SEND = [ws("penggunaan") + 0.55, ws("habis", 1) + 0.5, ws("lainnya") + 0.5];
+export const typed = (tokens: [string, number][], t: number) => tokens.filter(([, s]) => t >= s + 0.04).map(([w]) => w).join(" ");
 const Skel: React.FC<{ g: number; at: number; widths: number[]; head?: string[] }> = ({ g, at, widths, head }) => (
   <div style={{ display: "flex", gap: 22, opacity: g >= at ? 1 : 0 }}>
     <Img src={staticFile("claude_logo_t.png")} style={{ width: 54, height: 54, flex: "none", marginTop: 4 }} />
@@ -241,7 +241,7 @@ const Curious: React.FC = () => {
 };
 
 /* ---- F · kapan belajar mencari tahu sendiri? ---- */
-const Q3 = sliceWords(["belajar", 0], ["sendiri", 0]);
+export const Q3 = sliceWords(["belajar", 0], ["sendiri", 0]);
 const When: React.FC = () => {
   const g = useCurrentFrame() + F(T.f);
   const t = g / 30;
@@ -282,7 +282,7 @@ const PHRASES: [string, number][][] = (() => {
   for (const w of WORDS) { cur.push(w); if (/[.,?!]$/.test(w[0]) || cur.length >= 6) { out.push(cur); cur = []; } }
   if (cur.length) out.push(cur); return out;
 })();
-const Subs: React.FC = () => {
+export const Subs: React.FC = () => {
   const t = useCurrentFrame() / 30;
   const i = PHRASES.findIndex((p, k) => t >= p[0][1] - 0.08 && t < (PHRASES[k + 1] ? PHRASES[k + 1][0][1] - 0.08 : p[p.length - 1][1] + 1.2));
   if (i < 0 || t > T.end + 0.3) return null;

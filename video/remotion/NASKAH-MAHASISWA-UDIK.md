@@ -29,3 +29,9 @@ punya rasa ingin tahu itu penting. Jangan semua hal harus disuapin. Kalau semuan
 ## Catatan kejujuran
 - Isi balasan Claude di layar sengaja berupa garis kerangka (bukan teks jawaban) supaya tidak ada klaim fitur, harga, atau limit yang dikarang. Diberi label "ILUSTRASI TAMPILAN".
 - Tafsir transkrip yang perlu kamu cek: "script si inget" → **skripsi nggak?**, "jalan si dong" → **jelasin dong**, "swa" → **mahasiswa**. Kata "Beres," di awal kalimat payoff terdengar jelas, tapi kalau maksudmu lain (mis. "Begitu,"), bilang saja.
+
+## Versi 2 — gaya cinematic gelap (`MahasiswaUdikCine`, `src/udik/UdikCine.tsx`)
+Suara, transkrip, timing kata, dan SFX sama persis dengan versi terang. Yang berbeda hanya visualnya, mengikuti gaya video Cursor (jup.creatives):
+panggung hitam + cahaya oranye, kamera 3D bergerak di atas layar Claude versi gelap, garis cahaya oranye mengitari kolom input saat prompt mulai diketik dan saat dikirim,
+kamera menyelam ke kata "Claude-nya" untuk pindah dari grup chat ke layar Claude, dan penutup logo putih → wordmark.
+File: `renders/ResearchQ-Mahasiswa-Udik-Cinematic.mp4` (subtitle karaoke) dan `-Cinematic-NoSub.mp4`.
