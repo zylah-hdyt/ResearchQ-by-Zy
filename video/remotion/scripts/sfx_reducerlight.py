@@ -143,7 +143,7 @@ def put_end(frame, st, g):  # place so the sound ENDS at frame (for reversed / r
 for f, p in ((2, -0.2), (12, 0.2), (30, -0.1)): put(f, tick(p), 0.08)       # type ticks on the split words
 put(49, tick(0.0), 0.12); put(49, sub_boom(56, 34, 1.0, 0.3, 0.35), 0.30)   # "AI?" lands with weight
 put(66 - 0.62 * 0.7 * 30, whoosh(0.7), 0.45)                                # into the cards
-for f in (74, 106, 141): put(f + 6, bloop(), 0.32)                          # same morph bloop x3
+for f in (70, 102, 136): put(f + 6, bloop(), 0.32)                          # same morph bloop x3
 put(150, riser(1.0), 0.40)                                                  # riser into the drop
 put(180, impact(), 0.75)                                                    # DROP
 put(214, brush(), 0.22)                                                     # AI-isms get struck
@@ -155,7 +155,7 @@ put(300, sub_boom(62, 36, 1.0, 0.25, 0.3), 0.30); put(302, chime((2093.0,)), 0.1
 put(371, shimmer(0.5, 12), 0.14)                                            # "natural."
 put(390 - 0.62 * 0.6 * 30, whoosh(0.6, p0=0.6, p1=-0.6), 0.40)              # into the CTA
 put(396, thump(), 0.30)                                                     # card settles
-put(401, sub_boom(84, 44, 0.9, 0.2, 0.25), 0.55); put(401, chime((1568.0, 2093.0), 0.05), 0.22)  # Rp29.000
+put(403, sub_boom(84, 44, 0.9, 0.2, 0.25), 0.55); put(403, chime((1568.0, 2093.0), 0.05), 0.22)  # Rp29.000
 
 mix = out[:N]
 mix = np.stack([hp(mix[:, c], 28) for c in range(2)], 1)

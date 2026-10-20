@@ -42,7 +42,7 @@ const Hook: React.FC = () => {
   return (
     <AbsoluteFill style={{ background: BG }}>
       <div style={{ opacity: 1 - out, filter: `blur(${out * 10}px)` }}>
-        <Line f={f} top={760} size={88} end={60} words={[["Wrote", 2], ["your", 8], ["thesis", 12], ["with", 20], ["a", 27], ["little", 30], ["help", 34], ["from", 43], ["AI?", 49]]} />
+        <Line f={f} top={760} size={88} end={60} words={[["Wrote", 2], ["your", 7], ["thesis", 11], ["with", 20], ["a", 28], ["little", 32], ["help", 35], ["from", 43], ["AI?", 49]]} />
       </div>
     </AbsoluteFill>
   );
@@ -70,22 +70,22 @@ const CardHead: React.FC<{ dot: string; label: string }> = ({ dot, label }) => (
 const Problems: React.FC = () => {
   const f = useCurrentFrame() + 66;
   const W = 300, H = 380;
-  const status = f >= 156 ? "HIGH" : "…";
+  const status = f >= 150 ? "HIGH" : "…";
   return (
     <AbsoluteFill style={{ background: BG }}>
       {/* the sentence, small and anchored top-left like the reference caption line */}
       <div style={{ position: "absolute", left: 60, right: 60, top: 470 }}>
-        <Line f={f} top={0} size={60} end={180} words={[["Stiff", 74], ["sentences.", 79], ["Predictable", 106], ["patterns.", 116], ["Rising", 141], ["AI", 152], ["signals.", 160]]} />
+        <Line f={f} top={0} size={60} end={180} words={[["Stiff", 70], ["sentences.", 78], ["Predictable", 102], ["patterns.", 115], ["Rising", 136], ["AI", 143], ["signals.", 152]]} />
       </div>
       <div style={{ position: "absolute", left: 0, right: 0, top: 860, display: "flex", justifyContent: "center", gap: 30, scale: `${interpolate(f, [66, 180], [1.06, 1])}` }}>
-        <Blob f={f} at={74} w={W} h={H} dark>
+        <Blob f={f} at={70} w={W} h={H} dark>
           <CardHead dot="#E5484D" label="Kalimat kaku" />
           <div style={{ padding: "34px 26px", fontFamily: SANS, color: "#EDEBE6" }}>
             <div style={{ fontWeight: 800, fontSize: 52, lineHeight: 1.1, color: "#fff" }}>Klise</div>
             <div style={{ marginTop: 22, fontSize: 24, lineHeight: 1.45 }}><span style={{ background: "rgba(229,72,77,.35)", borderBottom: "3px solid #E5484D" }}>Seiring dengan perkembangan zaman</span>, penting untuk…</div>
           </div>
         </Blob>
-        <Blob f={f} at={106} w={W} h={H} dark>
+        <Blob f={f} at={102} w={W} h={H} dark>
           <CardHead dot={ORS} label="Pola AI" />
           <div style={{ padding: "34px 26px", fontFamily: SANS, color: "#EDEBE6" }}>
             <div style={{ fontWeight: 800, fontSize: 52, lineHeight: 1.1, color: "#fff" }}>Ketebak</div>
@@ -96,12 +96,12 @@ const Problems: React.FC = () => {
             ))}
           </div>
         </Blob>
-        <Blob f={f} at={141} w={W} h={H} dark>
+        <Blob f={f} at={136} w={W} h={H} dark>
           <CardHead dot="#E5484D" label="AI-pattern status" />
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 40, fontFamily: SANS }}>
             <svg width={190} height={190} viewBox="0 0 190 190" style={{ rotate: "-90deg" }}>
               <circle cx={95} cy={95} r={78} fill="none" stroke="#2A2A2A" strokeWidth={18} />
-              <circle cx={95} cy={95} r={78} fill="none" stroke="#E5484D" strokeWidth={18} strokeLinecap="round" strokeDasharray={`${2 * Math.PI * 78 * interpolate(f, [146, 164], [0, 0.88], { ...CL, easing: EASE })} 999`} />
+              <circle cx={95} cy={95} r={78} fill="none" stroke="#E5484D" strokeWidth={18} strokeLinecap="round" strokeDasharray={`${2 * Math.PI * 78 * interpolate(f, [141, 159], [0, 0.88], { ...CL, easing: EASE })} 999`} />
             </svg>
             <div style={{ marginTop: -132, fontWeight: 800, fontSize: 44, color: "#fff", height: 74 }}>{status}</div>
             <div style={{ marginTop: 60, fontFamily: MONO, fontSize: 18, letterSpacing: 2, color: "#8A867F" }}>STATUS DARI SKILL</div>
@@ -142,7 +142,7 @@ const Collage: React.FC = () => {
         <div style={{ position: "absolute", left: 170, right: 170, top: 840, height: 250, border: "1.5px solid rgba(21,20,19,.25)", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <div style={{ position: "absolute", left: -60, right: -60, top: -1, height: 0, borderTop: "1px solid rgba(21,20,19,.18)" }} />
           <div style={{ position: "absolute", left: -60, right: -60, bottom: -1, height: 0, borderTop: "1px solid rgba(21,20,19,.18)" }} />
-          <Line f={f} top={40} size={48} end={238} words={[["So", 185], ["how", 187], ["do", 196], ["you", 199], ["make", 202], ["it", 207], ["sound", 210], ["like", 217], ["you?", 223]]} />
+          <Line f={f} top={40} size={48} end={238} words={[["So", 182], ["how", 188], ["do", 197], ["you", 200], ["make", 202], ["it", 207], ["sound", 211], ["like", 216], ["you?", 221]]} />
         </div>
       </AbsoluteFill>
     </AbsoluteFill>
@@ -164,7 +164,7 @@ const Fix: React.FC = () => {
       <div style={{ position: "absolute", left: -200, top: 1100, width: 900, height: 900, borderRadius: "50%", background: "radial-gradient(closest-side, rgba(238,106,31,.45), rgba(238,106,31,0))", translate: `${interpolate(f, [240, 300], [0, 60])}px 0px` }} />
       <div style={{ position: "absolute", left: 500, top: 200, width: 800, height: 800, borderRadius: "50%", background: "radial-gradient(closest-side, rgba(255,140,170,.35), rgba(255,140,170,0))" }} />
       <AbsoluteFill style={{ scale: `${interpolate(f, [240, 300], [1.08, 1.0], { easing: Easing.out(Easing.cubic) })}` }}>
-        <Line f={f} top={300} size={64} end={300} words={[["AI", 240], ["Detection", 245], ["Reducer", 257], ["cleans", 271], ["it", 279], ["all", 284], ["up.", 289]]} />
+        <Line f={f} top={300} size={64} end={300} words={[["AI", 240], ["Detection", 245], ["Reducer", 257], ["cleans", 273], ["it", 283], ["all", 288], ["up.", 292]]} />
         {/* the document */}
         <div style={{ position: "absolute", left: 300, top: 700, width: 480, height: 600, borderRadius: 24, background: "#fff", boxShadow: "0 50px 90px -40px rgba(120,50,10,.5)", padding: "40px 40px", rotate: `${interpolate(f, [240, 300], [-6, -2])}deg`, ...pop(246) }}>
           <div style={{ fontFamily: SANS, fontWeight: 800, fontSize: 30, color: INK }}>BAB 1 · Latar Belakang</div>
@@ -204,7 +204,7 @@ const Closing: React.FC = () => {
   const f = useCurrentFrame() + 330;
   return (
     <AbsoluteFill style={{ background: BG }}>
-      <Line f={f} top={830} size={84} end={390} accentLast words={[["Your", 332], ["writing,", 335], ["at", 349], ["its", 360], ["most", 365], ["natural.", 371]]} />
+      <Line f={f} top={830} size={84} end={390} accentLast words={[["Your", 333], ["writing,", 337], ["at", 355], ["its", 358], ["most", 364], ["natural.", 370]]} />
     </AbsoluteFill>
   );
 };
@@ -223,11 +223,11 @@ const Cta: React.FC = () => {
       </div>
       <div style={{ position: "absolute", left: 0, right: 0, top: 1130, textAlign: "center", fontFamily: SANS }}>
         <div style={{ fontWeight: 600, fontSize: 40, color: MUTE, opacity: p(382) }}>cuma</div>
-        <div style={{ fontWeight: 800, fontSize: 150, letterSpacing: -6, lineHeight: 1, color: INK, opacity: f >= 386 ? 1 : 0, scale: `${interpolate(f, [386, 392], [1.35, 1], { ...CL, easing: Easing.out(Easing.cubic) })}` }}>Rp<span style={{ color: OR }}>29.000</span></div>
+        <div style={{ fontWeight: 800, fontSize: 150, letterSpacing: -6, lineHeight: 1, color: INK, opacity: f >= 388 ? 1 : 0, scale: `${interpolate(f, [388, 394], [1.35, 1], { ...CL, easing: Easing.out(Easing.cubic) })}` }}>Rp<span style={{ color: OR }}>29.000</span></div>
       </div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 1340, textAlign: "center", fontFamily: SANS, fontWeight: 700, fontSize: 46, color: INK, opacity: p(442), translate: `0px ${(1 - p(442)) * 24}px` }}>atau komen <span style={{ color: OR }}>AI</span> 👇 aku kirim link-nya</div>
-      <div style={{ position: "absolute", left: 100, right: 100, top: 1430, textAlign: "center", fontFamily: SANS, fontWeight: 500, fontSize: 24, lineHeight: 1.4, color: "#9A958C", opacity: p(452) }}>Alat bantu editorial, bukan jaminan lolos AI detector.</div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 1490, textAlign: "center", fontFamily: SANS, fontWeight: 600, fontSize: 30, color: INK, opacity: p(458) }}>researchq<span style={{ color: OR }}>.</span>id</div>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1340, textAlign: "center", fontFamily: SANS, fontWeight: 700, fontSize: 46, color: INK, opacity: p(451), translate: `0px ${(1 - p(451)) * 24}px` }}>atau komen <span style={{ color: OR }}>AI</span> 👇 aku kirim link-nya</div>
+      <div style={{ position: "absolute", left: 100, right: 100, top: 1430, textAlign: "center", fontFamily: SANS, fontWeight: 500, fontSize: 24, lineHeight: 1.4, color: "#9A958C", opacity: p(458) }}>Alat bantu editorial, bukan jaminan lolos AI detector.</div>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1490, textAlign: "center", fontFamily: SANS, fontWeight: 600, fontSize: 30, color: INK, opacity: p(463) }}>researchq<span style={{ color: OR }}>.</span>id</div>
     </AbsoluteFill>
   );
 };
