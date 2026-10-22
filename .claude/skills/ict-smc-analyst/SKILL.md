@@ -88,6 +88,17 @@ Untuk setiap setup valid berikan: arah, jenis entry (limit/confirmation), entry 
 
 RR adalah filter, bukan jaminan profit. Jika target struktural tidak memberi RR layak → **NO TRADE**. Jangan memaksakan TP tidak realistis demi memenuhi rasio.
 
+### Jarak & Kemungkinan Terisi (Fill Probability)
+
+RR yang bagus di atas kertas tidak berguna jika limit tidak pernah terisi. Untuk setiap limit/entry zone:
+
+- Tulis **jarak dari harga saat ini** (poin dan %) dan beri label **dekat / menengah / jauh**, dengan acuan range rata-rata candle M15/H1 instrumen itu (dekat ≈ dalam 1–2 candle LTF; menengah ≈ beberapa candle; jauh ≈ butuh retrace besar atau pergerakan sesi baru).
+- **Prioritaskan POI terdekat yang valid**: retrace pertama 38–62% dari leg terakhir, breaker/OB LTF, atau retest level yang baru ditembus. Zona dalam seperti OTE jauh atau premium/discount ekstrem hanya boleh jadi opsi sekunder dan harus diberi label "kecil kemungkinan terisi".
+- Jangan memilih zona jauh hanya agar RR memenuhi minimum. Jika POI terdekat yang valid tidak memenuhi RR minimum dengan SL struktural, jawabannya **NO TRADE**, bukan mengganti dengan zona yang lebih jauh.
+- Jika harga sedang impulsif dan sudah meninggalkan zona, jangan menyodorkan limit baru yang jauh di belakang harga. Tunggu retrace pertama atau konfirmasi di LTF (alert + trigger).
+- SL tetap di invalidasi struktural, bukan dipersempit supaya RR terlihat bagus. Cek ulang RR dari jarak SL yang sebenarnya.
+- Beri batas waktu berlaku untuk setiap limit (misalnya batalkan jika belum terisi sampai akhir sesi yang disebut pengguna).
+
 ## 8. Risk Management
 
 - Jangan merekomendasikan leverage besar sebagai pengganti analisis.
