@@ -173,7 +173,7 @@ html,body{margin:0;background:#141110;overflow:hidden}
 #hud .tc{position:absolute;right:72px;top:196px;font-family:JBM;font-size:20px;letter-spacing:.12em}
 #hud .hl{position:absolute;left:72px;right:72px;top:236px;height:1px;background:currentColor;opacity:.35}
 #hud .pg{position:absolute;left:72px;top:236px;height:2px;background:var(--acc)}
-#brand{position:absolute;left:72px;top:1494px;font-size:34px;font-weight:800;letter-spacing:-.03em;white-space:nowrap}
+#brand{position:absolute;left:72px;top:196px;font-size:34px;font-weight:800;letter-spacing:-.03em;white-space:nowrap}
 #brand i{display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--acc);margin-left:3px}
 #grain{position:absolute;inset:0;mix-blend-mode:overlay;opacity:.11;background-size:1080px 1920px;pointer-events:none}
 </style></head>
@@ -334,11 +334,6 @@ html,body{margin:0;background:#141110;overflow:hidden}
 
 <div class="full" id="cutflash" style="background:#000;opacity:0"></div>
 <div id="hud">
-  <div class="hudc" style="left:56px;top:176px;border-left-width:2px;border-top-width:2px"></div>
-  <div class="hudc" style="right:56px;top:176px;border-right-width:2px;border-top-width:2px"></div>
-  <div class="hudc" style="left:56px;top:1548px;border-left-width:2px;border-bottom-width:2px"></div>
-  <div class="hudc" style="right:56px;top:1548px;border-right-width:2px;border-bottom-width:2px"></div>
-  <div class="lbl" id="hlbl">01 / 06 — PERINGATAN</div><div class="tc" id="htc">00:00.0</div><div class="hl"></div><div class="pg" id="hpg"></div>
   <div id="brand">ResearchQ<i></i></div>
 </div>
 <div id="grain"></div>
@@ -630,10 +625,6 @@ function S6(t){const s=$('#s6');if(!show(s,t>=47.2))return;
 }
 
 function HUD(t){const dk=dark(t);const col=mixc('#1B1714','#F1E8D8',dk);const h=$('#hud');h.style.color=col;
-  let lbl=SEC[0][1];for(const s of SEC)if(t>=s[0])lbl=s[1];$('#hlbl').textContent=lbl;
-  const sec=Math.floor(t),ds=Math.floor((t-sec)*10);$('#htc').textContent=`00:${String(sec).padStart(2,'0')}.${ds}`;
-  $('#hpg').style.width=((936)*cl(t/END)).toFixed(1)+'px';
-  [...h.querySelectorAll('.hudc,.lbl,.tc')].forEach(e=>e.style.opacity=.6);
   $('#brand').style.color=col;
 }
 

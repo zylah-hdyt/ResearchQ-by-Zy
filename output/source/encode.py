@@ -9,7 +9,7 @@ p=subprocess.Popen(cmd,stdin=subprocess.PIPE)
 def load(n):
     acc=None
     for k in range(3):
-        a=np.asarray(Image.open(f'{V}/sub/f{n:05d}_{k}.jpg').convert('RGB'),dtype=np.float32)
+        a=np.asarray(Image.open(f'{V}/{sys.argv[5] if len(sys.argv)>5 else 'sub'}/f{n:05d}_{k}.jpg').convert('RGB'),dtype=np.float32)
         acc=a if acc is None else acc+a
     return np.clip(acc/3+.5,0,255).astype(np.uint8).tobytes()
 with ThreadPoolExecutor(4) as ex:
