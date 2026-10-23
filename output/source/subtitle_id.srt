@@ -1,0 +1,103 @@
+1
+00:00:00,840 --> 00:00:01,210
+Stop!
+
+2
+00:00:01,210 --> 00:00:02,420
+Jangan gampang percaya
+
+3
+00:00:02,420 --> 00:00:03,840
+kalau ada yang bilang pakai skill ini,
+
+4
+00:00:03,840 --> 00:00:05,300
+parafrasa lo dijamin aman,
+
+5
+00:00:05,380 --> 00:00:06,330
+lolos Turnitin,
+
+6
+00:00:06,330 --> 00:00:08,130
+bahkan AI detector sampai 0%.
+
+7
+00:00:08,400 --> 00:00:09,790
+Please, jangan langsung kemakan
+
+8
+00:00:09,790 --> 00:00:12,410
+kreator-kreator yang jualan kayak begini, guys.
+
+9
+00:00:12,840 --> 00:00:14,900
+Karena satu dokumen itu berbeda-beda,
+
+10
+00:00:14,900 --> 00:00:17,780
+bukan berarti semua dokumen bakalan sama hasilnya.
+
+11
+00:00:17,870 --> 00:00:19,570
+Setiap tulisan punya struktur,
+
+12
+00:00:19,570 --> 00:00:22,250
+gaya bahasa, dan proses penulisan yang berbeda.
+
+13
+00:00:22,410 --> 00:00:24,000
+AI detector juga punya keterbatasan
+
+14
+00:00:24,000 --> 00:00:26,690
+dan bisa salah mengidentifikasi tulisan manusia.
+
+15
+00:00:26,880 --> 00:00:28,970
+Mengurangi indikasi AI bisa saja.
+
+16
+00:00:28,970 --> 00:00:31,080
+Tapi menjamin 0% untuk semua orang
+
+17
+00:00:31,080 --> 00:00:32,080
+itu overclaim.
+
+18
+00:00:32,080 --> 00:00:33,800
+Gak ada jaminannya.
+
+19
+00:00:34,120 --> 00:00:35,800
+Gue sendiri juga mengembangkan skill
+
+20
+00:00:35,800 --> 00:00:37,870
+yang bisa mengurangi AI detector.
+
+21
+00:00:38,240 --> 00:00:40,010
+Ingat, mengurangi ya.
+
+22
+00:00:40,350 --> 00:00:42,760
+dengan gaya bahasa natural dan sesuai konteks.
+
+23
+00:00:42,760 --> 00:00:45,380
+Tapi gue gak mau menjanjikan hasil yang gak bisa dipastikan.
+
+24
+00:00:45,380 --> 00:00:47,310
+Tidak ada jaminan bakalan 0%.
+
+25
+00:00:47,470 --> 00:00:49,480
+Kalau lo mau tahu skill yang gue kembangkan,
+
+26
+00:00:49,480 --> 00:00:52,050
+komen “AI”, nanti gue kirim link.
