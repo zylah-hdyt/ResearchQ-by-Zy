@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:'PJS';font-weight:800;src:url(data:font/woff2;base64,{{PJS800}}) format('woff2')}
+@font-face{font-family:'JBM';font-weight:500;src:url(data:font/woff2;base64,{{JBM500}}) format('woff2')}
+@font-face{font-family:'IS';font-style:italic;font-weight:400;src:url(data:font/woff2;base64,{{IS400I}}) format('woff2')}
+:root{--acc:#E8672A;--ink:#1B1714;--cream:#F1E8D8;--off:#FBF7F0;--mut:#8D8275}
+*{box-sizing:border-box}html,body{margin:0;background:#EFE5D3}
+#c{position:relative;width:1080px;height:1920px;overflow:hidden;font-family:PJS;color:var(--ink);background:radial-gradient(ellipse 85% 55% at 50% 40%,#F8F1E5 0%,#EEE3D0 60%,#DFCCAF 100%)}
+.ab{position:absolute}.ctr{position:absolute;left:0;width:1080px;text-align:center;white-space:nowrap}
+#tex{left:0;top:0;width:1080px;height:1920px;background:url({{PAPER}});background-size:512px;mix-blend-mode:multiply;opacity:.8}
+#glow{left:0;top:0;width:1080px;height:1920px;background:radial-gradient(ellipse 45% 16% at 50% 37%,rgba(244,163,64,.35),transparent 72%)}
+#brand{left:72px;top:252px;font-size:46px;font-weight:800;letter-spacing:-.03em}
+#brand i{display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--acc);margin-left:4px}
+#tag{left:50%;top:372px;transform:translateX(-50%) rotate(-2.5deg);background:var(--acc);color:var(--off);font-size:86px;font-weight:800;letter-spacing:-.03em;line-height:1;padding:22px 42px 26px;border-radius:14px;white-space:nowrap;box-shadow:0 26px 50px -18px rgba(150,70,20,.55)}
+#big{top:505px;font-family:IS;font-style:italic;font-size:380px;line-height:1;color:var(--acc);letter-spacing:-.02em;text-shadow:0 20px 50px rgba(232,103,42,.25)}
+#q{top:910px;font-size:112px;font-weight:800;letter-spacing:-.045em;line-height:1}
+#q b{color:var(--acc)}
+#sw{left:150px;top:1040px;width:780px;height:50px}
+.card{top:1140px;width:300px;height:380px;border-radius:26px;background-color:var(--off);background-image:url({{PAPER}});background-size:400px;background-blend-mode:multiply;box-shadow:0 40px 60px -24px rgba(90,55,25,.5),0 10px 20px -8px rgba(90,55,25,.3)}
+.card .n{position:absolute;left:30px;top:30px;font-family:JBM;font-size:22px;letter-spacing:.16em;color:var(--acc)}
+.card .t{position:absolute;left:30px;top:78px;font-size:52px;font-weight:800;letter-spacing:-.035em;line-height:1.02}
+.card .b{position:absolute;left:30px;height:12px;border-radius:6px;background:#DDD1BD}
+.card .dot{position:absolute;right:28px;top:30px;width:18px;height:18px;border-radius:50%;background:var(--acc)}
+#tl{top:1606px;font-family:IS;font-style:italic;font-size:62px;color:var(--ink);opacity:.85}
+#grain{left:0;top:0;width:1080px;height:1920px;background:url({{GRAIN}});background-size:1080px 1920px;mix-blend-mode:overlay;opacity:.08}
+#vig{left:0;top:0;width:1080px;height:1920px;background:radial-gradient(ellipse 80% 65% at 50% 48%,transparent 55%,rgba(90,55,25,.22) 100%)}
+</style></head><body><div id="c">
+<div class="ab" id="tex"></div><div class="ab" id="glow"></div>
+<div class="ab" id="brand">ResearchQ<i></i></div>
+<div class="ab" id="tag">KENAPA GUE PAKAI</div>
+<div class="ctr" id="big">Claude</div>
+<div class="ctr" id="q">BUAT PENELITIAN<b>?</b></div>
+<svg class="ab" id="sw" viewBox="0 0 780 50"><path d="M10 30 C 200 8, 460 6, 770 22" fill="none" stroke="#E8672A" stroke-width="12" stroke-linecap="round"/></svg>
+<div class="ab card" style="left:66px;transform:rotate(-6deg) translateY(30px)"><div class="n">FITUR 01</div><i class="dot"></i><div class="t">Project</div><i class="b" style="top:250px;width:220px"></i><i class="b" style="top:278px;width:180px"></i><i class="b" style="top:306px;width:200px"></i></div>
+<div class="ab card" style="left:714px;transform:rotate(6deg) translateY(30px)"><div class="n">FITUR 03</div><i class="dot"></i><div class="t">Skill</div><i class="b" style="top:250px;width:220px"></i><i class="b" style="top:278px;width:180px"></i><i class="b" style="top:306px;width:200px"></i></div>
+<div class="ab card" style="left:370px;width:340px;z-index:2"><div class="n">FITUR 02</div><i class="dot"></i><div class="t" style="font-size:42px">Research<br>&amp; Connector</div><i class="b" style="top:250px;width:220px"></i><i class="b" style="top:278px;width:180px"></i><i class="b" style="top:306px;width:200px"></i></div>
+<div class="ctr" id="tl">3 fitur yang menurut gue menarik.</div>
+<div class="ab" id="grain"></div><div class="ab" id="vig"></div>
+</div></body></html>
