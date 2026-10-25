@@ -1,0 +1,63 @@
+1
+00:00:01,600 --> 00:00:03,400
+Kenapa gue lebih sering pakai Claude
+
+2
+00:00:03,400 --> 00:00:05,190
+buat penelitian dibanding AI lain?
+
+3
+00:00:05,190 --> 00:00:06,970
+Karena ada 3 fitur yang menurut gue menarik.
+
+4
+00:00:06,970 --> 00:00:07,920
+Pertama, Project,
+
+5
+00:00:07,920 --> 00:00:10,470
+buat mengelola dokumen dan konteks penelitian.
+
+6
+00:00:10,620 --> 00:00:12,530
+Kedua, Research dan Connector,
+
+7
+00:00:12,530 --> 00:00:15,620
+buat membantu menelusuri informasi dan mengakses sumber yang terhubung.
+
+8
+00:00:15,730 --> 00:00:16,930
+Ketiga, Skill.
+
+9
+00:00:17,120 --> 00:00:20,200
+Kita bisa menggunakan workflow khusus untuk berbagai kebutuhan riset
+
+10
+00:00:20,200 --> 00:00:22,050
+tanpa harus mengulang instruksi dari awal.
+
+11
+00:00:22,050 --> 00:00:24,280
+Jadi nggak perlu pakai prompt-prompt panjang-panjang.
+
+12
+00:00:24,540 --> 00:00:26,960
+Tapi hasil AI tetap harus diperiksa, ya.
+
+13
+00:00:27,060 --> 00:00:29,500
+Nah, kalau lo mau skill AI buat bantu penelitian,
+
+14
+00:00:29,500 --> 00:00:31,500
+mulai dari artikel ilmiah sampai disertasi,
+
+15
+00:00:31,500 --> 00:00:32,800
+langsung cek link di bio.
+
+16
+00:00:32,800 --> 00:00:35,750
+Tinggal pilih skill yang sesuai kebutuhan riset lo.
