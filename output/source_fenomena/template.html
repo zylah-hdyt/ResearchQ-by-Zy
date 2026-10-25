@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><title>Apa Itu Fenomena</title>
+<style>
+@font-face{font-family:'PJS';font-weight:500;src:url(data:font/woff2;base64,{{PJS500}}) format('woff2')}
+@font-face{font-family:'PJS';font-weight:700;src:url(data:font/woff2;base64,{{PJS700}}) format('woff2')}
+@font-face{font-family:'PJS';font-weight:800;src:url(data:font/woff2;base64,{{PJS800}}) format('woff2')}
+@font-face{font-family:'JBM';font-weight:500;src:url(data:font/woff2;base64,{{JBM500}}) format('woff2')}
+@font-face{font-family:'IS';font-style:italic;font-weight:400;src:url(data:font/woff2;base64,{{IS400I}}) format('woff2')}
+:root{--char:#141110;--cream:#F1E8D8;--off:#FBF7F0;--ink:#1B1714;--acc:#E8672A;--amb:#F4A340;--mut:#8D8275;--paper:url({{PAPER}})}
+*{box-sizing:border-box}
+html,body{margin:0;background:#141110;overflow:hidden}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--char);font-family:PJS,sans-serif;color:var(--cream);transform-origin:0 0}
+.sc{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;display:none}
+.full{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.ab{position:absolute}
+.mono{font-family:JBM,monospace;font-weight:500;letter-spacing:.14em;text-transform:uppercase}
+.ser{font-family:IS,serif;font-style:italic;font-weight:400;letter-spacing:-.01em}
+.x8{font-weight:800;letter-spacing:-.04em;line-height:.95}
+.ln{display:block;overflow:hidden;padding:.08em .06em .16em;margin:-.08em -.06em -.16em}
+.w{display:inline-block}
+.ctr{position:absolute;left:0;width:1080px;text-align:center;white-space:nowrap}
+.darkbg{background:radial-gradient(ellipse 75% 55% at 50% 48%,#281F18 0%,#151210 62%,#0B0908 100%)}
+.lightbg{background:radial-gradient(ellipse 85% 60% at 50% 45%,#F6EEE0 0%,#EDE2CF 62%,#DFCDB1 100%)}
+.tex{position:absolute;inset:0;background-image:var(--paper);background-size:512px;mix-blend-mode:multiply;opacity:.85}
+.vig{position:absolute;inset:0;background:radial-gradient(ellipse 75% 60% at 50% 50%,transparent 55%,rgba(0,0,0,.55) 100%);pointer-events:none}
+.vigl{position:absolute;inset:0;background:radial-gradient(ellipse 80% 65% at 50% 48%,transparent 50%,rgba(74,48,30,.25) 100%);pointer-events:none}
+.paperc{background-color:var(--off);background-image:var(--paper);background-size:400px;background-blend-mode:multiply}
+.bar{position:absolute;height:12px;border-radius:6px;background:#D6CAB5}
+
+/* S1 */
+#doc1{position:absolute;left:220px;top:640px;width:640px;height:800px;border-radius:12px;box-shadow:0 60px 90px -30px rgba(0,0,0,.8),0 12px 24px rgba(0,0,0,.4)}
+#doc1 .hd{position:absolute;left:50px;top:46px;font-family:JBM;font-size:24px;letter-spacing:.16em;color:#2A221C}
+#circ{position:absolute;left:0;top:0;width:640px;height:800px;overflow:visible}
+#circ path{fill:none;stroke:var(--acc);stroke-width:9;stroke-linecap:round;stroke-linejoin:round}
+#qm{position:absolute;left:560px;top:250px;font-size:190px;color:var(--acc)}
+#d1{color:var(--acc);font-size:30px}
+.q1{font-size:112px;color:var(--cream)}
+
+/* S2 */
+.big{font-size:150px;color:var(--cream)}
+#eq{font-size:140px;font-weight:800;color:var(--acc);line-height:1}
+.cardc{position:absolute;width:400px;height:170px;border-radius:24px;text-align:center;line-height:170px;font-size:46px;font-weight:800;letter-spacing:-.03em;color:var(--ink);box-shadow:0 40px 60px -20px rgba(0,0,0,.7)}
+#plus{position:absolute;left:540px;top:900px;font-size:110px;font-weight:800;color:var(--acc)}
+#merge{position:absolute;left:540px;top:900px;width:660px;height:200px;border-radius:28px;background:var(--acc);color:var(--off);text-align:center;line-height:200px;font-size:66px;font-weight:800;letter-spacing:-.035em;white-space:nowrap;box-shadow:0 40px 80px -20px rgba(232,103,42,.6),0 0 80px rgba(232,103,42,.35)}
+#mlab{position:absolute;left:0;width:1080px;top:1050px;text-align:center;font-family:JBM;font-size:26px;letter-spacing:.2em;color:rgba(241,232,216,.6)}
+
+/* charts */
+.bH,.bK{position:absolute;width:180px;border-radius:14px 14px 0 0;transform-origin:50% 100%}
+.bl{position:absolute;font-family:JBM;font-size:22px;letter-spacing:.14em;text-align:center;width:240px;white-space:nowrap}
+.bs{position:absolute;font-family:IS;font-style:italic;font-size:34px;text-align:center;width:240px;white-space:nowrap}
+.gapc{position:absolute;padding:10px 22px;border-radius:30px;background:var(--acc);color:var(--off);font-weight:800;font-size:32px;letter-spacing:.02em;white-space:nowrap;box-shadow:0 10px 30px rgba(232,103,42,.45)}
+svg.ov{position:absolute;left:0;top:0;overflow:visible}
+
+/* S4 */
+.nf{position:absolute;left:260px;width:560px;height:130px;border-radius:24px;background:linear-gradient(160deg,#2D241D,#1D1713);border:2px solid rgba(241,232,216,.14);box-shadow:0 30px 60px -20px rgba(0,0,0,.7);text-align:center;line-height:130px;font-size:60px;font-weight:800;color:var(--cream);letter-spacing:-.03em;white-space:nowrap}
+.nf .sk{position:absolute;left:40px;right:40px;top:63px;height:7px;border-radius:7px;background:var(--acc);transform-origin:0 50%}
+
+/* S5 steps */
+#edge{position:absolute;left:0;width:1080px;height:120px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.35))}
+#hdr{color:var(--acc);font-size:26px}
+.pd{position:absolute;top:310px;width:64px;height:64px;border-radius:50%;border:3px solid rgba(27,23,20,.25);text-align:center;line-height:58px;font-weight:800;font-size:30px;color:rgba(27,23,20,.4);background:transparent}
+#pline{position:absolute;left:375px;top:341px;width:330px;height:3px;background:rgba(27,23,20,.18)}
+#pfill{position:absolute;left:375px;top:341px;width:330px;height:3px;background:var(--acc);transform-origin:0 50%}
+.st1,.st2{font-size:84px}
+.st1{color:var(--ink)}.st2{color:var(--acc)}
+.src{position:absolute;width:300px;height:380px;border-radius:22px;box-shadow:0 40px 60px -22px rgba(90,55,25,.5)}
+.src .m{position:absolute;left:28px;top:28px;font-family:JBM;font-size:22px;letter-spacing:.16em;color:var(--acc)}
+.chartc{position:absolute;left:160px;top:760px;width:760px;height:500px;border-radius:26px;box-shadow:0 40px 70px -26px rgba(90,55,25,.55)}
+.chartc .m{position:absolute;left:36px;top:30px;font-family:JBM;font-size:22px;letter-spacing:.16em;color:var(--acc)}
+.chip3{position:absolute;padding:12px 24px;border-radius:30px;background:var(--ink);color:var(--cream);font-family:JBM;font-size:24px;letter-spacing:.14em;white-space:nowrap}
+.chip3 i{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--acc);margin-right:12px;vertical-align:2px}
+.node{position:absolute;border-radius:50%;text-align:center;font-weight:800;color:var(--off);box-shadow:0 30px 50px -20px rgba(90,55,25,.55)}
+.nl{position:absolute;font-family:JBM;font-size:21px;letter-spacing:.14em;color:var(--mut);white-space:nowrap;text-align:center;width:360px}
+
+/* S6 example */
+#ex{position:absolute;left:100px;top:760px;width:880px;height:500px;border-radius:28px;box-shadow:0 50px 80px -30px rgba(90,55,25,.55)}
+#ex .r{position:absolute;left:56px;width:770px}
+#ex .r .m{font-family:JBM;font-size:24px;letter-spacing:.18em}
+#ex .r .t{font-size:56px;font-weight:800;letter-spacing:-.035em;color:var(--ink);margin-top:14px;white-space:nowrap}
+#ex .dv{position:absolute;left:56px;right:56px;top:248px;height:2px;background:#E3D8C6}
+#ilu{position:absolute;left:0;width:1080px;top:1300px;text-align:center;font-family:JBM;font-size:22px;letter-spacing:.2em;color:var(--mut)}
+
+/* S7 CTA */
+.sk7{position:absolute;left:160px;width:760px;height:150px;border-radius:26px;background:linear-gradient(160deg,#2D241D,#1E1814);border:2px solid rgba(241,232,216,.16);box-shadow:0 34px 60px -20px rgba(0,0,0,.75);overflow:hidden}
+.sk7 .ac{position:absolute;left:0;top:0;width:12px;height:100%;background:var(--acc)}
+.sk7 .m{position:absolute;left:48px;top:30px;font-family:JBM;font-size:20px;letter-spacing:.18em;color:var(--amb)}
+.sk7 .t{position:absolute;left:48px;top:60px;font-size:60px;font-weight:800;letter-spacing:-.035em;color:var(--cream);white-space:nowrap}
+.sk7 .ck{position:absolute;right:36px;top:47px;width:56px;height:56px;border-radius:50%;background:var(--acc)}
+.sk7 .ck svg{position:absolute;left:14px;top:17px}
+#dchip{position:absolute;left:540px;top:1010px;padding:14px 28px;border-radius:40px;border:2.5px solid var(--acc);color:var(--cream);font-family:JBM;font-size:26px;letter-spacing:.16em;white-space:nowrap}
+#dchip i{display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--acc);margin-right:14px;vertical-align:2px}
+#cta{font-size:96px;color:var(--cream)}
+#cta b{color:var(--acc);font-weight:800}
+#arw{position:absolute;left:0;top:0;width:70px;height:96px}
+#fol{position:absolute;left:0;width:1080px;top:1300px;text-align:center;font-family:JBM;font-size:22px;letter-spacing:.2em;color:rgba(241,232,216,.55)}
+
+#hud{position:absolute;inset:0;pointer-events:none}
+#brand{position:absolute;left:72px;top:196px;font-size:34px;font-weight:800;letter-spacing:-.03em;white-space:nowrap}
+#brand i{display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--acc);margin-left:3px}
+#grain{position:absolute;inset:0;mix-blend-mode:overlay;opacity:.11;background-size:1080px 1920px;pointer-events:none}
+</style></head>
+<body>
+<div id="stage">
+
+<!-- S1 HOOK -->
+<div class="sc" id="s1"><div class="full darkbg"></div>
+  <div id="s1i" class="full" style="transform-origin:540px 960px">
+    <div class="ctr mono" style="top:282px"><span class="ln"><span class="w" id="d1">DOSEN:</span></span></div>
+    <div class="ctr x8" style="top:340px"><span class="ln"><span class="w q1" id="qa">“FENOMENANYA</span></span></div>
+    <div class="ctr x8" style="top:458px"><span class="ln"><span class="w q1" id="qb">MANA?”</span></span></div>
+    <div id="doc1" class="paperc"><div class="hd">BAB 1 · PENDAHULUAN</div><div id="d1bars"></div>
+      <svg id="circ" viewBox="0 0 640 800"><path id="cp" d="M300 262 C 120 250, 20 300, 34 372 C 48 452, 300 470, 520 452 C 640 440, 640 330, 540 290 C 470 262, 380 254, 286 266"/></svg>
+      <div id="qm" class="ser">?</div></div>
+  </div>
+  <div class="vig"></div></div>
+
+<!-- S2 DEFINISI -->
+<div class="sc" id="s2"><div class="full darkbg"></div>
+  <div class="ctr x8" style="top:320px"><span class="ln"><span class="w big" id="fn">FENOMENA</span></span></div>
+  <div class="ctr" style="top:490px"><span class="ln"><span class="w" id="eq">=</span></span></div>
+  <div class="cardc paperc" id="ca">FAKTA NYATA</div>
+  <div id="plus">+</div>
+  <div class="cardc paperc" id="cb">DATA</div>
+  <div id="merge">BISA DIBUKTIKAN</div>
+  <div id="mlab">FAKTA NYATA + DATA</div>
+  <div class="vig"></div></div>
+
+<!-- S3 HARAPAN ≠ KENYATAAN -->
+<div class="sc" id="s3"><div class="full darkbg"></div>
+  <div class="ctr x8" style="top:290px"><span class="ln"><span class="w" id="hk1" style="font-size:120px">HARAPAN <span style="color:var(--acc)">≠</span></span></span></div>
+  <div class="ctr x8" style="top:420px"><span class="ln"><span class="w" id="hk2" style="font-size:120px">KENYATAAN</span></span></div>
+  <div class="bH" id="bh3" style="left:300px;top:780px;height:480px;background:var(--cream)"></div>
+  <div class="bK" id="bk3" style="left:600px;top:1040px;height:220px;background:var(--acc)"></div>
+  <div class="ab" style="left:200px;top:1260px;width:680px;height:3px;background:rgba(241,232,216,.35)" id="base3"></div>
+  <div class="bl" id="lh3" style="left:270px;top:1286px;color:var(--cream)">HARAPAN</div>
+  <div class="bl" id="lk3" style="left:570px;top:1286px;color:var(--amb)">KENYATAAN</div>
+  <div class="bs" id="sh3" style="left:270px;top:1322px;color:rgba(241,232,216,.6)">das sollen</div>
+  <div class="bs" id="sk3" style="left:570px;top:1322px;color:rgba(244,163,64,.7)">das sein</div>
+  <div class="ab" id="gfill3" style="left:600px;top:780px;width:180px;height:260px;background:repeating-linear-gradient(135deg,rgba(232,103,42,.28) 0 10px,rgba(232,103,42,.08) 10px 20px);border:2px dashed var(--acc);border-bottom:0"></div>
+  <svg class="ov" id="g3" width="1080" height="1920"><path d="M480 780 L 800 780" stroke="#E8672A" stroke-width="5" stroke-dasharray="10 10" fill="none"/><path d="M830 782 L 850 782 L 850 1038 L 830 1038" stroke="#E8672A" stroke-width="6" fill="none" stroke-linejoin="round"/></svg>
+  <div class="gapc" id="gc3" style="left:880px;top:880px">GAP</div>
+  <div class="ctr" style="top:1400px"><span class="ln"><span class="w ser" id="im3" style="font-size:92px;color:var(--acc)">itulah masalahnya.</span></span></div>
+  <div class="vig"></div></div>
+
+<!-- S4 BUKAN FENOMENA -->
+<div class="sc" id="s4"><div class="full darkbg"></div>
+  <div class="ctr x8" style="top:290px"><span class="ln"><span class="w" id="bf1" style="font-size:130px;color:var(--acc)">BUKAN</span></span></div>
+  <div class="ctr x8" style="top:420px"><span class="ln"><span class="w" id="bf2" style="font-size:130px">FENOMENA:</span></span></div>
+  <div class="nf" id="nf0">Opini<i class="sk"></i></div>
+  <div class="nf" id="nf1">Asumsi<i class="sk"></i></div>
+  <div class="nf" id="nf2"><span class="ser" style="font-size:72px">“Katanya…”</span><i class="sk"></i></div>
+  <div class="vig"></div></div>
+
+<!-- S5 CARA MENENTUKAN (+ S6 contoh) -->
+<div class="sc" id="s5"><div id="s5i" class="full"><div class="full lightbg"></div><div class="tex"></div>
+  <div class="ctr x8" style="top:700px"><span class="ln"><span class="w" id="cm1" style="font-size:130px;color:var(--acc)">CARA</span></span></div>
+  <div class="ctr x8" style="top:840px"><span class="ln"><span class="w" id="cm2" style="font-size:100px;color:var(--ink)">MENENTUKANNYA</span></span></div>
+  <div class="ctr mono" id="hdr" style="top:262px">CARA MENENTUKANNYA</div>
+  <div id="pline"></div><div id="pfill"></div>
+  <div class="pd" id="pd0" style="left:343px">1</div><div class="pd" id="pd1" style="left:453px">2</div><div class="pd" id="pd2" style="left:563px">3</div><div class="pd" id="pd3" style="left:673px">4</div>
+  <div class="ctr x8" style="top:440px"><span class="ln"><span class="w st1" id="sa0">AMATI</span></span></div><div class="ctr x8" style="top:540px"><span class="ln"><span class="w st2" id="sb0">KONDISI NYATA</span></span></div>
+  <div class="ctr x8" style="top:440px"><span class="ln"><span class="w st1" id="sa1">BUKTIKAN DENGAN</span></span></div><div class="ctr x8" style="top:540px"><span class="ln"><span class="w st2" id="sb1">DATA TERBARU</span></span></div>
+  <div class="ctr x8" style="top:440px"><span class="ln"><span class="w st1" id="sa2">TUNJUKKAN</span></span></div><div class="ctr x8" style="top:540px"><span class="ln"><span class="w st2" id="sb2">KESENJANGANNYA</span></span></div>
+  <div class="ctr x8" style="top:440px"><span class="ln"><span class="w st1" id="sa3">HUBUNGKAN</span></span></div><div class="ctr x8" style="top:540px"><span class="ln"><span class="w st2" id="sb3">KE VARIABEL</span></span></div>
+  <div class="ctr x8" style="top:440px"><span class="ln"><span class="w st1" id="sa4">CONTOH</span></span></div><div class="ctr x8" style="top:540px"><span class="ln"><span class="w st2" id="sb4">FENOMENA</span></span></div>
+  <!-- V1 sources -->
+  <div id="v0" class="full">
+    <div class="src paperc" id="so0" style="left:110px;top:800px"><div class="m">BERITA</div></div>
+    <div class="src paperc" id="so2" style="left:670px;top:800px"><div class="m">OBSERVASI</div></div>
+    <div class="src paperc" id="so1" style="left:390px;top:770px"><div class="m">LAPORAN</div></div>
+  </div>
+  <!-- V2 data -->
+  <div id="v1" class="full">
+    <div class="chartc paperc" id="chart"><div class="m">DATA TERBARU</div>
+      <svg width="760" height="500" viewBox="0 0 760 500" style="position:absolute;left:0;top:0"><path d="M60 430 L 700 430" stroke="#CDBFAA" stroke-width="3"/><path id="cl" d="M70 380 L 180 350 L 290 362 L 400 300 L 510 250 L 620 190 L 690 120" fill="none" stroke="#E8672A" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+      <g id="cdots" fill="#E8672A"><circle cx="180" cy="350" r="0"/><circle cx="400" cy="300" r="0"/><circle cx="620" cy="190" r="0"/><circle cx="690" cy="120" r="0"/></g></svg></div>
+    <div class="chip3" id="cA" style="left:190px;top:1310px"><i></i>ANGKA</div>
+    <div class="chip3" id="cB" style="left:418px;top:1310px"><i></i>SUMBER</div>
+    <div class="chip3" id="cC" style="left:668px;top:1310px"><i></i>TAHUN</div>
+  </div>
+  <!-- V3 gap -->
+  <div id="v2" class="full">
+    <div class="bH" id="bh5" style="left:300px;top:800px;height:460px;background:var(--ink)"></div>
+    <div class="bK" id="bk5" style="left:600px;top:1060px;height:200px;background:var(--acc)"></div>
+    <div class="ab" style="left:200px;top:1260px;width:680px;height:3px;background:rgba(27,23,20,.3)"></div>
+    <div class="bl" style="left:270px;top:1286px;color:var(--ink)">HARAPAN</div>
+    <div class="bl" style="left:570px;top:1286px;color:var(--acc)">KENYATAAN</div>
+    <svg class="ov" id="g5" width="1080" height="1920"><path d="M480 800 L 800 800" stroke="#E8672A" stroke-width="5" stroke-dasharray="10 10" fill="none"/><path d="M830 802 L 850 802 L 850 1058 L 830 1058" stroke="#E8672A" stroke-width="6" fill="none" stroke-linejoin="round"/></svg>
+    <div class="gapc" id="gc5" style="left:880px;top:900px">GAP</div>
+  </div>
+  <!-- V4 variables -->
+  <div id="v3" class="full">
+    <svg class="ov" id="ar5" width="1080" height="1920"><defs><marker id="ah" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#E8672A"/></marker></defs>
+      <path d="M375 900 C 520 900, 560 1010, 670 1035" stroke="#E8672A" stroke-width="7" fill="none" marker-end="url(#ah)"/><path d="M375 1200 C 520 1200, 560 1090, 670 1065" stroke="#E8672A" stroke-width="7" fill="none" marker-end="url(#ah)"/></svg>
+    <div class="node" id="nx1" style="left:225px;top:825px;width:150px;height:150px;line-height:150px;font-size:64px;background:var(--ink)">X₁</div>
+    <div class="node" id="nx2" style="left:225px;top:1125px;width:150px;height:150px;line-height:150px;font-size:64px;background:var(--ink)">X₂</div>
+    <div class="node" id="ny" style="left:680px;top:950px;width:200px;height:200px;line-height:200px;font-size:96px;background:var(--acc)">Y</div>
+    <div class="nl" id="lx" style="left:120px;top:1310px">DIDUGA MEMENGARUHI</div>
+    <div class="nl" id="ly" style="left:600px;top:1176px">MASALAH UTAMA</div>
+  </div>
+  <!-- V5 example -->
+  <div id="v4" class="full">
+    <div id="ex" class="paperc"><div class="r" id="exa" style="top:52px"><div class="m" style="color:var(--mut)">HARAPAN</div><div class="t">Pelanggan tetap setia.</div></div><div class="dv"></div>
+      <div class="r" id="exb" style="top:290px"><div class="m" style="color:var(--acc)">KENYATAAN</div><div class="t">Pembelian ulang menurun.</div></div></div>
+    <div id="ilu">*CONTOH ILUSTRASI</div>
+  </div>
+  <div class="vigl"></div></div>
+  <div id="edge"></div>
+</div>
+
+<!-- S7 CTA -->
+<div class="sc" id="s7"><div class="full darkbg"></div>
+  <div class="ctr x8" style="top:300px"><span class="ln"><span class="w" id="c1" style="font-size:92px">SUSUN FENOMENA</span></span></div>
+  <div class="ctr" style="top:410px"><span class="ln"><span class="w ser" id="c2" style="font-size:120px;color:var(--acc)">yang kuat</span></span></div>
+  <div class="sk7" id="k0" style="top:640px"><i class="ac"></i><div class="m">SKILL</div><div class="t">Judul Generator</div><div class="ck"><svg width="28" height="24" viewBox="0 0 28 24"><path d="M3 12 L11 20 L25 4" fill="none" stroke="#FBF7F0" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+  <div class="sk7" id="k1" style="top:820px"><i class="ac"></i><div class="m">SKILL</div><div class="t">Problem Master</div><div class="ck"><svg width="28" height="24" viewBox="0 0 28 24"><path d="M3 12 L11 20 L25 4" fill="none" stroke="#FBF7F0" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+  <div id="dchip"><i></i>DATA TERBARU + SUMBER</div>
+  <div class="ctr x8" style="top:1140px"><span class="ln"><span class="w" id="cta">CEK LINK DI <b>BIO</b></span></span></div>
+  <svg id="arw" viewBox="0 0 70 96"><path d="M35 90 L35 12 M10 38 L35 10 L60 38" fill="none" stroke="#E8672A" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <div id="fol">FOLLOW @RESEARCHQ.ID</div>
+  <div class="vig"></div></div>
+
+<div id="hud"><div id="brand">ResearchQ<i></i></div></div>
+<div id="grain"></div>
+</div>
+
+<script>
+const GRAIN={{GRAIN}};
+const $=s=>document.querySelector(s);
+const cl=(v,a=0,b=1)=>v<a?a:v>b?b:v, P=(t,a,b)=>cl((t-a)/(b-a)), L=(a,b,p)=>a+(b-a)*p;
+const o3=x=>1-Math.pow(1-x,3), o4=x=>1-Math.pow(1-x,4), i3=x=>x*x*x, io3=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const ox=x=>x>=1?1:1-Math.pow(2,-10*x), bk=(x,s=1.5)=>1+(s+1)*Math.pow(x-1,3)+s*Math.pow(x-1,2);
+function op(el,v){el.style.opacity=cl(v).toFixed(3)}
+function show(el,on){el.style.display=on?'block':'none';return on}
+function wd(el,t,a,b=1e9,dur=.55){const p=P(t,a,a+dur),q=P(t,b,b+.4);const e=ox(p),f=i3(q);
+  el.style.transform=`translateY(${((1-e)*108-f*108).toFixed(2)}%)`;el.style.opacity=(p>0&&q<1)?1:0;el.style.filter=(p<1&&p>0)?`blur(${((1-e)*6).toFixed(1)}px)`:'none'}
+function pop(el,t,a,b=1e9,{c=false,dy=24,sc=.85,base=''}={}){const p=P(t,a,a+.5),q=P(t,b,b+.3),e=ox(p);
+  el.style.opacity=(cl(p*3)*(1-q)).toFixed(3);el.style.transform=`${base}${c?'translate(-50%,0) ':''}translateY(${((1-e)*dy-q*20).toFixed(1)}px) scale(${(sc+(1-sc)*bk(cl(p))).toFixed(4)})`}
+function rng(s){return()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function shake(t,t0,dur,amp){if(t<t0||t>t0+dur)return{x:0,y:0};const k=Math.pow(1-(t-t0)/dur,2)*amp,u=t*60;return{x:k*(Math.sin(u*1.9)+.6*Math.sin(u*3.7+1.3)),y:k*(Math.cos(u*2.3+.4)+.5*Math.sin(u*4.1))}}
+function mixc(a,b,p){const h=s=>[1,3,5].map(i=>parseInt(s.slice(i,i+2),16));const A=h(a),B=h(b);return`rgb(${A.map((v,i)=>Math.round(L(v,B[i],p))).join(',')})`}
+function prepDash(svg){[...svg.querySelectorAll('path')].filter(p=>!p.closest('marker')).forEach(p=>{const l=p.getTotalLength();p.style.strokeDasharray=l;p.style.strokeDashoffset=l;p.dataset.l=l})}
+function dash(p,v){p.style.strokeDashoffset=(+p.dataset.l*(1-v)).toFixed(1)}
+const END=30.0;
+
+// static content
+(function(){const r=rng(3);let h='';let y=120;for(let i=0;i<18;i++){h+=`<i class="bar" style="left:50px;top:${y}px;width:${Math.round(380+r()*150)}px"></i>`;y+=(i%6===5)?54:32}$('#d1bars').innerHTML=h;
+  ['#so0','#so1','#so2'].forEach((id,k)=>{const r2=rng(10+k);let s='<i class="bar" style="left:28px;top:84px;width:200px;height:18px;background:#2A221C"></i>';for(let i=0;i<8;i++)s+=`<i class="bar" style="left:28px;top:${128+i*28}px;width:${Math.round(170+r2()*70)}px"></i>`;$(id).insertAdjacentHTML('beforeend',s)});
+  ['#circ','#g3','#g5','#ar5'].forEach(s=>prepDash($(s)));const cp=$('#cl');const l=cp.getTotalLength();cp.style.strokeDasharray=l;cp.dataset.l=l;cp.style.strokeDashoffset=l})();
+
+function dark(t){if(t<10.4)return 1;if(t<10.8)return 1-P(t,10.4,10.8);if(t<23.95)return 0;return P(t,23.95,24.3)}
+
+function S1(t){const s=$('#s1');if(!show(s,t<2.8))return;
+  const ex=P(t,2.35,2.75);const sh=shake(t,1.45,.3,12);
+  $('#s1i').style.transform=`translate(${sh.x.toFixed(1)}px,${sh.y.toFixed(1)}px) scale(${(1+.18*i3(ex)).toFixed(4)})`;$('#s1i').style.filter=ex>.01?`blur(${(ex*14).toFixed(1)}px)`:'none';op(s,1-ex);
+  wd($('#d1'),t,.08);wd($('#qa'),t,.25);wd($('#qb'),t,.5);
+  const dp=o3(P(t,0,.5));const d=$('#doc1');d.style.opacity=dp;d.style.transform=`translateY(${((1-dp)*140).toFixed(1)}px) rotate(${(-3+2*(1-dp)).toFixed(2)}deg)`;
+  dash($('#cp'),io3(P(t,.85,1.45)));const qp=P(t,1.45,1.75);const q=$('#qm');q.style.opacity=qp>0?1:0;q.style.transform=`scale(${(qp>0?bk(qp):0).toFixed(3)}) rotate(12deg)`;
+}
+function S2(t){const s=$('#s2');if(!show(s,t>=2.4&&t<5.3))return;op(s,P(t,2.4,2.65)*(1-P(t,4.95,5.3)));
+  wd($('#fn'),t,2.55);wd($('#eq'),t,2.8);
+  const m=io3(P(t,4.0,4.35));
+  [['#ca',2.95,290,-1],['#cb',3.2,790,1]].forEach(([id,a,x,sd])=>{const p=P(t,a,a+.55),e=ox(p);const el=$(id);el.style.left=(L(x,540,m)-200)+'px';el.style.top='815px';
+    el.style.opacity=(cl(p*3)*(1-P(t,4.15,4.35))).toFixed(3);el.style.transform=`translateX(${((1-e)*sd*300).toFixed(1)}px) rotate(${((1-e)*sd*8).toFixed(2)}deg) scale(${(1-.15*m).toFixed(3)})`});
+  const pl=$('#plus'),pp=P(t,3.05,3.35);pl.style.opacity=(pp>0?1:0)*(1-m);pl.style.transform=`translate(-50%,-50%) scale(${(pp>0?bk(pp):0).toFixed(3)})`;
+  const mp=P(t,4.22,4.62),me=$('#merge');me.style.opacity=mp>0?1:0;me.style.transform=`translate(-50%,-50%) scale(${(mp>0?.5+.5*bk(mp,1.3):0).toFixed(4)})`;
+  op($('#mlab'),P(t,4.5,4.8));
+}
+function S3(t){const s=$('#s3');if(!show(s,t>=4.95&&t<8.3))return;op(s,P(t,4.95,5.2)*(1-P(t,7.95,8.3)));
+  wd($('#hk1'),t,5.1);wd($('#hk2'),t,5.32);
+  const gH=o3(P(t,5.55,6.1)),gK=o3(P(t,5.7,6.25));$('#bh3').style.transform=`scaleY(${gH.toFixed(4)})`;$('#bk3').style.transform=`scaleY(${gK.toFixed(4)})`;
+  op($('#base3'),P(t,5.45,5.6));['#lh3','#lk3','#sh3','#sk3'].forEach((id,i)=>op($(id),P(t,5.9+(i%2)*.1+(i>1?.2:0),6.2+(i%2)*.1+(i>1?.2:0))));
+  const ps=[...$('#g3').querySelectorAll('path')];dash(ps[0],o3(P(t,6.25,6.6)));dash(ps[1],o3(P(t,6.5,6.85)));
+  op($('#gfill3'),P(t,6.55,6.9));pop($('#gc3'),t,6.75);wd($('#im3'),t,7.0,1e9,.6);
+  const gl=$('#gfill3');gl.style.boxShadow=`0 0 ${Math.round(40*(.6+.4*Math.sin(t*6)))}px rgba(232,103,42,.35)`;
+}
+function S4(t){const s=$('#s4');if(!show(s,t>=7.95&&t<10.8))return;op(s,P(t,7.95,8.2));
+  wd($('#bf1'),t,8.05,10.15);wd($('#bf2'),t,8.2,10.2);
+  for(let i=0;i<3;i++){const el=$('#nf'+i),a=8.35+i*.15,p=P(t,a,a+.55),e=ox(p);const fl=i3(P(t,9.95+i*.08,10.45+i*.08));
+    el.style.top=(755+i*160)+'px';el.style.opacity=(cl(p*3)).toFixed(3);
+    el.style.transform=`translate(${(fl*1300).toFixed(1)}px,${((1-e)*-120+fl*-120).toFixed(1)}px) rotate(${((1-e)*(i-1)*10+fl*28).toFixed(2)}deg)`;
+    el.querySelector('.sk').style.transform=`scaleX(${o4(P(t,8.95+i*.15,9.2+i*.15)).toFixed(3)})`;el.style.color=t>9.05+i*.15?'rgba(241,232,216,.45)':'#F1E8D8'}
+}
+const STEP=[11.5,14,16.5,19,21.5,24.0];
+function S5(t){const s=$('#s5');if(!show(s,t>=10.3&&t<24.4))return;
+  const rv=o3(P(t,10.35,10.8));s.style.clipPath=rv<1?`inset(${((1-rv)*1920).toFixed(1)}px 0 0 0)`:'none';
+  const ed=$('#edge');ed.style.top=((1-rv)*1920-120).toFixed(1)+'px';op(ed,rv<1?1:0);
+  $('#s5i').style.transform=`translateY(${((1-rv)*240).toFixed(1)}px)`;
+  wd($('#cm1'),t,10.6,11.3,.5);wd($('#cm2'),t,10.75,11.32,.5);
+  const hp=P(t,11.3,11.6);op($('#hdr'),hp*(1-P(t,21.3,21.5)));
+  const ex=P(t,21.3,21.6);op($('#pline'),hp*(1-ex));op($('#pfill'),hp*(1-ex));
+  let k=-1;for(let i=0;i<4;i++)if(t>=STEP[i])k=i;
+  const pf=k<=0?0:L((k-1)/3,Math.min(k,3)/3,o3(P(t,STEP[k],STEP[k]+.45)));$('#pfill').style.transform=`scaleX(${cl(pf).toFixed(4)})`;
+  for(let i=0;i<4;i++){const d=$('#pd'+i),a=11.35+i*.06,p=P(t,a,a+.4);d.style.opacity=(cl(p*3)*(1-ex)).toFixed(3);
+    const act=t>=STEP[i]?P(t,STEP[i],STEP[i]+.25):0;d.style.background=act>0?mixc('#EFE5D3','#E8672A',act):'transparent';d.style.borderColor=act>.5?'#E8672A':'rgba(27,23,20,.25)';d.style.color=act>.5?'#FBF7F0':'rgba(27,23,20,.4)';
+    d.style.transform=`scale(${(p>0?.6+.4*bk(p):0)*(1+.12*Math.sin(Math.PI*P(t,STEP[i],STEP[i]+.35)))})`}
+  for(let i=0;i<5;i++){wd($('#sa'+i),t,STEP[i],i<4?STEP[i+1]-.35:23.6,.5);wd($('#sb'+i),t,STEP[i]+.12,i<4?STEP[i+1]-.3:23.65,.5)}
+  // visual swaps
+  for(let i=0;i<5;i++){const v=$('#v'+i),a=STEP[i],b=i<4?STEP[i+1]-.3:23.6;const pi=o3(P(t,a,a+.45)),po=i3(P(t,b,b+.35));
+    v.style.display=(t>=a-.05&&t<b+.4)?'block':'none';v.style.opacity=(pi*(1-po)).toFixed(3);v.style.transform=`translateX(${((1-pi)*160-po*160).toFixed(1)}px)`;v.style.filter=(pi<1||po>0)?`blur(${((1-pi)*10+po*10).toFixed(1)}px)`:'none'}
+  // V1
+  [['#so0',-8,11.62],['#so1',0,11.78],['#so2',8,11.94]].forEach(([id,rz,a],k)=>{const p=P(t,a,a+.6),e=ox(p);const el=$(id);el.style.opacity=cl(p*3);el.style.transform=`translateY(${((1-e)*160+8*Math.sin(t*1.3+k)).toFixed(1)}px) rotate(${(rz+(1-e)*rz*2).toFixed(2)}deg) scale(${(.9+.1*e).toFixed(3)})`});
+  // V2
+  dash($('#cl'),io3(P(t,14.3,15.05)));[...$('#cdots').children].forEach((c,i)=>c.setAttribute('r',(9*bk(P(t,14.45+i*.18,14.75+i*.18))).toFixed(2)));
+  pop($('#cA'),t,15.15);pop($('#cB'),t,15.35);pop($('#cC'),t,15.55);
+  // V3
+  $('#bh5').style.transform=`scaleY(${o3(P(t,16.65,17.15)).toFixed(4)})`;$('#bk5').style.transform=`scaleY(${o3(P(t,16.8,17.3)).toFixed(4)})`;
+  const g5=[...$('#g5').querySelectorAll('path')];dash(g5[0],o3(P(t,17.3,17.65)));dash(g5[1],o3(P(t,17.55,17.9)));pop($('#gc5'),t,17.85);
+  // V4
+  [['#ny',19.15],['#nx1',19.4],['#nx2',19.55]].forEach(([id,a])=>{const p=P(t,a,a+.45),el=$(id);el.style.opacity=p>0?1:0;el.style.transform=`scale(${(p>0?bk(p):0).toFixed(3)})`});
+  const ar=[...$('#ar5').querySelectorAll('path')].filter(p=>p.dataset.l);ar.forEach((p,i)=>dash(p,o3(P(t,19.75+i*.15,20.25+i*.15))));
+  op($('#ly'),P(t,19.6,19.9));op($('#lx'),P(t,20.2,20.5));
+  $('#ny').style.boxShadow=`0 30px 50px -20px rgba(90,55,25,.55),0 0 ${Math.round(30+30*P(t,20.2,20.5))}px rgba(232,103,42,${(.5*P(t,20.2,20.5)).toFixed(2)})`;
+  // V5 example
+  pop($('#exa'),t,21.85);pop($('#exb'),t,22.35);op($('#ilu'),P(t,22.7,23.0));
+  // exit to CTA
+  const xo=P(t,23.95,24.4);$('#s5i').style.filter=xo>.01?`blur(${(xo*12).toFixed(1)}px)`:'none';
+}
+function S7(t){const s=$('#s7');if(!show(s,t>=23.95))return;
+  const r=o3(P(t,23.95,24.45));s.style.clipPath=r<1?`circle(${(r*2300).toFixed(1)}px at 540px 1000px)`:'none';
+  wd($('#c1'),t,24.25);wd($('#c2'),t,24.5,1e9,.6);
+  [['#k0',24.95],['#k1',25.2]].forEach(([id,a])=>{const p=P(t,a,a+.55),e=ox(p),el=$(id);el.style.opacity=cl(p*3);el.style.transform=`translateX(${((1-e)*-200).toFixed(1)}px)`;
+    const c=el.querySelector('.ck'),cp=P(t,a+.35,a+.7);c.style.opacity=cp>0?1:0;c.style.transform=`scale(${(cp>0?bk(cp):0).toFixed(3)})`});
+  pop($('#dchip'),t,25.75,1e9,{c:true});
+  wd($('#cta'),t,26.6,1e9,.5);
+  const aw=$('#arw'),ap=P(t,26.85,27.15);const bob=t>27.15?-14*Math.abs(Math.sin((t-27.15)*4.2)):0;aw.style.transform=`translate(948px,${(1152+(1-o3(ap))*40+bob).toFixed(1)}px)`;op(aw,ap);
+  op($('#fol'),P(t,27.5,27.9));
+}
+function HUD(t){$('#brand').style.color=mixc('#1B1714','#F1E8D8',dark(t))}
+let FRAME=0;
+function render(t,n){if(n!==undefined)FRAME=n;S1(t);S2(t);S3(t);S4(t);S5(t);S7(t);HUD(t);$('#grain').style.backgroundImage=`url(${GRAIN[Math.floor(FRAME/2)%GRAIN.length]})`}
+window.render=render;
+if(!location.search.includes('render')){const st=$('#stage');const fit=()=>{const k=Math.min(innerWidth/1080,innerHeight/1920);st.style.transform=`scale(${k})`};fit();addEventListener('resize',fit);
+  const t0=performance.now();const loop=()=>{const t=((performance.now()-t0)/1000)%END;render(t,Math.floor(t*60));requestAnimationFrame(loop)};loop()}
+else render(0,0);
+</script>
+</body></html>
