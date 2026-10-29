@@ -6,7 +6,7 @@ SR = 48000
 BPM = 140
 BEAT = 60 / BPM
 BAR = BEAT * 4
-NBARS = 27
+NBARS = 23
 DUR = NBARS * BAR + 0.35
 N = int(DUR * SR)
 rs = np.random.default_rng(11)
@@ -31,9 +31,8 @@ def saw_add(f, n, harm=12, det=0.0):
 #       16 break | 17-19 bimbel | 20-22 youtube | 23-24 spheres (half-time) | 25-26 outro
 def sec(b):
     if b < 2: return 'intro'
-    if b in (9, 16): return 'break'
-    if b in (23, 24): return 'half'
-    if b >= 25: return 'outro'
+    if b in (19, 20): return 'half'
+    if b >= 21: return 'outro'
     return 'full'
 CH = [(57, [57, 60, 64]), (53, [53, 57, 60]), (48, [60, 64, 67]), (55, [55, 59, 62])]  # Am F C G (root midi for bass)
 
@@ -108,9 +107,10 @@ for b in range(NBARS):
         for e in range(8): add(t0 + e * BEAT / 2, Hc, .12 + .1 * b, (-.3, .3)[e % 2])
         if b == 1: add(t0 + BAR - 1.4, riser(1.4), .3)
     elif s == 'outro':
-        if b == 25: add(t0, K, .9)
-        add(t0, pad(CH[0][1], BAR * 2 if b == 25 else BAR), 1.3 if b == 25 else 0)
-for b in (2, 9, 10, 16, 17, 20, 23, 25): add(b * BAR, impact(), .55)
+        if b == 21: add(t0, K, .9)
+        add(t0, pad(CH[0][1], BAR * 2 if b == 21 else BAR), 1.3 if b == 21 else 0)
+for b in (2, 12, 19, 21): add(b * BAR, impact(), .55)
+for b in (11, 18): add(b * BAR + BAR - .9, riser(.9), .18)
 
 # sidechain from kicks
 t = np.arange(N) / SR; sc = np.ones(N)

@@ -94,16 +94,19 @@ def put(t, sig, gain_db, pan=0.0, rev=.18, pan_sweep=None):
         pp = np.full(len(s), pan)
     out[i:j, 0] += s * np.sqrt((1 - pp) / 2); out[i:j, 1] += s * np.sqrt((1 + pp) / 2)
 
-# ---------------- UI SFX layer for the ecosystem promo (music carries the rhythm) ----------------
-def click():
-    return tick(3200,.06)*1.0+thump(400,180,.06,.012)*.6
-for c in [9.43,14.57,20.14,25.71,32.57,36.86]: put(c, click(), -14, rev=.12)
-for i in range(20): put(7.41+i/16, tick(rs.uniform(2600,3600),.016), -24, pan=rs.uniform(-.2,.2), rev=.05)
-for i in range(15): put(19.46+i/28, tick(rs.uniform(2600,3600),.016), -24, pan=rs.uniform(-.2,.2), rev=.05)
-for s in [9.45,11.95,13.66,20.18,22.5,34.3,39.43]: put(s-.05, whoosh(.5,700,4200,.5), -18, pan_sweep=(-.5,.5))
-put(6.0, glass(mtof(88),1.4)+glass(mtof(95),1.4)*.5, -20, rev=.35)
-put(26.0, glass(mtof(84),.9)+glass(mtof(88),.9)*.6, -19); put(33.0, glass(mtof(84),.9)+glass(mtof(88),.9)*.6, -19)
-put(43.0, glass(mtof(81),2.0)+glass(mtof(88),2.0)*.5, -22, rev=.4)
-for k in range(6): put(3.43+k*60/140*.5, blip(900+k*150,.06), -24, pan=(-.5,.5)[k%2])
+# ---------------- UI SFX layer (v5 product film) ----------------
+def click(): return tick(3200,.06)+thump(400,180,.06,.012)*.6
+for c in [2.57,9.0,12.86,14.57,19.71,24.43,28.29,31.29]: put(c, click(), -14, rev=.12)
+for i in range(9): put(0.75+i/12, tick(rs.uniform(2600,3600),.016), -23, pan=rs.uniform(-.2,.2), rev=.05)
+for h in [3.4285714285714284,6.857142857142857,10.285714285714285,13.714285714285714,17.142857142857142,20.57142857142857,23.14285714285714,25.71428571428571,29.142857142857142,32.57142857142857,36.0]: put(h-.32, whoosh(.42,500,4500,.85), -17, pan_sweep=(.4,-.4))
+for s in [10.55,17.4,30.0,21.07]: put(s, whoosh(.5,1500,5200,.5), -22, pan_sweep=(-.6,.6))
+put(6.45, glass(mtof(88),1.4)+glass(mtof(95),1.4)*.5, -20, rev=.35)
+for i in range(3): put(15.15+i*.55, sweep_noise(.5,2500,5000)*np.hanning(int(.5*SR)), -28)
+put(19.8, whoosh(.7,300,2500,.6), -26)
+for i in range(5): put(26.3+i*.2, tick(2200+i*90,.02), -24)
+put(9.6, blip(1300,.06), -24)
+put(25.0, glass(mtof(84),.9)+glass(mtof(88),.9)*.6, -18); put(28.75, glass(mtof(84),.9)+glass(mtof(88),.9)*.6, -18)
+put(31.35, glass(mtof(81),.8), -21)
+put(36.1, glass(mtof(81),2.0)+glass(mtof(88),2.0)*.5, -22, rev=.4)
 sf.write(sys.argv[2], out, SR, subtype='FLOAT')
 print('sfx peak dBFS %.1f' % (20*np.log10(np.abs(out).max())))

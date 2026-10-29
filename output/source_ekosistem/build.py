@@ -1,5 +1,5 @@
 import base64, json, sys
-S=sys.argv[1]; V=f'{S}/v4'; F=f'{S}/fonts'
+S=sys.argv[1]; V=f'{S}/v5'; F=f'{S}/fonts'
 b=lambda p: base64.b64encode(open(p,'rb').read()).decode()
 h=open(f'{V}/template.html').read()
 for k,p in {'PJS500':'plus-jakarta-sans-5.0.20/files/plus-jakarta-sans-latin-500-normal.woff2','PJS700':'plus-jakarta-sans-5.0.20/files/plus-jakarta-sans-latin-700-normal.woff2',
