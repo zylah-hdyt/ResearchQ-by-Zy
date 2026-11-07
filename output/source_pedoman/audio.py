@@ -49,7 +49,9 @@ ck = max(W(4, 7) + .05, W(4, 4) + .7); putS(ck - .01, fit(clk1), -17)
 for i in range(3): putS(ck + .15 + i * .08, fit(tap, rate=1.2 + .1 * i), -27)
 putS(SEND(4) - .6, fit(ding), -21)
 # 5 checklist
-for t in (ST[5], W(5, 0), W(5, 4)): putS(t + .15, fit(blipT, rate=1.15, trim=.35), -24)
+# cards pop in, each check gets a ding that steps up in pitch (no blip)
+for i, t in enumerate((ST[5], W(5, 0), W(5, 4))): putS(t - .02, fit(pop1, rate=.95 + .08 * i), -26)
+for i, t in enumerate((ST[5] - .3, W(5, 0), W(5, 4))): putS(t + .17, fit(ding, rate=1.0 + .12 * i), -22)
 # 6 table of contents + scan + loop
 putS(ST[6], fit(swoosh, rate=1.2), -24)
 for i in range(7): putS(ST[6] + .35 + i * .18, fit(clk3, rate=1.5, trim=.07), -30)
