@@ -32,7 +32,6 @@ def stampS(t): putS(t + .05, fit(boom, rate=1.5, trim=.35), -19); putS(t + .02, 
 # 0 bingung: cards drop in, ? pops, loop, stamp
 for i in range(6): putS(ST[0] + .08 + i * .1, fit(pop1, rate=.9 + .05 * i), -25, pan=(-.4, .4)[i % 2])
 for i in range(3): putS(W(0, 1) + i * .12, fit(tap, rate=1.3 + .1 * i), -26)
-put(W(0, 3), sweep_noise(.4, 2500, 5000) * np.hanning(int(.4 * SR)), -30)
 stampS(W(0, 5) - .05)
 # 1 satu hal: tile flip + stamp
 putS(ST[1], fit(flut, rate=1.3), -21); stampS(W(1, 3) - .06)
