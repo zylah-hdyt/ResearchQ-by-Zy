@@ -159,6 +159,8 @@ SC[0].appendChild(mkStamp('st0',[['UJI',0],['SIMULTAN?',1]],1110,130));$('#st0')
 
 // S1 Hair cover (cream)
 H(1,`<div class="ab" id="bk1" style="left:325px;top:625px;width:430px;height:556px;perspective:1400px"><img id="cv1" src="${HAIR.cover}" style="width:430px;height:556px;border-radius:6px;box-shadow:0 40px 70px -20px rgba(0,0,0,.55),0 6px 14px rgba(0,0,0,.2)"></div>
+  <div class="card nt1" style="left:50px;top:700px;width:250px;padding:20px 22px;transform:rotate(-5deg)"><div class="mono" style="font-size:18px;color:#8C877E">📖 RUJUKAN</div><div style="font-family:PJS;font-weight:800;font-size:30px;line-height:1.15;margin-top:6px">utama SEM-PLS</div></div>
+  <div class="card nt1" style="left:775px;top:930px;width:255px;padding:20px 22px;transform:rotate(4deg)"><div class="mono" style="font-size:18px;color:#EE6A1F">BAB 6</div><div style="font-family:PJS;font-weight:800;font-size:28px;line-height:1.15;margin-top:6px">evaluasi model struktural</div></div>
   <div class="ab mono" id="cit1" style="left:0;width:1080px;top:1215px;text-align:center;font-size:24px;color:#8C877E">Hair, Hult, Ringle & Sarstedt (2022) · 3rd edition</div>`);
 
 // S2 KBBI (orange)
@@ -178,7 +180,7 @@ H(3,`${circ('x13',230,700,85,'X1')}${circ('x23',230,1060,85,'X2')}${circ('y3',80
 H(4,`<div class="card" id="rg4" style="left:80px;top:620px;width:420px;height:600px;padding:36px 34px"><div class="chip" style="position:relative;display:inline-block">REGRESI</div>
    ${['Uji t (parsial)','Uji F (simultan)','R²'].map((r,i)=>`<div class="rr4" style="position:relative;margin-top:${i?18:34}px;height:96px;border-radius:16px;background:#F2EFE9;font-family:PJS;font-weight:800;font-size:32px;line-height:96px;padding-left:24px">${r}${i===1?'<span class="ok4" style="position:absolute;right:20px;top:20px;width:56px;height:56px;border-radius:50%;background:#2E9E5B;color:#fff;font-size:34px;line-height:56px;text-align:center">✓</span>':''}</div>`).join('')}</div>
   <div class="card" id="pl4" style="left:540px;top:620px;width:460px;height:600px;padding:30px 30px"><div class="chip" style="position:relative;display:inline-block;background:#EE6A1F">PLS-SEM · HAIR BAB 6</div>
-   <img src="${HAIR.ex}" style="display:block;width:400px;margin-top:24px;border-radius:6px;border:2px solid #E3DED5"></div>
+   <img id="ex4" src="${HAIR.ex}" style="display:block;width:400px;margin-top:24px;border-radius:6px;border:2px solid #E3DED5"><div class="ab" id="qq4" style="left:0;width:460px;top:150px;text-align:center"><div style="font-family:IS;font-style:italic;font-size:260px;line-height:1;color:#CBC5BA">?</div><div class="mono" style="font-size:24px;color:#8C877E;margin-top:10px">cara menilai modelnya?</div></div></div>
   <div class="ab" id="nf4" style="left:560px;top:880px;width:420px;padding:22px 10px;border:8px solid #E5463A;border-radius:18px;background:rgba(255,255,255,.92);color:#E5463A;font-family:Anton;font-size:64px;line-height:1.05;text-align:center;transform:rotate(-8deg)">UJI F?<br>TIDAK ADA</div>`);
 
 // S5 R² + Hair's sentence (cream)
@@ -227,13 +229,13 @@ function scenes(t){
   if(S(0,t)){pop($('#ch0'),t,ST[0]+.05,{dx:-60,dy:0,s0:.85});['x10','x20','y0'].forEach((id,i)=>pop($('#'+id),t,ST[0]+.1+i*.1,{s0:.3}));D.a03.style.stroke=D.b03.style.stroke='#BDB6AA';draw(D.a03,t,ST[0]+.4,.3);draw(D.b03,t,ST[0]+.45,.3);
     pop($('#qm0'),t,W(0,6)-.1,{s0:.2,r:20});stamp($('#st0'),t,W(0,4)-.05)}
   if(S(1,t)){const c=$('#bk1');pop(c,t,ST[1]+.02,{dy:140,s0:.8});const p=o3(P(t,ST[1],ST[1]+.8));$('#cv1').style.transform=`rotateY(${L(-28,-8,p).toFixed(2)}deg) rotateX(${L(8,2,p).toFixed(2)}deg)`;
-    $('#cv1').style.transform+=` translateY(${(6*Math.sin(t*2)).toFixed(1)}px)`;pop($('#cit1'),t,W(1,6)-.05,{dy:20,s0:.95})}
+    $('#cv1').style.transform+=` translateY(${(6*Math.sin(t*2)).toFixed(1)}px)`;pop($('#cit1'),t,W(1,6)-.05,{dy:20,s0:.95});document.querySelectorAll('#s1 .nt1').forEach((n,i)=>{pop(n,t,[W(1,5),W(1,9)][i]-.05,{dx:i?80:-80,dy:0,s0:.8});n.style.transform+=` rotate(${i?4:-5}deg)`})}
   if(S(2,t)){pop($('#sw2'),t,ST[2]+.05,{dy:60,s0:.7});const k=P(t,W(2,3)-.05,W(2,3)+.25);$('#sk2').style.transform=`scaleX(${o3(k).toFixed(3)})`;op($('#sk2'),k>0?1:0);
     $('#sw2').style.opacity=(1-.45*k).toFixed(3);pop($('#nu2'),t,W(2,4),{dy:20,s0:.6});pop($('#kb2'),t,W(2,6)-.1,{dy:80,s0:.88});$('#mk2').style.transform=`scaleX(${o3(P(t,W(2,9)-.05,W(2,9)+.3)).toFixed(3)})`}
   if(S(3,t)){['x13','x23','y3'].forEach((id,i)=>pop($('#'+id),t,ST[3]+.05+i*.12,{s0:.3}));const g=W(3,5)-.05;draw(D.a3,t,g,.35);draw(D.b3,t,g,.35);draw(D.br3,t,g,.35);pop($('#bs3'),t,g+.1,{dx:-40,dy:0,s0:.7});
     const gl=t>g?.5+.5*Math.sin((t-g)*7):0;['x13','x23'].forEach(id=>$('#'+id).style.borderColor=t>g?`rgb(${Math.round(L(27,238,gl))},${Math.round(L(26,106,gl))},${Math.round(L(24,31,gl))})`:'#1B1A18');pop($('#qm3'),t,W(3,9)-.1,{s0:.2,r:20})}
   if(S(4,t)){pop($('#rg4'),t,ST[4]+.05,{dx:-120,dy:0,s0:.9});const f=W(4,4)-.05;document.querySelectorAll('#s4 .rr4').forEach((r,i)=>{r.style.background=i===1&&t>f?'#FFE1CC':'#F2EFE9'});const ok=$('#s4 .ok4'),p=P(t,f,f+.3);ok.style.transform=`scale(${(p>0?bk(p):0).toFixed(3)})`;
-    pop($('#pl4'),t,W(4,7)-.1,{dx:120,dy:0,s0:.9});const n=W(4,12)-.08,q=P(t,n,n+.25);const nf=$('#nf4');op(nf,q*3);nf.style.transform=`rotate(-8deg) scale(${(q>0?2.2-1.2*bk(q,2):2.2).toFixed(3)})`}
+    pop($('#pl4'),t,ST[4]+.2,{dx:120,dy:0,s0:.9});const ox=P(t,W(4,7)-.15,W(4,7)+.25);$('#ex4').style.opacity=o3(ox).toFixed(3);$('#ex4').style.transform=`scale(${(.9+.1*o3(ox)).toFixed(3)})`;$('#qq4').style.opacity=(1-ox*1.5).toFixed(3);$('#pl4').style.filter=ox>0?'none':'saturate(.2)';const n=W(4,12)-.08,q=P(t,n,n+.25);const nf=$('#nf4');op(nf,q*3);nf.style.transform=`rotate(-8deg) scale(${(q>0?2.2-1.2*bk(q,2):2.2).toFixed(3)})`}
   if(S(5,t)){pop($('#r25'),t,W(5,3)-.08,{s0:.3,r:-10});pop($('#rl5'),t,W(5,3)+.15,{dx:-40,dy:0,s0:.9});pop($('#qp5'),t,W(5,5)-.1,{dy:80,s0:.9});
     document.querySelectorAll('#s5 .hl5').forEach((h,i)=>{const s=W(5,7)+i*.25;h.style.transform=`scaleX(${o3(P(t,s,s+.3)).toFixed(3)})`});pop($('#tq5'),t,W(5,9)-.05,{dy:30,s0:.95});pop($('#id5'),t,W(5,11)-.05,{dy:20,s0:.7})}
   if(S(6,t)){const g=$('#ga6'),Lg=g.getTotalLength(),v=.62*o3(P(t,W(6,1)-.1,W(6,3)+.3));g.style.strokeDasharray=Lg;g.style.strokeDashoffset=(Lg*(1-v)).toFixed(1);$('#nv6').textContent=v.toFixed(2).replace('.',',');
@@ -247,7 +249,8 @@ function CTA(t){const a=END-2.75;const c=$('#cta');if(!sh(c,t>=a))return;op(c,P(
 // mascot: 9 poses; each is scaled so its face matches and placed so the mouth lands on the same screen point
 const MA={x:831,y:1668};
 (function(){$('#mas').innerHTML=Object.entries(MAS).map(([k,v])=>{const i=MI[k],s=i.s,wd=(i.W||900)*s,mx=(i.x+i.w/2)*s,my=(i.y+i.h/2)*s;
-  return `<div class="pz" id="${k}" style="left:${(MA.x-mx).toFixed(1)}px;top:${(MA.y-my).toFixed(1)}px;width:${wd.toFixed(1)}px"><img src="${v}" style="display:block;width:100%"><div class="mo" id="mo_${k}" style="left:${(i.x*s).toFixed(2)}px;top:${(i.y*s).toFixed(2)}px;width:${(i.w*s).toFixed(2)}px;height:${(i.h*s).toFixed(2)}px;background-image:url(${MO[k]});transform-origin:50% ${((i.top+(i.h-2*i.top)*.18)*s).toFixed(1)}px"></div></div>`}).join('')})();
+  let lf=MA.x-mx;const ov=lf+wd-1068;if(ov>0)lf-=ov;
+  return `<div class="pz" id="${k}" style="left:${lf.toFixed(1)}px;top:${(MA.y-my).toFixed(1)}px;width:${wd.toFixed(1)}px"><img src="${v}" style="display:block;width:100%"><div class="mo" id="mo_${k}" style="left:${(i.x*s).toFixed(2)}px;top:${(i.y*s).toFixed(2)}px;width:${(i.w*s).toFixed(2)}px;height:${(i.h*s).toFixed(2)}px;background-image:url(${MO[k]});transform-origin:50% ${((i.top+(i.h-2*i.top)*.18)*s).toFixed(1)}px"></div></div>`}).join('')})();
 function MOUTH(t,pose){const f=Math.max(0,Math.min(LIP.o.length-1,Math.round(t*60)));const o=LIP.o[f],w=LIP.w[f];
   const mn=pose==='m_think'?.3:pose==='m_warn'?.22:.13;
   $('#mo_'+pose).style.transform=`scale(${(.9+.16*w-.06*o).toFixed(3)},${(mn+(1-mn)*o).toFixed(3)})`;return o}
