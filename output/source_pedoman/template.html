@@ -41,7 +41,7 @@ svg.dr path{fill:none;stroke:var(--acc);stroke-width:7;stroke-linecap:round;stro
 .cur{position:absolute;left:0;top:0;width:70px;height:84px;filter:drop-shadow(6px 10px 8px rgba(0,0,0,.35))}
 /* mascot */
 #mas{position:absolute;left:520px;top:1395px;width:600px;height:584px;transform-origin:50% 100%}
-#mas img{position:absolute;left:0;top:0;width:600px;display:none}
+#mas .pz{position:absolute;left:0;top:0;width:600px;display:none}#mas .pz>img{display:block;width:600px}#mas .mo{position:absolute;background-size:100% 100%}
 /* brand */
 #brand{position:absolute;left:72px;top:1486px;font-family:PJS;font-weight:800;font-size:34px;letter-spacing:-.03em;white-space:nowrap}
 #brand i{display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--acc);margin-left:3px}
@@ -67,7 +67,7 @@ svg.dr path{fill:none;stroke:var(--acc);stroke-width:7;stroke-linecap:round;stro
 </div>
 <script>
 const WORDS={{WORDS}};      // [{s,e,words:[[w,onset],...]}]
-const MAS={{MASCOT}};       // {name: dataURI}
+const MAS={{MASCOT}};const MO={{MOUTHS}};const MI={{MOUTHINFO}};const LIP={{LIP}};       // {name: dataURI}
 const GRAIN={{GRAIN}};
 const $=s=>document.querySelector(s);
 const cl=(v,a=0,b=1)=>v<a?a:v>b?b:v,P=(t,a,b)=>cl((t-a)/(b-a)),L=(a,b,p)=>a+(b-a)*p;
@@ -232,9 +232,13 @@ function scenes(t){
 }
 function CTA(t){const a=END-2.75;const c=$('#cta');if(!sh(c,t>=a))return;op(c,P(t,a,a+.25));pop($('#ct1'),t,a+.1,{dy:50,s0:.7});[0,1,2].forEach(i=>pop($('#pl'+i),t,a+.35+i*.18,{dx:-160,dy:0,s0:.85}))}
 // mascot
-(function(){$('#mas').innerHTML=Object.entries(MAS).map(([k,v])=>`<img id="${k}" src="${v}">`).join('')})();
-function MASC(t){let k=0;for(let i=0;i<N;i++)if(t>=ST[i]-.05)k=i;if(t>=END-2.75)k=N-1;const pose=POSE[k];Object.keys(MAS).forEach(n=>$('#'+n).style.display=n===pose?'block':'none');
-  const ch=P(t,ST[k]-.05,ST[k]+.3),e=ch>0?bk(ch,1.4):1;const m=$('#mas');m.style.transform=`translateY(${((1-e)*30).toFixed(1)}px) rotate(${(1.2*Math.sin(t*1.7)).toFixed(2)}deg) scale(${(.96+.04*e).toFixed(3)})`;op(m,P(t,0,.25))}
+(function(){const s=600/900;$('#mas').innerHTML=Object.entries(MAS).map(([k,v])=>{const i=MI[k];
+  return `<div class="pz" id="${k}"><img src="${v}"><div class="mo" id="mo_${k}" style="left:${(i.x*s).toFixed(2)}px;top:${(i.y*s).toFixed(2)}px;width:${(i.w*s).toFixed(2)}px;height:${(i.h*s).toFixed(2)}px;background-image:url(${MO[k]});transform-origin:50% ${((i.top+ (i.h-2*i.top)*.18)*s).toFixed(1)}px"></div></div>`}).join('')})();
+function MOUTH(t,pose){const f=Math.max(0,Math.min(LIP.o.length-1,Math.round(t*60)));const o=LIP.o[f],w=LIP.w[f];
+  const mn=pose==='m_think'?.3:pose==='m_warn'?.22:.13;          // closed = thin line; small 'o' poses keep a dot
+  $('#mo_'+pose).style.transform=`scale(${(.9+.16*w-.06*o).toFixed(3)},${(mn+(1-mn)*o).toFixed(3)})`;return o}
+function MASC(t){let k=0;for(let i=0;i<N;i++)if(t>=ST[i]-.05)k=i;if(t>=END-2.75)k=N-1;const pose=POSE[k];Object.keys(MAS).forEach(n=>$('#'+n).style.display=n===pose?'block':'none');const lo=MOUTH(t,pose);
+  const ch=P(t,ST[k]-.05,ST[k]+.3),e=ch>0?bk(ch,1.4):1;const m=$('#mas');m.style.transform=`translateY(${((1-e)*30-3*lo).toFixed(1)}px) rotate(${(1.2*Math.sin(t*1.7)).toFixed(2)}deg) scale(${(.96+.04*e).toFixed(3)})`;op(m,P(t,0,.25))}
 let FRAME=0;
 function render(t,n){if(n!==undefined)FRAME=n;
   const dk=(t>=ST[10]-.05&&t<SEND(10))?1:0;op($('#dark'),dk);$('#lbl').style.color=dk?'#8C877E':'';$('#brand').style.color=dk?'#F2EFE9':'#1B1A18';

@@ -8,6 +8,8 @@ fonts={'INTER500':'inter-5.0.18/files/inter-latin-500-normal.woff2','INTER600':'
 for k,p in fonts.items(): h=h.replace('{{'+k+'}}',b(f'{F}/fontsource-{p}'))
 h=h.replace('{{PAPER}}','data:image/jpeg;base64,'+b(f'{S}/video/assets/paper.jpg'))
 h=h.replace('{{GRAIN}}',json.dumps(['data:image/jpeg;base64,'+b(f'{S}/video/assets/grain{i}.jpg') for i in range(8)]))
-h=h.replace('{{MASCOT}}',json.dumps({n:'data:image/png;base64,'+b(f'{P}/assets/{n}.png') for n in ['m_open','m_thumb','m_think','m_point','m_warn']}))
+POS=['m_open','m_thumb','m_think','m_point','m_warn']
+h=h.replace('{{MOUTHS}}',json.dumps({n:'data:image/png;base64,'+b(f'{P}/lip/mo_{n}.png') for n in POS})).replace('{{MOUTHINFO}}',open(f'{P}/lip/mouth.json').read()).replace('{{LIP}}',open(f'{P}/lip/lip.json').read())
+h=h.replace('{{MASCOT}}',json.dumps({n:'data:image/png;base64,'+b(f'{P}/lip/b_{n}.png') for n in ['m_open','m_thumb','m_think','m_point','m_warn']}))
 h=h.replace('{{WORDS}}',json.dumps(json.load(open(f'{P}/work/'+(sys.argv[2] if len(sys.argv)>2 else 'words.json'))),ensure_ascii=False))
 open(f'{P}/video.html','w').write(h); print('built',len(h)//1024,'KB')
