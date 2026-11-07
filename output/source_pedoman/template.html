@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><title>Pedoman Kampus</title>
+<style>
+@font-face{font-family:'Inter';font-weight:500;src:url(data:font/woff2;base64,{{INTER500}}) format('woff2')}
+@font-face{font-family:'Inter';font-weight:600;src:url(data:font/woff2;base64,{{INTER600}}) format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;src:url(data:font/woff2;base64,{{INTER700}}) format('woff2')}
+@font-face{font-family:'PJS';font-weight:800;src:url(data:font/woff2;base64,{{PJS800}}) format('woff2')}
+@font-face{font-family:'JBM';font-weight:500;src:url(data:font/woff2;base64,{{JBM500}}) format('woff2')}
+@font-face{font-family:'IS';font-style:italic;font-weight:400;src:url(data:font/woff2;base64,{{IS400I}}) format('woff2')}
+@font-face{font-family:'Anton';font-weight:400;src:url(data:font/woff2;base64,{{ANTON}}) format('woff2')}
+:root{--bg:#F2EFE9;--paper:#FBFAF7;--ink:#1B1A18;--muted:#8C877E;--faint:#CBC5BA;--line:#E3DED5;--acc:#EE6A1F;--dk:#1C1B1A}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);overflow:hidden}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--bg);font-family:Inter,sans-serif;color:var(--ink);transform-origin:0 0}
+#paper{position:absolute;inset:0;background-image:url({{PAPER}});background-size:512px;mix-blend-mode:multiply;opacity:.35}
+#dark{position:absolute;inset:0;background:#151413;opacity:0}
+.ab{position:absolute}
+.sc{position:absolute;left:0;top:0;width:1080px;height:1920px;display:none}
+.mono{font-family:JBM,monospace;letter-spacing:.06em}
+/* HUD */
+#lbl{position:absolute;left:72px;top:200px;font-family:JBM;font-size:24px;color:var(--muted);white-space:nowrap}
+#ctr{position:absolute;right:72px;top:200px;font-family:JBM;font-size:24px;color:var(--muted);white-space:nowrap;text-align:right}
+#ctr b{color:var(--acc);font-weight:500}
+/* caption */
+.cap{position:absolute;left:72px;top:262px;width:860px;font-size:60px;font-weight:500;line-height:1.1;letter-spacing:-.022em;display:none}
+.cap span{display:inline-block;margin-right:.24em;will-change:opacity}
+.cap span.em{font-family:IS;font-style:italic;font-weight:400;color:var(--acc);font-size:70px;letter-spacing:-.01em;line-height:.9}
+/* building blocks */
+.card{position:absolute;background:var(--paper);border-radius:22px;border:2px solid rgba(27,26,24,.08);box-shadow:0 22px 44px -16px rgba(60,40,20,.32),0 2px 0 rgba(0,0,0,.03)}
+.dkc{position:absolute;background:var(--dk);color:#F2EFE9;border-radius:24px;box-shadow:0 26px 50px -16px rgba(0,0,0,.45)}
+.stamp{position:absolute;left:0;width:1080px;text-align:center;font-family:Anton;font-size:150px;line-height:1;text-transform:uppercase;white-space:nowrap;color:var(--ink)}
+.stamp i{display:inline-block;font-style:normal}
+.stamp i.ac{color:var(--acc)}
+.stamp .ul{position:absolute;height:12px;background:var(--acc);border-radius:6px;transform-origin:0 50%}
+.chip{position:absolute;padding:12px 24px;border-radius:40px;background:var(--ink);color:#F2EFE9;font-family:JBM;font-size:24px;white-space:nowrap}
+.tag{position:absolute;font-family:JBM;font-size:22px;color:var(--muted);white-space:nowrap}
+.fico{position:absolute;width:64px;height:78px;border-radius:8px;background:#fff;border:2px solid var(--line)}
+.fico:after{content:'';position:absolute;right:-2px;top:-2px;width:20px;height:20px;background:var(--bg);border-left:2px solid var(--line);border-bottom:2px solid var(--line);border-radius:0 0 0 6px}
+svg.dr{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
+svg.dr path{fill:none;stroke:var(--acc);stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
+.cur{position:absolute;left:0;top:0;width:70px;height:84px;filter:drop-shadow(6px 10px 8px rgba(0,0,0,.35))}
+/* mascot */
+#mas{position:absolute;left:520px;top:1395px;width:600px;height:584px;transform-origin:50% 100%}
+#mas img{position:absolute;left:0;top:0;width:600px;display:none}
+/* brand */
+#brand{position:absolute;left:72px;top:1486px;font-family:PJS;font-weight:800;font-size:34px;letter-spacing:-.03em;white-space:nowrap}
+#brand i{display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--acc);margin-left:3px}
+#handle{position:absolute;left:72px;top:1532px;font-family:JBM;font-size:20px;color:var(--muted)}
+#ht{position:absolute;left:0;top:0}
+#cta{position:absolute;inset:0;display:none}
+.pl{position:absolute;left:150px;width:780px;height:120px;border-radius:30px;background:var(--paper);box-shadow:0 20px 40px -12px rgba(0,0,0,.45)}
+.pl .n{position:absolute;left:40px;top:22px;font-family:JBM;font-size:22px;color:var(--muted);letter-spacing:.12em}
+.pl .h{position:absolute;left:40px;top:52px;font-family:PJS;font-weight:800;font-size:40px;letter-spacing:-.02em;color:var(--ink)}
+.pl .dot{position:absolute;right:40px;top:40px;width:40px;height:40px;border-radius:50%;background:var(--acc)}
+#grain{position:absolute;inset:0;mix-blend-mode:overlay;opacity:.06;background-size:1080px 1920px;pointer-events:none}
+</style></head>
+<body><div id="stage">
+<div id="paper"></div><div id="dark"></div>
+<div id="scenes"></div>
+<canvas id="ht" width="1080" height="1920"></canvas>
+<div id="lbl"></div><div id="ctr"></div>
+<div id="caps"></div>
+<div id="brand">ResearchQ<i></i></div><div id="handle">@researchq.id</div>
+<div id="cta"></div>
+<div id="mas"></div>
+<div id="grain"></div>
+</div>
+<script>
+const WORDS={{WORDS}};      // [{s,e,words:[[w,onset],...]}]
+const MAS={{MASCOT}};       // {name: dataURI}
+const GRAIN={{GRAIN}};
+const $=s=>document.querySelector(s);
+const cl=(v,a=0,b=1)=>v<a?a:v>b?b:v,P=(t,a,b)=>cl((t-a)/(b-a)),L=(a,b,p)=>a+(b-a)*p;
+const o3=x=>1-Math.pow(1-x,3),o4=x=>1-Math.pow(1-x,4),i3=x=>x*x*x,io3=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,ox=x=>x>=1?1:1-Math.pow(2,-10*x);
+const bk=(x,s=1.7)=>1+(s+1)*Math.pow(x-1,3)+s*Math.pow(x-1,2);
+function rng(s){return()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const N=WORDS.length, ST=WORDS.map(w=>w.s), END=WORDS[N-1].e+2.9;
+const W=(k,i)=>WORDS[k].words[Math.min(i,WORDS[k].words.length-1)][1];      // onset of word i in sentence k
+const SEND=k=>k<N-1?ST[k+1]:END;
+function sh(el,on){el.style.display=on?'block':'none';return on}
+function op(el,v){el.style.opacity=cl(v).toFixed(3)}
+// generic animated element: pop-in at a (bounce), optional exit at b
+function pop(el,t,a,{b=1e9,dx=0,dy=40,s0=.6,r=0,c=false}={}){const p=P(t,a,a+.42),q=P(t,b,b+.2);const e=p>0?bk(p):0;
+  el.style.opacity=(cl(p*4)*(1-q)).toFixed(3);el.style.transform=`${c?'translate(-50%,-50%) ':''}translate(${((1-o3(p))*dx).toFixed(1)}px,${((1-o3(p))*dy).toFixed(1)}px) rotate(${(r*(1-o3(p))).toFixed(2)}deg) scale(${(s0+(1-s0)*e).toFixed(4)})`}
+// stamp text: letters drop in one by one; accent letters slam
+function mkStamp(id,words,top,size=150){const el=document.createElement('div');el.className='stamp';el.id=id;el.style.top=top+'px';el.style.fontSize=size+'px';
+  el.innerHTML=words.map(([w,ac])=>`<span style="position:relative;display:inline-block;margin:0 .12em">${[...w].map(ch=>`<i class="${ac?'ac':''}">${ch===' '?'&nbsp;':ch}</i>`).join('')}${ac?'<b class="ul" style="left:0;right:0;bottom:-6px"></b>':''}</span>`).join('');return el}
+function stamp(el,t,a,b=1e9){const ls=[...el.querySelectorAll('i')];let k=0;ls.forEach((l,i)=>{const s=a+i*.032,p=P(t,s,s+.26),e=p>0?bk(p,2.2):0,ac=l.classList.contains('ac');
+    l.style.opacity=(cl(p*5)).toFixed(3);l.style.transform=`translateY(${((1-e)*(ac?-160:-90)).toFixed(1)}px) rotate(${((1-o3(p))*(i%2?16:-14)).toFixed(2)}deg) scale(${(1+(ac?.6:.3)*(1-o3(p))).toFixed(3)})`});
+  el.querySelectorAll('.ul').forEach(u=>{u.style.transform=`scaleX(${o4(P(t,a+ls.length*.032,a+ls.length*.032+.3)).toFixed(3)})`});
+  const q=P(t,b,b+.18);el.style.opacity=(1-q).toFixed(3);el.style.transform=`scale(${(1-.08*q).toFixed(3)})`}
+// hand-drawn loop around a box
+function loopPath(x,y,w,h,seed){const r=rng(seed),cx=x+w/2,cy=y+h/2;let d='';for(let i=0;i<=34;i++){const a=-1.9+i/34*2*Math.PI*1.08,j=1+(r()-.5)*.07;const px=cx+Math.cos(a)*w/2*j,py=cy+Math.sin(a)*h/2*j;d+=(i?' L':'M')+px.toFixed(1)+' '+py.toFixed(1)}return d}
+function mkDraw(parent,d,w=7){const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('class','dr');s.setAttribute('width','1080');s.setAttribute('height','1920');
+  const p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('d',d);p.style.strokeWidth=w;s.appendChild(p);parent.appendChild(s);const l=p.getTotalLength();p.style.strokeDasharray=l;p.style.strokeDashoffset=l;p.dataset.l=l;return p}
+function draw(p,t,a,dur=.35){p.style.strokeDashoffset=(+p.dataset.l*(1-o3(P(t,a,a+dur)))).toFixed(1)}
+const CUR='<svg viewBox="0 0 46 56" width="70" height="84"><path d="M4 3 L4 44 L15 34 L23 52 L31 48 L23 31 L39 31 Z" fill="#1B1A18" stroke="#FBF7F0" stroke-width="3" stroke-linejoin="round"/></svg>';
+
+// ---------- build captions
+const EMS=[["urutan","penelitian?"],["satu","hal."],["contoh"],["pedoman"],["website","kampus,"],["perpustakaan,","akademik."],["struktur"],["font-nya,","layout-nya."],["dosen","pembimbing,"],["berbeda-beda."],["orang","lain."],["benar."],["pedoman","kampus,"],["Save"]];
+(function(){$('#caps').innerHTML=WORDS.map((s,k)=>`<div class="cap" id="cap${k}">${s.words.map(([w],i)=>`<span class="${EMS[k].includes(w)?'em':''}">${w}</span>`).join('')}</div>`).join('')})();
+function CAP(t){let k=-1;for(let i=0;i<N;i++)if(t>=ST[i]-.05)k=i;for(let i=0;i<N;i++)sh($('#cap'+i),i===k&&t<END-2.6);if(k<0)return;
+  const dk=+($('#dark').style.opacity||0);[...$('#cap'+k).children].forEach((sp,i)=>{const o=W(k,i),p=P(t,o-.04,o+.1);sp.style.opacity=(p>0?.25+.75*p:0).toFixed(3);
+    if(!sp.classList.contains('em'))sp.style.color=dk>.5?'#F2EFE9':'#1B1A18'})}
+const LBL=['// 01 · masih bingung','// 02 · satu hal','// 03 · jangan cari dulu','// 04 · buka pedoman','// 05 · cari di mana','// 05 · cari di mana','// 06 · struktur kampus','// 07 · font · struktur · layout','// 08 · arahan dospem','// 09 · beda-beda','// 10 · jangan asal copy','// 11 · mulai yang benar','// 12 · cek lagi','// 13 · save'];
+const CTR=['','','','LANGKAH <b>1</b>','CARI DI <b>1</b>/3','CARI DI <b>3</b>/3','','SPEK <b>3</b>','LANGKAH <b>2</b>','','','LANGKAH <b>3</b>','',''];
+const POSE=['m_think','m_point','m_warn','m_thumb','m_point','m_open','m_point','m_thumb','m_warn','m_open','m_warn','m_thumb','m_think','m_thumb'];
+
+// ---------- scene containers
+const SC=[];for(let k=0;k<N;k++){const d=document.createElement('div');d.className='sc';d.id='s'+k;$('#scenes').appendChild(d);SC.push(d)}
+function H(k,html){SC[k].insertAdjacentHTML('beforeend',html)}
+// S0 chapter cards
+const S0C=[['BAB 3',150,560,-9],['DAFTAR PUSTAKA',560,520,7],['BAB 1',330,700,4],['LAMPIRAN',700,720,-6],['BAB 5',170,880,8],['BAB 2',560,900,-4]];
+S0C.forEach(([n,x,y,r],i)=>H(0,`<div class="card c0" style="left:${x}px;top:${y}px;width:${n.length>6?330:240}px;height:120px;font-family:Anton;font-size:52px;line-height:120px;text-align:center">${n}</div>`));
+H(0,`<div class="ab q0" style="left:900px;top:560px;font-family:IS;font-style:italic;font-size:130px;color:var(--acc)">?</div><div class="ab q0" style="left:90px;top:760px;font-family:IS;font-style:italic;font-size:100px;color:var(--acc)">?</div><div class="ab q0" style="left:470px;top:1050px;font-family:IS;font-style:italic;font-size:90px;color:var(--acc)">?</div>`);
+SC[0].appendChild(mkStamp('st0',[['URUTANNYA?',1]],1110,140));
+// S1 big "1" tile
+H(1,`<div class="dkc" id="one" style="left:390px;top:540px;width:300px;height:380px;font-family:Anton;font-size:300px;line-height:360px;text-align:center">1<div style="position:absolute;left:0;right:0;bottom:28px;display:flex;justify-content:center;gap:14px">${[0,1,2,3,4].map(i=>`<i style="width:18px;height:18px;border-radius:50%;background:${i?'#4a4744':'var(--acc)'}"></i>`).join('')}</div></div>`);
+SC[1].appendChild(mkStamp('st1',[['SATU',0],['HAL',1]],1020,150));
+// S2 messy pile of found examples
+const S2F=[['contoh_skripsi_manajemen.pdf',110,560,-6],['template_BAB1_final(2).docx',300,690,4],['skripsi_kakak_tingkat.pdf',150,830,-3],['format skripsi viral 🔥',380,960,6],['contoh dari internet.zip',200,1090,-5]];
+S2F.forEach(([n,x,y,r],i)=>H(2,`<div class="card f2" style="left:${x}px;top:${y}px;width:620px;height:110px"><div class="fico" style="left:24px;top:14px"></div><div class="ab" style="left:110px;top:34px;font-size:34px;font-weight:600;white-space:nowrap">${n}</div></div>`));
+// S3 pedoman booklet
+H(3,`<div class="ab" id="bk3" style="left:300px;top:520px;width:480px;height:640px;perspective:1600px">
+  <div class="card" style="left:0;top:0;width:480px;height:640px;border-radius:12px;padding:56px 44px">${[0,1,2,3,4,5,6,7,8].map(i=>`<i style="display:block;height:14px;border-radius:7px;background:#E3DED5;margin:${i%3?12:30}px 0 0;width:${[80,92,70,96,88,60,94,82,74][i]}%"></i>`).join('')}</div>
+  <div id="cov3" style="position:absolute;left:0;top:0;width:480px;height:640px;transform-origin:0 50%;transform-style:preserve-3d">
+   <div style="position:absolute;inset:0;border-radius:12px;background:#FBFAF7;border:2px solid rgba(27,26,24,.1);box-shadow:0 30px 60px -20px rgba(60,40,20,.45);backface-visibility:hidden;overflow:hidden">
+    <i style="position:absolute;left:0;top:0;bottom:0;width:36px;background:var(--acc)"></i>
+    <div style="position:absolute;left:76px;top:80px;font-family:JBM;font-size:22px;color:var(--muted);letter-spacing:.14em">UNIVERSITAS KAMPUSMU</div>
+    <div style="position:absolute;left:76px;top:150px;width:360px;font-family:Anton;font-size:76px;line-height:1.02">PEDOMAN PENULISAN SKRIPSI</div>
+    <div style="position:absolute;left:76px;bottom:70px;font-family:JBM;font-size:22px;color:var(--muted)">EDISI TERBARU</div></div>
+   <div style="position:absolute;inset:0;border-radius:12px;background:#E9E3D8;transform:rotateY(180deg);backface-visibility:hidden"></div></div></div>`);
+SC[3].appendChild(mkStamp('st3',[['BUKA',0],['DULU.',1]],1210,130));
+// S4 browser
+H(4,`<div class="card" id="br4" style="left:80px;top:540px;width:920px;height:640px;overflow:hidden">
+  <div class="ab" style="left:0;top:0;width:920px;height:70px;background:#ECE8E1;border-bottom:2px solid var(--line)"><i style="position:absolute;left:28px;top:26px;width:18px;height:18px;border-radius:50%;background:#E5463A"></i><i style="position:absolute;left:56px;top:26px;width:18px;height:18px;border-radius:50%;background:#F0A04B"></i><i style="position:absolute;left:84px;top:26px;width:18px;height:18px;border-radius:50%;background:#58C56A"></i>
+   <div class="ab mono" style="left:140px;top:14px;width:640px;height:42px;border-radius:21px;background:#fff;font-size:22px;line-height:42px;padding-left:24px;color:var(--muted)">akademik.kampusmu.ac.id</div></div>
+  <div class="ab" style="left:50px;top:110px;font-family:PJS;font-weight:800;font-size:40px">Portal Akademik</div>
+  <div class="ab" style="left:50px;top:180px;width:820px;height:90px;border-radius:45px;border:3px solid var(--ink);background:#fff"><div class="ab" id="q4" style="left:36px;top:24px;font-size:38px;font-weight:500;white-space:nowrap"></div>
+   <div class="ab" id="sb4" style="right:10px;top:8px;width:68px;height:68px;border-radius:50%;background:var(--acc)"><svg width="68" height="68" viewBox="0 0 68 68"><circle cx="30" cy="30" r="13" fill="none" stroke="#fff" stroke-width="5"/><path d="M40 40 L50 50" stroke="#fff" stroke-width="6" stroke-linecap="round"/></svg></div></div>
+  ${[0,1,2].map(i=>`<div class="ab r4" style="left:50px;top:${310+i*100}px;width:820px;height:84px;border-radius:16px;background:${i?'#F6F3EE':'#FFF3EA'};border:2px solid ${i?'var(--line)':'var(--acc)'}"><div class="fico" style="left:16px;top:6px;width:52px;height:66px;transform:scale(.85)"></div><div class="ab" style="left:84px;top:22px;font-size:32px;font-weight:${i?500:700};white-space:nowrap">${['Pedoman_Penulisan_Skripsi.pdf','Kalender Akademik','Panduan Seminar Proposal'][i]}</div></div>`).join('')}
+  <div class="cur" id="cu4">${CUR}</div></div>
+  <div class="chip" id="dl4" style="left:540px;top:1230px"><span style="color:var(--acc)">●</span> PDF tersimpan</div>`);
+// S5 checklist of where to look
+const S5I=[['Website kampus','M10 30 a20 20 0 1 0 40 0 a20 20 0 1 0 -40 0 M10 30 L50 30 M30 10 C20 22 20 38 30 50 M30 10 C40 22 40 38 30 50'],['Perpustakaan','M10 14 L10 50 L22 50 L22 14 Z M26 14 L26 50 L38 50 L38 14 Z M42 18 L52 48'],['Bagian akademik','M8 50 L52 50 M12 46 L12 26 M24 46 L24 26 M36 46 L36 26 M48 46 L48 26 M6 24 L30 10 L54 24 Z']];
+S5I.forEach(([n,d],i)=>H(5,`<div class="card c5" style="left:120px;top:${560+i*180}px;width:840px;height:150px"><svg class="ab" style="left:40px;top:44px" width="60" height="60" viewBox="0 0 60 60"><path d="${d}" fill="none" stroke="#1B1A18" stroke-width="4" stroke-linejoin="round"/></svg><div class="ab" style="left:130px;top:46px;font-family:PJS;font-weight:800;font-size:46px;letter-spacing:-.02em">${n}</div>
+  <div class="ab k5" style="right:40px;top:40px;width:70px;height:70px;border-radius:50%;background:var(--acc)"><svg width="70" height="70" viewBox="0 0 70 70"><path d="M20 36 L31 47 L51 24" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>`));
+// S6 table of contents
+const S6R=['BAB I · Pendahuluan','BAB II · Tinjauan Pustaka','BAB III · Metode Penelitian','BAB IV · Hasil & Pembahasan','BAB V · Penutup','Daftar Pustaka','Lampiran'];
+H(6,`<div class="dkc" id="toc6" style="left:110px;top:520px;width:860px;height:760px;overflow:hidden"><div class="ab mono" style="left:50px;top:40px;font-size:24px;color:#8C877E">pedoman.pdf · hal. 12</div><div class="ab" style="left:50px;top:84px;font-family:Anton;font-size:64px;color:#F2EFE9">SISTEMATIKA PENULISAN</div>
+  ${S6R.map((r,i)=>`<div class="ab r6" style="left:50px;top:${200+i*76}px;width:760px;height:64px;border-bottom:1px solid rgba(255,255,255,.1);font-size:36px;font-weight:600;color:#F2EFE9;white-space:nowrap;line-height:60px">${r}<span style="position:absolute;right:0;font-family:JBM;font-size:24px;color:#8C877E">${[1,9,21,33,58,64,70][i]}</span></div>`).join('')}
+  <div class="ab" id="scan6" style="left:0;width:860px;height:70px;background:linear-gradient(90deg,rgba(238,106,31,0),rgba(238,106,31,.45),rgba(238,106,31,0));mix-blend-mode:screen"></div></div>
+  <div class="tag" style="left:110px;top:1300px">*contoh — tiap kampus bisa beda</div>`);
+// S7 spec cards
+H(7,`<div class="card s7" style="left:90px;top:540px;width:900px;height:220px"><div class="chip" style="left:36px;top:30px;background:var(--acc)">FONT</div><div class="ab" style="left:36px;top:96px;font-family:'Times New Roman',serif;font-size:66px">Aa Times New Roman</div><div class="ab mono" style="left:36px;top:178px;font-size:22px;color:var(--muted)">12 pt · spasi 1,5</div></div>
+  <div class="card s7" style="left:90px;top:790px;width:900px;height:220px"><div class="chip" style="left:36px;top:30px;background:var(--acc)">STRUKTUR</div>${[0,1,2,3].map(i=>`<i class="ab" style="left:${36+i*30}px;top:${100+i*26}px;width:${360-i*40}px;height:14px;border-radius:7px;background:${i?'#E3DED5':'#1B1A18'}"></i>`).join('')}<div class="ab mono" style="left:500px;top:110px;font-size:26px;color:var(--muted);line-height:1.5">BAB I → BAB V<br>+ daftar pustaka</div></div>
+  <div class="card s7" style="left:90px;top:1040px;width:900px;height:220px"><div class="chip" style="left:36px;top:30px;background:var(--acc)">LAYOUT</div><div class="ab" style="left:560px;top:22px;width:136px;height:176px;border:3px solid var(--ink);border-radius:6px"><i class="ab" style="left:34px;top:22px;right:20px;bottom:22px;border:2px dashed var(--acc)"></i></div><div class="ab mono" style="left:36px;top:100px;font-size:26px;color:var(--muted);line-height:1.5">margin<br>4 · 3 · 3 · 3 cm</div></div>
+  <div class="tag" style="left:90px;top:1280px">*contoh umum — ikuti pedoman kampusmu</div>`);
+// S8 chat from dospem
+H(8,`<div class="dkc" id="ch8" style="left:110px;top:540px;width:860px;height:560px;overflow:hidden"><div class="ab" style="left:0;top:0;width:860px;height:110px;border-bottom:1px solid rgba(255,255,255,.1)"><div class="ab" style="left:36px;top:24px;width:62px;height:62px;border-radius:50%;background:var(--acc);font-family:PJS;font-weight:800;font-size:26px;line-height:62px;text-align:center">DP</div><div class="ab" style="left:120px;top:24px;font-family:PJS;font-weight:800;font-size:34px">Dosen Pembimbing</div><div class="ab mono" style="left:120px;top:66px;font-size:20px;color:#8C877E">online</div></div>
+  <div class="ab b8" style="left:36px;top:150px;max-width:640px;padding:22px 28px;border-radius:26px 26px 26px 8px;background:#2C2A28;font-size:34px;line-height:1.3">Margin kiri pakai 4 cm ya.</div>
+  <div class="ab b8" style="left:36px;top:270px;max-width:700px;padding:22px 28px;border-radius:26px 26px 26px 8px;background:#2C2A28;font-size:34px;line-height:1.3">Sitasi ikuti gaya yang diminta prodi.</div>
+  <div class="ab b8" style="right:36px;top:410px;padding:22px 28px;border-radius:26px 26px 8px 26px;background:var(--acc);font-size:34px;font-weight:600">Siap, Pak/Bu 🙏</div></div>`);
+SC[8].appendChild(mkStamp('st8',[['ARAHAN',0],['DOSPEM',1]],1160,130));
+// S9 campus comparison
+const S9C=[['KAMPUS A',['12 pt','1,5','APA']],['KAMPUS B',['11 pt','2','Harvard']],['KAMPUS C',['12 pt','1','IEEE']]];
+S9C.forEach(([n,v],i)=>H(9,`<div class="card c9" style="left:${70+i*320}px;top:560px;width:300px;height:520px"><div class="ab" style="left:28px;top:30px;font-family:Anton;font-size:46px">${n}</div>${['FONT','SPASI','SITASI'].map((f,j)=>`<div class="ab mono" style="left:28px;top:${130+j*120}px;font-size:20px;color:var(--muted)">${f}</div><div class="ab v9" style="left:28px;top:${160+j*120}px;font-family:PJS;font-weight:800;font-size:44px;letter-spacing:-.02em">${v[j]}</div>`).join('')}</div>`));
+H(9,`<div class="tag" style="left:70px;top:1100px">*ilustrasi</div>`);
+SC[9].appendChild(mkStamp('st9',[['BEDA-BEDA.',1]],1160,150));
+// S10 dark: don't copy someone else's format
+H(10,`<div class="card" id="dc10" style="left:200px;top:560px;width:680px;height:420px;background:#2A2826;border-color:rgba(255,255,255,.08)"><div class="fico" style="left:44px;top:44px;transform:scale(1.3);transform-origin:0 0"></div><div class="ab" style="left:160px;top:56px;font-size:38px;font-weight:600;color:#F2EFE9;white-space:nowrap">format_orang_lain.docx</div>
+  ${[0,1,2,3,4].map(i=>`<i class="ab" style="left:44px;top:${170+i*44}px;width:${[560,500,590,420,520][i]}px;height:14px;border-radius:7px;background:rgba(255,255,255,.14)"></i>`).join('')}<div class="chip" id="cp10" style="right:30px;bottom:30px;background:#F2EFE9;color:#1B1A18">⌘C · copy</div></div>`);
+SC[10].appendChild(mkStamp('st10',[['JANGAN',0],['ASAL',0],['COPY.',1]],1080,130));$('#st10').style.color='#F2EFE9';
+// S11 the right pedoman + check
+H(11,`<div class="card" id="bk11" style="left:330px;top:520px;width:420px;height:560px;border-radius:12px;overflow:hidden"><i style="position:absolute;left:0;top:0;bottom:0;width:32px;background:var(--acc)"></i><div style="position:absolute;left:66px;top:70px;font-family:JBM;font-size:20px;color:var(--muted);letter-spacing:.14em">UNIVERSITAS KAMPUSMU</div><div style="position:absolute;left:66px;top:130px;width:320px;font-family:Anton;font-size:66px;line-height:1.02">PEDOMAN PENULISAN SKRIPSI</div></div>
+  <div class="ab" id="ok11" style="left:650px;top:470px;width:170px;height:170px;border-radius:50%;background:var(--acc);box-shadow:0 20px 40px -10px rgba(238,106,31,.6)"><svg width="170" height="170" viewBox="0 0 170 170"><path d="M48 88 L74 114 L124 58" fill="none" stroke="#fff" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`);
+SC[11].appendChild(mkStamp('st11',[['MULAI',0],['DARI',0],['SINI.',1]],1150,130));
+// S12 spotlight question
+H(12,`<div class="ab" id="sp12" style="left:140px;top:430px;width:800px;height:900px;background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(255,236,210,.95),rgba(255,236,210,0) 70%)"></div>
+  <div class="card" id="bk12" style="left:360px;top:600px;width:360px;height:480px;border-radius:12px;overflow:hidden"><i style="position:absolute;left:0;top:0;bottom:0;width:28px;background:var(--acc)"></i><div style="position:absolute;left:56px;top:110px;width:270px;font-family:Anton;font-size:56px;line-height:1.02">PEDOMAN PENULISAN SKRIPSI</div></div>
+  <div class="ab" id="qq12" style="left:760px;top:540px;font-family:IS;font-style:italic;font-size:200px;color:var(--acc)">?!</div>`);
+SC[12].appendChild(mkStamp('st12',[['SUDAH',0],['PUNYA?',1]],1150,140));
+// S13 save button
+H(13,`<div class="dkc" id="ph13" style="left:250px;top:470px;width:580px;height:900px;border-radius:60px;overflow:hidden"><div class="ab" style="left:40px;top:60px;width:500px;height:640px;border-radius:30px;background:linear-gradient(160deg,#2C2A28,#1C1B1A)"><div class="ab" style="left:40px;top:60px;width:300px;font-family:Anton;font-size:64px;line-height:1.02;color:#F2EFE9">PEDOMAN KAMPUS</div></div>
+  <div class="ab" id="sv13" style="left:420px;top:420px;width:100px;text-align:center"><svg id="bm13" width="70" height="86" viewBox="0 0 70 86"><path d="M8 6 L62 6 L62 80 L35 60 L8 80 Z" fill="none" stroke="#F2EFE9" stroke-width="7" stroke-linejoin="round"/></svg><div class="ab mono" id="nc13" style="left:0;top:96px;width:100px;font-size:22px;color:#F2EFE9"></div></div>
+  <div class="cur" id="cu13">${CUR.replace('#1B1A18','#F2EFE9').replace('#FBF7F0','#1B1A18')}</div></div>`);
+// CTA overlay
+$('#cta').innerHTML=`<div class="ab" style="inset:0;background:rgba(20,19,18,.72)"></div><div class="ab" id="ct1" style="left:0;width:1080px;top:470px;text-align:center;font-family:Anton;font-size:120px;color:#F2EFE9">SIMPAN & <span style="color:var(--acc)">FOLLOW</span></div>
+  ${[['TIKTOK','@researchq.id'],['INSTAGRAM','@researchq.id'],['YOUTUBE','NotYourLecture']].map(([n,h],i)=>`<div class="pl" id="pl${i}" style="top:${680+i*150}px"><div class="n">${n}</div><div class="h">${h}</div><i class="dot"></i></div>`).join('')}`;
+
+// draw overlays (loops / X marks) created after layout
+const D={};
+D.l0=mkDraw(SC[0],loopPath(110,500,860,560,3));D.x2a=mkDraw(SC[2],'M120 560 L960 1170',12);D.x2b=mkDraw(SC[2],'M960 560 L120 1170',12);
+D.l3=mkDraw(SC[3],loopPath(250,480,580,720,7));D.l6=mkDraw(SC[6],loopPath(130,690,520,110,9),6);D.l8=mkDraw(SC[8],loopPath(40,630,760,120,11),6);
+D.x10a=mkDraw(SC[10],'M210 570 L870 970',16);D.x10b=mkDraw(SC[10],'M870 570 L210 970',16);D.l9=mkDraw(SC[9],loopPath(60,640,980,200,13),6);
+
+// ---------- halftone transitions (canvas)
+const HT=[ST[3],ST[12]];const htx=$('#ht').getContext('2d');
+function HALF(t){htx.clearRect(0,0,1080,1920);let p=-1;for(const h of HT)if(t>h-.32&&t<h+.32)p=(t-(h-.32))/.64;if(p<0)return;
+  htx.fillStyle='#151413';const g=40;for(let y=0;y<1920+g;y+=g)for(let x=0;x<1080+g;x+=g){const d=(x/1080)*.55+(y/1920)*.45;const cov=p<.5?(p*2*1.6-d):(1.6-(p-.5)*2*1.6-d+.0);
+    const r=cl(cov*1.6)*g*.78;if(r>.4){htx.beginPath();htx.arc(x+(y/g%2?g/2:0),y,r,0,7);htx.fill()}}}
+
+// ---------- scenes
+function S(k,t){const u=t-ST[k];const on=sh(SC[k],t>=ST[k]-.02&&t<SEND(k));return on}
+function scenes(t){
+  if(S(0,t)){const a=ST[0];document.querySelectorAll('#s0 .c0').forEach((c,i)=>{const r=S0C[i][3];pop(c,t,a+.08+i*.1,{dy:-60,r:r*2,s0:.4});c.style.transform+=` rotate(${(r+1.5*Math.sin(t*3+i)).toFixed(2)}deg) translate(${(4*Math.sin(t*7+i*2)*P(t,W(0,1),W(0,1)+.2)).toFixed(1)}px,0)`});
+    document.querySelectorAll('#s0 .q0').forEach((q,i)=>pop(q,t,W(0,1)+i*.12,{s0:.2,r:20}));draw(D.l0,t,W(0,3),.45);stamp($('#st0'),t,W(0,5)-.05)}
+  if(S(1,t)){const a=ST[1],p=o3(P(t,a,a+.4)),o=$('#one');o.style.transform=`perspective(1200px) rotateY(${((1-p)*-90).toFixed(2)}deg) scale(${(.85+.15*bk(P(t,a,a+.4))).toFixed(3)})`;op(o,P(t,a,a+.1));stamp($('#st1'),t,W(1,3)-.06)}
+  if(S(2,t)){document.querySelectorAll('#s2 .f2').forEach((c,i)=>{const r=S2F[i][3];pop(c,t,ST[2]+.05+i*.11,{dx:(i%2?220:-220),dy:0,r:r*3,s0:.8});c.style.transform+=` rotate(${r}deg)`;
+      const x=P(t,W(2,4),W(2,4)+.25);c.style.filter=x>0?`grayscale(${x.toFixed(2)}) opacity(${(1-.35*x).toFixed(2)})`:'none'});draw(D.x2a,t,W(2,4),.22);draw(D.x2b,t,W(2,4)+.12,.22)}
+  if(S(3,t)){const bk3=$('#bk3');pop(bk3,t,W(3,0)-.05,{dy:120,s0:.7});const opn=io3(P(t,W(3,3),W(3,3)+.55));$('#cov3').style.transform=`rotateY(${(-158*opn).toFixed(2)}deg)`;draw(D.l3,t,W(3,6),.4);stamp($('#st3'),t,W(3,6)+.1)}
+  if(S(4,t)){pop($('#br4'),t,ST[4],{dy:80,s0:.85});const Q='pedoman skripsi',n=Math.floor(cl((t-W(4,4))*24,0,Q.length));$('#q4').innerHTML=Q.slice(0,n)+(n<Q.length&&t>W(4,4)?'<span style="color:var(--acc)">|</span>':'');
+    const ck=Math.max(W(4,7)+.05,W(4,4)+.7);document.querySelectorAll('#s4 .r4').forEach((r,i)=>pop(r,t,ck+.15+i*.08,{dy:20,s0:.95}));
+    const cp={x:L(780,770,o3(P(t,ck-.5,ck-.1))),y:L(560,214,o3(P(t,ck-.5,ck-.1)))};const tp=P(t,ck+.25,ck+.6);const cu=$('#cu4');const fx=L(cp.x,330,o3(tp)),fy=L(cp.y,340,o3(tp));
+    cu.style.transform=`translate(${fx.toFixed(1)}px,${fy.toFixed(1)}px) scale(${(1-.12*Math.sin(Math.PI*P(t,ck-.1,ck+.05)))})`;op(cu,P(t,ck-.6,ck-.4));
+    const sb=$('#sb4');sb.style.transform=`scale(${(1-.15*Math.sin(Math.PI*P(t,ck-.1,ck+.1))).toFixed(3)})`;pop($('#dl4'),t,SEND(4)-.6,{c:false,s0:.7})}
+  if(S(5,t)){const ts=[ST[5]-.3,W(5,0),W(5,4)];document.querySelectorAll('#s5 .c5').forEach((c,i)=>{pop(c,t,i?ts[i]:ST[5],{dx:-200,dy:0,s0:.9});const k=c.querySelector('.k5'),p=P(t,ts[i]+.15,ts[i]+.45);k.style.transform=`scale(${(p>0?bk(p):0).toFixed(3)})`})}
+  if(S(6,t)){pop($('#toc6'),t,ST[6],{dy:100,s0:.85});document.querySelectorAll('#s6 .r6').forEach((r,i)=>{const a=ST[6]+.35+i*.18;op(r,P(t,a,a+.2));r.style.transform=`translateX(${((1-o3(P(t,a,a+.3)))*-40).toFixed(1)}px)`});
+    const sp=P(t,ST[6]+.4,ST[6]+2.0);$('#scan6').style.top=L(190,720,sp).toFixed(1)+'px';op($('#scan6'),sp>0&&sp<1?1:0);draw(D.l6,t,W(6,6),.4)}
+  if(S(7,t)){const ts=[W(7,2),W(7,3),W(7,4)];document.querySelectorAll('#s7 .s7').forEach((c,i)=>pop(c,t,ts[i]-.08,{dy:60,s0:.8,r:i%2?3:-3}))}
+  if(S(8,t)){pop($('#ch8'),t,ST[8],{dy:80,s0:.85});document.querySelectorAll('#s8 .b8').forEach((b,i)=>pop(b,t,ST[8]+.35+i*.45,{dy:30,s0:.6}));draw(D.l8,t,W(8,6),.4);stamp($('#st8'),t,W(8,6))}
+  if(S(9,t)){document.querySelectorAll('#s9 .c9').forEach((c,i)=>pop(c,t,W(9,i===0?1:i===1?4:7)-.05,{dy:90,s0:.8,r:(i-1)*4}));
+    const hp=P(t,W(9,10),W(9,10)+.2);document.querySelectorAll('#s9 .v9').forEach((v,i)=>{v.style.color=hp>0&&(i%3!==0||i===3)?`rgb(${Math.round(L(27,238,hp))},${Math.round(L(26,106,hp))},${Math.round(L(24,31,hp))})`:'#1B1A18'});
+    draw(D.l9,t,W(9,10),.4);stamp($('#st9'),t,W(9,12)-.05)}
+  if(S(10,t)){const dc=$('#dc10');pop(dc,t,ST[10],{dy:60,s0:.85});const x=W(10,1);draw(D.x10a,t,x,.18);draw(D.x10b,t,x+.1,.18);
+    const sh2=t>x&&t<x+.35?Math.sin((t-x)*80)*10*(1-P(t,x,x+.35)):0;dc.style.transform+=` translateX(${sh2.toFixed(1)}px)`;dc.style.filter=t>x?`grayscale(${P(t,x,x+.3).toFixed(2)})`:'none';stamp($('#st10'),t,W(10,4)-.1)}
+  if(S(11,t)){pop($('#bk11'),t,ST[11],{dy:90,s0:.8});pop($('#ok11'),t,W(11,3),{s0:.2,r:-40});stamp($('#st11'),t,W(11,4)-.05)}
+  if(S(12,t)){op($('#sp12'),P(t,ST[12],ST[12]+.4));pop($('#bk12'),t,ST[12]+.12,{dy:60,s0:.8});pop($('#qq12'),t,W(12,8)-.05,{s0:.2,r:25});stamp($('#st12'),t,W(12,10)-.05)}
+  if(S(13,t)){pop($('#ph13'),t,ST[13],{dy:120,s0:.85});const ck=W(13,0)+.15;const cu=$('#cu13');const p=o3(P(t,ST[13]+.1,ck-.05));cu.style.transform=`translate(${L(560,455,p).toFixed(1)}px,${L(860,470,p).toFixed(1)}px) scale(${(1-.15*Math.sin(Math.PI*P(t,ck-.08,ck+.08))).toFixed(3)})`;op(cu,P(t,ST[13],ST[13]+.15));
+    const fill=P(t,ck,ck+.15);$('#bm13 path').setAttribute('fill',fill>0?'#EE6A1F':'none');$('#bm13 path').setAttribute('stroke',fill>0?'#EE6A1F':'#F2EFE9');$('#bm13').style.transform=`scale(${(fill>0?bk(P(t,ck,ck+.35)):1).toFixed(3)})`;
+    const nc=Math.floor(L(12400,12400+187,o3(P(t,ck,ck+1.2))));$('#nc13').textContent=(nc/1000).toFixed(1).replace('.',',')+'K'}
+}
+function CTA(t){const a=END-2.75;const c=$('#cta');if(!sh(c,t>=a))return;op(c,P(t,a,a+.25));pop($('#ct1'),t,a+.1,{dy:50,s0:.7});[0,1,2].forEach(i=>pop($('#pl'+i),t,a+.35+i*.18,{dx:-160,dy:0,s0:.85}))}
+// mascot
+(function(){$('#mas').innerHTML=Object.entries(MAS).map(([k,v])=>`<img id="${k}" src="${v}">`).join('')})();
+function MASC(t){let k=0;for(let i=0;i<N;i++)if(t>=ST[i]-.05)k=i;if(t>=END-2.75)k=N-1;const pose=POSE[k];Object.keys(MAS).forEach(n=>$('#'+n).style.display=n===pose?'block':'none');
+  const ch=P(t,ST[k]-.05,ST[k]+.3),e=ch>0?bk(ch,1.4):1;const m=$('#mas');m.style.transform=`translateY(${((1-e)*30).toFixed(1)}px) rotate(${(1.2*Math.sin(t*1.7)).toFixed(2)}deg) scale(${(.96+.04*e).toFixed(3)})`;op(m,P(t,0,.25))}
+let FRAME=0;
+function render(t,n){if(n!==undefined)FRAME=n;
+  const dk=(t>=ST[10]-.05&&t<SEND(10))?1:0;op($('#dark'),dk);$('#lbl').style.color=dk?'#8C877E':'';$('#brand').style.color=dk?'#F2EFE9':'#1B1A18';
+  let k=0;for(let i=0;i<N;i++)if(t>=ST[i]-.05)k=i;$('#lbl').textContent=LBL[k];$('#ctr').innerHTML=CTR[k];
+  scenes(t);CAP(t);HALF(t);MASC(t);CTA(t);$('#grain').style.backgroundImage=`url(${GRAIN[Math.floor(FRAME/2)%GRAIN.length]})`}
+window.render=render;window.END=END;
+if(!location.search.includes('render')){const st=$('#stage');const fit=()=>{const k=Math.min(innerWidth/1080,innerHeight/1920);st.style.transform=`scale(${k})`};fit();addEventListener('resize',fit);
+  const t0=performance.now();const loop=()=>{const t=((performance.now()-t0)/1000)%END;render(t,Math.floor(t*60));requestAnimationFrame(loop)};loop()}else render(0,0);
+</script></body></html>
