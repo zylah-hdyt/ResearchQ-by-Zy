@@ -2,7 +2,7 @@
 import numpy as np, soundfile as sf, sys, json
 S = sys.argv[1]; P = f'{S}/p3'; R = f'{S}/sfxref'
 WD = json.load(open(f'{P}/work/words.json'))
-ST = [w['s'] for w in WD]; N = len(WD); END = WD[-1]['e'] + 2.9
+ST = [w['s'] for w in WD]; N = len(WD); END = WD[-1]['e'] + 3.2
 def W(k, i): ws = WD[k]['words']; return ws[min(i, len(ws) - 1)][1]
 SEND = lambda k: ST[k + 1] if k < N - 1 else END
 
@@ -61,8 +61,10 @@ swish(W(10, 8) - .12, -26); dg(W(10, 9), 2, -21)
 swish(ST[11] - .3, -25, 1.2); putS(W(11, 6) - .1, fit(pop1), -24)
 put(W(11, 6), sweep_noise(max(.3, W(11, 8) - W(11, 6)), 1500, 3500) * np.hanning(int(max(.3, W(11, 8) - W(11, 6)) * SR)), -34)
 dg(W(11, 8) - .1, 3, -21)
-# 12 follow tap
-putS(ST[12], fit(pop1, rate=.9), -24); ck = W(12, 0) + .3; putS(ck - .01, fit(clk2), -18); putS(ck + .03, fit(ding, rate=1.25), -21)
+# background circle wipes
+BGs = ['n','l','l','b','w','w','b','l','l','l','n','b']
+for k in range(1, len(BGs)):
+    if BGs[k] != BGs[k - 1]: putS(ST[k] - .25, fit(swoosh, rate=1.3, trim=.45), -29)
 # CTA
 a = END - 2.75; putS(a, fit(swoosh, rate=.9), -22)
 for i in range(3): putS(a + .35 + i * .18, fit(pop1, rate=1.0 + .1 * i), -21)
