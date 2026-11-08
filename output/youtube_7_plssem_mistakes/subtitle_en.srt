@@ -1,321 +1,429 @@
 1
-00:00:00,600 --> 00:00:04,970
+00:00:00,550 --> 00:00:03,920
 If you're using PLS-SEM for your thesis,
-there's a good chance you're making at
 
 2
-00:00:04,990 --> 00:00:07,481
-least one of these seven mistakes.
+00:00:03,950 --> 00:00:05,396
+there's a good chance you're making
 
 3
-00:00:07,531 --> 00:00:08,924
-And I'm not guessing.
+00:00:05,426 --> 00:00:07,210
+at least one of these seven mistakes.
 
 4
-00:00:08,974 --> 00:00:13,567
-Every point in this video comes straight
-from one of the most widely used
+00:00:07,240 --> 00:00:08,761
+And I'm not guessing.
 
 5
-00:00:13,587 --> 00:00:18,436
-references on PLS-SEM: A Primer on Partial
-Least Squares Structural Equation
+00:00:08,791 --> 00:00:11,653
+Every point in this video comes straight
 
 6
-00:00:18,456 --> 00:00:23,415
-Modeling, third edition, by Hair, Hult,
-Ringle, and Sarstedt.
+00:00:11,683 --> 00:00:15,818
+from one of the most widely used
+references on PLS-SEM:
 
 7
-00:00:23,465 --> 00:00:25,220
-Let's get into it.
+00:00:15,848 --> 00:00:19,861
+A Primer on Partial Least Squares
+Structural Equation Modeling,
 
 8
-00:00:25,685 --> 00:00:29,260
-Mistake number one: running a simultaneous
-F-test.
+00:00:19,891 --> 00:00:23,252
+third edition, by Hair, Hult, Ringle, and
+Sarstedt.
 
 9
-00:00:29,310 --> 00:00:31,889
-The F-test belongs to multiple regression.
+00:00:23,282 --> 00:00:25,098
+Let's get into it.
 
 10
-00:00:31,939 --> 00:00:36,158
-In chapter six, Hair lays out how to
-evaluate a structural model: check
+00:00:25,782 --> 00:00:27,112
+Mistake number one:
 
 11
-00:00:36,178 --> 00:00:40,673
-collinearity, test the path coefficients,
-assess explanatory power, and assess
+00:00:27,142 --> 00:00:28,690
+running a simultaneous F-test.
 
 12
-00:00:40,693 --> 00:00:42,126
-predictive power.
+00:00:28,720 --> 00:00:31,632
+The F-test belongs to multiple regression.
 
 13
-00:00:42,176 --> 00:00:44,551
-There's no F-test on that list.
+00:00:31,662 --> 00:00:33,375
+In chapter six, Hair lays out
 
 14
-00:00:44,601 --> 00:00:49,050
-If you want the combined effect of your
-predictors, look at R squared. Hair
+00:00:33,405 --> 00:00:34,937
+how to evaluate a structural model:
 
 15
-00:00:49,070 --> 00:00:53,093
-describes it as the exogenous variables'
-combined effects on the endogenous
+00:00:34,967 --> 00:00:37,835
+check collinearity, test the path
+coefficients,
 
 16
-00:00:53,113 --> 00:00:54,117
-variable.
+00:00:37,865 --> 00:00:41,752
+assess explanatory power, and assess
+predictive power.
 
 17
-00:00:54,167 --> 00:00:58,787
-So instead of an F-test, report R squared
-together with the significance of each
+00:00:41,782 --> 00:00:44,131
+There's no F-test on that list.
 
 18
-00:00:58,807 --> 00:01:00,154
-path.
+00:00:44,161 --> 00:00:46,171
+If you want the combined effect of your
+predictors,
 
 19
-00:01:00,691 --> 00:01:04,268
-Mistake number two: reporting a
-goodness-of-fit index.
+00:00:46,201 --> 00:00:48,191
+look at R squared.
 
 20
-00:01:04,318 --> 00:01:10,096
-The GoF was proposed early on as a way to
-validate PLS models globally.
+00:00:48,221 --> 00:00:51,254
+Hair describes it as the exogenous
+variables'
 
 21
-00:01:10,146 --> 00:01:14,372
-But research showed it can't separate
-valid models from invalid ones.
+00:00:51,284 --> 00:00:54,071
+combined effects on the endogenous
+variable.
 
 22
-00:01:14,422 --> 00:01:19,278
-Hair's advice is direct: researchers are
-advised not to use this measure in
+00:00:54,101 --> 00:00:55,871
+So instead of an F-test,
 
 23
-00:01:19,298 --> 00:01:20,413
-PLS-SEM.
+00:00:55,901 --> 00:01:00,259
+report R squared together with the
+significance of each path.
 
 24
-00:01:20,463 --> 00:01:24,533
-And the other proposed fit measures? In
-their current form, they offer little
+00:01:00,929 --> 00:01:02,139
+Mistake number two:
 
 25
-00:01:24,553 --> 00:01:26,379
-value for applied research.
+00:01:02,169 --> 00:01:04,159
+reporting a goodness-of-fit index.
 
 26
-00:01:26,429 --> 00:01:31,422
+00:01:04,189 --> 00:01:06,599
+The GoF was proposed early on
+
+27
+00:01:06,629 --> 00:01:10,439
+as a way to validate PLS models globally.
+
+28
+00:01:10,469 --> 00:01:12,207
+But research showed it can't separate
+
+29
+00:01:12,237 --> 00:01:14,282
+valid models from invalid ones.
+
+30
+00:01:14,312 --> 00:01:15,898
+Hair's advice is direct:
+
+31
+00:01:15,928 --> 00:01:20,043
+researchers are advised not to use this
+measure in PLS-SEM.
+
+32
+00:01:20,073 --> 00:01:22,023
+And the other proposed fit measures?
+
+33
+00:01:22,053 --> 00:01:23,543
+In their current form,
+
+34
+00:01:23,573 --> 00:01:26,203
+they offer little value for applied
+research.
+
+35
+00:01:26,233 --> 00:01:31,207
 Focus on R squared, effect sizes, and
 predictive power instead.
 
-27
-00:01:31,917 --> 00:01:37,049
-Mistake number three: choosing PLS-SEM
-just because your sample is small.
+36
+00:01:31,895 --> 00:01:33,145
+Mistake number three:
 
-28
-00:01:37,099 --> 00:01:42,646
+37
+00:01:33,175 --> 00:01:36,585
+choosing PLS-SEM just because your sample
+is small.
+
+38
+00:01:36,615 --> 00:01:40,577
 Hair calls this probably the most often
-misused argument for using PLS-SEM. No
+misused argument
 
-29
-00:01:42,666 --> 00:01:45,416
-method has magic capabilities.
+39
+00:01:40,607 --> 00:01:42,245
+for using PLS-SEM.
 
-30
-00:01:45,466 --> 00:01:48,992
+40
+00:01:42,275 --> 00:01:44,365
+No method has magic capabilities.
+
+41
+00:01:44,395 --> 00:01:47,991
 The popular ten-times rule is only a rough
 guideline.
 
-31
-00:01:49,042 --> 00:01:54,303
-Think in terms of statistical power
-instead. With the inverse square root
-
-32
-00:01:54,323 --> 00:01:59,930
-method, if your weakest expected path is
-about 0.2, you need around 155
-
-33
-00:01:59,950 --> 00:02:03,489
-observations at a 5% significance level.
-
-34
-00:02:03,539 --> 00:02:08,247
-And if you ran a pilot study, use its
-smallest path coefficient as your starting
-
-35
-00:02:08,267 --> 00:02:09,668
-point.
-
-36
-00:02:10,313 --> 00:02:14,323
-Mistake number four: relying on the
-Fornell-Larcker criterion.
-
-37
-00:02:14,373 --> 00:02:18,284
-For decades, it was the go-to test for
-discriminant validity.
-
-38
-00:02:18,334 --> 00:02:23,152
-But Hair notes it performs very poorly
-when indicator loadings are similar, which
-
-39
-00:02:23,172 --> 00:02:25,813
-is usually the case with real data.
-
-40
-00:02:25,863 --> 00:02:32,889
-Use the HTMT instead: below 0.90, or below
-0.85 when your constructs are conceptually
-
-41
-00:02:32,909 --> 00:02:34,176
-distinct.
-
 42
-00:02:34,226 --> 00:02:41,620
-In other words, an HTMT above 0.90 is a
-red flag for discriminant validity.
+00:01:48,021 --> 00:01:50,731
+Think in terms of statistical power
+instead.
 
 43
-00:02:42,094 --> 00:02:45,910
-Mistake number five: testing mediation
-with the Sobel test.
+00:01:50,761 --> 00:01:52,631
+With the inverse square root method,
 
 44
-00:02:45,960 --> 00:02:50,029
-Hair is blunt here: the Sobel test should
-no longer be used.
+00:01:52,661 --> 00:01:55,451
+if your weakest expected path is about
+0.2,
 
 45
-00:02:50,079 --> 00:02:55,133
-It assumes a normal distribution, which
-doesn't fit a nonparametric method like
+00:01:55,481 --> 00:01:59,091
+you need around 155 observations
 
 46
-00:02:55,153 --> 00:02:56,181
-PLS-SEM.
+00:01:59,121 --> 00:02:01,211
+at a 5% significance level.
 
 47
-00:02:56,231 --> 00:02:58,739
-Bootstrap the indirect effect instead.
+00:02:01,241 --> 00:02:02,940
+And if you ran a pilot study,
 
 48
-00:02:58,789 --> 00:03:03,957
-Bootstrapping makes no distributional
-assumptions, which is exactly why it suits
+00:02:02,970 --> 00:02:06,909
+use its smallest path coefficient as your
+starting point.
 
 49
-00:03:03,977 --> 00:03:05,510
-PLS-SEM.
+00:02:07,586 --> 00:02:08,896
+Mistake number four:
 
 50
-00:03:06,088 --> 00:03:11,002
-Mistake number six: celebrating a
-reliability of 0.97.
+00:02:08,926 --> 00:02:11,396
+relying on the Fornell-Larcker criterion.
 
 51
-00:03:11,052 --> 00:03:16,166
+00:02:11,426 --> 00:02:13,721
+For decades, it was the go-to test
+
+52
+00:02:13,751 --> 00:02:15,276
+for discriminant validity.
+
+53
+00:02:15,306 --> 00:02:17,664
+But Hair notes it performs very poorly
+
+54
+00:02:17,694 --> 00:02:19,996
+when indicator loadings are similar,
+
+55
+00:02:20,026 --> 00:02:22,715
+which is usually the case with real data.
+
+56
+00:02:22,745 --> 00:02:25,195
+Use the HTMT instead:
+
+57
+00:02:25,225 --> 00:02:29,135
+below 0.90, or below 0.85
+
+58
+00:02:29,165 --> 00:02:31,595
+when your constructs are conceptually
+distinct.
+
+59
+00:02:31,625 --> 00:02:35,335
+In other words, an HTMT above 0.90
+
+60
+00:02:35,365 --> 00:02:38,247
+is a red flag for discriminant validity.
+
+61
+00:02:38,966 --> 00:02:40,476
+Mistake number five:
+
+62
+00:02:40,506 --> 00:02:42,816
+testing mediation with the Sobel test.
+
+63
+00:02:42,846 --> 00:02:44,336
+Hair is blunt here:
+
+64
+00:02:44,366 --> 00:02:46,916
+the Sobel test should no longer be used.
+
+65
+00:02:46,946 --> 00:02:48,956
+It assumes a normal distribution,
+
+66
+00:02:48,986 --> 00:02:52,976
+which doesn't fit a nonparametric method
+like PLS-SEM.
+
+67
+00:02:53,006 --> 00:02:55,544
+Bootstrap the indirect effect instead.
+
+68
+00:02:55,574 --> 00:02:58,664
+Bootstrapping makes no distributional
+assumptions,
+
+69
+00:02:58,694 --> 00:03:02,318
+which is exactly why it suits PLS-SEM.
+
+70
+00:03:02,963 --> 00:03:04,793
+Mistake number six:
+
+71
+00:03:04,823 --> 00:03:07,873
+celebrating a reliability of 0.97.
+
+72
+00:03:07,903 --> 00:03:11,953
 Values between 0.70 and 0.90 are
 satisfactory.
 
-52
-00:03:16,216 --> 00:03:23,040
-But values above 0.90, and definitely
-above 0.95, are not desirable.
+73
+00:03:11,983 --> 00:03:14,853
+But values above 0.90,
 
-53
-00:03:23,090 --> 00:03:27,187
+74
+00:03:14,883 --> 00:03:18,733
+and definitely above 0.95, are not
+desirable.
+
+75
+00:03:18,763 --> 00:03:21,133
 They usually mean your items are
-redundant, slightly rephrasing the very
+redundant,
 
-54
-00:03:27,207 --> 00:03:28,510
-same question.
+76
+00:03:21,163 --> 00:03:24,203
+slightly rephrasing the very same
+question.
 
-55
-00:03:28,560 --> 00:03:32,758
+77
+00:03:24,233 --> 00:03:26,643
 So if your reliability looks too perfect,
-check whether two items are asking the
 
-56
-00:03:32,778 --> 00:03:34,375
+78
+00:03:26,673 --> 00:03:30,214
+check whether two items are asking the
 same thing.
 
-57
-00:03:34,866 --> 00:03:39,250
-Mistake number seven: judging R squared
-with one universal cutoff.
+79
+00:03:30,936 --> 00:03:32,526
+Mistake number seven:
 
-58
-00:03:39,300 --> 00:03:43,667
-Hair says acceptable R squared values are
-based on the context.
+80
+00:03:32,556 --> 00:03:35,446
+judging R squared with one universal
+cutoff.
 
-59
-00:03:43,717 --> 00:03:50,251
+81
+00:03:35,476 --> 00:03:37,920
+Hair says acceptable R squared values
+
+82
+00:03:37,950 --> 00:03:39,526
+are based on the context.
+
+83
+00:03:39,556 --> 00:03:42,801
 In some disciplines, 0.10 is satisfactory.
-In others, researchers expect values above
 
-60
-00:03:50,271 --> 00:03:51,450
+84
+00:03:42,831 --> 00:03:47,026
+In others, researchers expect values above
 0.65.
 
-61
-00:03:51,500 --> 00:03:56,054
-Also remember: the more predictors you
-add, the higher R squared tends to get.
+85
+00:03:47,056 --> 00:03:47,797
+Also remember:
 
-62
-00:03:56,104 --> 00:04:01,044
+86
+00:03:47,827 --> 00:03:51,865
+the more predictors you add, the higher R
+squared tends to get.
+
+87
+00:03:51,895 --> 00:03:54,665
 So compare your R squared with similar
-studies, not with a magic number.
+studies,
 
-63
-00:04:01,585 --> 00:04:02,592
+88
+00:03:54,695 --> 00:03:56,890
+not with a magic number.
+
+89
+00:03:57,496 --> 00:03:58,386
 Quick recap.
 
-64
-00:04:02,642 --> 00:04:08,402
-No F-test. No GoF. No small-sample excuse.
-HTMT over Fornell-Larcker. Bootstrapping
+90
+00:03:58,416 --> 00:04:00,500
+No F-test. No GoF.
 
-65
-00:04:08,422 --> 00:04:13,533
-over Sobel. Watch out for reliability
-that's too high. And read R squared in
+91
+00:04:00,530 --> 00:04:02,286
+No small-sample excuse.
 
-66
-00:04:13,553 --> 00:04:14,711
-context.
+92
+00:04:02,316 --> 00:04:04,626
+HTMT over Fornell-Larcker.
 
-67
-00:04:14,761 --> 00:04:19,517
+93
+00:04:04,656 --> 00:04:06,366
+Bootstrapping over Sobel.
+
+94
+00:04:06,396 --> 00:04:08,786
+Watch out for reliability that's too high.
+
+95
+00:04:08,816 --> 00:04:10,786
+And read R squared in context.
+
+96
+00:04:10,816 --> 00:04:13,706
 If you want all of this in one practical
-guide, check out the SEM-PLS guide in the
+guide,
 
-68
-00:04:19,537 --> 00:04:20,823
+97
+00:04:13,736 --> 00:04:17,457
+check out the SEM-PLS guide in the
 description.
 
-69
-00:04:20,873 --> 00:04:27,264
-And subscribe to Not Your Lecture for more
-research tips that actually hold up.
+98
+00:04:17,487 --> 00:04:19,653
+And subscribe to Not Your Lecture
+
+99
+00:04:19,683 --> 00:04:23,342
+for more research tips that actually hold
+up.
 

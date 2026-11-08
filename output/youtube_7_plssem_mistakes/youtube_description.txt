@@ -9,11 +9,11 @@ CHAPTERS
 0:24 Mistake 1: The simultaneous F-test
 0:59 Mistake 2: Reporting the GoF index
 1:30 Mistake 3: "My sample is small"
-2:09 Mistake 4: Relying on Fornell-Larcker
-2:40 Mistake 5: The Sobel test
-3:04 Mistake 6: Reliability that is too high
-3:33 Mistake 7: One R² cutoff for all
-4:00 Recap
+2:06 Mistake 4: Relying on Fornell-Larcker
+2:37 Mistake 5: The Sobel test
+3:01 Mistake 6: Reliability that is too high
+3:29 Mistake 7: One R² cutoff for all
+3:56 Recap
 
 📘 SEM-PLS practical guide: [LINK PANDUAN]
 
@@ -21,7 +21,7 @@ Reference:
 Hair, J. F., Hult, G. T. M., Ringle, C. M., & Sarstedt, M. (2022). A Primer on Partial Least Squares Structural Equation Modeling (PLS-SEM) (3rd ed.). SAGE.
 Sample-size example: Kock, N., & Hadaya, P. (2018), inverse square root method, as presented in Hair et al. (2022), Ch. 1.
 
-Follow ResearchQ:
+Follow us:
 TikTok: @researchq.id
 Instagram: @researchq.id
 
