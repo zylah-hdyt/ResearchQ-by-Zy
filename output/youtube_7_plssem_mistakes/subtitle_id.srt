@@ -1,0 +1,288 @@
+1
+00:00:00,600 --> 00:00:05,610
+Kalau kamu pakai PLS-SEM untuk skripsi atau
+tesis, besar kemungkinan kamu melakukan
+
+2
+00:00:05,630 --> 00:00:08,094
+setidaknya satu dari tujuh kesalahan ini.
+
+3
+00:00:08,164 --> 00:00:09,703
+Dan ini bukan tebakan.
+
+4
+00:00:09,773 --> 00:00:16,724
+Semua poin di video ini diambil langsung dari
+salah satu rujukan PLS-SEM yang paling banyak
+
+5
+00:00:16,744 --> 00:00:23,006
+dipakai: A Primer on PLS-SEM edisi ketiga, karya
+Hair, Hult, Ringle, dan Sarstedt.
+
+6
+00:00:23,076 --> 00:00:24,998
+Yuk, kita bahas.
+
+7
+00:00:25,483 --> 00:00:29,278
+Kesalahan pertama: melakukan uji F atau uji
+simultan.
+
+8
+00:00:29,348 --> 00:00:32,418
+Uji F itu milik regresi berganda.
+
+9
+00:00:32,488 --> 00:00:38,981
+Di Bab 6, Hair menjelaskan cara menilai model
+struktural: cek kolinearitas, uji koefisien
+
+10
+00:00:39,001 --> 00:00:43,226
+jalur, nilai daya jelas model, dan nilai daya
+prediksinya.
+
+11
+00:00:43,296 --> 00:00:45,546
+Tidak ada uji F di daftar itu.
+
+12
+00:00:45,616 --> 00:00:51,689
+Kalau ingin melihat pengaruh gabungan variabel
+bebas, lihat R kuadrat. Hair menyebutnya
+
+13
+00:00:51,709 --> 00:00:55,961
+pengaruh gabungan variabel eksogen terhadap
+variabel endogen.
+
+14
+00:00:56,031 --> 00:01:02,338
+Jadi, alih-alih uji F, laporkan R kuadrat
+bersama signifikansi tiap jalur.
+
+15
+00:01:02,895 --> 00:01:06,560
+Kesalahan kedua: melaporkan indeks
+goodness-of-fit (GoF).
+
+16
+00:01:06,630 --> 00:01:12,286
+GoF dulu diusulkan sebagai cara memvalidasi
+model PLS secara keseluruhan.
+
+17
+00:01:12,356 --> 00:01:16,669
+Tapi penelitian menunjukkan GoF tidak bisa
+membedakan model yang valid dari yang tidak.
+
+18
+00:01:16,739 --> 00:01:23,313
+Saran Hair jelas: peneliti disarankan tidak
+memakai ukuran ini di PLS-SEM.
+
+19
+00:01:23,383 --> 00:01:28,512
+Lalu ukuran fit lainnya? Dalam bentuknya
+sekarang, ukuran itu kurang bermanfaat untuk
+
+20
+00:01:28,532 --> 00:01:29,663
+penelitian terapan.
+
+21
+00:01:29,733 --> 00:01:34,737
+Fokuslah pada R kuadrat, ukuran efek, dan daya
+prediksi.
+
+22
+00:01:35,251 --> 00:01:40,928
+Kesalahan ketiga: memilih PLS-SEM hanya karena
+sampelnya kecil.
+
+23
+00:01:40,998 --> 00:01:47,634
+Hair menyebut ini mungkin alasan yang paling
+sering disalahgunakan untuk memakai PLS-SEM.
+
+24
+00:01:47,654 --> 00:01:49,728
+Tidak ada metode yang ajaib.
+
+25
+00:01:49,798 --> 00:01:53,563
+Aturan sepuluh kali yang populer itu hanya
+patokan kasar.
+
+26
+00:01:53,633 --> 00:02:01,290
+Pertimbangkan power statistik. Dengan metode
+inverse square root, kalau jalur terlemah yang
+
+27
+00:02:01,310 --> 00:02:08,377
+diharapkan sekitar 0,2, kamu butuh sekitar 155
+responden pada taraf signifikansi 5%.
+
+28
+00:02:08,447 --> 00:02:12,859
+Kalau kamu sempat melakukan uji coba (pilot
+study), pakai koefisien jalur terkecilnya
+
+29
+00:02:12,879 --> 00:02:14,319
+sebagai titik awal hitungan.
+
+30
+00:02:14,984 --> 00:02:19,092
+Kesalahan keempat: mengandalkan kriteria
+Fornell-Larcker.
+
+31
+00:02:19,162 --> 00:02:23,064
+Selama puluhan tahun, kriteria ini jadi andalan
+untuk validitas diskriminan.
+
+32
+00:02:23,134 --> 00:02:28,332
+Tapi menurut Hair, kriteria ini bekerja sangat
+buruk saat loading indikatornya mirip, dan itu
+
+33
+00:02:28,352 --> 00:02:30,352
+yang biasanya terjadi di data nyata.
+
+34
+00:02:30,422 --> 00:02:39,227
+Gunakan HTMT: di bawah 0,90, atau di bawah 0,85
+kalau konstruknya jelas berbeda secara konsep.
+
+35
+00:02:39,297 --> 00:02:46,242
+Artinya, HTMT di atas 0,90 adalah tanda bahaya
+untuk validitas diskriminan.
+
+36
+00:02:46,735 --> 00:02:50,765
+Kesalahan kelima: menguji mediasi dengan uji
+Sobel.
+
+37
+00:02:50,835 --> 00:02:54,768
+Di sini Hair tegas: uji Sobel sebaiknya tidak
+dipakai lagi.
+
+38
+00:02:54,838 --> 00:03:01,056
+Uji ini mengasumsikan distribusi normal, yang
+tidak cocok dengan metode nonparametrik seperti
+
+39
+00:03:01,076 --> 00:03:01,593
+PLS-SEM.
+
+40
+00:03:01,663 --> 00:03:04,290
+Sebagai gantinya, uji efek tidak langsung dengan
+bootstrapping.
+
+41
+00:03:04,360 --> 00:03:11,470
+Bootstrapping tidak mengasumsikan distribusi
+tertentu, karena itulah cocok untuk PLS-SEM.
+
+42
+00:03:12,068 --> 00:03:17,229
+Kesalahan keenam: bangga dengan reliabilitas
+0,97.
+
+43
+00:03:17,299 --> 00:03:22,413
+Nilai antara 0,70 dan 0,90 sudah memuaskan.
+
+44
+00:03:22,483 --> 00:03:29,066
+Tapi nilai di atas 0,90, apalagi di atas 0,95,
+justru tidak diinginkan.
+
+45
+00:03:29,136 --> 00:03:34,345
+Biasanya itu tanda butir pertanyaanmu berulang,
+hanya mengulang pertanyaan yang sama dengan kata
+
+46
+00:03:34,365 --> 00:03:34,617
+lain.
+
+47
+00:03:34,687 --> 00:03:39,407
+Jadi kalau reliabilitasmu terlihat terlalu
+sempurna, cek apakah ada dua butir yang
+
+48
+00:03:39,427 --> 00:03:40,852
+menanyakan hal yang sama.
+
+49
+00:03:41,363 --> 00:03:46,186
+Kesalahan ketujuh: menilai R kuadrat dengan satu
+batas yang berlaku untuk semua.
+
+50
+00:03:46,256 --> 00:03:50,549
+Hair menyebut nilai R kuadrat yang dapat
+diterima bergantung pada konteks.
+
+51
+00:03:50,619 --> 00:03:58,453
+Di beberapa bidang, 0,10 sudah memuaskan. Di
+bidang lain, peneliti mengharapkan nilai di atas
+
+52
+00:03:58,473 --> 00:03:58,875
+0,65.
+
+53
+00:03:58,945 --> 00:04:03,936
+Ingat juga: makin banyak variabel prediktor, R
+kuadrat cenderung makin tinggi.
+
+54
+00:04:04,006 --> 00:04:09,111
+Jadi bandingkan R kuadratmu dengan penelitian
+sejenis, bukan dengan angka ajaib.
+
+55
+00:04:09,672 --> 00:04:10,937
+Rangkuman singkat.
+
+56
+00:04:11,007 --> 00:04:16,821
+Tanpa uji F. Tanpa GoF. Bukan alasan sampel
+kecil. HTMT, bukan Fornell-Larcker.
+
+57
+00:04:16,841 --> 00:04:22,803
+Bootstrapping, bukan Sobel. Waspadai
+reliabilitas yang terlalu tinggi. Dan baca R
+
+58
+00:04:22,823 --> 00:04:24,501
+kuadrat sesuai konteks.
+
+59
+00:04:24,571 --> 00:04:31,355
+Kalau mau semua ini dalam satu panduan praktis,
+cek panduan SEM-PLS di deskripsi.
+
+60
+00:04:31,425 --> 00:04:36,167
+Dan subscribe Not Your Lecture untuk tips riset
+lainnya yang benar-benar bisa
+
+61
+00:04:36,187 --> 00:04:37,528
+dipertanggungjawabkan.
+
