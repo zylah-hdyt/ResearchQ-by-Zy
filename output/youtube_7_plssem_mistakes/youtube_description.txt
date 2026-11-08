@@ -7,13 +7,13 @@ Pakai PLS-SEM / SmartPLS untuk skripsi atau tesis? Tujuh kesalahan umum ini diba
 CHAPTERS
 0:00 Intro
 0:24 Mistake 1: The simultaneous F-test
-1:01 Mistake 2: Reporting the GoF index
-1:34 Mistake 3: "My sample is small"
-2:13 Mistake 4: Relying on Fornell-Larcker
-2:45 Mistake 5: The Sobel test
-3:10 Mistake 6: Reliability that is too high
-3:40 Mistake 7: One R² cutoff for all
-4:08 Recap
+0:59 Mistake 2: Reporting the GoF index
+1:30 Mistake 3: "My sample is small"
+2:09 Mistake 4: Relying on Fornell-Larcker
+2:40 Mistake 5: The Sobel test
+3:04 Mistake 6: Reliability that is too high
+3:33 Mistake 7: One R² cutoff for all
+4:00 Recap
 
 📘 SEM-PLS practical guide: [LINK PANDUAN]
 

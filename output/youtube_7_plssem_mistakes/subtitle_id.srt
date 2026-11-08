@@ -1,288 +1,288 @@
 1
-00:00:00,600 --> 00:00:05,610
+00:00:00,600 --> 00:00:05,186
 Kalau kamu pakai PLS-SEM untuk skripsi atau
 tesis, besar kemungkinan kamu melakukan
 
 2
-00:00:05,630 --> 00:00:08,094
+00:00:05,206 --> 00:00:07,461
 setidaknya satu dari tujuh kesalahan ini.
 
 3
-00:00:08,164 --> 00:00:09,703
+00:00:07,531 --> 00:00:08,904
 Dan ini bukan tebakan.
 
 4
-00:00:09,773 --> 00:00:16,724
+00:00:08,974 --> 00:00:16,550
 Semua poin di video ini diambil langsung dari
 salah satu rujukan PLS-SEM yang paling banyak
 
 5
-00:00:16,744 --> 00:00:23,006
+00:00:16,570 --> 00:00:23,395
 dipakai: A Primer on PLS-SEM edisi ketiga, karya
 Hair, Hult, Ringle, dan Sarstedt.
 
 6
-00:00:23,076 --> 00:00:24,998
+00:00:23,465 --> 00:00:25,200
 Yuk, kita bahas.
 
 7
-00:00:25,483 --> 00:00:29,278
+00:00:25,685 --> 00:00:29,240
 Kesalahan pertama: melakukan uji F atau uji
 simultan.
 
 8
-00:00:29,348 --> 00:00:32,418
+00:00:29,310 --> 00:00:31,869
 Uji F itu milik regresi berganda.
 
 9
-00:00:32,488 --> 00:00:38,981
+00:00:31,939 --> 00:00:38,087
 Di Bab 6, Hair menjelaskan cara menilai model
 struktural: cek kolinearitas, uji koefisien
 
 10
-00:00:39,001 --> 00:00:43,226
+00:00:38,107 --> 00:00:42,106
 jalur, nilai daya jelas model, dan nilai daya
 prediksinya.
 
 11
-00:00:43,296 --> 00:00:45,546
+00:00:42,176 --> 00:00:44,531
 Tidak ada uji F di daftar itu.
 
 12
-00:00:45,616 --> 00:00:51,689
+00:00:44,601 --> 00:00:50,175
 Kalau ingin melihat pengaruh gabungan variabel
 bebas, lihat R kuadrat. Hair menyebutnya
 
 13
-00:00:51,709 --> 00:00:55,961
+00:00:50,195 --> 00:00:54,097
 pengaruh gabungan variabel eksogen terhadap
 variabel endogen.
 
 14
-00:00:56,031 --> 00:01:02,338
+00:00:54,167 --> 00:01:00,134
 Jadi, alih-alih uji F, laporkan R kuadrat
 bersama signifikansi tiap jalur.
 
 15
-00:01:02,895 --> 00:01:06,560
+00:01:00,691 --> 00:01:04,248
 Kesalahan kedua: melaporkan indeks
 goodness-of-fit (GoF).
 
 16
-00:01:06,630 --> 00:01:12,286
+00:01:04,318 --> 00:01:10,076
 GoF dulu diusulkan sebagai cara memvalidasi
 model PLS secara keseluruhan.
 
 17
-00:01:12,356 --> 00:01:16,669
+00:01:10,146 --> 00:01:14,352
 Tapi penelitian menunjukkan GoF tidak bisa
 membedakan model yang valid dari yang tidak.
 
 18
-00:01:16,739 --> 00:01:23,313
+00:01:14,422 --> 00:01:20,393
 Saran Hair jelas: peneliti disarankan tidak
 memakai ukuran ini di PLS-SEM.
 
 19
-00:01:23,383 --> 00:01:28,512
+00:01:20,463 --> 00:01:25,278
 Lalu ukuran fit lainnya? Dalam bentuknya
 sekarang, ukuran itu kurang bermanfaat untuk
 
 20
-00:01:28,532 --> 00:01:29,663
+00:01:25,298 --> 00:01:26,359
 penelitian terapan.
 
 21
-00:01:29,733 --> 00:01:34,737
+00:01:26,429 --> 00:01:31,402
 Fokuslah pada R kuadrat, ukuran efek, dan daya
 prediksi.
 
 22
-00:01:35,251 --> 00:01:40,928
+00:01:31,917 --> 00:01:37,029
 Kesalahan ketiga: memilih PLS-SEM hanya karena
 sampelnya kecil.
 
 23
-00:01:40,998 --> 00:01:47,634
+00:01:37,099 --> 00:01:43,406
 Hair menyebut ini mungkin alasan yang paling
 sering disalahgunakan untuk memakai PLS-SEM.
 
 24
-00:01:47,654 --> 00:01:49,728
+00:01:43,426 --> 00:01:45,396
 Tidak ada metode yang ajaib.
 
 25
-00:01:49,798 --> 00:01:53,563
+00:01:45,466 --> 00:01:48,972
 Aturan sepuluh kali yang populer itu hanya
 patokan kasar.
 
 26
-00:01:53,633 --> 00:02:01,290
+00:01:49,042 --> 00:01:56,534
 Pertimbangkan power statistik. Dengan metode
 inverse square root, kalau jalur terlemah yang
 
 27
-00:02:01,310 --> 00:02:08,377
+00:01:56,554 --> 00:02:03,469
 diharapkan sekitar 0,2, kamu butuh sekitar 155
 responden pada taraf signifikansi 5%.
 
 28
-00:02:08,447 --> 00:02:12,859
+00:02:03,539 --> 00:02:08,129
 Kalau kamu sempat melakukan uji coba (pilot
 study), pakai koefisien jalur terkecilnya
 
 29
-00:02:12,879 --> 00:02:14,319
+00:02:08,149 --> 00:02:09,648
 sebagai titik awal hitungan.
 
 30
-00:02:14,984 --> 00:02:19,092
+00:02:10,313 --> 00:02:14,303
 Kesalahan keempat: mengandalkan kriteria
 Fornell-Larcker.
 
 31
-00:02:19,162 --> 00:02:23,064
+00:02:14,373 --> 00:02:18,264
 Selama puluhan tahun, kriteria ini jadi andalan
 untuk validitas diskriminan.
 
 32
-00:02:23,134 --> 00:02:28,332
+00:02:18,334 --> 00:02:23,706
 Tapi menurut Hair, kriteria ini bekerja sangat
 buruk saat loading indikatornya mirip, dan itu
 
 33
-00:02:28,352 --> 00:02:30,352
+00:02:23,726 --> 00:02:25,793
 yang biasanya terjadi di data nyata.
 
 34
-00:02:30,422 --> 00:02:39,227
+00:02:25,863 --> 00:02:34,156
 Gunakan HTMT: di bawah 0,90, atau di bawah 0,85
 kalau konstruknya jelas berbeda secara konsep.
 
 35
-00:02:39,297 --> 00:02:46,242
+00:02:34,226 --> 00:02:41,600
 Artinya, HTMT di atas 0,90 adalah tanda bahaya
 untuk validitas diskriminan.
 
 36
-00:02:46,735 --> 00:02:50,765
+00:02:42,094 --> 00:02:45,890
 Kesalahan kelima: menguji mediasi dengan uji
 Sobel.
 
 37
-00:02:50,835 --> 00:02:54,768
+00:02:45,960 --> 00:02:50,009
 Di sini Hair tegas: uji Sobel sebaiknya tidak
 dipakai lagi.
 
 38
-00:02:54,838 --> 00:03:01,056
+00:02:50,079 --> 00:02:55,678
 Uji ini mengasumsikan distribusi normal, yang
 tidak cocok dengan metode nonparametrik seperti
 
 39
-00:03:01,076 --> 00:03:01,593
+00:02:55,698 --> 00:02:56,161
 PLS-SEM.
 
 40
-00:03:01,663 --> 00:03:04,290
+00:02:56,231 --> 00:02:58,719
 Sebagai gantinya, uji efek tidak langsung dengan
 bootstrapping.
 
 41
-00:03:04,360 --> 00:03:11,470
+00:02:58,789 --> 00:03:05,490
 Bootstrapping tidak mengasumsikan distribusi
 tertentu, karena itulah cocok untuk PLS-SEM.
 
 42
-00:03:12,068 --> 00:03:17,229
+00:03:06,088 --> 00:03:10,982
 Kesalahan keenam: bangga dengan reliabilitas
 0,97.
 
 43
-00:03:17,299 --> 00:03:22,413
+00:03:11,052 --> 00:03:16,146
 Nilai antara 0,70 dan 0,90 sudah memuaskan.
 
 44
-00:03:22,483 --> 00:03:29,066
+00:03:16,216 --> 00:03:23,020
 Tapi nilai di atas 0,90, apalagi di atas 0,95,
 justru tidak diinginkan.
 
 45
-00:03:29,136 --> 00:03:34,345
+00:03:23,090 --> 00:03:28,222
 Biasanya itu tanda butir pertanyaanmu berulang,
 hanya mengulang pertanyaan yang sama dengan kata
 
 46
-00:03:34,365 --> 00:03:34,617
+00:03:28,242 --> 00:03:28,490
 lain.
 
 47
-00:03:34,687 --> 00:03:39,407
+00:03:28,560 --> 00:03:32,996
 Jadi kalau reliabilitasmu terlihat terlalu
 sempurna, cek apakah ada dua butir yang
 
 48
-00:03:39,427 --> 00:03:40,852
+00:03:33,016 --> 00:03:34,355
 menanyakan hal yang sama.
 
 49
-00:03:41,363 --> 00:03:46,186
+00:03:34,866 --> 00:03:39,230
 Kesalahan ketujuh: menilai R kuadrat dengan satu
 batas yang berlaku untuk semua.
 
 50
-00:03:46,256 --> 00:03:50,549
+00:03:39,300 --> 00:03:43,647
 Hair menyebut nilai R kuadrat yang dapat
 diterima bergantung pada konteks.
 
 51
-00:03:50,619 --> 00:03:58,453
+00:03:43,717 --> 00:03:51,035
 Di beberapa bidang, 0,10 sudah memuaskan. Di
 bidang lain, peneliti mengharapkan nilai di atas
 
 52
-00:03:58,473 --> 00:03:58,875
+00:03:51,055 --> 00:03:51,430
 0,65.
 
 53
-00:03:58,945 --> 00:04:03,936
+00:03:51,500 --> 00:03:56,034
 Ingat juga: makin banyak variabel prediktor, R
 kuadrat cenderung makin tinggi.
 
 54
-00:04:04,006 --> 00:04:09,111
+00:03:56,104 --> 00:04:01,024
 Jadi bandingkan R kuadratmu dengan penelitian
 sejenis, bukan dengan angka ajaib.
 
 55
-00:04:09,672 --> 00:04:10,937
+00:04:01,585 --> 00:04:02,572
 Rangkuman singkat.
 
 56
-00:04:11,007 --> 00:04:16,821
+00:04:02,642 --> 00:04:07,832
 Tanpa uji F. Tanpa GoF. Bukan alasan sampel
 kecil. HTMT, bukan Fornell-Larcker.
 
 57
-00:04:16,841 --> 00:04:22,803
+00:04:07,852 --> 00:04:13,174
 Bootstrapping, bukan Sobel. Waspadai
 reliabilitas yang terlalu tinggi. Dan baca R
 
 58
-00:04:22,823 --> 00:04:24,501
+00:04:13,194 --> 00:04:14,691
 kuadrat sesuai konteks.
 
 59
-00:04:24,571 --> 00:04:31,355
+00:04:14,761 --> 00:04:20,803
 Kalau mau semua ini dalam satu panduan praktis,
 cek panduan SEM-PLS di deskripsi.
 
 60
-00:04:31,425 --> 00:04:36,167
+00:04:20,873 --> 00:04:25,824
 Dan subscribe Not Your Lecture untuk tips riset
 lainnya yang benar-benar bisa
 
 61
-00:04:36,187 --> 00:04:37,528
+00:04:25,844 --> 00:04:27,244
 dipertanggungjawabkan.
 
