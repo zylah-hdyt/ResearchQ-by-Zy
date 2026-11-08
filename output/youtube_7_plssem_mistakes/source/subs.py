@@ -1,0 +1,56 @@
+# Bilingual subtitle cues, one phrase per cue. For every script line, the EN parts joined with spaces must equal that line's English text exactly.
+SUBS = [
+ [("If you're using PLS-SEM for your thesis,", "Kalau kamu pakai PLS-SEM untuk skripsi,"), ("there's a good chance you're making", "besar kemungkinan kamu melakukan"), ("at least one of these seven mistakes.", "setidaknya satu dari tujuh kesalahan ini.")],
+ [("And I'm not guessing.", "Dan ini bukan tebakan.")],
+ [("Every point in this video comes straight", "Setiap poin di video ini diambil langsung"), ("from one of the most widely used references on PLS-SEM:", "dari salah satu rujukan PLS-SEM yang paling banyak dipakai:"), ("A Primer on Partial Least Squares Structural Equation Modeling,", "A Primer on Partial Least Squares Structural Equation Modeling,"), ("third edition, by Hair, Hult, Ringle, and Sarstedt.", "edisi ketiga, karya Hair, Hult, Ringle, dan Sarstedt.")],
+ [("Let's get into it.", "Yuk, kita bahas.")],
+ [("Mistake number one:", "Kesalahan pertama:"), ("running a simultaneous F-test.", "melakukan uji F (uji simultan).")],
+ [("The F-test belongs to multiple regression.", "Uji F itu milik regresi berganda.")],
+ [("In chapter six, Hair lays out", "Di Bab 6, Hair menjelaskan"), ("how to evaluate a structural model:", "cara menilai model struktural:"), ("check collinearity, test the path coefficients,", "cek kolinearitas, uji koefisien jalur,"), ("assess explanatory power, and assess predictive power.", "nilai daya jelas, dan nilai daya prediksi.")],
+ [("There's no F-test on that list.", "Tidak ada uji F di daftar itu.")],
+ [("If you want the combined effect of your predictors,", "Kalau ingin melihat pengaruh gabungan prediktor,"), ("look at R squared.", "lihat R kuadrat."), ("Hair describes it as the exogenous variables'", "Hair menyebutnya sebagai pengaruh gabungan"), ("combined effects on the endogenous variable.", "variabel eksogen terhadap variabel endogen.")],
+ [("So instead of an F-test,", "Jadi, alih-alih uji F,"), ("report R squared together with the significance of each path.", "laporkan R kuadrat beserta signifikansi tiap jalur.")],
+ [("Mistake number two:", "Kesalahan kedua:"), ("reporting a goodness-of-fit index.", "melaporkan indeks goodness-of-fit (GoF).")],
+ [("The GoF was proposed early on", "GoF dulu sempat diusulkan"), ("as a way to validate PLS models globally.", "untuk memvalidasi model PLS secara keseluruhan.")],
+ [("But research showed it can't separate", "Tapi penelitian menunjukkan GoF tidak bisa membedakan"), ("valid models from invalid ones.", "model yang valid dari yang tidak valid.")],
+ [("Hair's advice is direct:", "Saran Hair jelas:"), ("researchers are advised not to use this measure in PLS-SEM.", "peneliti disarankan tidak memakai ukuran ini di PLS-SEM.")],
+ [("And the other proposed fit measures?", "Lalu ukuran fit yang lain?"), ("In their current form,", "Dalam bentuknya sekarang,"), ("they offer little value for applied research.", "ukuran itu kurang bermanfaat untuk penelitian terapan.")],
+ [("Focus on R squared, effect sizes, and predictive power instead.", "Fokuslah pada R kuadrat, ukuran efek, dan daya prediksi.")],
+ [("Mistake number three:", "Kesalahan ketiga:"), ("choosing PLS-SEM just because your sample is small.", "memilih PLS-SEM hanya karena sampelnya kecil.")],
+ [("Hair calls this probably the most often misused argument", "Hair menyebut ini mungkin alasan yang paling sering disalahgunakan"), ("for using PLS-SEM.", "untuk memakai PLS-SEM."), ("No method has magic capabilities.", "Tidak ada metode yang ajaib.")],
+ [("The popular ten-times rule is only a rough guideline.", "Aturan sepuluh kali yang populer itu hanya patokan kasar.")],
+ [("Think in terms of statistical power instead.", "Pertimbangkan power statistik."), ("With the inverse square root method,", "Dengan metode inverse square root,"), ("if your weakest expected path is about 0.2,", "kalau jalur terlemah yang diharapkan sekitar 0,2,"), ("you need around 155 observations", "kamu butuh sekitar 155 responden"), ("at a 5% significance level.", "pada taraf signifikansi 5%.")],
+ [("And if you ran a pilot study,", "Kalau kamu sempat melakukan pilot study,"), ("use its smallest path coefficient as your starting point.", "pakai koefisien jalur terkecilnya sebagai titik awal.")],
+ [("Mistake number four:", "Kesalahan keempat:"), ("relying on the Fornell-Larcker criterion.", "mengandalkan kriteria Fornell-Larcker.")],
+ [("For decades, it was the go-to test", "Selama puluhan tahun, ini jadi uji andalan"), ("for discriminant validity.", "untuk validitas diskriminan.")],
+ [("But Hair notes it performs very poorly", "Tapi menurut Hair, kriteria ini bekerja sangat buruk"), ("when indicator loadings are similar,", "saat loading indikatornya mirip,"), ("which is usually the case with real data.", "dan itu yang biasanya terjadi di data nyata.")],
+ [("Use the HTMT instead:", "Gunakan HTMT:"), ("below 0.90, or below 0.85", "di bawah 0,90, atau di bawah 0,85"), ("when your constructs are conceptually distinct.", "kalau konstruknya jelas berbeda secara konsep.")],
+ [("In other words, an HTMT above 0.90", "Artinya, HTMT di atas 0,90"), ("is a red flag for discriminant validity.", "adalah tanda bahaya untuk validitas diskriminan.")],
+ [("Mistake number five:", "Kesalahan kelima:"), ("testing mediation with the Sobel test.", "menguji mediasi dengan uji Sobel.")],
+ [("Hair is blunt here:", "Di sini Hair tegas:"), ("the Sobel test should no longer be used.", "uji Sobel sebaiknya tidak dipakai lagi.")],
+ [("It assumes a normal distribution,", "Uji ini mengasumsikan distribusi normal,"), ("which doesn't fit a nonparametric method like PLS-SEM.", "yang tidak cocok dengan metode nonparametrik seperti PLS-SEM.")],
+ [("Bootstrap the indirect effect instead.", "Sebagai gantinya, uji efek tidak langsung dengan bootstrapping.")],
+ [("Bootstrapping makes no distributional assumptions,", "Bootstrapping tidak mengasumsikan distribusi tertentu,"), ("which is exactly why it suits PLS-SEM.", "karena itulah cocok untuk PLS-SEM.")],
+ [("Mistake number six:", "Kesalahan keenam:"), ("celebrating a reliability of 0.97.", "bangga dengan reliabilitas 0,97.")],
+ [("Values between 0.70 and 0.90 are satisfactory.", "Nilai antara 0,70 dan 0,90 sudah memuaskan.")],
+ [("But values above 0.90,", "Tapi nilai di atas 0,90,"), ("and definitely above 0.95, are not desirable.", "apalagi di atas 0,95, justru tidak diinginkan.")],
+ [("They usually mean your items are redundant,", "Biasanya itu tanda butir pertanyaanmu berulang,"), ("slightly rephrasing the very same question.", "hanya mengulang pertanyaan yang sama dengan kata lain.")],
+ [("So if your reliability looks too perfect,", "Jadi kalau reliabilitasmu terlihat terlalu sempurna,"), ("check whether two items are asking the same thing.", "cek apakah ada dua butir yang menanyakan hal yang sama.")],
+ [("Mistake number seven:", "Kesalahan ketujuh:"), ("judging R squared with one universal cutoff.", "menilai R kuadrat dengan satu batas untuk semua.")],
+ [("Hair says acceptable R squared values", "Menurut Hair, nilai R kuadrat yang dapat diterima"), ("are based on the context.", "bergantung pada konteks.")],
+ [("In some disciplines, 0.10 is satisfactory.", "Di beberapa bidang, 0,10 sudah memuaskan."), ("In others, researchers expect values above 0.65.", "Di bidang lain, peneliti mengharapkan nilai di atas 0,65.")],
+ [("Also remember:", "Ingat juga:"), ("the more predictors you add, the higher R squared tends to get.", "makin banyak prediktor, R kuadrat cenderung makin tinggi.")],
+ [("So compare your R squared with similar studies,", "Jadi bandingkan R kuadratmu dengan penelitian sejenis,"), ("not with a magic number.", "bukan dengan angka ajaib.")],
+ [("Quick recap.", "Rangkuman singkat.")],
+ [("No F-test. No GoF.", "Tanpa uji F. Tanpa GoF."), ("No small-sample excuse.", "Bukan alasan sampel kecil."), ("HTMT over Fornell-Larcker.", "HTMT, bukan Fornell-Larcker."), ("Bootstrapping over Sobel.", "Bootstrapping, bukan Sobel."), ("Watch out for reliability that's too high.", "Waspadai reliabilitas yang terlalu tinggi."), ("And read R squared in context.", "Dan baca R kuadrat sesuai konteks.")],
+ [("If you want all of this in one practical guide,", "Kalau mau semua ini dalam satu panduan praktis,"), ("check out the SEM-PLS guide in the description.", "cek panduan SEM-PLS di deskripsi.")],
+ [("And subscribe to Not Your Lecture", "Dan subscribe Not Your Lecture"), ("for more research tips that actually hold up.", "untuk tips riset yang benar-benar bisa dipertanggungjawabkan.")],
+]
+if __name__ == '__main__':
+    import json
+    L = json.load(open('lines.json'))
+    assert len(L) == len(SUBS), (len(L), len(SUBS))
+    for i, (line, cues) in enumerate(zip(L, SUBS)):
+        assert ' '.join(e for e, _ in cues) == line[1], (i, ' '.join(e for e, _ in cues), line[1])
+    json.dump(SUBS, open('subs.json', 'w'), ensure_ascii=False)
+    print('ok', sum(len(c) for c in SUBS), 'cues; longest EN', max(len(e) for c in SUBS for e, _ in c), 'chars')

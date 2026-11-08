@@ -14,5 +14,6 @@ h=h.replace('{{LOGOS}}',json.dumps({n:'data:image/png;base64,'+b(f'{S}/p4/assets
 H={'cover':'data:image/png;base64,'+b(f'{P}/hair/cover-001.png'),'ex61':'data:image/png;base64,'+b(f'{P}/hair/ex61.png'),'info':json.load(open(f'{P}/hair/excerpts.json'))}
 for k in H['info']: H[k]='data:image/png;base64,'+b(f'{P}/hair/ex_{k}.png')
 h=h.replace('{{HAIR}}',json.dumps(H))
+h=h.replace('{{SUBS}}',open(f'{P}/subs.json').read())
 h=h.replace('{{WORDS}}',json.dumps(json.load(open(f'{P}/work/words.json')),ensure_ascii=False))
 open(f'{P}/video.html','w').write(h); print('built',len(h)//1024,'KB')

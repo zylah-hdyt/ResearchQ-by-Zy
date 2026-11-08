@@ -37,9 +37,9 @@ svg.dr path{fill:none;stroke:var(--red);stroke-width:12;stroke-linecap:round;str
 #tc{position:absolute;inset:0;display:none}
 /* subtitles */
 #sub{position:absolute;left:70px;top:800px;width:1300px;height:250px}
-.en{position:absolute;left:0;top:0;width:1300px;text-align:center;font-family:PJS;font-weight:800;font-size:50px;line-height:1.15;letter-spacing:-.02em;display:none}
+.en{position:absolute;left:0;top:0;width:1300px;height:120px;display:none;text-align:center;font-family:PJS;font-weight:800;font-size:48px;line-height:1.18;letter-spacing:-.02em}
 .en span{display:inline-block;margin:0 .14em}
-.idl{position:absolute;left:30px;top:138px;width:1240px;text-align:center;font-size:30px;font-weight:500;line-height:1.3;display:none}
+.idl{position:absolute;left:30px;top:130px;width:1240px;text-align:center;font-size:32px;font-weight:600;line-height:1.3;display:none}
 /* mascot */
 #mas{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:1650px 1080px;pointer-events:none}
 #mas .pz{position:absolute;display:none}
@@ -53,14 +53,14 @@ svg.dr path{fill:none;stroke:var(--red);stroke-width:12;stroke-linecap:round;str
 <body><div id="stage">
 <div id="bga" class="bgl"></div><div id="bgb" class="bgl"></div><div id="dots" class="bgl"></div><div id="blob1"></div><div id="blob2"></div>
 <div id="scenes"></div>
-<div id="brand">ResearchQ<i></i></div><div id="prog"></div><div id="plab"></div>
+<div id="brand">NotYourLecture<i></i></div><div id="prog"></div><div id="plab"></div>
 <div id="sub"></div>
 <div id="mas"></div>
 <div id="tc"></div>
 <div id="cta"></div>
 </div>
 <script>
-const WORDS={{WORDS}};const MAS={{MASCOT}};const MO={{MOUTHS}};const MI={{MOUTHINFO}};const LIP={{LIP}};const LOGO={{LOGOS}};const HAIR={{HAIR}};
+const WORDS={{WORDS}};const SUBS={{SUBS}};const MAS={{MASCOT}};const MO={{MOUTHS}};const MI={{MOUTHINFO}};const LIP={{LIP}};const LOGO={{LOGOS}};const HAIR={{HAIR}};
 const $=s=>document.querySelector(s);
 const cl=(v,a=0,b=1)=>v<a?a:v>b?b:v,P=(t,a,b)=>cl((t-a)/(b-a)),L=(a,b,p)=>a+(b-a)*p;
 const o3=x=>1-Math.pow(1-x,3),o4=x=>1-Math.pow(1-x,4),io3=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
@@ -97,15 +97,14 @@ $('#prog').innerHTML=[1,2,3,4,5,6,7].map(()=>'<i></i>').join('');
 function PROG(t,dk){const s=curSec(t),m=s[0]==='m'?+s[1]:(s==='outro'?8:0);[...$('#prog').children].forEach((d,i)=>{d.style.background=i+1<m?(dk?'rgba(255,255,255,.55)':'rgba(27,26,24,.45)'):i+1===m?'#EE6A1F':(dk?'rgba(255,255,255,.14)':'rgba(27,26,24,.12)')});
   const pl=$('#plab');pl.textContent=m>=1&&m<=7?`MISTAKE ${m}/7`:'';pl.style.color=dk?'#E8D9CC':'#8C877E';op($('#prog'),t<SS.m1-.2?0:(s==='outro'?.6:1))}
 
-// ---------- subtitles: EN karaoke chunks + ID line
-const CH=[];WORDS.forEach((s,k)=>{let cur=[];s.words.forEach(([w],i)=>{cur.push(i);const last=i===s.words.length-1,txt=cur.map(j=>s.words[j][0]).join(' ');
-  if(last||(/[,.?:;!]$/.test(w)&&cur.length>=2)||cur.length>=7||txt.length>=40){if(!last&&s.words.length-1-i<=1&&cur.length<7){return}CH.push({k,ids:cur});cur=[]}})});
-CH.forEach(c=>{c.a=W(c.k,c.ids[0])-.12});CH.forEach((c,i)=>{const nx=CH[i+1];c.b=nx?(nx.k===c.k?nx.a:Math.min(nx.a,WORDS[c.k].e+.9)):WORDS[c.k].e+1.2});
-$('#sub').innerHTML=CH.map((c,i)=>`<div class="en" id="en${i}">${c.ids.map(j=>`<span>${WORDS[c.k].words[j][0]}</span>`).join('')}</div>`).join('')+WORDS.map((w,k)=>`<div class="idl" id="id${k}">${w.id}</div>`).join('');
-function SUB(t,dk){const ac=dk?'#FFFFFF':'#1B1A18',dim=dk?'rgba(255,255,255,.38)':'rgba(27,26,24,.32)',idc=BGT==='o'?'#FFFFFF':dk?'#F5C9A0':'#9A5A23';
-  CH.forEach((c,i)=>{const el=$('#en'+i);const on=t>=c.a&&t<c.b&&t<END-8;if(!sh(el,on))return;const p=P(t,c.a,c.a+.18);el.style.opacity=o3(p).toFixed(3);el.style.transform=`translateY(${((1-o3(p))*14).toFixed(1)}px)`;
-    [...el.children].forEach((sp,j)=>{const o=W(c.k,c.ids[j]);sp.style.color=t>=o-.05?ac:dim;sp.style.transform=`translateY(${(t>=o-.05?-3*(1-P(t,o-.05,o+.15)):0).toFixed(1)}px)`})});
-  WORDS.forEach((w,k)=>{const el=$('#id'+k);const e=k<N-1?Math.min(ST[k+1],w.e+.9):w.e+1.2;const on=t>=w.s-.1&&t<e&&t<END-8;if(!sh(el,on))return;el.style.color=idc;op(el,P(t,w.s-.1,w.s+.15))})}
+// ---------- subtitles: phrase cues; EN line (karaoke) and its ID translation appear and leave together
+const CU=[];WORDS.forEach((w,k)=>{let wi=0;SUBS[k].forEach(([en,id])=>{const n=en.split(' ').length;CU.push({k,ids:[...Array(n).keys()].map(j=>wi+j),en,id});wi+=n})});
+CU.forEach(c=>{c.a=W(c.k,c.ids[0])-.08});CU.forEach((c,i)=>{const nx=CU[i+1];c.b=nx?(nx.k===c.k?nx.a:Math.min(nx.a-.02,WORDS[c.k].e+.7)):WORDS[c.k].e+1.2});
+$('#sub').innerHTML=CU.map((c,i)=>`<div class="en" id="en${i}">${c.ids.map(j=>`<span>${WORDS[c.k].words[j][0]}</span>`).join('')}</div><div class="idl" id="id${i}">${c.id}</div>`).join('');
+function SUB(t,dk){const ac=dk?'#FFFFFF':'#1B1A18',dim=dk?'rgba(255,255,255,.4)':'rgba(27,26,24,.34)',idc=BGT==='o'?'#FFFFFF':dk?'#F5C9A0':'#9A5A23';
+  CU.forEach((c,i)=>{const el=$('#en'+i),il=$('#id'+i);const on=t>=c.a&&t<c.b&&t<END-8;sh(el,on);sh(il,on);if(!on)return;const p=o3(P(t,c.a,c.a+.16));
+    el.style.top=el.scrollHeight>80?'0px':'60px';el.style.opacity=p.toFixed(3);il.style.opacity=p.toFixed(3);el.style.transform=il.style.transform=`translateY(${((1-p)*10).toFixed(1)}px)`;il.style.color=idc;
+    [...el.children].forEach((sp,j)=>{const o=W(c.k,c.ids[j]);sp.style.color=t>=o-.04?ac:dim})})}
 
 // ---------- scene containers
 const SC={};SECS.forEach(s=>{const d=document.createElement('div');d.className='sc';d.id='s_'+s;$('#scenes').appendChild(d);SC[s]=d});
@@ -173,7 +172,7 @@ H('m7',`<div class="ab" id="cx7" style="left:90px;top:330px;width:620px">${[['St
   <div class="chip" id="cs7" style="left:760px;top:440px;font-size:28px;background:#2E9E5B">✓ Compare with similar studies</div>`);
 // OUTRO
 H('outro',`<div class="ab" id="rg" style="left:90px;top:150px;width:1290px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px">${['No F-test','No GoF','No small-sample excuse','HTMT > Fornell-Larcker','Bootstrap > Sobel','Watch reliability > 0.95','Read R² in context'].map((m,i)=>`<div class="rgi" style="height:150px;border-radius:20px;background:#FBFAF7;padding:18px 20px;box-shadow:0 18px 30px -14px rgba(0,0,0,.35)"><div style="font-family:Anton;font-size:36px;color:#EE6A1F">0${i+1} <span class="ck" style="display:inline-block;width:40px;height:40px;border-radius:50%;background:#2E9E5B;color:#fff;font-size:24px;line-height:40px;text-align:center;font-family:Inter;vertical-align:4px">✓</span></div><div class="big" style="font-size:26px;line-height:1.15">${m}</div></div>`).join('')}</div>
-  <div class="ab" id="eb" style="left:120px;top:150px;width:330px;height:430px;border-radius:10px;background:linear-gradient(160deg,#F2EFE9,#E9E2D6);box-shadow:0 40px 70px -20px rgba(0,0,0,.5);overflow:hidden"><i style="position:absolute;left:0;top:0;bottom:0;width:26px;background:#141311"></i><div class="mono" style="position:absolute;left:56px;top:48px;font-size:18px;color:#8C877E">PRACTICAL GUIDE</div><div style="position:absolute;left:56px;top:80px;font-family:Anton;font-size:74px;line-height:1">SEM-PLS</div><div class="big" style="position:absolute;left:56px;top:180px;width:250px;font-size:26px;line-height:1.25">from output to defense</div><div class="big" style="position:absolute;left:56px;bottom:40px;font-size:28px">ResearchQ<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#EE6A1F;margin-left:3px"></span></div></div>
+  <div class="ab" id="eb" style="left:120px;top:150px;width:330px;height:430px;border-radius:10px;background:linear-gradient(160deg,#F2EFE9,#E9E2D6);box-shadow:0 40px 70px -20px rgba(0,0,0,.5);overflow:hidden"><i style="position:absolute;left:0;top:0;bottom:0;width:26px;background:#141311"></i><div class="mono" style="position:absolute;left:56px;top:48px;font-size:18px;color:#8C877E">PRACTICAL GUIDE</div><div style="position:absolute;left:56px;top:80px;font-family:Anton;font-size:74px;line-height:1">SEM-PLS</div><div class="big" style="position:absolute;left:56px;top:180px;width:250px;font-size:26px;line-height:1.25">from output to defense</div><div class="big" style="position:absolute;left:56px;bottom:40px;font-size:26px">NotYourLecture<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#EE6A1F;margin-left:3px"></span></div></div>
   <div class="ab big" id="dsc" style="left:500px;top:300px;font-size:64px;color:#FFFFFF;line-height:1.1">Link in the<br>description ↓</div>`);
 // end card
 $('#cta').innerHTML=`<div class="ab" style="inset:0;background:#141311"></div><div class="ab" id="ec1" style="left:90px;top:170px;font-family:Anton;font-size:120px;line-height:1;color:#FFFFFF">SUBSCRIBE TO<br><span style="color:#EE6A1F">NOT YOUR LECTURE</span></div>
