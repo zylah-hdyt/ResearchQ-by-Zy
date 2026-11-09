@@ -11,8 +11,8 @@ CHAPTERS
 1:30 Mistake 3: "My sample is small"
 2:06 Mistake 4: Relying on Fornell-Larcker
 2:37 Mistake 5: The Sobel test
-3:01 Mistake 6: Reliability that is too high
-3:29 Mistake 7: One R² cutoff for all
+3:02 Mistake 6: Reliability that is too high
+3:30 Mistake 7: One R² cutoff for all
 3:56 Recap
 
 📘 SEM-PLS practical guide: [LINK PANDUAN]
