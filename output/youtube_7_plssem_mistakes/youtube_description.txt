@@ -1,10 +1,12 @@
-7 PLS-SEM Mistakes Reviewers Still Catch (According to Hair et al.)
+7 PLS-SEM Mistakes Most Students Make (Hair et al., 2022)
 
-Using PLS-SEM / SmartPLS for your thesis? These seven common mistakes are all addressed directly in A Primer on Partial Least Squares Structural Equation Modeling (PLS-SEM), 3rd edition, by Hair, Hult, Ringle & Sarstedt (2022).
+Using PLS-SEM for your thesis? There's a good chance you're making at least one of these seven mistakes: the simultaneous F-test, the GoF index, the "small sample" excuse, Fornell-Larcker, the Sobel test, reliability that's too high, and one universal R² cutoff.
 
-Pakai PLS-SEM / SmartPLS untuk skripsi atau tesis? Tujuh kesalahan umum ini dibahas langsung di buku Hair et al. (2022). Subtitle tersedia dalam Bahasa Indonesia dan English.
+Every point in this video comes from "A Primer on Partial Least Squares Structural Equation Modeling (PLS-SEM)", 3rd edition, by Hair, Hult, Ringle & Sarstedt (2022). You'll see what the book says, why it matters, and what to report instead.
 
-CHAPTERS
+🇮🇩 Pakai PLS-SEM untuk skripsi atau tesis? Tujuh kesalahan umum ini dibahas langsung di buku Hair et al. (2022): uji F (uji simultan), indeks GoF, alasan "sampel kecil", Fornell-Larcker, uji Sobel, reliabilitas yang terlalu tinggi, dan satu batas R² untuk semua. Subtitle tersedia dalam Bahasa Indonesia dan English (klik ⚙️ → Subtitles/CC).
+
+⏱ CHAPTERS
 0:00 Intro
 0:24 Mistake 1: The simultaneous F-test
 0:59 Mistake 2: Reporting the GoF index
@@ -15,14 +17,30 @@ CHAPTERS
 3:30 Mistake 7: One R² cutoff for all
 3:56 Recap
 
-📘 SEM-PLS practical guide: [LINK PANDUAN]
+✅ WHAT TO DO INSTEAD
+• R² together with the significance of each path, not an F-test
+• R², effect sizes, and predictive power, not GoF
+• Statistical power (inverse square root method), not "my sample is small"
+• HTMT (below 0.90, or 0.85 for distinct constructs), not Fornell-Larcker
+• Bootstrap the indirect effect, not the Sobel test
+• Reliability between 0.70 and 0.90; above 0.95 usually means redundant items
+• Judge R² in context, compared with similar studies
 
-Reference:
+📘 Want all of this in one practical guide? SEM-PLS guide: [LINK PANDUAN]
+
+📚 REFERENCES
 Hair, J. F., Hult, G. T. M., Ringle, C. M., & Sarstedt, M. (2022). A Primer on Partial Least Squares Structural Equation Modeling (PLS-SEM) (3rd ed.). SAGE.
-Sample-size example: Kock, N., & Hadaya, P. (2018), inverse square root method, as presented in Hair et al. (2022), Ch. 1.
+Kock, N., & Hadaya, P. (2018). Minimum sample size estimation in PLS-SEM: The inverse square root and gamma-exponential methods. Information Systems Journal, 28(1), 227-261.
 
+This is an independent educational video, not affiliated with or endorsed by the authors or the publisher. The narration uses an AI-generated voice.
+
+🔔 Subscribe to NotYourLecture for more research tips that actually hold up.
 Follow us:
 TikTok: @researchq.id
 Instagram: @researchq.id
 
-#PLSSEM #SmartPLS #SEM #ResearchMethods #Thesis #Skripsi #Tesis
+#PLSSEM #SmartPLS #Thesis #SEM #ResearchMethods #Skripsi #Tesis #Statistics
+
+──────────────────────────
+TAGS (isi di YouTube Studio → Show more → Tags, pisahkan dengan koma; jangan ditempel ke deskripsi)
+PLS-SEM, PLS SEM, SmartPLS, SEM PLS, structural equation modeling, partial least squares, PLS-SEM mistakes, Hair et al 2022, HTMT, Fornell-Larcker, Sobel test, bootstrapping, discriminant validity, R squared, goodness of fit PLS, sample size PLS-SEM, thesis statistics, research methods, kesalahan PLS-SEM, skripsi SEM PLS, olah data SmartPLS, uji mediasi, validitas diskriminan, statistik skripsi
