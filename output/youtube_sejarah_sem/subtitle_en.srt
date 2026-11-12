@@ -1,0 +1,287 @@
+1
+00:00:00,500 --> 00:00:03,220
+Every PLS-SEM model you run today
+
+2
+00:00:03,220 --> 00:00:05,890
+stands on more than a hundred years of ideas.
+
+3
+00:00:05,940 --> 00:00:08,535
+It's a story about intelligence tests,
+
+4
+00:00:08,535 --> 00:00:10,480
+guinea pigs, economists,
+
+5
+00:00:10,480 --> 00:00:12,220
+and a teacher and his student
+
+6
+00:00:12,220 --> 00:00:13,850
+who took two different roads.
+
+7
+00:00:13,900 --> 00:00:15,998
+Let's go back to the beginning.
+
+8
+00:00:16,716 --> 00:00:18,136
+1904.
+
+9
+00:00:18,136 --> 00:00:21,063
+British psychologist Charles Spearman noticed
+
+10
+00:00:21,063 --> 00:00:23,876
+that children who did well on one school subject
+
+11
+00:00:23,876 --> 00:00:25,666
+tended to do well on the others.
+
+12
+00:00:25,716 --> 00:00:27,598
+He argued that one hidden factor
+
+13
+00:00:27,598 --> 00:00:29,976
+sat behind all of those scores.
+
+14
+00:00:29,976 --> 00:00:33,090
+He called it g, for general intelligence.
+
+15
+00:00:33,140 --> 00:00:35,280
+That was the birth of factor analysis:
+
+16
+00:00:35,280 --> 00:00:37,220
+measuring something you cannot see
+
+17
+00:00:37,220 --> 00:00:39,121
+through the things you can.
+
+18
+00:00:39,909 --> 00:00:43,509
+A few years later, American geneticist Sewall Wright
+
+19
+00:00:43,509 --> 00:00:45,797
+was studying the coat patterns of guinea pigs.
+
+20
+00:00:45,847 --> 00:00:48,789
+To separate heredity from environment,
+
+21
+00:00:48,789 --> 00:00:51,069
+he drew arrows between variables
+
+22
+00:00:51,069 --> 00:00:53,439
+and turned those arrows into equations.
+
+23
+00:00:53,489 --> 00:00:57,310
+In 1921, he published Correlation and Causation.
+
+24
+00:00:57,310 --> 00:00:59,405
+Path analysis was born.
+
+25
+00:01:00,125 --> 00:01:03,945
+In the 1940s, economists like Trygve Haavelmo
+
+26
+00:01:03,945 --> 00:01:06,103
+showed how whole systems of equations
+
+27
+00:01:06,103 --> 00:01:07,895
+could be estimated together.
+
+28
+00:01:07,945 --> 00:01:12,513
+And in the 1960s, sociologists such as Otis Dudley Duncan
+
+29
+00:01:12,513 --> 00:01:16,053
+brought path analysis into the social sciences.
+
+30
+00:01:16,103 --> 00:01:18,043
+Factors, paths, and equations.
+
+31
+00:01:18,043 --> 00:01:19,863
+All the pieces were on the table.
+
+32
+00:01:19,863 --> 00:01:22,434
+Someone just had to put them together.
+
+33
+00:01:23,172 --> 00:01:27,252
+In the early 1970s, Swedish statistician Karl Jöreskog
+
+34
+00:01:27,252 --> 00:01:31,172
+combined factor analysis and path analysis into one framework,
+
+35
+00:01:31,172 --> 00:01:33,902
+and his program, LISREL, put it on computers.
+
+36
+00:01:33,952 --> 00:01:36,005
+This is covariance-based SEM.
+
+37
+00:01:36,005 --> 00:01:37,912
+It asks one big question:
+
+38
+00:01:37,912 --> 00:01:39,761
+does my theory fit the data?
+
+39
+00:01:39,811 --> 00:01:43,251
+But Jöreskog's own doctoral advisor, Herman Wold,
+
+40
+00:01:43,251 --> 00:01:44,301
+took another road.
+
+41
+00:01:44,351 --> 00:01:46,291
+Wold built a softer method
+
+42
+00:01:46,291 --> 00:01:49,391
+that maximizes the variance explained in the outcomes.
+
+43
+00:01:49,391 --> 00:01:51,011
+He called it soft modeling.
+
+44
+00:01:51,011 --> 00:01:53,256
+Today we call it PLS-SEM.
+
+45
+00:01:53,982 --> 00:01:56,674
+So there are two types of SEM.
+
+46
+00:01:56,724 --> 00:02:00,478
+Covariance-based SEM is built to confirm theory.
+
+47
+00:02:00,478 --> 00:02:02,762
+It treats constructs as common factors
+
+48
+00:02:02,762 --> 00:02:05,172
+and judges the model by its overall fit.
+
+49
+00:02:05,222 --> 00:02:07,882
+PLS-SEM is built to explain and predict.
+
+50
+00:02:07,882 --> 00:02:10,162
+It treats constructs as composites
+
+51
+00:02:10,162 --> 00:02:13,967
+and focuses on R squared and predictive power.
+
+52
+00:02:14,017 --> 00:02:15,357
+Neither one is better.
+
+53
+00:02:15,357 --> 00:02:16,825
+Choose by your research goal,
+
+54
+00:02:16,825 --> 00:02:18,873
+not by your sample size.
+
+55
+00:02:19,642 --> 00:02:20,932
+Then came the software.
+
+56
+00:02:20,982 --> 00:02:23,485
+LISREL in the 1970s.
+
+57
+00:02:23,485 --> 00:02:25,722
+Jan-Bernd Lohmöller's LVPLS,
+
+58
+00:02:25,722 --> 00:02:30,037
+the first PLS path modeling program, in the 1980s.
+
+59
+00:02:30,037 --> 00:02:32,052
+And EQS in 1985.
+
+60
+00:02:32,102 --> 00:02:36,562
+In the 1990s, Amos brought drag-and-drop path diagrams,
+
+61
+00:02:36,562 --> 00:02:39,962
+Wynne Chin's PLS-Graph did the same for PLS,
+
+62
+00:02:39,962 --> 00:02:43,158
+and Mplus arrived in 1998.
+
+63
+00:02:43,208 --> 00:02:45,748
+In 2005, SmartPLS put PLS-SEM
+
+64
+00:02:45,748 --> 00:02:49,198
+within reach of almost every student.
+
+65
+00:02:49,248 --> 00:02:52,068
+Then WarpPLS in 2009,
+
+66
+00:02:52,068 --> 00:02:54,688
+the free R package lavaan in 2012,
+
+67
+00:02:54,688 --> 00:02:58,520
+and SmartPLS 4 in 2022.
+
+68
+00:02:59,215 --> 00:03:02,655
+So the next time you open SmartPLS, remember:
+
+69
+00:03:02,655 --> 00:03:05,075
+you are standing on more than a century of work,
+
+70
+00:03:05,075 --> 00:03:07,885
+from Spearman's g to the model on your screen.
+
+71
+00:03:07,935 --> 00:03:09,715
+Subscribe to Not Your Lecture
+
+72
+00:03:09,715 --> 00:03:13,484
+for more research stories that actually make sense.

@@ -1,0 +1,287 @@
+1
+00:00:00,500 --> 00:00:03,220
+Setiap model PLS-SEM yang kamu jalankan
+
+2
+00:00:03,220 --> 00:00:05,890
+berdiri di atas lebih dari 100 tahun ide.
+
+3
+00:00:05,940 --> 00:00:08,535
+Ini kisah tentang tes kecerdasan,
+
+4
+00:00:08,535 --> 00:00:10,480
+marmut, para ekonom,
+
+5
+00:00:10,480 --> 00:00:12,220
+serta seorang guru dan muridnya
+
+6
+00:00:12,220 --> 00:00:13,850
+yang memilih dua jalan berbeda.
+
+7
+00:00:13,900 --> 00:00:15,998
+Yuk, kita mulai dari awal.
+
+8
+00:00:16,716 --> 00:00:18,136
+1904.
+
+9
+00:00:18,136 --> 00:00:21,063
+Psikolog Inggris Charles Spearman memperhatikan
+
+10
+00:00:21,063 --> 00:00:23,876
+anak yang bagus di satu mata pelajaran
+
+11
+00:00:23,876 --> 00:00:25,666
+cenderung bagus juga di pelajaran lain.
+
+12
+00:00:25,716 --> 00:00:27,598
+Menurutnya, ada satu faktor tersembunyi
+
+13
+00:00:27,598 --> 00:00:29,976
+di balik semua nilai itu.
+
+14
+00:00:29,976 --> 00:00:33,090
+Ia menyebutnya g, kecerdasan umum.
+
+15
+00:00:33,140 --> 00:00:35,280
+Lahirlah analisis faktor:
+
+16
+00:00:35,280 --> 00:00:37,220
+mengukur sesuatu yang tak terlihat
+
+17
+00:00:37,220 --> 00:00:39,121
+lewat hal-hal yang terlihat.
+
+18
+00:00:39,909 --> 00:00:43,509
+Beberapa tahun kemudian, ahli genetika Sewall Wright
+
+19
+00:00:43,509 --> 00:00:45,797
+meneliti pola bulu marmut.
+
+20
+00:00:45,847 --> 00:00:48,789
+Untuk memisahkan keturunan dari lingkungan,
+
+21
+00:00:48,789 --> 00:00:51,069
+ia menggambar panah antarvariabel
+
+22
+00:00:51,069 --> 00:00:53,439
+lalu mengubahnya jadi persamaan.
+
+23
+00:00:53,489 --> 00:00:57,310
+Tahun 1921, ia menerbitkan Correlation and Causation.
+
+24
+00:00:57,310 --> 00:00:59,405
+Lahirlah analisis jalur.
+
+25
+00:01:00,125 --> 00:01:03,945
+Tahun 1940-an, ekonom seperti Trygve Haavelmo
+
+26
+00:01:03,945 --> 00:01:06,103
+menunjukkan bahwa sistem persamaan
+
+27
+00:01:06,103 --> 00:01:07,895
+bisa diestimasi sekaligus.
+
+28
+00:01:07,945 --> 00:01:12,513
+Tahun 1960-an, sosiolog Otis Dudley Duncan
+
+29
+00:01:12,513 --> 00:01:16,053
+membawa analisis jalur ke ilmu sosial.
+
+30
+00:01:16,103 --> 00:01:18,043
+Faktor, jalur, dan persamaan.
+
+31
+00:01:18,043 --> 00:01:19,863
+Semua kepingan sudah ada.
+
+32
+00:01:19,863 --> 00:01:22,434
+Tinggal menyatukannya.
+
+33
+00:01:23,172 --> 00:01:27,252
+Awal 1970-an, statistikawan Swedia Karl Jöreskog
+
+34
+00:01:27,252 --> 00:01:31,172
+menyatukan analisis faktor dan jalur dalam satu kerangka,
+
+35
+00:01:31,172 --> 00:01:33,902
+dan programnya, LISREL, membawanya ke komputer.
+
+36
+00:01:33,952 --> 00:01:36,005
+Inilah CB-SEM (berbasis kovarians).
+
+37
+00:01:36,005 --> 00:01:37,912
+Pertanyaan besarnya:
+
+38
+00:01:37,912 --> 00:01:39,761
+apakah teoriku cocok dengan data?
+
+39
+00:01:39,811 --> 00:01:43,251
+Tapi pembimbing doktoral Jöreskog, Herman Wold,
+
+40
+00:01:43,251 --> 00:01:44,301
+memilih jalan lain.
+
+41
+00:01:44,351 --> 00:01:46,291
+Wold membuat metode yang lebih lunak
+
+42
+00:01:46,291 --> 00:01:49,391
+yang memaksimalkan varians yang dijelaskan.
+
+43
+00:01:49,391 --> 00:01:51,011
+Ia menyebutnya soft modeling.
+
+44
+00:01:51,011 --> 00:01:53,256
+Sekarang kita menyebutnya PLS-SEM.
+
+45
+00:01:53,982 --> 00:01:56,674
+Jadi, ada dua jenis SEM.
+
+46
+00:01:56,724 --> 00:02:00,478
+CB-SEM dibuat untuk mengonfirmasi teori.
+
+47
+00:02:00,478 --> 00:02:02,762
+Konstruk dianggap faktor bersama
+
+48
+00:02:02,762 --> 00:02:05,172
+dan model dinilai dari kecocokan (fit) keseluruhan.
+
+49
+00:02:05,222 --> 00:02:07,882
+PLS-SEM dibuat untuk menjelaskan dan memprediksi.
+
+50
+00:02:07,882 --> 00:02:10,162
+Konstruk dianggap komposit
+
+51
+00:02:10,162 --> 00:02:13,967
+dan fokus pada R² dan daya prediksi.
+
+52
+00:02:14,017 --> 00:02:15,357
+Tidak ada yang lebih baik.
+
+53
+00:02:15,357 --> 00:02:16,825
+Pilih berdasarkan tujuan penelitian,
+
+54
+00:02:16,825 --> 00:02:18,873
+bukan ukuran sampel.
+
+55
+00:02:19,642 --> 00:02:20,932
+Lalu, datanglah software-nya.
+
+56
+00:02:20,982 --> 00:02:23,485
+LISREL tahun 1970-an.
+
+57
+00:02:23,485 --> 00:02:25,722
+LVPLS karya Jan-Bernd Lohmöller,
+
+58
+00:02:25,722 --> 00:02:30,037
+program PLS pertama, tahun 1980-an.
+
+59
+00:02:30,037 --> 00:02:32,052
+Lalu EQS tahun 1985.
+
+60
+00:02:32,102 --> 00:02:36,562
+Tahun 1990-an, Amos membawa diagram jalur drag-and-drop,
+
+61
+00:02:36,562 --> 00:02:39,962
+PLS-Graph karya Wynne Chin melakukan hal yang sama untuk PLS,
+
+62
+00:02:39,962 --> 00:02:43,158
+dan Mplus hadir tahun 1998.
+
+63
+00:02:43,208 --> 00:02:45,748
+Tahun 2005, SmartPLS membuat PLS-SEM
+
+64
+00:02:45,748 --> 00:02:49,198
+bisa dipakai hampir semua mahasiswa.
+
+65
+00:02:49,248 --> 00:02:52,068
+Lalu WarpPLS tahun 2009,
+
+66
+00:02:52,068 --> 00:02:54,688
+paket R gratis lavaan tahun 2012,
+
+67
+00:02:54,688 --> 00:02:58,520
+dan SmartPLS 4 tahun 2022.
+
+68
+00:02:59,215 --> 00:03:02,655
+Jadi, saat kamu membuka SmartPLS nanti, ingat:
+
+69
+00:03:02,655 --> 00:03:05,075
+kamu berdiri di atas lebih dari seabad kerja keras,
+
+70
+00:03:05,075 --> 00:03:07,885
+dari g-nya Spearman sampai model di layarmu.
+
+71
+00:03:07,935 --> 00:03:09,715
+Subscribe Not Your Lecture
+
+72
+00:03:09,715 --> 00:03:13,484
+untuk kisah riset yang benar-benar masuk akal.

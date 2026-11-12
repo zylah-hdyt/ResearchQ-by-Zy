@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>The History of SEM</title>
+<style>
+@font-face{font-family:'Inter';font-weight:500;src:url(data:font/woff2;base64,{{INTER500}}) format('woff2')}
+@font-face{font-family:'Inter';font-weight:600;src:url(data:font/woff2;base64,{{INTER600}}) format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;src:url(data:font/woff2;base64,{{INTER700}}) format('woff2')}
+@font-face{font-family:'PJS';font-weight:800;src:url(data:font/woff2;base64,{{PJS800}}) format('woff2')}
+@font-face{font-family:'JBM';font-weight:500;src:url(data:font/woff2;base64,{{JBM500}}) format('woff2')}
+@font-face{font-family:'IS';font-style:italic;font-weight:400;src:url(data:font/woff2;base64,{{IS400I}}) format('woff2')}
+@font-face{font-family:'Anton';font-weight:400;src:url(data:font/woff2;base64,{{ANTON}}) format('woff2')}
+:root{--ink:#1B1A18;--paper:#FBFAF7;--cream:#F2EFE9;--muted:#8C877E;--acc:#EE6A1F;--dk:#141311;--red:#E5463A;--grn:#2E9E5B}
+*{box-sizing:border-box}
+html,body{margin:0;background:#141311;overflow:hidden}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;font-family:Inter,sans-serif;color:var(--ink);transform-origin:0 0;background:#141311}
+#bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,#22201C 0%,#161512 60%,#100F0D 100%)}
+#far,#world{position:absolute;left:0;top:0;width:1px;height:1px;transform-origin:0 0;will-change:transform}
+#grid{position:absolute;left:-3000px;top:-2600px;width:31000px;height:7000px;background-image:radial-gradient(circle,rgba(255,255,255,.07) 2px,transparent 2.5px);background-size:64px 64px}
+.ab{position:absolute}
+.st{position:absolute}
+.mono{font-family:JBM,monospace;letter-spacing:.08em}
+.big{font-family:PJS;font-weight:800;letter-spacing:-.02em}
+.ser{font-family:IS;font-style:italic;font-weight:400}
+.ant{font-family:Anton;font-weight:400}
+.card{position:absolute;background:var(--paper);border-radius:22px;box-shadow:0 30px 60px -20px rgba(0,0,0,.6),0 2px 0 rgba(0,0,0,.04)}
+.paper{position:absolute;background:#F4EEE2;border-radius:6px;box-shadow:0 40px 70px -24px rgba(0,0,0,.7);background-image:linear-gradient(rgba(140,110,70,.06) 1px,transparent 1px);background-size:100% 46px}
+.chip{position:absolute;padding:10px 22px;border-radius:40px;background:var(--ink);color:#F2EFE9;font-family:JBM;font-size:22px;white-space:nowrap;letter-spacing:.06em}
+.lab{font-family:JBM;font-size:20px;letter-spacing:.14em;color:var(--muted)}
+.ghost{position:absolute;font-family:Anton;color:rgba(255,255,255,.045);line-height:.9;white-space:nowrap;pointer-events:none}
+.stamp{position:absolute;font-family:Anton;text-transform:uppercase;white-space:nowrap;text-align:center;border-radius:14px;padding:4px 26px}
+.node{position:absolute;display:flex;align-items:center;justify-content:center;text-align:center;font-family:PJS;font-weight:800;letter-spacing:-.01em;line-height:1.1}
+.box{border:4px solid #1B1A18;border-radius:10px;background:#FFFFFF}
+.lat{border:4px solid #1B1A18;border-radius:50%;background:#FBE3D2}
+svg.ov{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
+svg.ov path.dp{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.term{position:absolute;background:#0F0F0D;border-radius:16px;box-shadow:0 30px 60px -20px rgba(0,0,0,.7);border:2px solid rgba(255,255,255,.08);overflow:hidden}
+.term .bar{height:44px;background:#1F1E1B;display:flex;gap:10px;align-items:center;padding-left:18px}
+.term .bar i{width:14px;height:14px;border-radius:50%;background:#55524B}
+.term pre{margin:0;padding:22px 28px;font-family:JBM;font-size:28px;line-height:1.55;color:#E8E2D6;white-space:pre}
+.yr{position:absolute;font-family:Anton;color:#EE6A1F;white-space:nowrap;line-height:1}
+.sw{position:absolute;width:520px;height:220px;border-radius:22px;background:var(--paper);box-shadow:0 30px 60px -20px rgba(0,0,0,.65);padding:24px 28px;overflow:hidden}
+.sw .t{font-family:PJS;font-weight:800;font-size:54px;letter-spacing:-.03em;line-height:1}
+.sw .y{position:absolute;right:26px;top:24px;font-family:Anton;font-size:52px;line-height:1}
+.sw .a{font-family:Inter;font-weight:600;font-size:24px;color:#6E6A62;margin-top:12px}
+.sw .k{position:absolute;left:28px;bottom:22px;padding:6px 16px;border-radius:30px;font-family:JBM;font-size:19px;letter-spacing:.08em;color:#fff}
+/* overlays */
+#vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,0) 55%,rgba(0,0,0,.55) 100%)}
+#grain{position:absolute;inset:-20px;pointer-events:none;opacity:.06;mix-blend-mode:overlay;background-size:cover}
+#leak{position:absolute;left:0;top:0;width:1400px;height:1400px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,150,70,.16),rgba(255,150,70,0) 65%);mix-blend-mode:screen}
+#subbg{position:absolute;left:0;right:0;bottom:0;height:300px;pointer-events:none;background:linear-gradient(rgba(16,15,13,0),rgba(16,15,13,.72))}
+#brand{position:absolute;left:60px;top:44px;font-family:PJS;font-weight:800;font-size:32px;letter-spacing:-.03em;color:#fff;white-space:nowrap}
+#brand i{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--acc);margin-left:3px}
+#tick{position:absolute;right:64px;top:34px;height:96px;width:420px;overflow:hidden;text-align:right}
+#tick .v{position:absolute;right:0;top:0;font-family:Anton;font-size:84px;line-height:96px;color:#fff;white-space:nowrap}
+#tickl{position:absolute;right:66px;top:132px;font-family:JBM;font-size:18px;letter-spacing:.2em;color:#EE6A1F;white-space:nowrap}
+#chap{position:absolute;inset:0;pointer-events:none;display:none;background:radial-gradient(ellipse at 50% 48%,rgba(16,15,13,.82) 0%,rgba(16,15,13,.9) 70%)}
+#chap .n{position:absolute;left:0;width:1920px;top:360px;text-align:center;font-family:JBM;font-size:30px;letter-spacing:.5em;color:#EE6A1F}
+#chap .h{position:absolute;left:0;width:1920px;top:420px;text-align:center;font-family:Anton;font-size:150px;line-height:1;color:#fff;white-space:nowrap}
+#chap .s{position:absolute;left:0;width:1920px;top:590px;text-align:center;font-family:IS;font-style:italic;font-size:64px;color:#F2EFE9}
+#sub{position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none}
+.cue{position:absolute;top:870px;text-align:center;display:none;font-family:PJS;font-weight:800;font-size:54px;line-height:1.16;letter-spacing:-.02em;color:#fff;text-shadow:0 4px 22px rgba(0,0,0,.65)}
+.cue .pill{display:inline-block;padding:10px 28px 14px;border-radius:20px;background:rgba(20,19,17,.82);box-shadow:0 14px 30px -10px rgba(0,0,0,.6)}
+.cue span{display:inline-block;margin:0 .13em;white-space:nowrap}
+.cue span.k{color:#FF8A3D;font-size:1.12em}
+#mas{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:1650px 1080px;pointer-events:none}
+#mas .pz{position:absolute;display:none}
+#mas .mo{position:absolute;background-size:100% 100%}
+#cta{position:absolute;inset:0;display:none}
+.pl{position:absolute;width:560px;height:110px;border-radius:28px;background:var(--paper);box-shadow:0 20px 40px -12px rgba(0,0,0,.45)}
+.pl img{position:absolute;left:28px;top:20px;width:70px;height:70px;object-fit:contain}
+.pl .n{position:absolute;left:120px;top:20px;font-family:JBM;font-size:20px;color:var(--muted);letter-spacing:.12em}
+.pl .h{position:absolute;left:120px;top:48px;font-family:PJS;font-weight:800;font-size:36px;letter-spacing:-.02em;color:var(--ink)}
+</style></head>
+<body><div id="stage">
+<svg width="0" height="0" style="position:absolute"><filter id="mb" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur id="mbg" stdDeviation="0 0"/></filter><filter id="mbf" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur id="mbgf" stdDeviation="0 0"/></filter></svg>
+<div id="bg"></div>
+<div id="camf" style="position:absolute;inset:0;overflow:hidden"><div id="far"></div></div>
+<div id="cam" style="position:absolute;inset:0;overflow:hidden"><div id="world"><div id="grid"></div></div></div>
+<div id="leak"></div>
+<div id="vig"></div>
+<div id="subbg"></div>
+<div id="chap"><div class="n"></div><div class="h"></div><div class="s"></div></div>
+<div id="brand">NotYourLecture<i></i></div>
+<div id="tick"></div><div id="tickl"></div>
+<div id="mas"></div>
+<div id="sub"></div>
+<div id="cta"></div>
+<div id="grain"></div>
+</div>
+<script>
+const WORDS={{WORDS}};const SUBS={{SUBS}};const MAS={{MASCOT}};const MO={{MOUTHS}};const MI={{MOUTHINFO}};const LIP={{LIP}};const LOGO={{LOGOS}};const GRAIN={{GRAIN}};
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const cl=(v,a=0,b=1)=>v<a?a:v>b?b:v,P=(t,a,b)=>cl((t-a)/(b-a)),L=(a,b,p)=>a+(b-a)*p;
+const o3=x=>1-Math.pow(1-x,3),io3=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,io2=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
+const bk=(x,s=1.7)=>1+(s+1)*Math.pow(x-1,3)+s*Math.pow(x-1,2);
+const N=WORDS.length,CTA_D=6.5,END=WORDS[N-1].e+CTA_D+.6;
+const W=(k,i)=>WORDS[k].words[Math.min(i,WORDS[k].words.length-1)][1];
+const SECS=['intro','s1','s2','s3','s4','s5','s6','outro'];
+const SL={};WORDS.forEach((w,i)=>{(SL[w.sec]=SL[w.sec]||[]).push(i)});
+const LN=(s,j)=>WORDS[SL[s][j]].s,LE=(s,j)=>WORDS[SL[s][j]].e,LW=(s,j,i)=>W(SL[s][j],i);
+const FW=(s,j,nd)=>{const ws=WORDS[SL[s][j]].words;const i=ws.findIndex(w=>w[0].toLowerCase().includes(nd.toLowerCase()));return i<0?ws[0][1]:ws[i][1]};
+const SS={};SECS.forEach(s=>SS[s]=s==='intro'?0:LN(s,0)-1.15);
+function sh(el,on){el.style.display=on?'block':'none';return on}
+function op(el,v){el.style.opacity=cl(v).toFixed(3)}
+function pop(el,t,a,{b=1e9,dx=0,dy=40,s0=.6,r=0,d=.45}={}){if(!el)return;const p=P(t,a,a+d),q=P(t,b,b+.25);const e=p>0?bk(p):0;
+  el.style.opacity=(cl(p*4)*(1-q)).toFixed(3);el.style.transform=`translate(${((1-o3(p))*dx).toFixed(1)}px,${((1-o3(p))*dy-q*20).toFixed(1)}px) rotate(${(r*(1-o3(p))).toFixed(2)}deg) scale(${(s0+(1-s0)*e).toFixed(4)})`}
+function stampIn(el,t,a,rot=-8){const q=P(t,a,a+.28);op(el,q*3);el.style.transform=`rotate(${rot}deg) scale(${(q>0?2.1-1.1*bk(q,2):2.1).toFixed(3)})`}
+function initPaths(root){root.querySelectorAll('path.dp').forEach(p=>{const l=p.getTotalLength();p.dataset.l=l;p.style.strokeDasharray=l;p.style.strokeDashoffset=l})}
+function draw(p,t,a,dur=.5){if(!p)return;const k=o3(P(t,a,a+dur));p.style.strokeDashoffset=(+p.dataset.l*(1-k)).toFixed(1);p.style.opacity=t<a?0:1}
+function typeText(el,t,a,full,cps=38){const n=Math.floor(cl((t-a)*cps,0,full.length));el.textContent=full.slice(0,n)+(t>=a&&n<full.length&&Math.floor(t*4)%2?'▍':'')}
+const ARW=(id,d,col='#1B1A18',w=5,head=true)=>`<path class="dp" id="${id}" d="${d}" stroke="${col}" stroke-width="${w}" ${head?`marker-end="url(#ah_${col.slice(1)})"`:''}/>`;
+const DEFS=`<defs>${['1B1A18','EE6A1F','FFFFFF','E5463A','F2EFE9'].map(c=>`<marker id="ah_${c}" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#${c}"/></marker>`).join('')}</defs>`;
+
+// ---------- world layout (station centres in world px)
+const C={intro:[960,540],s1:[3300,700],s2:[5800,250],s3:[8500,800],s4:[11400,300],s5:[14200,1000],s6:[16000,420],scr:[24200,820]};
+const world=$('#world'),far=$('#far');
+function ST(id,cx,cy,w=1920,h=1080){const d=document.createElement('div');d.className='st';d.id='st_'+id;d.style.cssText=`left:${cx-w/2}px;top:${cy-h/2}px;width:${w}px;height:${h}px`;world.appendChild(d);return d}
+const add=(st,h)=>st.insertAdjacentHTML('beforeend',h);
+const svg=(w,h,inner)=>`<svg class="ov" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${DEFS}${inner}</svg>`;
+
+// timeline ribbon through all stations + big era labels (seen best in the map zoom-out)
+const RIB=[[200,1000],[1500,1250],[3300,1350],[4500,1200],[5800,950],[7200,1500],[8500,1450],[10000,1150],[11400,1050],[12800,1550],[14200,1750],[15300,1000],[16000,800],[21800,800],[23000,1050],[24200,1400]];
+(function(){let d=`M${RIB[0][0]} ${RIB[0][1]}`;for(let i=1;i<RIB.length;i++){const [x0,y0]=RIB[i-1],[x1,y1]=RIB[i],mx=(x0+x1)/2;d+=` C${mx} ${y0} ${mx} ${y1} ${x1} ${y1}`}
+  world.insertAdjacentHTML('afterbegin',`<svg class="ov" width="26000" height="2400" viewBox="0 0 26000 2400" style="left:0;top:0">${DEFS}<path id="rib" d="${d}" fill="none" stroke="#EE6A1F" stroke-width="10" stroke-linecap="round" stroke-dasharray="2 26" opacity=".55"/><path id="ribG" d="${d}" fill="none" stroke="#EE6A1F" stroke-width="14" stroke-linecap="round"/></svg>`)})();
+const ERA=[['1904','THE HIDDEN FACTOR',3300,-80],['1921','ARROWS',5800,-560],['1940s–60s','EQUATIONS',8500,-30],['1970s','TWO ROADS',11400,-520],['TWO TYPES','CB vs PLS',14200,200],['1970s–2022','SOFTWARE',18800,-450],['TODAY','YOUR MODEL',24200,-60]];
+ERA.forEach(([y,s,x,top],i)=>world.insertAdjacentHTML('beforeend',`<div class="ab era" style="left:${x-2000}px;top:${top-1150}px;width:4000px;text-align:center;opacity:0"><div class="ant" style="font-size:620px;line-height:1;color:#EE6A1F">${y}</div><div class="mono" style="font-size:150px;letter-spacing:.2em;color:#F2EFE9;margin-top:20px">${s}</div></div>`));
+// far parallax layer: huge faint numbers
+[['1904',2600,200],['1921',5600,-700],['1943',8200,300],['1966',9800,-500],['1973',11800,-900],['PLS',14300,500],['2005',19000,-800],['2022',22000,200]].forEach(([s,x,y])=>far.insertAdjacentHTML('beforeend',`<div class="ghost" style="left:${x}px;top:${y}px;font-size:900px">${s}</div>`));
+
+// ---------- INTRO
+const sI=ST('intro',...C.intro);
+add(sI,`<div class="ab" id="i_t" style="left:110px;top:190px;width:1300px"><div class="mono" style="font-size:28px;color:#EE6A1F">A SHORT HISTORY OF</div>
+  <div class="ant" style="font-size:150px;line-height:.98;color:#fff;margin-top:14px">STRUCTURAL<br>EQUATION <span style="color:#EE6A1F">MODELING</span></div>
+  <div class="mono" style="font-size:26px;color:#BDB6AA;margin-top:22px">1904 → 2022 · FROM A HIDDEN FACTOR TO SMARTPLS</div></div>
+  <div class="ab" id="i_tags" style="left:110px;top:640px;width:1320px;display:flex;gap:18px">${[['1904','Intelligence tests'],['1921','Guinea pigs'],['1940s','Economists'],['1970s','Teacher & student']].map(([y,s])=>`<div class="tg" style="flex:1;height:150px;border-radius:20px;background:#26231F;border:2px solid rgba(255,255,255,.08);padding:20px 22px"><div class="ant" style="font-size:46px;color:#EE6A1F">${y}</div><div class="big" style="font-size:28px;color:#F2EFE9;margin-top:6px">${s}</div></div>`).join('')}</div>`);
+
+// ---------- S1 1904 Spearman
+const s1=ST('s1',...C.s1);
+const SUBJ=[['Classics',.86],['French',.8],['English',.76],['Maths',.71],['Music',.64]];
+add(s1,`<div class="ghost" style="left:40px;top:-60px;font-size:560px">1904</div>
+ <div class="paper" id="a_doc" style="left:120px;top:110px;width:700px;height:740px;padding:46px 50px;transform-origin:50% 60%">
+  <div class="mono" style="font-size:20px;color:#9A5A23">PSYCHOLOGY · ENGLAND · 1904</div>
+  <div style="display:flex;gap:26px;align-items:center;margin-top:28px"><div style="width:120px;height:120px;border-radius:50%;background:#1B1A18;color:#F4EEE2;font-family:Anton;font-size:52px;line-height:120px;text-align:center">CS</div>
+   <div><div class="big" style="font-size:54px;line-height:1">Charles Spearman</div><div style="font-size:26px;font-weight:600;color:#6E6A62;margin-top:10px">British psychologist</div></div></div>
+  <div style="height:3px;background:#1B1A18;margin:36px 0 30px;opacity:.85"></div>
+  <div class="ser" style="font-size:52px;line-height:1.08">“General Intelligence,” Objectively Determined and Measured</div>
+  <div class="mono" style="font-size:20px;color:#6E6A62;margin-top:24px">AMERICAN JOURNAL OF PSYCHOLOGY · 1904</div></div>
+ <div class="card" id="a_ch" style="left:900px;top:400px;width:900px;height:450px;padding:26px 34px"><div class="lab">SCHOOL MARKS · ONE CHILD <span style="color:#B5AFA5">(illustration)</span></div>
+  <div style="position:absolute;left:34px;right:34px;bottom:70px;height:300px;display:flex;gap:30px;align-items:flex-end">${SUBJ.map(([s,v])=>`<div style="flex:1;height:100%;position:relative"><i class="bar1" data-v="${v}" style="position:absolute;left:0;right:0;bottom:0;height:0;border-radius:12px 12px 4px 4px;background:#1B1A18"></i></div>`).join('')}</div>
+  <div style="position:absolute;left:34px;right:34px;bottom:22px;display:flex;gap:30px">${SUBJ.map(([s])=>`<div class="big" style="flex:1;text-align:center;font-size:26px">${s}</div>`).join('')}</div></div>
+ <div class="node lat" id="a_g" style="left:1260px;top:120px;width:190px;height:190px;font-family:IS;font-style:italic;font-weight:400;font-size:130px;background:#EE6A1F;color:#fff;border-color:#fff;box-shadow:0 0 0 18px rgba(238,106,31,.18),0 0 80px rgba(238,106,31,.55)">g</div>
+ <div class="ab big" id="a_gl" style="left:1480px;top:160px;font-size:34px;color:#fff;line-height:1.15">general<br>intelligence</div>
+ ${svg(1920,1080,SUBJ.map((s,i)=>{const x=900+34+(832-120)/5*i+((832-120)/5)/2+i*24;return ARW('a_ar'+i,`M1355 315 Q${(1355+x)/2} ${360} ${x} 450`,'#EE6A1F',6)}).join(''))}
+ <div class="stamp" id="a_st" style="left:470px;top:700px;font-size:64px;color:#EE6A1F;border:8px solid #EE6A1F;background:rgba(20,19,17,.9)">FACTOR ANALYSIS</div>
+ <div class="ab" id="a_lg" style="left:880px;top:150px;display:flex;flex-direction:column;align-items:flex-end;gap:14px"><div class="chip" style="position:relative;background:#EE6A1F">○ unseen = latent</div><div class="chip" style="position:relative;background:#F2EFE9;color:#1B1A18">□ seen = observed</div></div>`);
+
+// ---------- S2 1921 Wright
+const s2=ST('s2',...C.s2);
+const GP=`<svg width="520" height="330" viewBox="0 0 520 330"><ellipse cx="260" cy="300" rx="200" ry="18" fill="rgba(0,0,0,.18)"/>
+ <path d="M70 210 C60 120 150 70 260 72 C380 74 470 120 468 210 C466 270 400 296 260 296 C130 296 76 270 70 210Z" fill="#FBF4E8" stroke="#1B1A18" stroke-width="6"/>
+ <path d="M262 74 C330 76 400 100 440 150 C420 200 360 220 300 200 C270 170 255 120 262 74Z" fill="#1B1A18"/>
+ <path d="M150 90 C200 75 240 76 262 80 C250 140 200 170 140 160 C110 150 120 110 150 90Z" fill="#D9822B"/>
+ <path d="M300 210 C360 230 420 222 455 200 C460 250 420 280 360 288 C320 280 300 250 300 210Z" fill="#D9822B"/>
+ <ellipse cx="120" cy="96" rx="34" ry="24" fill="#E9A9A0" stroke="#1B1A18" stroke-width="5" transform="rotate(-25 120 96)"/>
+ <circle cx="108" cy="165" r="12" fill="#1B1A18"/><circle cx="112" cy="161" r="4" fill="#fff"/>
+ <path d="M72 196 q-10 8 0 16" fill="none" stroke="#1B1A18" stroke-width="5" stroke-linecap="round"/>
+ <ellipse cx="150" cy="292" rx="26" ry="12" fill="#E9A9A0" stroke="#1B1A18" stroke-width="5"/><ellipse cx="380" cy="292" rx="26" ry="12" fill="#E9A9A0" stroke="#1B1A18" stroke-width="5"/></svg>`;
+add(s2,`<div class="ghost" style="left:980px;top:620px;font-size:560px">1921</div>
+ <div class="card" id="b_pr" style="left:110px;top:120px;width:660px;height:200px;padding:30px 36px;display:flex;gap:26px;align-items:center"><div style="flex:none;width:120px;height:120px;border-radius:50%;background:#1B1A18;color:#F4EEE2;font-family:Anton;font-size:52px;line-height:120px;text-align:center">SW</div>
+  <div><div class="mono" style="font-size:19px;color:#9A5A23">GENETICS · USA</div><div class="big" style="font-size:52px;line-height:1.05;margin-top:6px">Sewall Wright</div><div style="font-size:24px;font-weight:600;color:#6E6A62;margin-top:6px">American geneticist</div></div></div>
+ <div class="paper" id="b_gp" style="left:110px;top:350px;width:660px;height:460px;padding:26px 70px"><div class="mono" style="font-size:20px;color:#9A5A23">SPECIMEN · GUINEA PIG · COAT PATTERN</div><div id="b_gpi" style="margin-top:22px">${GP}</div></div>
+ <div class="card" id="b_pd" style="left:850px;top:120px;width:960px;height:560px">
+  <div class="lab" style="position:absolute;left:34px;top:26px">PATH DIAGRAM</div>
+  <div class="node box" id="b_h" style="left:60px;top:110px;width:300px;height:110px;font-size:36px">Heredity</div>
+  <div class="node box" id="b_e" style="left:60px;top:330px;width:300px;height:110px;font-size:36px">Environment</div>
+  <div class="node box" id="b_c" style="left:610px;top:210px;width:300px;height:130px;font-size:36px;background:#FBE3D2">Coat pattern</div>
+  ${svg(960,560,ARW('b_a1','M365 165 C470 170 520 230 600 258','#EE6A1F',7)+ARW('b_a2','M365 385 C470 380 520 320 600 300','#EE6A1F',7))}
+  <div class="ab ser" id="b_p1" style="left:450px;top:120px;font-size:46px;color:#EE6A1F">p₁</div><div class="ab ser" id="b_p2" style="left:450px;top:370px;font-size:46px;color:#EE6A1F">p₂</div>
+  <div class="ab mono" id="b_eq" style="left:60px;top:470px;font-size:30px;color:#1B1A18;letter-spacing:.02em"></div></div>
+ <div class="paper" id="b_jr" style="left:850px;top:730px;width:960px;height:220px;padding:30px 40px"><div class="mono" style="font-size:20px;color:#9A5A23">JOURNAL OF AGRICULTURAL RESEARCH · 1921</div><div class="ser" style="font-size:78px;line-height:1.1;margin-top:16px">Correlation and Causation</div></div>
+ <div class="stamp" id="b_st" style="left:1330px;top:670px;font-size:62px;color:#EE6A1F;border:8px solid #EE6A1F;background:rgba(20,19,17,.92)">PATH ANALYSIS</div>`);
+
+// ---------- S3 1940s-1960s
+const s3=ST('s3',...C.s3,2700,1080);
+add(s3,`<div class="ab" id="c_l" style="left:110px;top:90px;width:1180px"><div class="mono" style="font-size:24px;color:#EE6A1F">1940s · ECONOMICS</div><div class="big" style="font-size:66px;color:#fff;margin-top:8px">Trygve Haavelmo</div><div style="font-size:28px;font-weight:600;color:#BDB6AA;margin-top:4px">Norwegian economist</div></div>
+ <div class="term" id="c_tm" style="left:110px;top:320px;width:1180px;height:330px"><div class="bar"><i></i><i></i><i></i><span class="mono" style="margin-left:14px;font-size:18px;color:#8C877E">SYSTEM OF EQUATIONS</span></div><pre id="c_eq"></pre></div>
+ <div class="chip" id="c_c1" style="left:110px;top:690px;font-size:26px;background:#EE6A1F">estimate the whole system together</div>
+ <div class="ab" id="c_r" style="left:1410px;top:90px;width:1180px"><div class="mono" style="font-size:24px;color:#EE6A1F">1960s · SOCIOLOGY</div><div class="big" style="font-size:66px;color:#fff;margin-top:8px">Otis Dudley Duncan</div><div style="font-size:28px;font-weight:600;color:#BDB6AA;margin-top:4px">American sociologist</div></div>
+ <div class="card" id="c_pd" style="left:1410px;top:320px;width:1180px;height:380px">
+  <div class="node box" id="c_n1" style="left:50px;top:150px;width:300px;height:120px;font-size:30px">Father's<br>occupation</div>
+  <div class="node box" id="c_n2" style="left:440px;top:40px;width:300px;height:110px;font-size:32px">Education</div>
+  <div class="node box" id="c_n3" style="left:830px;top:150px;width:300px;height:120px;font-size:32px;background:#FBE3D2">Occupation</div>
+  ${svg(1180,420,ARW('c_a1','M355 185 C390 120 400 100 432 98','#1B1A18',6)+ARW('c_a2','M745 98 C790 100 810 120 836 180','#1B1A18',6)+ARW('c_a3','M355 230 C500 330 680 330 822 232','#EE6A1F',6))}
+  <div class="ab mono" style="left:50px;top:320px;font-size:19px;color:#8C877E">PATH ANALYSIS: SOCIOLOGICAL EXAMPLES · AJS 1966 (simplified)</div></div>
+ <div class="ab" id="c_pc" style="left:450px;top:820px;width:1800px;height:170px">${[['FACTORS','1904'],['PATHS','1921'],['EQUATIONS','1940s']].map(([a,b],i)=>`<div class="pc" style="position:absolute;left:${i*600}px;top:0;width:${i<2?620:600}px;height:170px;border-radius:24px;background:${['#F2EFE9','#EE6A1F','#F2EFE9'][i]};color:${i===1?'#fff':'#1B1A18'};padding:30px 40px;box-shadow:0 30px 60px -20px rgba(0,0,0,.7);border:4px solid #141311"><div class="ant" style="font-size:72px;line-height:1">${a}</div><div class="mono" style="font-size:22px;margin-top:10px;opacity:.75">${b}</div></div>`).join('')}</div>`);
+
+// ---------- S4 1970s Jöreskog & Wold, the fork
+const s4=ST('s4',...C.s4,2700,1080);
+add(s4,`<div class="card" id="d_jk" style="left:100px;top:90px;width:760px;height:210px;padding:30px 36px;display:flex;gap:26px;align-items:center"><div style="flex:none;width:130px;height:130px;border-radius:50%;background:#1B1A18;color:#F4EEE2;font-family:Anton;font-size:56px;line-height:130px;text-align:center">KJ</div>
+  <div><div class="mono" style="font-size:19px;color:#9A5A23">1970s · STATISTICS · SWEDEN</div><div class="big" style="font-size:58px;line-height:1.05;margin-top:6px">Karl Jöreskog</div><div style="font-size:24px;font-weight:600;color:#6E6A62;margin-top:6px">the student</div></div></div>
+ <div class="term" id="d_tm" style="left:100px;top:340px;width:760px;height:400px"><div class="bar"><i></i><i></i><i></i><span class="mono" style="margin-left:14px;font-size:18px;color:#8C877E">LISREL</span></div><pre id="d_out" style="font-size:25px;color:#9FE0A8"></pre></div>
+ <div class="card" id="d_md" style="left:920px;top:90px;width:900px;height:650px">
+  <div class="lab" style="position:absolute;left:34px;top:26px">FACTORS + PATHS = ONE MODEL</div>
+  ${[0,1,2].map(i=>`<div class="node box dmi" style="left:40px;top:${130+i*150}px;width:170px;height:90px;font-size:30px">x${i+1}</div><div class="node box dmi" style="left:690px;top:${130+i*150}px;width:170px;height:90px;font-size:30px">y${i+1}</div>`).join('')}
+  <div class="node lat" id="d_k" style="left:250px;top:220px;width:170px;height:170px;font-size:72px;font-family:IS;font-style:italic;font-weight:400">ξ</div>
+  <div class="node lat" id="d_e" style="left:480px;top:220px;width:170px;height:170px;font-size:72px;font-family:IS;font-style:italic;font-weight:400">η</div>
+  ${svg(900,650,[0,1,2].map(i=>ARW('d_m'+i,`M258 ${305+(i-1)*30} C240 ${305+(i-1)*80} 230 ${175+i*150} 216 ${175+i*150}`,'#1B1A18',5)+ARW('d_n'+i,`M642 ${305+(i-1)*30} C660 ${305+(i-1)*80} 670 ${175+i*150} 684 ${175+i*150}`,'#1B1A18',5)).join('')+ARW('d_s','M424 305 L472 305','#EE6A1F',8))}
+  <div class="ab mono" style="left:40px;top:590px;font-size:19px;color:#8C877E">MEASUREMENT MODEL + STRUCTURAL MODEL</div></div>
+ <div class="chip" id="d_cb" style="left:920px;top:780px;font-size:32px;padding:14px 30px">COVARIANCE-BASED SEM</div>
+ <div class="card" id="d_q" style="left:1380px;top:770px;width:560px;height:120px;padding:22px 30px;background:#EE6A1F;color:#fff"><div class="big" style="font-size:40px;line-height:1.1">Does my theory fit the data?</div></div>
+ <div class="card" id="d_wd" style="left:1900px;top:90px;width:700px;height:210px;padding:30px 36px;display:flex;gap:26px;align-items:center"><div style="flex:none;width:130px;height:130px;border-radius:50%;background:#EE6A1F;color:#fff;font-family:Anton;font-size:56px;line-height:130px;text-align:center">HW</div>
+  <div><div class="mono" style="font-size:19px;color:#9A5A23">STATISTICIAN · SWEDEN</div><div class="big" style="font-size:58px;line-height:1.05;margin-top:6px">Herman Wold</div><div style="font-size:24px;font-weight:600;color:#6E6A62;margin-top:6px">the doctoral advisor</div></div></div>
+ ${svg(2700,1080,ARW('d_adv','M1900 150 C1600 -40 1100 -40 870 120','#EE6A1F',7))}
+ <div class="chip" id="d_advl" style="left:1230px;top:10px;font-size:24px;background:#EE6A1F">advisor → student</div>
+ <div class="card" id="d_sm" style="left:1900px;top:350px;width:700px;height:390px;padding:30px 36px"><div class="lab">SOFT MODELING · MAXIMIZE EXPLAINED VARIANCE</div>
+  ${[0,1,2].map(i=>`<div class="node box" style="left:40px;top:${90+i*95}px;width:150px;height:75px;font-size:28px">x${i+1}</div>`).join('')}
+  <div class="node lat" style="left:330px;top:150px;width:160px;height:160px;font-size:42px;background:#EE6A1F;color:#fff;border-color:#EE6A1F">Σ w·x</div>
+  ${svg(700,390,[0,1,2].map(i=>ARW('d_w'+i,`M195 ${127+i*95} C250 ${127+i*95} 280 ${230+(i-1)*40} 324 ${230+(i-1)*40}`,'#EE6A1F',5)).join('')+ARW('d_r2','M495 230 L600 230','#1B1A18',6))}
+  <div class="ab big" style="left:604px;top:205px;font-size:40px">R²↑</div></div>
+ <div class="stamp" id="d_st" style="left:2120px;top:780px;font-size:80px;color:#fff;background:#EE6A1F;border:8px solid #fff">= PLS-SEM</div>`);
+
+// fork road from S4 towards S5 (world coordinates); ends before the S5 cards
+(function(){const sx=C.s4[0]+600,sy=C.s4[1]+640,bx=sx+520,by=sy+120,e1=[bx+760,by-300],e2=[bx+760,by+300];
+  const d0=`M${sx} ${sy} C${sx+220} ${sy+10} ${bx-200} ${by} ${bx} ${by}`;
+  const d1=`M${bx} ${by} C${bx+300} ${by} ${e1[0]-380} ${e1[1]} ${e1[0]} ${e1[1]}`,d2=`M${bx} ${by} C${bx+300} ${by} ${e2[0]-380} ${e2[1]} ${e2[0]} ${e2[1]}`;
+  world.insertAdjacentHTML('beforeend',`<svg class="ov" id="road" width="26000" height="2400" viewBox="0 0 26000 2400">${DEFS}
+   ${[d0,d1,d2].map((d,i)=>`<path class="dp rd" id="rd${i}" d="${d}" stroke="${i===1?'#F2EFE9':'#EE6A1F'}" stroke-width="60" fill="none"/>`).join('')}
+   ${[d0,d1,d2].map((d,i)=>`<path class="rdl" d="${d}" stroke="#141311" stroke-width="5" stroke-dasharray="26 22" fill="none"/>`).join('')}</svg>
+   <div class="chip" id="rdl1" style="left:${e1[0]-470}px;top:${e1[1]-130}px;font-size:34px;padding:12px 26px;background:#F2EFE9;color:#1B1A18">CB-SEM · Jöreskog</div>
+   <div class="chip" id="rdl2" style="left:${e2[0]-430}px;top:${e2[1]+60}px;font-size:34px;padding:12px 26px;background:#EE6A1F">PLS-SEM · Wold</div>`)})();
+
+// ---------- S5 two types
+const s5=ST('s5',...C.s5);
+const card5=(id,x,dark,name,sub,goal,dg,judge,tools)=>`<div class="card" id="${id}" style="left:${x}px;top:40px;width:600px;height:720px;overflow:hidden">
+  <div style="height:150px;background:${dark?'#1B1A18':'#EE6A1F'};color:#fff;padding:26px 34px"><div class="ant" style="font-size:72px;line-height:1">${name}</div><div class="mono" style="font-size:20px;margin-top:8px;opacity:.85">${sub}</div></div>
+  <div style="padding:22px 34px"><div class="lab">GOAL</div><div class="big" style="font-size:44px;margin-top:4px">${goal}</div>
+  <div style="position:relative;height:220px;margin-top:10px">${dg}</div>
+  <div class="lab">${dark?'JUDGED BY':'FOCUS ON'}</div><div class="big" style="font-size:30px;line-height:1.15;margin-top:4px">${judge}</div>
+  <div class="lab" style="margin-top:18px">TOOLS</div><div style="font-size:24px;font-weight:600;color:#5E5A53;margin-top:4px">${tools}</div></div></div>`;
+const DGF=`<div class="node lat" style="left:30px;top:50px;width:130px;height:130px;font-size:30px">factor</div>${[0,1,2].map(i=>`<div class="node box" style="left:330px;top:${10+i*72}px;width:110px;height:58px;font-size:24px">x${i+1}</div><div class="node" style="left:470px;top:${20+i*72}px;width:40px;height:40px;border:3px solid #8C877E;border-radius:50%;font-size:18px;color:#8C877E">e</div>`).join('')}${svg(532,220,[0,1,2].map(i=>ARW('e_f'+i,`M162 115 C240 115 260 ${39+i*72} 322 ${39+i*72}`,'#1B1A18',4)).join(''))}`;
+const DGC=`${[0,1,2].map(i=>`<div class="node box" style="left:0px;top:${10+i*72}px;width:110px;height:58px;font-size:24px">x${i+1}</div>`).join('')}<div class="node lat" style="left:290px;top:40px;width:150px;height:150px;font-size:30px;background:#EE6A1F;color:#fff;border-color:#EE6A1F">Σ w·x</div>${svg(532,220,[0,1,2].map(i=>ARW('e_c'+i,`M114 ${39+i*72} C200 ${39+i*72} 230 115 284 115`,'#EE6A1F',4)).join(''))}<div class="ab mono" style="left:450px;top:100px;font-size:20px;color:#EE6A1F">composite</div>`;
+add(s5,`${card5('e_cb',120,true,'CB-SEM','COVARIANCE-BASED','Confirm theory',DGF,'Overall model fit<br>(χ², CFI, RMSEA)','LISREL · Amos · Mplus · lavaan')}
+ ${card5('e_pl',770,false,'PLS-SEM','VARIANCE-BASED','Explain &amp; predict',DGC,'R², effect sizes,<br>predictive power','SmartPLS · WarpPLS · PLS-Graph')}
+ <div class="card" id="e_bn" style="left:120px;top:790px;width:1250px;height:120px;padding:0 36px;display:flex;align-items:center;gap:26px"><span class="big" style="font-size:40px">Choose by</span>
+  <span class="big" style="font-size:40px;padding:6px 22px;border-radius:14px;background:#2E9E5B;color:#fff">✓ research goal</span><span class="big" style="font-size:40px;color:#8C877E">not</span><span class="big" id="e_ss" style="position:relative;font-size:40px;color:#8C877E">sample size<i style="position:absolute;left:-6px;right:-6px;top:52%;height:6px;border-radius:3px;background:#E5463A;transform-origin:0 50%"></i></span></div>`);
+
+// ---------- S6 software rail
+const SW=[['LISREL','1970s','Jöreskog & Sörbom','CB'],['LVPLS','1980s','Lohmöller','PLS'],['EQS','1985','Bentler','CB'],['Amos','1990s','Arbuckle','CB'],['PLS-Graph','1990s','Chin','PLS'],['Mplus','1998','Muthén & Muthén','CB'],['SmartPLS','2005','Ringle, Wende & Will','PLS'],['WarpPLS','2009','Kock','PLS'],['lavaan','2012','Rosseel · free R package','CB'],['SmartPLS 4','2022','Ringle, Wende & Becker','PLS']];
+const RX0=C.s6[0]+300,RDX=620,RY=C.s6[1]+260;
+world.insertAdjacentHTML('beforeend',`<div class="ab" id="r_rail" style="left:${C.s6[0]-200}px;top:${RY-6}px;width:${SW.length*RDX+600}px;height:12px;border-radius:6px;background:rgba(242,239,233,.25);transform-origin:0 50%"></div>
+ <div class="ab ant" id="r_t" style="left:${C.s6[0]-200}px;top:${C.s6[1]-470}px;font-size:120px;color:#fff;white-space:nowrap">THE <span style="color:#EE6A1F">SOFTWARE</span></div>
+ <div class="ab" id="r_lg" style="left:${C.s6[0]-180}px;top:${C.s6[1]-320}px;display:flex;gap:16px"><div class="chip" style="position:relative;background:#F2EFE9;color:#1B1A18">● CB-SEM</div><div class="chip" style="position:relative;background:#EE6A1F">● PLS-SEM</div></div>
+ ${SW.map(([n,y,a,k],i)=>{const x=RX0+i*RDX,up=i%2===0;return `<div class="ab rdot" id="r_d${i}" style="left:${x-22}px;top:${RY-22}px;width:44px;height:44px;border-radius:50%;background:${k==='PLS'?'#EE6A1F':'#F2EFE9'};border:6px solid #141311"></div>
+  <div class="ab" id="r_s${i}" style="left:${x-3}px;top:${up?RY-100:RY+22}px;width:6px;height:78px;background:rgba(242,239,233,.35)"></div>
+  <div class="sw" id="r_c${i}" style="left:${x-260}px;top:${up?RY-100-220:RY+100}px"><div class="t">${n}</div><div class="y" style="color:${k==='PLS'?'#EE6A1F':'#1B1A18'}">${y}</div><div class="a">${a}</div><div class="k" style="background:${k==='PLS'?'#EE6A1F':'#1B1A18'}">${k==='PLS'?'PLS-SEM':'CB-SEM'}</div></div>`}).join('')}
+ <div class="ab" id="r_stu" style="left:${RX0+6*RDX-330}px;top:${RY+70}px;width:660px;height:120px">${Array.from({length:44},(_,i)=>`<i class="stu" style="position:absolute;left:${(i%22)*30}px;top:${Math.floor(i/22)*44}px;width:22px;height:22px;border-radius:50%;background:#F2EFE9"></i>`).join('')}<div class="mono" style="position:absolute;left:0;top:96px;font-size:20px;color:#BDB6AA;white-space:nowrap">students everywhere</div></div>`);
+
+// ---------- final screen (your model)
+const sC=ST('scr',...C.scr);
+add(sC,`<div class="ab" id="f_mon" style="left:200px;top:110px;width:1300px;height:800px;border-radius:30px;background:#0F0F0D;border:4px solid #3A3833;box-shadow:0 50px 90px -30px rgba(0,0,0,.8)">
+  <div style="position:absolute;left:30px;top:30px;right:30px;bottom:30px;border-radius:14px;background:#F7F5F0;overflow:hidden">
+   <div style="height:56px;background:#E9E5DC;display:flex;align-items:center;gap:12px;padding-left:20px"><i style="width:14px;height:14px;border-radius:50%;background:#C9C3B8"></i><i style="width:14px;height:14px;border-radius:50%;background:#C9C3B8"></i><i style="width:14px;height:14px;border-radius:50%;background:#C9C3B8"></i><span class="mono" style="font-size:18px;color:#8C877E;margin-left:12px">your_model.splsm (illustration)</span></div>
+   ${[['Trust',120,160],['Quality',120,480],['Satisfaction',560,300],['Loyalty',960,300]].map(([n,x,y],i)=>`<div class="node lat fm" style="left:${x}px;top:${y}px;width:190px;height:150px;font-size:28px;background:${i===3?'#EE6A1F':'#FBE3D2'};color:${i===3?'#fff':'#1B1A18'}">${n}</div>`).join('')}
+   ${svg(1236,736,ARW('f_a1','M315 245 C420 260 470 320 552 360','#1B1A18',6)+ARW('f_a2','M315 545 C420 520 470 450 552 410','#1B1A18',6)+ARW('f_a3','M755 375 L950 375','#EE6A1F',8))}
+   <div class="ab big fm" style="left:420px;top:240px;font-size:30px">0.42</div><div class="ab big fm" style="left:420px;top:500px;font-size:30px">0.31</div><div class="ab big fm" style="left:820px;top:320px;font-size:30px;color:#EE6A1F">0.58</div>
+   <div class="ab big fm" style="left:990px;top:470px;font-size:28px;color:#8C877E">R² = 0.34</div></div></div>
+ <div class="ab" id="f_stand" style="left:770px;top:910px;width:160px;height:90px;background:#2A2824"></div>`);
+
+// ---------- camera keyframes [t, x, y, z, ease('io'|'lin')]
+const K=[];const kf=(t,x,y,z,e='io')=>K.push([t,x,y,z,e]);
+const cx=(s,dx=0)=>C[s][0]+dx,cy=(s,dy=0)=>C[s][1]+dy;
+// intro: slow pull back
+kf(0,cx('intro',-60),cy('intro',40),1.22);kf(LN('intro',1),cx('intro'),cy('intro'),1.0);kf(LN('intro',2),cx('intro',30),cy('intro',-10),1.04,'lin');kf(LE('intro',2)+.15,cx('intro'),cy('intro',40),.82);
+// s1
+kf(LN('s1',0)-.1,cx('s1',-40),cy('s1'),1.0);kf(LN('s1',1)-.2,cx('s1',20),cy('s1',10),1.05,'lin');
+kf(LN('s1',1)+.7,cx('s1',-960+1360),cy('s1',-540+380),1.55);kf(LN('s1',2)-.2,cx('s1',-960+1380),cy('s1',-540+400),1.62,'lin');
+kf(LN('s1',2)+.6,cx('s1'),cy('s1',20),.98);kf(LE('s1',2)+.1,cx('s1',-30),cy('s1',30),1.02,'lin');
+// s2
+kf(LN('s2',0)-.1,cx('s2',-520),cy('s2',-50),1.05);kf(LN('s2',1)-.2,cx('s2',-500),cy('s2',-40),1.1,'lin');
+kf(LN('s2',1)+.6,cx('s2',370),cy('s2',-140),1.3);kf(LN('s2',2)-.2,cx('s2',380),cy('s2',-130),1.34,'lin');
+kf(LN('s2',2)+.6,cx('s2',60),cy('s2',30),.92);kf(LE('s2',2)+.1,cx('s2',80),cy('s2',40),.96,'lin');
+// s3
+kf(LN('s3',0)-.1,cx('s3',-650),cy('s3',-80),1.1);kf(LN('s3',1)-.2,cx('s3',-620),cy('s3',-70),1.15,'lin');
+kf(LN('s3',1)+.6,cx('s3',650),cy('s3',-80),1.1);kf(LN('s3',2)-.2,cx('s3',670),cy('s3',-70),1.14,'lin');
+kf(LN('s3',2)+.6,cx('s3'),cy('s3',60),.68);kf(LE('s3',2)+.1,cx('s3'),cy('s3',80),.72,'lin');
+// s4
+kf(LN('s4',0)-.1,cx('s4',-760),cy('s4',-60),1.0);kf(LN('s4',1)-.2,cx('s4',-700),cy('s4',-40),1.05,'lin');
+kf(LN('s4',1)+.5,cx('s4',150),cy('s4',100),.98);kf(LN('s4',2)-.2,cx('s4',170),cy('s4',110),1.02,'lin');
+kf(LN('s4',2)+.6,cx('s4',150),cy('s4',-250),.62);kf(LN('s4',3)-.2,cx('s4',200),cy('s4',-230),.64,'lin');
+kf(LN('s4',3)+.5,cx('s4',900),cy('s4',100),.98);kf(FW('s4',3,'Today')-.4,cx('s4',920),cy('s4',110),1.02,'lin');
+kf(LE('s4',3)+.5,C.s4[0]+1400,C.s4[1]+760,.62);
+// s5
+kf(LN('s5',0)-.05,cx('s5',80),cy('s5',-80),.9);kf(LN('s5',1)-.2,cx('s5',80),cy('s5',-70),.93,'lin');
+kf(LN('s5',1)+.5,cx('s5',-960+440),cy('s5',-540+430),1.18);kf(LN('s5',2)-.2,cx('s5',-960+450),cy('s5',-540+440),1.22,'lin');
+kf(LN('s5',2)+.5,cx('s5',-960+1150),cy('s5',-540+430),1.18);kf(LN('s5',3)-.2,cx('s5',-960+1160),cy('s5',-540+440),1.22,'lin');
+kf(LN('s5',3)+.5,cx('s5',80),cy('s5',-60),.9);kf(LE('s5',3)+.1,cx('s5',80),cy('s5',-50),.93,'lin');
+// s6 rail dolly: one keyframe per software name
+kf(LN('s6',0)-.05,C.s6[0]+500,C.s6[1]+20,.66);kf(LE('s6',0)+.1,C.s6[0]+700,C.s6[1]+40,.7,'lin');
+const SWT=[FW('s6',1,'LISREL'),FW('s6',1,'LVPLS'),FW('s6',1,'EQS'),FW('s6',2,'Amos'),FW('s6',2,'PLS-Graph'),FW('s6',2,'Mplus'),FW('s6',3,'SmartPLS'),FW('s6',4,'WarpPLS'),FW('s6',4,'lavaan'),FW('s6',4,'4')];
+SWT[9]=Math.max(SWT[9],FW('s6',4,'SmartPLS'));
+SWT.forEach((t,i)=>{const x=RX0+i*RDX;kf(t-.25,x,RY+10,.9);kf((i<9?SWT[i+1]:LE('s6',4)+.3)-.45,x+50,RY+10,.92,'lin')});
+// outro: zoom out to the whole map, then dive into the screen
+const MAPX=12400,MAPY=600,MAPZ=.074;
+kf(LN('outro',0)-.1,RX0+9*RDX,RY,.6);kf(LN('outro',0)+1.6,MAPX,MAPY,MAPZ);kf(FW('outro',0,'Spearman')-.3,MAPX+300,MAPY,MAPZ*1.05,'lin');
+kf(FW('outro',0,'screen')+.2,cx('scr',-110),cy('scr',-30),.92);kf(LE('outro',1)+.2,cx('scr',-100),cy('scr',-20),.98,'lin');kf(END,cx('scr',-100),cy('scr',-20),1.0,'lin');
+K.sort((a,b)=>a[0]-b[0]);
+function cam(t){if(t<=K[0][0])return{x:K[0][1],y:K[0][2],z:K[0][3]};
+  for(let i=0;i<K.length-1;i++){const a=K[i],b=K[i+1];if(t<=b[0]){const p=b[0]>a[0]?(t-a[0])/(b[0]-a[0]):1,e=b[4]==='lin'?p:io3(p);
+    return{x:a[1]+(b[1]-a[1])*e,y:a[2]+(b[2]-a[2])*e,z:Math.exp(Math.log(a[3])+(Math.log(b[3])-Math.log(a[3]))*e)}}}
+  const l=K[K.length-1];return{x:l[1],y:l[2],z:l[3]}}
+
+// ---------- chapters + year ticker
+const CH={s1:['CHAPTER 1','1904','The hidden factor'],s2:['CHAPTER 2','1921','Arrows and guinea pigs'],s3:['CHAPTER 3','1940s–60s','Equations everywhere'],s4:['CHAPTER 4','1970s','One framework, two roads'],s5:['CHAPTER 5','TWO TYPES','CB-SEM vs PLS-SEM'],s6:['CHAPTER 6','SOFTWARE','From LISREL to SmartPLS']};
+function prevEnd(s){const i=SECS.indexOf(s),p=SECS[i-1];return LE(p,SL[p].length-1)}
+function CHAP(t){let on=null;for(const s in CH){const a=prevEnd(s)+.15,b=LN(s,0)+.35;if(t>=a&&t<b+.3)on=[s,a,b]}const el=$('#chap');if(!sh(el,!!on))return;
+  const [s,a,b]=on,p=P(t,a,a+.4),q=P(t,b,b+.3);el.querySelector('.n').textContent=CH[s][0];el.querySelector('.h').textContent=CH[s][1];el.querySelector('.s').textContent=CH[s][2];
+  op(el,o3(P(t,a,a+.25))*(1-q));const tp=o3(P(t,a+.22,a+.6));['.n','.h','.s'].forEach(k=>el.querySelector(k).style.opacity=tp.toFixed(3));el.querySelector('.h').style.transform=`scale(${(1.25-.25*tp+.06*q).toFixed(3)})`;el.querySelector('.h').style.letterSpacing=`${(.12-.12*o3(p)).toFixed(3)}em`;el.querySelector('.s').style.transform=`translateY(${((1-o3(P(t,a+.15,a+.55)))*30).toFixed(1)}px)`}
+const TK=[[SS.s1,'1904','SPEARMAN'],[SS.s2,'1921','WRIGHT'],[SS.s3,'1943','HAAVELMO'],[LN('s3',1)-.1,'1966','DUNCAN'],[SS.s4,'1970s','JÖRESKOG'],[LN('s4',2)-.1,'1970s','WOLD'],[SS.s5,'',''],[SS.s6,'',''],
+  ...SW.map(([n,y],i)=>[SWT[i]-.25,y,n.toUpperCase()]),[SS.outro,'','']];
+let tkPrev='';
+function TICK(t){let cur=null,pre=null,ta=0;for(const k of TK){if(t>=k[0]){pre=cur;cur=k;ta=k[0]}}const el=$('#tick');
+  const v=cur?cur[1]:'',pv=pre?pre[1]:'',p=io3(P(t,ta,ta+.45));
+  el.innerHTML=`<div class="v" style="transform:translateY(${(-96*p).toFixed(1)}px);opacity:${(1-p).toFixed(3)}">${pv}</div><div class="v" style="transform:translateY(${(96*(1-p)).toFixed(1)}px);opacity:${p.toFixed(3)}">${v}</div>`;
+  $('#tickl').textContent=cur?cur[2]:'';op($('#tickl'),v?P(t,ta+.2,ta+.5):0)}
+
+// ---------- kinetic Indonesian subtitles
+const CU=[];WORDS.forEach((w,k)=>{let wi=0;SUBS[k].forEach(([en,id])=>{const n=en.split(' ').length;CU.push({k,a:W(k,wi)-.1,ew:n,id});wi+=n})});
+CU.forEach((c,i)=>{const nx=CU[i+1];c.b=nx?(nx.k===c.k?nx.a:Math.min(nx.a-.05,WORDS[c.k].e+.6)):WORDS[c.k].e+.9});
+const FX=['up','pop','slide','drop'];
+$('#sub').innerHTML=CU.map((c,i)=>{const toks=c.id.split(' ');let inK=false;const sp=toks.map(w=>{let k=inK;if(w.startsWith('*')){k=true;inK=!w.endsWith('*')||w.length===1;if(w.endsWith('*')&&w.length>1)inK=false}else if(inK){k=true;if(w.endsWith('*'))inK=false}
+  return `<span class="${k?'k':''}">${w.replace(/\*/g,'')}</span>`});return `<div class="cue" id="cu${i}"><div class="pill">${sp.join('')}</div></div>`}).join('');
+CU.forEach((c,i)=>{c.el=$('#cu'+i);c.sp=[...c.el.firstChild.children];c.fx=FX[i%FX.length];const dur=Math.max(.3,c.b-c.a);const step=Math.min(.11,dur*.45/c.sp.length);c.sp.forEach((s,j)=>s.dataset.t=c.a+j*step)});
+let SUBX=960;
+function SUB(t){const tx=MASV(t)>.5?790:960;SUBX=tx;
+  CU.forEach(c=>{const on=t>=c.a&&t<c.b&&t<END-CTA_D;if(!sh(c.el,on))return;const w=MASV(t)>.5?1300:1560;c.el.style.left=(SUBX-w/2)+'px';c.el.style.width=w+'px';
+    const out=P(t,c.b-.12,c.b),inn=o3(P(t,c.a,c.a+.18));c.el.style.opacity=(1-out).toFixed(3);c.el.firstChild.style.transform=`scale(${(.94+.06*inn).toFixed(3)})`;c.el.firstChild.style.background=`rgba(20,19,17,${(.82*inn).toFixed(3)})`;
+    c.sp.forEach(s=>{const p=P(t,+s.dataset.t,+s.dataset.t+.32),e=o3(p),b=p>0?bk(p,2):0;let tr='';
+      if(c.fx==='up')tr=`translateY(${((1-e)*34).toFixed(1)}px)`;else if(c.fx==='pop')tr=`scale(${(.3+.7*b).toFixed(3)})`;else if(c.fx==='slide')tr=`translateX(${((1-e)*-46).toFixed(1)}px)`;else tr=`translateY(${((1-e)*-40).toFixed(1)}px) rotate(${((1-e)*-6).toFixed(2)}deg)`;
+      s.style.opacity=cl(p*2.2).toFixed(3);s.style.transform=tr;s.style.filter=c.fx==='up'&&p<1?`blur(${((1-e)*6).toFixed(1)}px)`:'none'})})}
+
+// ---------- mascot (only in intro, chapter 5 and the outro)
+const MA={x:1650,y:840},MF=.85;
+(function(){$('#mas').innerHTML=Object.entries(MAS).map(([k,v])=>{const i=MI[k],s=i.s*MF,wd=(i.W||900)*s,mx=(i.x+i.w/2)*s,my=(i.y+i.h/2)*s;let lf=MA.x-mx;const ov=lf+wd-1905;if(ov>0)lf-=ov;
+  return `<div class="pz" id="${k}" style="left:${lf.toFixed(1)}px;top:${(MA.y-my).toFixed(1)}px;width:${wd.toFixed(1)}px"><img src="${v}" style="display:block;width:100%"><div class="mo" id="mo_${k}" style="left:${(i.x*s).toFixed(2)}px;top:${(i.y*s).toFixed(2)}px;width:${(i.w*s).toFixed(2)}px;height:${(i.h*s).toFixed(2)}px;background-image:url(${MO[k]});transform-origin:50% ${((i.top+(i.h-2*i.top)*.18)*s).toFixed(1)}px"></div></div>`}).join('')})();
+const MWIN=[[LN('intro',0)-.3,LE('intro',1)+.1],[LN('s5',0)+.2,LE('s5',3)+.2],[FW('outro',0,'screen')+.4,END-CTA_D]];
+function MASV(t){let v=0;for(const [a,b] of MWIN){v=Math.max(v,Math.min(o3(P(t,a,a+.5)),1-o3(P(t,b-.4,b))))}return v}
+const PT=[[0,'n_present'],[FW('intro',1,'teacher')-.1,'n_idea'],[LN('s5',0),'n_present'],[LN('s5',1)-.1,'m_point'],[LN('s5',2)-.1,'n_idea'],[LN('s5',3)-.1,'n_shrug'],[FW('s5',3,'Choose')-.1,'m_thumb'],[FW('outro',0,'screen'),'n_present'],[LN('outro',1)-.1,'n_wink']];
+function MOUTH(t,pose){const f=Math.max(0,Math.min(LIP.o.length-1,Math.round(t*60)));const o=LIP.o[f],w=LIP.w[f];const mn=pose==='m_think'?.3:pose==='m_warn'?.22:.13;
+  $('#mo_'+pose).style.transform=`scale(${(.9+.16*w-.06*o).toFixed(3)},${(mn+(1-mn)*o).toFixed(3)})`;return o}
+function MASC(t){const v=MASV(t),m=$('#mas');if(!sh(m,v>.001))return;let pose=PT[0][1],t0=-1;for(const [a,p] of PT)if(t>=a){pose=p;t0=a}Object.keys(MAS).forEach(n=>$('#'+n).style.display=n===pose?'block':'none');const lo=MOUTH(t,pose);
+  const ch=P(t,t0-.05,t0+.3),e=ch>0?bk(ch,1.4):1;m.style.transform=`translateY(${((1-v)*560+(1-e)*24-2.5*lo).toFixed(1)}px) rotate(${(1.0*Math.sin(t*1.5)).toFixed(2)}deg) scale(${(.97+.03*e).toFixed(3)})`;op(m,cl(v*3))}
+
+// ---------- end card
+$('#cta').innerHTML=`<div class="ab" style="inset:0;background:#141311"></div><div class="ab" id="ec1" style="left:90px;top:170px;font-family:Anton;font-size:120px;line-height:1;color:#FFFFFF">SUBSCRIBE TO<br><span style="color:#EE6A1F">NOT YOUR LECTURE</span></div>
+  ${[['YOUTUBE','NotYourLecture','youtube'],['TIKTOK','@researchq.id','tiktok'],['INSTAGRAM','@researchq.id','instagram']].map(([n,h,l],i)=>`<div class="pl" id="ep${i}" style="left:90px;top:${470+i*130}px"><img src="${LOGO[l]}"><div class="n">${n}</div><div class="h">${h}</div></div>`).join('')}
+  <div class="ab mono" id="ec2" style="left:90px;top:900px;font-size:20px;color:#8C877E">Sources: Spearman (1904) · Wright (1921) · Haavelmo (1943) · Duncan (1966) · Jöreskog (1973) · Wold (1982) · Hair et al. (2022)</div>`;
+function CTA(t){const a=END-CTA_D;const c=$('#cta');if(!sh(c,t>=a))return;op(c,P(t,a,a+.4));pop($('#ec1'),t,a+.1,{dy:50,s0:.8});[0,1,2].forEach(i=>pop($('#ep'+i),t,a+.5+i*.18,{dx:-120,dy:0,s0:.85}));pop($('#ec2'),t,a+1.2,{dy:10,s0:1})}
+
+// ---------- scene animations (all from time)
+initPaths(document);
+const rib=$('#ribG');const RIBL=rib.getTotalLength();rib.style.strokeDasharray=RIBL;
+function SCN(t){const l=LN,le=LE;
+  // intro
+  pop($('#i_t'),t,.15,{dy:70,s0:.9,d:.7});$$('#i_tags .tg').forEach((g,i)=>pop(g,t,[FW('intro',1,'intelligence'),FW('intro',1,'guinea'),FW('intro',1,'economists'),FW('intro',1,'teacher')][i]-.1,{dy:60,s0:.6}));
+  // s1
+  const a=l('s1',0);pop($('#a_doc'),t,a-.5,{dy:80,s0:.9,r:-4});$('#a_doc').style.transform+=' rotate(-2deg)';pop($('#a_ch'),t,a+.6,{dx:80,dy:0,s0:.92});
+  $$('#st_s1 .bar1').forEach((b,i)=>{const s=FW('s1',0,'well')+i*.18;b.style.height=(o3(P(t,s,s+.7))*+b.dataset.v*100).toFixed(1)+'%';b.style.background=t>FW('s1',0,'others')?'#EE6A1F':'#1B1A18'});
+  pop($('#a_g'),t,FW('s1',1,'hidden')-.1,{dy:0,s0:.2});pop($('#a_gl'),t,FW('s1',1,'general')-.1,{dx:-30,dy:0,s0:.9});
+  [0,1,2,3,4].forEach(i=>draw($('#a_ar'+i),t,FW('s1',1,'behind')+i*.12,.5));pop($('#a_lg'),t,FW('s1',2,'measuring'),{dy:20,s0:.9});stampIn($('#a_st'),t,FW('s1',2,'factor'),-5);
+  // s2
+  const b=l('s2',0);pop($('#b_pr'),t,b-.5,{dx:-60,dy:0,s0:.95});pop($('#b_gp'),t,FW('s2',0,'guinea')-.2,{dy:80,s0:.85,r:3});$('#b_gpi').style.transform=`translateY(${(4*Math.sin(t*3)).toFixed(1)}px) rotate(${(1.2*Math.sin(t*1.7)).toFixed(2)}deg)`;
+  pop($('#b_pd'),t,l('s2',1)-.3,{dy:60,s0:.92});pop($('#b_h'),t,FW('s2',1,'heredity'),{dy:20,s0:.7});pop($('#b_e'),t,FW('s2',1,'environment'),{dy:20,s0:.7});pop($('#b_c'),t,FW('s2',1,'environment')+.3,{dy:20,s0:.7});
+  draw($('#b_a1'),t,FW('s2',1,'arrows'),.5);draw($('#b_a2'),t,FW('s2',1,'arrows')+.25,.5);op($('#b_p1'),P(t,FW('s2',1,'arrows')+.5,FW('s2',1,'arrows')+.8));op($('#b_p2'),P(t,FW('s2',1,'arrows')+.7,FW('s2',1,'arrows')+1));
+  typeText($('#b_eq'),t,FW('s2',1,'equations')-.1,'Coat = p₁·Heredity + p₂·Environment',30);
+  pop($('#b_jr'),t,FW('s2',2,'published')-.1,{dy:80,s0:.9});stampIn($('#b_st'),t,FW('s2',2,'Path')-.05,-6);
+  // s3
+  const c=l('s3',0);pop($('#c_l'),t,c-.4,{dx:-50,dy:0,s0:.95});pop($('#c_tm'),t,c+.1,{dy:60,s0:.94});
+  typeText($('#c_eq'),t,FW('s3',0,'systems')-.3,'Demand:  Q = a₁ + b₁·P + c₁·Income + u₁\nSupply:  Q = a₂ + b₂·P + c₂·Weather + u₂\n\n→ solve both at once',40);pop($('#c_c1'),t,FW('s3',0,'together')-.1,{dy:20,s0:.8});
+  pop($('#c_r'),t,l('s3',1)-.2,{dx:50,dy:0,s0:.95});pop($('#c_pd'),t,l('s3',1)+.3,{dy:60,s0:.94});['c_n1','c_n2','c_n3'].forEach((id,i)=>pop($('#'+id),t,FW('s3',1,'brought')+i*.25,{dy:20,s0:.7}));
+  ['c_a1','c_a2','c_a3'].forEach((id,i)=>draw($('#'+id),t,FW('s3',1,'path')+i*.3,.5));
+  $$('#c_pc .pc').forEach((g,i)=>{const s=[FW('s3',2,'Factors'),FW('s3',2,'paths'),FW('s3',2,'equations')][i]-.1,j=P(t,FW('s3',2,'together')-.1,FW('s3',2,'together')+.4);const p=o3(P(t,s,s+.5));
+    g.style.opacity=cl(p*3).toFixed(3);g.style.transform=`translate(${((1-p)*[-500,0,500][i]+(1-o3(j))*[-60,0,60][i]).toFixed(1)}px,${((1-p)*[0,300,0][i]).toFixed(1)}px) rotate(${((1-p)*[-12,6,12][i]).toFixed(2)}deg) scale(${(1+.05*Math.sin(Math.PI*j)).toFixed(3)})`});
+  // s4
+  const d=l('s4',0);pop($('#d_jk'),t,d-.4,{dx:-60,dy:0,s0:.95});pop($('#d_tm'),t,FW('s4',0,'program')-.4,{dy:60,s0:.94});
+  typeText($('#d_out'),t,FW('s4',0,'LISREL'),'> LISREL\n  MAXIMUM LIKELIHOOD ESTIMATES\n  CHI-SQUARE = 41.27  (df = 32)\n  GOODNESS OF FIT INDEX = 0.96\n  (illustration)',36);
+  pop($('#d_md'),t,FW('s4',0,'combined')-.1,{dy:60,s0:.94});$$('#st_s4 .dmi').forEach((g,i)=>pop(g,t,FW('s4',0,'factor')+i*.07,{dy:16,s0:.7}));pop($('#d_k'),t,FW('s4',0,'factor'),{dy:0,s0:.3});pop($('#d_e'),t,FW('s4',0,'path'),{dy:0,s0:.3});
+  [0,1,2].forEach(i=>{draw($('#d_m'+i),t,FW('s4',0,'factor')+.2+i*.1,.4);draw($('#d_n'+i),t,FW('s4',0,'path')+.2+i*.1,.4)});draw($('#d_s'),t,FW('s4',0,'one')-.05,.4);
+  pop($('#d_cb'),t,l('s4',1)-.1,{dx:-40,dy:0,s0:.85});pop($('#d_q'),t,FW('s4',1,'does')-.1,{dy:30,s0:.6,r:-3});
+  pop($('#d_wd'),t,FW('s4',2,'Herman')-.2,{dx:80,dy:0,s0:.92});draw($('#d_adv'),t,FW('s4',2,'advisor')-.1,.8);pop($('#d_advl'),t,FW('s4',2,'advisor')+.4,{dy:20,s0:.8});
+  pop($('#d_sm'),t,l('s4',3)-.1,{dy:60,s0:.94});[0,1,2].forEach(i=>draw($('#d_w'+i),t,FW('s4',3,'maximizes')+i*.12,.4));draw($('#d_r2'),t,FW('s4',3,'variance'),.4);stampIn($('#d_st'),t,FW('s4',3,'Today')+.5,-5);
+  // road + fork
+  const ra=FW('s4',2,'road')-.2;draw($('#rd0'),t,ra,1.0);draw($('#rd1'),t,ra+.8,1.2);draw($('#rd2'),t,ra+.8,1.2);$$('.rdl').forEach(p=>op(p,P(t,ra+1.6,ra+2)));pop($('#rdl1'),t,ra+1.4,{dy:20,s0:.8,b:LN('s5',1)-.7});pop($('#rdl2'),t,ra+1.6,{dy:20,s0:.8,b:LN('s5',1)-.7});op($('#road'),1-P(t,LN('s5',1)-.7,LN('s5',1)-.3));
+  // s5
+  const e5=l('s5',0);pop($('#e_cb'),t,l('s5',1)-.3,{dx:-80,dy:0,s0:.92});pop($('#e_pl'),t,l('s5',2)-.3,{dx:80,dy:0,s0:.92});
+  [0,1,2].forEach(i=>{draw($('#e_f'+i),t,FW('s5',1,'common')+i*.12,.4);draw($('#e_c'+i),t,FW('s5',2,'composites')+i*.12,.4)});
+  pop($('#e_bn'),t,FW('s5',3,'Choose')-.15,{dy:60,s0:.9});$('#e_ss i').style.transform=`scaleX(${o3(P(t,FW('s5',3,'sample')+.2,FW('s5',3,'sample')+.5)).toFixed(3)})`;
+  // s6
+  const f=l('s6',0);pop($('#r_t'),t,f-.3,{dy:-50,s0:.9});pop($('#r_lg'),t,f+.4,{dy:20,s0:.9,b:SWT[0]-.4});$('#r_rail').style.transform=`scaleX(${o3(P(t,f-.2,f+1.2)).toFixed(3)})`;op($('#r_rail'),P(t,f-.2,f));
+  SW.forEach((s,i)=>{const a=SWT[i]-.15;pop($('#r_d'+i),t,a,{dy:0,s0:.2});const st=$('#r_s'+i);op(st,P(t,a+.05,a+.25));pop($('#r_c'+i),t,a+.08,{dy:i%2?-50:50,s0:.8})});
+  $$('.stu').forEach((s,i)=>{const a=FW('s6',3,'reach')+((i*37)%44)*.025;const p=P(t,a,a+.25);s.style.transform=`scale(${(p>0?bk(p):0).toFixed(3)})`;s.style.background=i%3?'#F2EFE9':'#EE6A1F'});op($('#r_stu'),P(t,FW('s6',3,'reach')-.1,FW('s6',3,'reach')+.2));
+  // ribbon glows during the map zoom-out
+  const rg=o3(P(t,LN('outro',0)+.6,FW('outro',0,'century')+.6));rib.style.strokeDashoffset=(RIBL*(1-rg)).toFixed(0);op(rib,rg>0?1:0);
+  // final screen
+  $$('#st_scr .fm').forEach((g,i)=>pop(g,t,FW('outro',0,'screen')-.3+i*.08,{dy:20,s0:.6}));['f_a1','f_a2','f_a3'].forEach((id,i)=>draw($('#'+id),t,FW('outro',0,'screen')+.1+i*.15,.4));
+}
+
+// ---------- render
+let FRAME=0;
+function render(t,n){if(n!==undefined)FRAME=n;
+  const c=cam(t),c2=cam(t+1/30);const roll=cl((c2.x-c.x)*c.z*.012,-2.2,2.2);
+  world.style.transform=`translate(960px,540px) rotate(${roll.toFixed(3)}deg) scale(${c.z.toFixed(5)}) translate(${(-c.x).toFixed(2)}px,${(-c.y).toFixed(2)}px)`;
+  const fz=Math.pow(c.z,.6);far.style.transform=`translate(960px,540px) scale(${fz.toFixed(5)}) translate(${(-c.x*.55).toFixed(1)}px,${(-c.y*.55).toFixed(1)}px)`;
+  const vx=Math.abs((c2.x-c.x)*c.z),vy=Math.abs((c2.y-c.y)*c.z),vz=Math.abs(Math.log(c2.z/c.z))*900;
+  const bx=Math.min(44,vx*.32+vz*.12),by=Math.min(44,vy*.32+vz*.12);
+  if(bx>.7||by>.7){$('#mbg').setAttribute('stdDeviation',bx.toFixed(1)+' '+by.toFixed(1));$('#cam').style.filter='url(#mb)';$('#mbgf').setAttribute('stdDeviation',(bx*.6).toFixed(1)+' '+(by*.6).toFixed(1));$('#camf').style.filter='url(#mbf)'}else{$('#cam').style.filter='none';$('#camf').style.filter='none'}
+  $$('.era').forEach(e=>op(e,(.3-c.z)/.12));$('#leak').style.transform=`translate(${(500+420*Math.sin(t*.13)).toFixed(1)}px,${(-500+260*Math.cos(t*.1)).toFixed(1)}px)`;
+  $('#grain').style.backgroundImage=`url(${GRAIN[Math.floor(FRAME/2)%GRAIN.length]})`;
+  SCN(t);CHAP(t);TICK(t);SUB(t);MASC(t);CTA(t);
+  op($('#subbg'),t<END-CTA_D?1:0)}
+
+// ---------- SFX event list (exported for the audio mix)
+function SFXLIST(){const E=[],e=(k,t,x)=>E.push([k,+t.toFixed(3),x||0]);
+  e('hit',.1);[FW('intro',1,'intelligence'),FW('intro',1,'guinea'),FW('intro',1,'economists'),FW('intro',1,'teacher')].forEach((t,i)=>e('pop',t-.1,i));
+  for(const s in CH)e('boom',prevEnd(s)+.15);
+  e('paper',LN('s1',0)-.5);e('pop',LN('s1',0)+.6);SUBJ.forEach((x,i)=>e('tap',FW('s1',0,'well')+i*.18,i));e('pop',FW('s1',1,'hidden')-.1,2);
+  [0,1,2,3,4].forEach(i=>e('tick',FW('s1',1,'behind')+i*.12,i));e('pop',FW('s1',2,'measuring'),1);e('stamp',FW('s1',2,'factor'));
+  e('pop',LN('s2',0)-.5);e('paper',FW('s2',0,'guinea')-.2);e('pop',LN('s2',1)-.3);['heredity','environment'].forEach((w,i)=>e('pop',FW('s2',1,w),i+1));e('pop',FW('s2',1,'environment')+.3,3);
+  e('tick',FW('s2',1,'arrows'));e('tick',FW('s2',1,'arrows')+.25,1);e('type',FW('s2',1,'equations')-.1,1.2);e('paper',FW('s2',2,'published')-.1);e('stamp',FW('s2',2,'Path')-.05);
+  e('pop',LN('s3',0)+.1);e('type',FW('s3',0,'systems')-.3,2.4);e('pop',FW('s3',0,'together')-.1,2);e('pop',LN('s3',1)+.3);[0,1,2].forEach(i=>e('pop',FW('s3',1,'brought')+i*.25,i));
+  ['Factors','paths','equations'].forEach((w,i)=>e('swoosh',FW('s3',2,w)-.1,i));e('click',FW('s3',2,'together')+.05);
+  e('pop',LN('s4',0)-.4);e('pop',FW('s4',0,'combined')-.1,1);e('pop',FW('s4',0,'factor'),2);e('pop',FW('s4',0,'path'),3);e('pop',FW('s4',0,'program')-.4);e('type',FW('s4',0,'LISREL'),2.6);
+  e('pop',LN('s4',1)-.1,1);e('pop',FW('s4',1,'does')-.1,3);e('pop',FW('s4',2,'Herman')-.2,1);e('swish',FW('s4',2,'advisor')-.1);e('road',FW('s4',2,'road')-.2);
+  e('pop',LN('s4',3)-.1);e('stamp',FW('s4',3,'Today')+.5);
+  e('swoosh',LN('s5',1)-.3);e('swoosh',LN('s5',2)-.3,1);e('pop',FW('s5',3,'Choose')-.15,2);e('ding',FW('s5',3,'goal'),2);e('swish',FW('s5',3,'sample')+.2);
+  e('swoosh',LN('s6',0)-.2);SWT.forEach((t,i)=>{e('pop',t-.15,i%4);e('ding',t+.05,i)});e('blips',FW('s6',3,'reach'));
+  e('rise',LN('outro',0)-.1);e('swoosh',FW('outro',0,'screen')-.6,2);[0,1,2].forEach(i=>e('pop',FW('outro',0,'screen')+.1+i*.15,i));
+  const a=END-CTA_D;e('swoosh',a);[0,1,2].forEach(i=>e('pop',a+.5+i*.18,i));e('hit',a+1.0);return E}
+window.SFXLIST=SFXLIST;window.cam=cam;
+window.render=render;window.END=END;window.WORDSX=WORDS;
+if(!location.search.includes('render')){const st=$('#stage');const fit=()=>{const k=Math.min(innerWidth/1920,innerHeight/1080);st.style.transform=`scale(${k})`};fit();addEventListener('resize',fit);
+  const t0=performance.now();const loop=()=>{render(((performance.now()-t0)/1000)%END,Math.floor((performance.now()-t0)/33));requestAnimationFrame(loop)};loop()}else render(0,0);
+</script></body></html>
