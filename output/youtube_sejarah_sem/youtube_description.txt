@@ -1,8 +1,10 @@
-The History of SEM: From Spearman's g to SmartPLS | Sub Indo
+Sejarah SEM: Dari Marmut Sampai SmartPLS (Sub Indo)
 
-How did structural equation modeling begin? This 3-minute story goes from Spearman's hidden factor (1904) and Sewall Wright's guinea pigs (1921) to Haavelmo, Duncan, Karl Jöreskog's LISREL and Herman Wold's soft modeling, the two types of SEM (CB-SEM vs PLS-SEM), and the software that made SEM part of almost every thesis.
+Pernah penasaran dari mana asal SEM, kenapa ada dua jenis (CB-SEM dan PLS-SEM), dan siapa yang membuat software yang kamu pakai untuk skripsi? Video 3 menit ini menceritakannya: dari faktor "g" Spearman (1904) dan marmut Sewall Wright (1921), Haavelmo dan Duncan, Karl Jöreskog dengan LISREL, Herman Wold dengan soft modeling, sampai SmartPLS 4 (2022).
 
-🇮🇩 Bagaimana SEM lahir? Kisah 3 menit dari faktor "g" Spearman (1904), marmut Sewall Wright (1921), sampai Jöreskog (LISREL) dan Wold (PLS). Plus dua jenis SEM (CB-SEM vs PLS-SEM) dan software-nya: LISREL, EQS, LVPLS, Amos, PLS-Graph, Mplus, SmartPLS, WarpPLS, lavaan. Subtitle Indonesia sudah ada di video (kinetic) dan bisa juga diaktifkan lewat CC.
+🇮🇩 Narasi berbahasa Inggris, dengan subtitle kinetic Bahasa Indonesia di dalam video (dan file CC bila tersedia).
+
+🇬🇧 How did structural equation modeling begin? This 3-minute story goes from Spearman's hidden factor (1904) and Sewall Wright's guinea pigs (1921) to Haavelmo, Duncan, Jöreskog's LISREL and Wold's soft modeling, the two types of SEM (CB-SEM vs PLS-SEM), and the software behind almost every thesis, from LISREL to SmartPLS 4.
 
 ⏱ CHAPTERS
 0:00 Intro
@@ -14,18 +16,32 @@ How did structural equation modeling begin? This 3-minute story goes from Spearm
 2:18 The software: LISREL to SmartPLS 4
 2:58 From Spearman's g to your model
 
+✅ RINGKASAN / QUICK SUMMARY
+• 1904 Spearman: analisis faktor (mengukur yang tak terlihat lewat yang terlihat)
+• 1921 Wright: analisis jalur (panah antarvariabel menjadi persamaan)
+• 1940-an–60-an Haavelmo & Duncan: sistem persamaan dan analisis jalur di ilmu sosial
+• 1970-an Jöreskog: CB-SEM dan LISREL; Wold: PLS-SEM (soft modeling)
+• CB-SEM → menguji kecocokan teori; PLS-SEM → menjelaskan dan memprediksi
+• Software: LISREL, LVPLS, EQS, Amos, PLS-Graph, Mplus, SmartPLS, WarpPLS, lavaan, SmartPLS 4
+
 📚 REFERENCES
 Spearman, C. (1904). "General intelligence," objectively determined and measured. American Journal of Psychology, 15(2), 201-292.
-Wright, S. (1921). Correlation and causation. Journal of Agricultural Research, 20, 557-585.
+Wright, S. (1921). Correlation and causation. Journal of Agricultural Research, 20(7), 557-585.
 Haavelmo, T. (1943). The statistical implications of a system of simultaneous equations. Econometrica, 11(1), 1-12.
 Duncan, O. D. (1966). Path analysis: Sociological examples. American Journal of Sociology, 72(1), 1-16.
-Jöreskog, K. G. (1973). A general method for estimating a linear structural equation system. In A. S. Goldberger & O. D. Duncan (Eds.), Structural Equation Models in the Social Sciences.
-Wold, H. (1982). Soft modeling: The basic design and some extensions. In K. G. Jöreskog & H. Wold (Eds.), Systems Under Indirect Observation, Part II.
+Jöreskog, K. G. (1973). A general method for estimating a linear structural equation system. In A. S. Goldberger & O. D. Duncan (Eds.), Structural Equation Models in the Social Sciences. Seminar Press.
+Wold, H. (1982). Soft modeling: The basic design and some extensions. In K. G. Jöreskog & H. Wold (Eds.), Systems Under Indirect Observation, Part II. North-Holland.
 Hair, J. F., Hult, G. T. M., Ringle, C. M., & Sarstedt, M. (2022). A Primer on Partial Least Squares Structural Equation Modeling (PLS-SEM) (3rd ed.). SAGE.
 
-Release years are rounded to the decade where the first version is not precisely dated. Numbers shown in the LISREL output and the model on screen are illustrations. The narration uses an AI-generated voice.
+Tahun rilis software ditulis per dekade bila versi pertamanya tidak punya tanggal pasti. Angka pada output LISREL dan model di layar hanyalah ilustrasi. Video ini bersifat edukasi independen. Narasi menggunakan suara AI.
 
-🔔 Subscribe to NotYourLecture for more research stories that actually make sense.
-TikTok: @researchq.id · Instagram: @researchq.id
+🔔 Subscribe NotYourLecture untuk kisah riset lainnya yang benar-benar masuk akal.
+Follow us:
+TikTok: @researchq.id
+Instagram: @researchq.id
 
-#SEM #PLSSEM #SmartPLS #ResearchMethods #Statistics #Skripsi #Tesis #SejarahStatistik
+#SEM #PLSSEM #SmartPLS #SejarahStatistik #Skripsi #Tesis #ResearchMethods #Statistics
+
+──────────────────────────
+TAGS (isi di YouTube Studio → Show more → Tags, pisahkan dengan koma; jangan ditempel ke deskripsi)
+sejarah SEM, history of SEM, structural equation modeling, SEM PLS, PLS-SEM, CB-SEM, covariance based SEM, SmartPLS, LISREL, Amos, Mplus, lavaan, WarpPLS, Spearman, Sewall Wright, path analysis, analisis jalur, analisis faktor, Karl Jöreskog, Herman Wold, skripsi SEM, statistik skripsi, research methods, metodologi penelitian, olah data SmartPLS
