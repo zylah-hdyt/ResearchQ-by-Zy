@@ -8,6 +8,6 @@ h=h.replace('{{MASCOT}}',json.dumps({n:'data:image/png;base64,'+b(f'{L}/b_{n}.pn
 h=h.replace('{{MOUTHINFO}}',open(f'{L}/mouth.json').read()).replace('{{LIP}}',open(f'{P}/lip/lip.json').read())
 W=[]
 for f in sorted(glob.glob(f'{P}/words_*_*.json'),key=lambda f:int(f.split('_')[-2])): W+=json.load(open(f))
-h=h.replace('{{EXCERPTS}}',open(f'{P}/pdf/excerpts.json').read()).replace('{{IMG}}',json.dumps({k:'data:image/png;base64,'+b(f'{P}/pdf/ex_{k}.png') for k in ['title','def','table']}))
+h=h.replace('{{EXCERPTS}}',open(f'{P}/pdf/excerpts.json').read()).replace('{{IMG}}',json.dumps({k:'data:image/png;base64,'+b(f'{P}/pdf/ex_{k}.png') for k in ['title','def','table']}|{k:'data:image/jpeg;base64,'+b(f'{P}/pdf/{k}.jpg') for k in ['pg1','pg3']}))
 h=h.replace('{{WORDS}}',json.dumps(W,ensure_ascii=False))
 open(f'{P}/video.html','w').write(h); print('built',len(h)//1024,'KB, sentences',len(W))
