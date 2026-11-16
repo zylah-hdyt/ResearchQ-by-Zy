@@ -107,7 +107,7 @@ const SUBS: {a: number; b: number; t: string}[] = [
 	{a: 1.36, b: 3.15, t: 'padahal kamu merasa belum banyak menggunakannya?'},
 	{a: 3.22, b: 5.58, t: 'Sebenarnya ada dua batas penggunaan\nyang perlu kamu pahami.'},
 	{a: 5.64, b: 6.92, t: 'Pertama, current session,'},
-	{a: 6.94, b: 8.66, t: 'yaitu batas penggunaan setiap periode 5 jam.'},
+	{a: 6.94, b: 8.66, t: 'yaitu batas penggunaan\nsetiap periode 5\u00a0jam.'},
 	{a: 8.68, b: 9.88, t: 'Setelah periode itu selesai,'},
 	{a: 9.92, b: 11.34, t: 'limit akan di-reset otomatis.'},
 	{a: 11.4, b: 12.42, t: 'Kedua, weekly limit,'},

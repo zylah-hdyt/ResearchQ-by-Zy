@@ -1,5 +1,3 @@
 node_modules
 .remotion
-out/bundle
-out/stills
-out/*.log
+out/
