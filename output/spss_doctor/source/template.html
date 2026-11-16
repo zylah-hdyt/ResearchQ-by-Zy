@@ -25,6 +25,16 @@ path.dp{fill:none;stroke-linecap:round;stroke-linejoin:round}
 #mas{position:absolute;left:0;top:0;width:1080px;height:1920px;pointer-events:none}
 #mas .pz{position:absolute;display:none}#mas .mo{position:absolute;background-size:100% 100%}
 #masglow{position:absolute;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(61,139,255,.28),rgba(61,139,255,0) 65%);pointer-events:none}
+.cw{position:absolute;border-radius:26px;background:#FAF9F5;color:#1F1E1D;box-shadow:0 40px 80px -30px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.08);overflow:hidden;font-family:Inter}
+.cw .hd{height:64px;border-bottom:1px solid #E6E3DA;display:flex;align-items:center;gap:12px;padding:0 26px;font-weight:700;font-size:26px}
+.cw .hd i{width:12px;height:12px;border-radius:50%;background:#D97757}
+.cw .hd span{font-weight:500;color:#8A877F;font-size:21px}
+.cw .ub{position:absolute;right:24px;max-width:78%;padding:16px 22px;border-radius:22px;background:#EFEDE6;font-size:26px;line-height:1.35;color:#1F1E1D}
+.cw .att{display:flex;align-items:center;gap:14px;padding:12px 16px;border-radius:14px;background:#fff;border:1px solid #E2DED3;font-size:23px;font-weight:600;margin-bottom:10px}
+.cw .att b{width:44px;height:52px;border-radius:8px;display:flex;align-items:flex-end;justify-content:center;font-size:13px;font-weight:800;color:#fff;padding-bottom:5px}
+.cw .rp{position:absolute;left:26px;right:26px;font-size:27px;line-height:1.45;color:#1F1E1D;white-space:pre-wrap}
+.cw .in{position:absolute;left:20px;right:20px;bottom:18px;height:66px;border-radius:18px;border:1px solid #E2DED3;background:#fff;display:flex;align-items:center;gap:12px;padding:0 18px;font-size:22px;color:#A29E94}
+.cw .sk{padding:6px 14px;border-radius:12px;background:#F3E3D9;color:#B4532E;font-weight:700;font-size:20px}
 #wm{position:absolute;left:60px;top:1846px;font-family:PJS;font-weight:800;font-size:30px;letter-spacing:-.02em;color:rgba(244,247,255,.7)}
 #wm i{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--or);margin-left:3px}
 .cell{position:absolute;border:1px solid rgba(92,200,255,.25);font-family:Inter;font-weight:600;font-size:20px;color:#DCE7FF;display:flex;align-items:center;padding-left:10px;overflow:hidden;white-space:nowrap}
@@ -96,13 +106,13 @@ add(`<div class="card" id="a_panel" style="left:70px;top:380px;width:940px;heigh
  <div class="chip" id="a_rq" style="left:375px;top:318px;background:rgba(255,159,67,.18);border:1.5px solid rgba(255,159,67,.6);color:#FFC48A">ResearchQ Skill</div>`);
 // diagnosis: three cards
 add(`<div class="kin" id="d_t" style="left:0;width:1080px;top:190px;font-size:64px;color:#fff">Diagnosis <span style="color:#5CC8FF">Output SPSS</span></div>
- <div class="card" id="d_n" style="left:50px;top:300px;width:470px;height:360px;padding:22px"><div class="lab">1 · Normality test</div><div class="ab" style="left:20px;top:70px;width:430px;height:270px">${histSVG('dn',430,270)}</div></div>
- <div class="card" id="d_r" style="left:560px;top:300px;width:470px;height:360px;padding:22px"><div class="lab">2 · Reliability</div>
+ <div class="card" id="d_n" style="zoom:.68;left:44px;top:740px;width:470px;height:360px;padding:22px"><div class="lab">1 · Normality test</div><div class="ab" style="left:20px;top:70px;width:430px;height:270px">${histSVG('dn',430,270)}</div></div>
+ <div class="card" id="d_r" style="zoom:.68;left:559px;top:740px;width:470px;height:360px;padding:22px"><div class="lab">2 · Reliability</div>
   <div class="ab" style="left:22px;top:74px;width:426px">${[["Item","Cronbach's α if deleted"],["Item 1","· · ·"],["Item 2","· · ·"],["Item 3","· · ·"],["Item 4","· · ·"]].map((r,i)=>`<div class="d_row" style="display:flex;justify-content:space-between;padding:12px 14px;border-radius:10px;margin-bottom:6px;font-weight:${i?600:700};font-size:${i?24:20}px;color:${i?'#DCE7FF':'#5CC8FF'};background:${i?'rgba(244,247,255,.05)':'transparent'}"><span>${r[0]}</span><span>${r[1]}</span></div>`).join('')}</div>
   <div class="ab" style="right:22px;bottom:14px;font-size:16px;color:#7F92B8">ilustrasi</div></div>
- <div class="card" id="d_g" style="left:305px;top:700px;width:470px;height:360px;padding:22px"><div class="lab">3 · Regression</div>
+ <div class="card" id="d_g" style="zoom:.68;left:1074px;top:740px;width:470px;height:360px;padding:22px"><div class="lab">3 · Regression</div>
   <svg class="ov" width="470" height="360">${Array.from({length:22},(_,i)=>{const x=40+hsh(i+3)*390,y=320-((x-40)/390)*190-hsh(i+9)*70;return `<circle class="d_pt" cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="7" fill="rgba(160,190,255,.75)"/>`}).join('')}<path class="dp" id="d_rl" d="M40 300 L430 110" stroke="#FFD166" stroke-width="6"/></svg></div>
- <div class="chip" id="d_more" style="left:360px;top:1075px;background:rgba(92,200,255,.14);border:1.5px solid rgba(92,200,255,.5);color:#BFE8FF">+ analisis lainnya</div>`);
+ <div class="chip" id="d_more" style="left:360px;top:790px;background:rgba(92,200,255,.14);border:1.5px solid rgba(92,200,255,.5);color:#BFE8FF">+ analisis lainnya</div>`);
 // step-by-step report
 add(`<div class="kin" id="s_t" style="left:0;width:1080px;top:190px;font-size:64px;color:#fff">Solusi <span style="color:#FFD166">Step-by-Step</span></div>
  ${[['Gejala','Masalah pada output','#FF9F43'],['Kemungkinan penyebab','Dijelaskan dengan bahasa sederhana','#5CC8FF'],['Rekomendasi solusi','Langkah perbaikan, satu per satu','#7CE0A0']].map(([a,b,c],i)=>`<div class="card s_c" style="left:110px;top:${330+i*240}px;width:860px;height:190px;padding:30px 36px 30px 130px"><div class="ab" style="left:34px;top:52px;width:72px;height:72px;border-radius:50%;background:${c};color:#0B1630;font-family:PJS;font-weight:800;font-size:40px;display:flex;align-items:center;justify-content:center">${i+1}</div><div style="font-family:PJS;font-weight:800;font-size:46px;color:#fff">${a}</div><div style="font-weight:600;font-size:28px;color:#A9BCE0;margin-top:10px">${b}</div></div>`).join('')}
@@ -127,6 +137,50 @@ add(`<div class="kin" id="c_n" style="left:0;width:1080px;top:300px;font-size:11
  <div class="ab" id="c_two" style="left:90px;top:580px;width:900px;display:flex;gap:24px">${[['Membaca output','#5CC8FF'],['Persiapan data','#FFD166']].map(([a,c])=>`<div class="card" style="position:relative;flex:1;height:200px;padding:0;display:flex;align-items:center;justify-content:center;font-family:PJS;font-weight:800;font-size:44px;color:${c}">${a}</div>`).join('')}</div>
  <div class="card" id="c_lic" style="left:120px;top:560px;width:840px;height:360px;padding:34px;text-align:center;border-color:rgba(255,209,102,.5)"><div class="lab" style="color:#FFD166">Software</div><div style="font-family:PJS;font-weight:800;font-size:92px;margin-top:40px">Lisensi <span style="color:#FFD166">SPSS 32</span></div></div>
  <div class="card" id="c_cta" style="left:90px;top:470px;width:900px;height:420px;padding:40px;text-align:center;background:rgba(18,36,74,.9);border-color:rgba(92,200,255,.6)"><div style="font-family:PJS;font-weight:800;font-size:70px;line-height:1.15;margin-top:20px">Skill &amp; Lisensi SPSS</div><div style="display:inline-block;margin-top:46px;padding:16px 40px;border-radius:50px;background:#3D8BFF;font-family:PJS;font-weight:800;font-size:52px">Link di Bio ↗</div></div>`);
+
+const ATT=(ext,col,name)=>`<div class="att"><b style="background:${col}">${ext}</b>${name}</div>`;
+add(`<div class="ab" id="m_md" style="left:200px;top:330px;width:680px;height:620px;border-radius:24px;background:#FBFAF6;box-shadow:0 40px 80px -30px rgba(0,0,0,.8);overflow:hidden;color:#1F1E1D">
+  <div style="height:70px;background:#EFEDE6;display:flex;align-items:center;gap:14px;padding:0 28px;font-family:Inter;font-weight:700;font-size:26px"><span style="color:#8A877F;font-weight:600">spss-doctor /</span> SKILL.md</div>
+  <div style="padding:26px 34px;font-family:ui-monospace,Menlo,monospace;font-size:26px;line-height:1.6;color:#3A3833;white-space:pre"><span style="color:#B4532E">---</span>
+<span style="color:#2F6FD6">name</span>: spss-doctor
+<span style="color:#2F6FD6">description</span>: bantu mendiagnosis
+  output SPSS & menyiapkan
+  file .sav dari Excel/CSV
+<span style="color:#B4532E">---</span>
+<span style="color:#8A877F"># SPSS Doctor</span>
+<span style="color:#8A877F">ilustrasi</span></div>
+  <div class="ab" style="right:26px;top:16px;width:96px;height:40px;border-radius:10px;background:#B4532E;color:#fff;font-family:Inter;font-weight:800;font-size:22px;display:flex;align-items:center;justify-content:center">.md</div></div>
+ <div class="cw" id="cw1" style="left:70px;top:330px;width:940px;height:700px"><div class="hd"><i></i>Claude <span>· chat</span></div>
+  <div class="ub" id="cw1_u" style="top:90px">${ATT('.MD','#B4532E','SKILL.md · spss-doctor')}Pakai skill SPSS Doctor ya</div>
+  <div class="rp" id="cw1_r" style="top:300px"></div>
+  <div class="in"><span class="sk">/ spss-doctor</span>Reply to Claude…</div></div>
+ <div class="cw" id="cw2" style="left:50px;top:180px;width:980px;height:270px"><div class="hd"><i></i>Claude <span>· skill: spss-doctor</span></div>
+  <div class="ub" style="top:84px">${ATT('PDF','#E5463A','output_spss.pdf')}Tolong cek normalitas, reliabilitas &amp; regresi</div></div>
+ <div class="ab" id="d_lab" style="left:50px;top:470px;font-family:Inter;font-weight:700;font-size:22px;letter-spacing:.14em;color:#5CC8FF">HASIL DIAGNOSIS · ILUSTRASI</div>
+ <div class="chip" id="s_lab" style="left:110px;top:270px;background:#FAF9F5;color:#1F1E1D;font-size:24px;display:flex;gap:10px;align-items:center"><i style="width:12px;height:12px;border-radius:50%;background:#D97757;display:inline-block"></i>Balasan Claude</div>
+ <div class="cw" id="cw3" style="left:50px;top:300px;width:980px;height:330px"><div class="hd"><i></i>Claude <span>· skill: spss-doctor</span></div>
+  <div class="ub" style="top:84px">${ATT('XLSX','#2E9E5B','data_penelitian.xlsx')}Buatkan file .sav lengkap dengan label ya</div></div>
+ <div class="cw" id="cw4" style="left:60px;top:330px;width:960px;height:560px"><div class="hd"><i></i>Claude <span>· skill: spss-doctor</span></div>
+  <div class="rp" style="top:96px">File SPSS kamu sudah siap.</div>
+  <div class="ab" style="left:26px;top:170px;width:908px">${ATT('.SAV','#3D8BFF','data_penelitian.sav')}</div>
+  <div class="rp" style="top:260px;color:#55524B;font-size:24px">Variable labels &amp; value labels sudah diisi.
+Periksa kembali sebelum dianalisis.</div>
+  <div class="ab" style="left:26px;bottom:30px;display:flex;gap:14px;align-items:center;font-family:PJS;font-weight:800;font-size:36px;color:#1F1E1D"><span style="width:50px;height:50px;border-radius:50%;background:#2E9E5B;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:30px">✓</span>Siap dibuka di SPSS</div></div>`);
+function typeTo(el,t,a,txt,cps=34){const n=Math.floor(cl((t-a)*cps,0,txt.length));el.textContent=txt.slice(0,n)+(t>=a&&n<txt.length?'▍':'')}
+function SCN2(t){
+  // intro: SKILL.md appears, then goes into the Claude chat as an attached skill
+  const nm=FW(1,'namanya'),sk=FW(1,'skill'),it=W1.intro;op($('#a_panel'),0);
+  const md=$('#m_md');pop(md,t,nm-.05,{dy:80,s0:.85,d:.5});const fly=io3(P(t,sk-.15,sk+.45));if(t>=sk-.15){md.style.transform=`translate(${(fly*-120).toFixed(1)}px,${(fly*-140).toFixed(1)}px) scale(${(1-fly*.72).toFixed(3)})`;op(md,1-P(t,sk+.3,sk+.5))}
+  const c1=$('#cw1');pop(c1,t,sk+.1,{dy:90,s0:.92,b:it[1]-.3});op($('#cw1_u'),P(t,sk+.35,sk+.6));
+  typeTo($('#cw1_r'),t,SS(2)-.35,'Dengan skill SPSS Doctor, saya bisa bantu:\n1. Diagnosis output SPSS\n2. Solusi step-by-step\n3. Excel / CSV → file .sav',62);
+  $('#a_name').style.top='170px';$('#a_rq').style.top='278px';
+  // diagnosis: upload in Claude, cards below (smaller, one row)
+  op($('#d_t'),0);const da=W1.diag[0];pop($('#cw2'),t,da,{dy:-40,s0:.95,b:W1.diag[1]-.3});pop($('#d_lab'),t,FW(3,'normalitas')-.4,{dy:10,b:W1.diag[1]-.3});
+  // steps: framed as Claude's reply
+  pop($('#s_lab'),t,W1.steps[0]+.1,{dy:10,b:W1.steps[1]-.3});
+  // excel: request in Claude first, then sheet -> .sav, then Claude's reply with the file
+  const x0=W1.xls[0],csv=FW(5,'csv');pop($('#cw3'),t,x0,{dy:-40,s0:.95,b:csv-.25});op($('#x_t'),P(t,csv-.2,csv+.2)*(t<W1.xls[1]-.25?1:0));
+  op($('#x_ok'),0);pop($('#cw4'),t,FW(6,'buka')-.2,{dy:70,s0:.92,b:W1.xls[1]-.3})}
 
 // ---------- scene windows from the VO (sentence indices)
 const W1={hook:[0,SS(1)-.1],save:[SS(1)-.1,FW(1,'namanya')-.1],intro:[FW(1,'namanya')-.1,SS(3)-.05],diag:[SS(3)-.05,SS(4)-.05],steps:[SS(4)-.05,SS(5)-.05],xls:[SS(5)-.05,SS(7)-.05],close:[SS(7)-.05,SS(9)-.05],lic:[SS(9)-.05,FW(10,'cek')-.15],cta:[FW(10,'cek')-.15,END+1]};
@@ -153,7 +207,7 @@ function SCN(t){
   const sa=W1.steps[0];pop($('#s_t'),t,sa,{dy:20,b:out('steps')});const sc=[FW(4,'penjelasan'),FW(4,'penyebab'),FW(4,'solusi')];$$('.s_c').forEach((c,i)=>pop(c,t,sc[i]-.2,{dx:-90,dy:0,s0:.95,b:out('steps')}));draw($('#s_l1'),t,sc[1]-.2,.3);draw($('#s_l2'),t,sc[2]-.2,.3);op($('#s_l1'),t<out('steps')?1:0);op($('#s_l2'),t<out('steps')?1:0);
   // excel -> sav
   const xa=W1.xls[0],xc=FW(5,'dibuatkan'),xv=FW(5,'lengkap'),xo=FW(6,'buka');pop($('#x_t'),t,xa,{dy:20,b:out('xls')});
-  const sh2=$('#x_sh');pop(sh2,t,FW(5,'excel')-.2,{dy:60,s0:.94});const shrink=io3(P(t,xc-.1,xc+.6));if(t>=FW(5,'excel')-.2){sh2.style.transform=`translate(${(shrink*0).toFixed(1)}px,${(shrink*120).toFixed(1)}px) scale(${(1-shrink*.78).toFixed(3)})`;op(sh2,(1-P(t,xc+.45,xc+.65))*(t<out('xls')?1:0))}
+  const sh2=$('#x_sh');pop(sh2,t,FW(5,'csv')-.2,{dy:60,s0:.94});const shrink=io3(P(t,xc-.1,xc+.6));if(t>=FW(5,'csv')-.2){sh2.style.transform=`translate(${(shrink*0).toFixed(1)}px,${(shrink*120).toFixed(1)}px) scale(${(1-shrink*.78).toFixed(3)})`;op(sh2,(1-P(t,xc+.45,xc+.65))*(t<out('xls')?1:0))}
   $$('.x_c').forEach(c=>{const k=+c.dataset.k;op(c,P(t,FW(5,'upload')+k*.02,FW(5,'upload')+.15+k*.02))});
   const fl=$('#x_file');pop(fl,t,xc+.45,{dy:0,s0:.4,b:xv-.35});
   pop($('#x_vv'),t,xv-.25,{dy:60,s0:.94,b:xo-.2});$$('.x_r').forEach((r,i)=>op(r,P(t,xv-.05+i*.12,xv+.15+i*.12)));
@@ -192,17 +246,17 @@ function MASC(t){let pose=PT[0][1],t0=-1;for(const [a,p] of PT)if(t>=a){pose=p;t
   const g=$('#masglow');g.style.left=(f.x-450).toFixed(0)+'px';g.style.top=(f.y-560).toFixed(0)+'px';return f}
 
 initPaths();
-function render(t){const f=MASC(t);BG(t,(f.x-700)/300);SCN(t);SUB(t)}
+function render(t){const f=MASC(t);BG(t,(f.x-700)/300);SCN(t);SCN2(t);SUB(t)}
 window.render=render;window.END=END;
 // SFX cue list for the mix
 window.SFXLIST=()=>{const E=[],e=(k,t)=>E.push([k,+t.toFixed(3)]);
-  e('whoosh',.05);[.3,.5,.7].forEach(x=>e('tick',x));e('tick',FW(0,'excel')-.15);
-  e('whoosh',W1.save[0]);e('pop',FW(1,'save')-.1);e('tick',FW(1,'follow')-.1);
-  e('whoosh',W1.intro[0]);e('tick',FW(1,'skill')+.1);
-  e('whoosh',W1.diag[0]);['normalitas','reliabilitas','regresi'].forEach(w=>e('tick',FW(3,w)-.3));e('tick',FW(3,'analisis')-.1);
-  e('whoosh',W1.steps[0]);['penjelasan','penyebab','solusi'].forEach(w=>e('tick',FW(4,w)-.2));
-  e('whoosh',W1.xls[0]);e('morph',FW(5,'dibuatkan')-.1);e('tick',FW(5,'variable')-.1);e('tick',FW(5,'value')-.1);e('confirm',FW(6,'buka')-.15);
-  e('riser',W1.close[0]-.9);e('whoosh',W1.close[0]);e('tick',FW(9,'lisensi')-.2);e('whoosh',W1.cta[0]);e('confirm',W1.cta[0]+.3);return E};
+  e('swoosh',.02);e('pop',.3);e('pop',.5);e('pop',.7);e('blips',1.0);e('morph',FW(0,'file')-.2);e('ding',FW(0,'excel')-.15);
+  e('swoosh',W1.save[0]);e('popbig',FW(1,'save')-.1);e('click',FW(1,'follow')-.1);
+  e('swoosh',W1.intro[0]);e('paper',FW(1,'namanya')-.05);e('fly',FW(1,'skill')-.15);e('send',FW(1,'skill')+.35);e('typing',SS(2)-.05);
+  e('swoosh',W1.diag[0]);e('send',W1.diag[0]+.25);['normalitas','reliabilitas','regresi'].forEach((w,i)=>e('card'+i,FW(3,w)-.3));e('blips',FW(3,'normalitas')+.4);e('tap',FW(3,'analisis')-.1);
+  e('swoosh',W1.steps[0]);e('typing',W1.steps[0]+.2);['penjelasan','penyebab','solusi'].forEach((w,i)=>e('card'+i,FW(4,w)-.2));
+  e('swoosh',W1.xls[0]);e('send',W1.xls[0]+.25);e('pop',FW(5,'csv')-.2);e('morph',FW(5,'dibuatkan')-.1);e('click',FW(5,'variable')-.1);e('click',FW(5,'value')-.1);e('typing',FW(6,'buka')-.2);e('confirm',FW(6,'buka')+.1);
+  e('riser',W1.close[0]-.9);e('swoosh',W1.close[0]);e('pop',FW(7,'membaca')-.2);e('pop',FW(8,'skill')-.2);e('popbig',FW(9,'lisensi')-.2);e('swoosh',W1.cta[0]);e('hit',W1.cta[0]+.05);e('ding',W1.cta[0]+.5);return E};
 if(!location.search.includes('render')){const st=$('#stage');const fit=()=>{const k=Math.min(innerWidth/1080,innerHeight/1920);st.style.transform=`scale(${k})`;st.style.transformOrigin='0 0'};fit();addEventListener('resize',fit);
   const t0=performance.now();const loop=()=>{render(((performance.now()-t0)/1000)%END);requestAnimationFrame(loop)};loop()}else render(0);
 </script></body></html>
