@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><title>Parametrik vs Nonparametrik</title>
+<style>
+@font-face{font-family:'Inter';font-weight:500;src:url(data:font/woff2;base64,{{INTER500}}) format('woff2')}
+@font-face{font-family:'Inter';font-weight:600;src:url(data:font/woff2;base64,{{INTER600}}) format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;src:url(data:font/woff2;base64,{{INTER700}}) format('woff2')}
+@font-face{font-family:'PJS';font-weight:800;src:url(data:font/woff2;base64,{{PJS800}}) format('woff2')}
+:root{--nv:#0B1630;--nv2:#12244A;--bl:#3D8BFF;--cy:#5CC8FF;--or:#FF9F43;--yl:#FFD166;--wh:#F4F7FF;--mu:#9FB0D0}
+*{box-sizing:border-box}html,body{margin:0;background:#0B1630;overflow:hidden}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#0B1630;font-family:Inter,sans-serif;color:var(--wh)}
+.ab{position:absolute}
+#bg{position:absolute;inset:-80px}
+.blob{position:absolute;border-radius:50%;filter:blur(40px)}
+.card{position:absolute;border-radius:28px;background:rgba(18,36,74,.78);border:1.5px solid rgba(92,200,255,.28);box-shadow:0 30px 60px -24px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.06);backdrop-filter:blur(6px)}
+.lab{font-family:Inter;font-weight:700;font-size:20px;letter-spacing:.16em;text-transform:uppercase;color:var(--cy)}
+.kin{position:absolute;font-family:PJS;font-weight:800;letter-spacing:-.025em;white-space:nowrap;text-align:center}
+.chip{position:absolute;padding:12px 26px;border-radius:40px;font-family:Inter;font-weight:700;font-size:26px;white-space:nowrap}
+svg.ov{position:absolute;left:0;top:0;overflow:visible}
+path.dp{fill:none;stroke-linecap:round;stroke-linejoin:round}
+#sub{position:absolute;left:70px;top:1130px;width:940px;text-align:center;pointer-events:none}
+#sub .cue{position:absolute;left:0;top:0;width:940px;text-align:center;display:none}
+#sub .pill{display:inline-block;padding:12px 26px 16px;border-radius:22px;background:rgba(5,12,28,.66);box-shadow:0 14px 30px -12px rgba(0,0,0,.6)}
+#sub span{display:inline-block;margin:0 .12em;font-family:PJS;font-weight:800;font-size:46px;line-height:1.2;letter-spacing:-.015em;color:inherit;white-space:nowrap}
+#stage.light #sub .pill,#stage.cream #sub .pill{background:rgba(255,255,255,.88);color:#0B1630}#stage.light #sub span.k,#stage.cream #sub span.k{color:#D9822B}
+#stage.orange #sub .pill{background:rgba(11,22,48,.72)}#sub .pill{color:#fff}
+#sub span.k{color:var(--yl);font-size:52px}
+#mas{position:absolute;left:0;top:0;width:1080px;height:1920px;pointer-events:none}
+#mas .pz{position:absolute;display:none}#mas .mo{position:absolute;background-size:100% 100%}
+#masglow{position:absolute;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(61,139,255,.28),rgba(61,139,255,0) 65%);pointer-events:none}
+.cw{position:absolute;border-radius:26px;background:#FAF9F5;color:#1F1E1D;box-shadow:0 40px 80px -30px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.08);overflow:hidden;font-family:Inter}
+.cw .hd{height:64px;border-bottom:1px solid #E6E3DA;display:flex;align-items:center;gap:12px;padding:0 26px;font-weight:700;font-size:26px}
+.cw .hd i{width:12px;height:12px;border-radius:50%;background:#D97757}
+.cw .hd span{font-weight:500;color:#8A877F;font-size:21px}
+.cw .ub{position:absolute;right:24px;max-width:78%;padding:16px 22px;border-radius:22px;background:#EFEDE6;font-size:26px;line-height:1.35;color:#1F1E1D}
+.cw .att{display:flex;align-items:center;gap:14px;padding:12px 16px;border-radius:14px;background:#fff;border:1px solid #E2DED3;font-size:23px;font-weight:600;margin-bottom:10px}
+.cw .att b{width:44px;height:52px;border-radius:8px;display:flex;align-items:flex-end;justify-content:center;font-size:13px;font-weight:800;color:#fff;padding-bottom:5px}
+.cw .rp{position:absolute;left:26px;right:26px;font-size:27px;line-height:1.45;color:#1F1E1D;white-space:pre-wrap}
+.cw .in{position:absolute;left:20px;right:20px;bottom:18px;height:66px;border-radius:18px;border:1px solid #E2DED3;background:#fff;display:flex;align-items:center;gap:12px;padding:0 18px;font-size:22px;color:#A29E94}
+.cw .sk{padding:6px 14px;border-radius:12px;background:#F3E3D9;color:#B4532E;font-weight:700;font-size:20px}
+#thA,#thB{position:absolute;inset:0}
+#thdots{position:absolute;left:-60px;top:-60px;width:1200px;height:2040px;background-size:46px 46px}
+.burst{position:absolute;width:520px;height:520px;pointer-events:none}
+.bnum{position:absolute;left:0;width:1080px;text-align:center;font-family:PJS;font-weight:800;font-size:420px;line-height:1;letter-spacing:-.04em;background:linear-gradient(180deg,#0B1630 20%,rgba(11,22,48,.05) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+#stage.light .bnum,#stage.cream .bnum{background:linear-gradient(180deg,#0B1630 20%,rgba(11,22,48,.04) 95%);-webkit-background-clip:text;background-clip:text}
+#stage.dark .bnum,#stage.blue .bnum,#stage.orange .bnum{background:linear-gradient(180deg,#FFFFFF 20%,rgba(255,255,255,.04) 95%);-webkit-background-clip:text;background-clip:text}
+#stage.light .kin:not(.keep),#stage.cream .kin:not(.keep){color:#0B1630!important}
+#stage.light .kin:not(.keep) span,#stage.cream .kin:not(.keep) span{color:#2F6FD6!important}
+#stage.light .kin:not(.keep) span[style*="FFD166"],#stage.cream .kin:not(.keep) span[style*="FFD166"]{color:#D9822B!important}
+#stage.light .chip,#stage.cream .chip{background:#0B1630!important;color:#fff!important;border-color:#0B1630!important}
+#stage.orange .chip{background:#0B1630!important;color:#fff!important}
+#stage.light .card,#stage.cream .card{background:#0F1C3A;border-color:rgba(11,22,48,.2)}
+#wm{position:absolute;left:60px;top:1846px;font-family:PJS;font-weight:800;font-size:30px;letter-spacing:-.02em;color:rgba(244,247,255,.7)}
+#wm i{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--or);margin-left:3px}
+.cell{position:absolute;border:1px solid rgba(92,200,255,.25);font-family:Inter;font-weight:600;font-size:20px;color:#DCE7FF;display:flex;align-items:center;padding-left:10px;overflow:hidden;white-space:nowrap}
+</style></head><body><div id="stage">
+<svg width="0" height="0" style="position:absolute"><filter id="gl"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></svg>
+<div id="bg"></div><div id="thA"></div><div id="thB"></div><div id="thdots"></div><div id="bursts"></div>
+<div id="vis"></div>
+<div id="masglow"></div>
+<div id="mas"></div>
+<div id="sub"></div>
+<div id="wm">ResearchQ<i></i></div>
+</div>
+<script>
+const SENT={{WORDS}};const MAS={{MASCOT}};const MO={{MOUTHS}};const MI={{MOUTHINFO}};const LIP={{LIP}};
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const cl=(v,a=0,b=1)=>v<a?a:v>b?b:v,P=(t,a,b)=>cl((t-a)/(b-a)),L=(a,b,p)=>a+(b-a)*p;
+const o3=x=>1-Math.pow(1-x,3),io3=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,bk=(x,s=1.3)=>1+(s+1)*Math.pow(x-1,3)+s*Math.pow(x-1,2);
+const hsh=n=>{const x=Math.sin(n*127.1+311.7)*43758.5453;return x-Math.floor(x)};
+const N=SENT.length,END=SENT[N-1].e+1.4;
+// word lookup: FW(sentenceIndex, needle, occurrence)
+const FW=(k,nd,occ=0)=>{const ws=SENT[k].words;let c=0;for(const w of ws){if(w[0].toLowerCase().replace(/[^a-z0-9]/g,'').includes(nd.toLowerCase())){if(c===occ)return w[1];c++}}return SENT[k].s};
+const SS=k=>SENT[k].s,SE=k=>SENT[k].e;
+function op(el,v){el.style.opacity=cl(v).toFixed(3)}function sh(el,on){el.style.display=on?'block':'none';return on}
+function pop(el,t,a,{b=1e9,dx=0,dy=40,s0=.85,d=.55}={}){if(!el)return;const p=P(t,a,a+d),q=P(t,b,b+.35),e=p>0?bk(p):0;
+  el.style.opacity=(cl(p*2.5)*(1-q)).toFixed(3);el.style.transform=`translate(${((1-o3(p))*dx+q*0).toFixed(1)}px,${((1-o3(p))*dy-q*20).toFixed(1)}px) scale(${(s0+(1-s0)*e).toFixed(4)})`}
+function initPaths(){$$('path.dp').forEach(p=>{const l=p.getTotalLength();p.dataset.l=l;p.style.strokeDasharray=l;p.style.strokeDashoffset=l})}
+function draw(p,t,a,dur=.6){if(!p)return;const k=io3(P(t,a,a+dur));p.style.strokeDashoffset=(+p.dataset.l*(1-k)).toFixed(1);p.style.opacity=t<a?0:1}
+const V=$('#vis');const add=h=>V.insertAdjacentHTML('beforeend',h);
+
+// ---------- living background: slow gradient blobs, 3-depth particles, data nodes + links, translucent stat grid
+(function(){let h=`<div class="ab" style="inset:0;background:radial-gradient(ellipse at 50% 30%,#163065 0%,#0E1E44 45%,#081226 100%)"></div>
+ <div class="blob" id="b1" style="left:-120px;top:120px;width:760px;height:760px;background:rgba(61,139,255,.30)"></div>
+ <div class="blob" id="b2" style="left:520px;top:900px;width:700px;height:700px;background:rgba(92,200,255,.18)"></div>
+ <div class="blob" id="b3" style="left:600px;top:60px;width:420px;height:420px;background:rgba(255,159,67,.12)"></div>
+ <div class="ab" id="grid" style="left:-200px;top:-200px;width:1600px;height:2400px;background-image:linear-gradient(rgba(92,200,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(92,200,255,.06) 1px,transparent 1px);background-size:80px 80px"></div>
+ <svg class="ov" id="geo" width="1240" height="2080"><g fill="none" stroke="rgba(92,200,255,.12)" stroke-width="2"><circle id="g1" cx="900" cy="420" r="210"/><circle cx="900" cy="420" r="150"/><path id="g2" d="M120 1480 l160 -92 l160 92 l0 184 l-160 92 l-160 -92 z"/><path d="M80 300 Q 300 220 520 330 T 960 280" stroke="rgba(255,159,67,.14)"/></g></svg>
+ <svg class="ov" id="net" width="1240" height="2080"></svg>`;
+ for(let i=0;i<54;i++){const z=i%3;h+=`<i class="pt" data-i="${i}" data-z="${z}" style="position:absolute;width:${[3,5,8][z]}px;height:${[3,5,8][z]}px;border-radius:50%;background:${i%7===0?'rgba(255,209,102,.6)':'rgba(140,200,255,.55)'};filter:blur(${[0,.5,1.5][z]}px)"></i>`}
+ $('#bg').innerHTML=h;
+ const nodes=Array.from({length:12},(_,i)=>[120+hsh(i+1)*1000,200+hsh(i+21)*1500]);window.NODES=nodes;
+ $('#net').innerHTML=nodes.map((n,i)=>`<circle class="nd" cx="${n[0]}" cy="${n[1]}" r="4" fill="rgba(92,200,255,.6)"/>`).join('')+nodes.map((n,i)=>{const m=nodes[(i*5+3)%nodes.length];return `<line class="lk" data-i="${i}" x1="${n[0]}" y1="${n[1]}" x2="${m[0]}" y2="${m[1]}" stroke="rgba(92,200,255,.35)" stroke-width="1.5"/>`}).join('')})();
+function BG(t,par){$('#b1').style.transform=`translate(${(90*Math.sin(t*.13)).toFixed(1)}px,${(60*Math.cos(t*.11)).toFixed(1)}px)`;$('#b2').style.transform=`translate(${(-80*Math.sin(t*.1)).toFixed(1)}px,${(70*Math.sin(t*.09)).toFixed(1)}px)`;$('#b3').style.transform=`translate(${(50*Math.cos(t*.12)).toFixed(1)}px,${(40*Math.sin(t*.15)).toFixed(1)}px)`;
+  $('#grid').style.transform=`translate(${(-(t*6)%80+par*20).toFixed(1)}px,${(-(t*9)%80).toFixed(1)}px)`;$('#geo').style.transform=`translate(${(par*35).toFixed(1)}px,0) rotate(${(t*.4).toFixed(2)}deg)`;$('#geo').style.transformOrigin='900px 420px';
+  $$('#bg .pt').forEach(p=>{const i=+p.dataset.i,z=+p.dataset.z,sp=[8,16,28][z],x=(hsh(i)*1240+Math.sin(t*.3+i)*30+par*[10,25,45][z]),y=((hsh(i+50)*2080-t*sp)%2080+2080)%2080;p.style.left=x.toFixed(1)+'px';p.style.top=y.toFixed(1)+'px';p.style.opacity=(.35+.45*(.5+.5*Math.sin(t*.8+i))).toFixed(2)});
+  $$('#net .lk').forEach(l=>{const i=+l.dataset.i,ph=(t*.25+hsh(i)*6)%6;l.style.opacity=(ph<1.5?Math.sin(ph/1.5*Math.PI)*.8:0).toFixed(2)})}
+
+// ---------- visual elements
+const EX={{EXCERPTS}};const IMG={{IMG}};
+const curve=(id,w,h,skew,col)=>{const pts=[];for(let i=0;i<=60;i++){const x=i/60;let y=skew?Math.pow(x,1.2)*Math.exp(-x*7)*14:Math.exp(-Math.pow((x-.5)/.16,2)/2);pts.push(`${(20+x*(w-40)).toFixed(1)} ${(h-20-y*(h-50)).toFixed(1)}`)}
+  return `<svg class="ov" width="${w}" height="${h}"><path d="M20 ${h-20} L${w-20} ${h-20}" stroke="rgba(160,190,255,.35)" stroke-width="3"/><path class="dp" id="${id}" d="M${pts.join(' L')}" stroke="${col}" stroke-width="7"/></svg>`};
+const excerpt=(id,key,w,label)=>{const e=EX[key],k=w/e.size[0];return `<div class="ab" id="${id}" style="width:${w+40}px;padding:18px 20px 20px;border-radius:22px;background:#FBFAF6;box-shadow:0 40px 80px -30px rgba(0,0,0,.8)">
+  <div style="font-family:Inter;font-weight:700;font-size:18px;letter-spacing:.14em;color:#B4532E;margin-bottom:12px">${label}</div>
+  <div style="position:relative;width:${w}px;height:${(e.size[1]*k).toFixed(0)}px"><img src="${IMG[key]}" style="position:absolute;left:0;top:0;width:${w}px">
+  ${(e.hl||[]).map((r,ri)=>r?`<i class="hl1" style="position:absolute;left:${(r[0]*k).toFixed(1)}px;top:${(r[1]*k).toFixed(1)}px;width:${(r[2]*k).toFixed(1)}px;height:${(r[3]*k).toFixed(1)}px;background:${key==='table'&&ri===0?'rgba(92,200,255,.5)':'rgba(255,209,102,.55)'};mix-blend-mode:multiply;transform-origin:0 50%;transform:scaleX(0)"></i>`:'').join('')}
+  ${(e.hl2||[]).map(r=>`<i class="hl2" style="position:absolute;left:${(r[0]*k).toFixed(1)}px;top:${(r[1]*k).toFixed(1)}px;width:${(r[2]*k).toFixed(1)}px;height:${(r[3]*k).toFixed(1)}px;background:rgba(92,200,255,.45);mix-blend-mode:multiply;transform-origin:0 50%;transform:scaleX(0)"></i>`).join('')}</div></div>`};
+// hook
+add(`<div class="kin" id="h_t" style="left:0;width:1080px;top:190px;font-size:88px;line-height:1.05;color:#fff;white-space:normal">Parametrik<br><span style="color:#5CC8FF">vs</span> Nonparametrik</div>
+ <div class="card" id="h_p" style="left:60px;top:470px;width:460px;height:330px;padding:22px"><div class="lab">Distribusi normal</div><div class="ab" style="left:10px;top:60px;width:440px;height:250px">${curve('h_pc',440,250,false,'#5CC8FF')}</div></div>
+ <div class="card" id="h_n" style="left:560px;top:470px;width:460px;height:330px;padding:22px"><div class="lab" style="color:#FFD166">Tidak normal</div><div class="ab" style="left:10px;top:60px;width:440px;height:250px">${curve('h_nc',440,250,true,'#FFD166')}</div></div>
+ <div class="kin" id="h_q" style="left:0;width:1080px;top:850px;font-size:58px;color:#FFD166">Kapan dipakai?</div>`);
+// save & follow
+add(`<div class="ab" id="i_save" style="left:90px;top:500px;width:420px;text-align:center;zoom:1.45"><svg width="150" height="190" viewBox="0 0 150 190"><path d="M20 10 h110 a10 10 0 0 1 10 10 v160 l-65 -45 l-65 45 v-160 a10 10 0 0 1 10 -10z" fill="#FFD166"/></svg><div class="kin keep" style="position:relative;font-size:44px;color:#fff;margin-top:10px">Save</div></div>
+ <div class="ab" id="i_fol" style="left:330px;top:510px;width:420px;text-align:center;zoom:1.45"><svg width="170" height="170" viewBox="0 0 170 170"><circle cx="85" cy="85" r="80" fill="#3D8BFF"/><circle cx="70" cy="66" r="24" fill="#fff"/><path d="M30 128 q40 -50 80 0" fill="#fff"/><rect x="112" y="58" width="36" height="9" rx="4" fill="#fff"/><rect x="125" y="45" width="9" height="36" rx="4" fill="#fff"/></svg><div class="kin keep" style="position:relative;font-size:44px;color:#fff;margin-top:24px">Follow</div></div>`);
+// article: title + definition
+add(`${excerpt('a_ti','title',900,'ARTIKEL RUJUKAN')}
+ <div class="chip" id="a_ref" style="left:150px;top:640px;background:rgba(255,159,67,.18);border:1.5px solid rgba(255,159,67,.6);color:#FFC48A;font-size:24px">Hopkins, Dettori &amp; Chapman (2018) · Global Spine Journal 8(6)</div>
+ ${excerpt('a_df','def',820,'DEFINISI · HOPKINS ET AL. (2018)')}
+ <div class="chip" id="a_p" style="left:90px;top:840px;background:rgba(255,209,102,.18);border:1.5px solid rgba(255,209,102,.6);color:#FFE3A0;font-size:28px">Parametrik → asumsi distribusi (normal)</div>
+ <div class="chip" id="a_n" style="left:90px;top:920px;background:rgba(92,200,255,.16);border:1.5px solid rgba(92,200,255,.55);color:#BFE8FF;font-size:28px">Nonparametrik → tanpa asumsi bentuk distribusi</div>`);
+// correlation example
+add(`<div class="kin" id="k_t" style="left:0;width:1080px;top:190px;font-size:62px;color:#fff">Uji <span style="color:#5CC8FF">korelasi</span> · 2 variabel</div>
+ <div class="card" id="k_sc" style="left:290px;top:300px;width:500px;height:330px;padding:20px"><div class="lab">X ↔ Y · ilustrasi</div>
+  <svg class="ov" width="500" height="330">${Array.from({length:24},(_,i)=>{const x=50+((i*37)%24)/24*400,y=290-((x-50)/400)*190-((i*53)%7)*12;return `<circle class="k_pt" cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="8" fill="rgba(160,190,255,.8)"/>`}).join('')}</svg></div>
+ <div class="ab" id="k_fk" style="left:0;top:0;width:1080px;height:1100px">
+  <div class="chip" style="left:395px;top:670px;background:#12244A;border:1.5px solid rgba(160,190,255,.4);color:#fff;font-size:30px">Data normal?</div>
+  <svg class="ov"><path class="dp" id="k_l1" d="M540 730 C540 780 300 790 300 840" stroke="#5CC8FF" stroke-width="6"/><path class="dp" id="k_l2" d="M540 730 C540 780 780 790 780 840" stroke="#FFD166" stroke-width="6"/></svg>
+  <div class="card k_c" style="left:90px;top:850px;width:420px;height:170px;padding:24px;text-align:center"><div class="lab">✓ Ya · parametrik</div><div class="kin keep" style="position:relative;font-size:60px;color:#5CC8FF;margin-top:14px">Pearson</div></div>
+  <div class="card k_c" style="left:570px;top:850px;width:420px;height:170px;padding:24px;text-align:center"><div class="lab" style="color:#FFD166">✗ Tidak · nonparametrik</div><div class="kin keep" style="position:relative;font-size:60px;color:#FFD166;margin-top:14px">Spearman</div></div></div>`);
+// two independent groups: Table 2 from the article + fork
+add(`${excerpt('t_tb','table',800,'TABEL 2 (DIPOTONG) · HOPKINS ET AL. (2018)')}
+ <div class="ab" id="t_fk" style="left:0;top:0;width:1080px;height:1100px">
+  <div class="chip" style="left:300px;top:600px;background:#12244A;border:1.5px solid rgba(160,190,255,.4);color:#fff;font-size:30px">2 kelompok independen</div>
+  <svg class="ov"><path class="dp" id="t_l1" d="M540 660 C540 710 300 720 300 770" stroke="#5CC8FF" stroke-width="6"/><path class="dp" id="t_l2" d="M540 660 C540 710 780 720 780 770" stroke="#FFD166" stroke-width="6"/></svg>
+  <div class="card t_c" style="left:70px;top:780px;width:460px;height:200px;padding:24px;text-align:center"><div class="lab">Asumsi terpenuhi</div><div class="kin keep" style="position:relative;font-size:46px;line-height:1.1;color:#5CC8FF;margin-top:16px;white-space:normal">Independent<br>Sample T-Test</div></div>
+  <div class="card t_c" style="left:550px;top:780px;width:460px;height:200px;padding:24px;text-align:center"><div class="lab" style="color:#FFD166">Tidak terpenuhi</div><div class="kin keep" style="position:relative;font-size:56px;color:#FFD166;margin-top:30px">Mann-Whitney</div></div></div>`);
+// software, license, e-book, CTA (generic illustrations, no official logos)
+add(`<div class="card" id="s_win" style="left:100px;top:260px;width:880px;height:600px;padding:0;overflow:hidden">
+  <div style="height:56px;background:rgba(244,247,255,.08);display:flex;align-items:center;gap:10px;padding-left:22px"><i style="width:14px;height:14px;border-radius:50%;background:#FF5F57"></i><i style="width:14px;height:14px;border-radius:50%;background:#FEBC2E"></i><i style="width:14px;height:14px;border-radius:50%;background:#28C840"></i><span class="lab" style="margin-left:14px;color:#BFD3FF">Statistics software</span></div>
+  <div class="ab" style="left:30px;top:90px;width:820px">${Array.from({length:6},(_,r)=>`<div style="display:flex;gap:8px;margin-bottom:10px">${Array.from({length:5},(_,c)=>`<i style="flex:1;height:44px;border-radius:6px;background:rgba(160,190,255,${r?.12:.3})"></i>`).join('')}</div>`).join('')}</div>
+  <div class="ab kin keep" style="left:0;width:880px;top:470px;font-size:96px;color:#fff">SPSS <span style="color:#FFD166">32</span></div></div>
+ <div class="card" id="s_lic" style="left:120px;top:330px;width:840px;height:380px;padding:40px;text-align:center;border-color:rgba(255,209,102,.5)"><div class="lab" style="color:#FFD166">Belum punya lisensi / trial habis?</div><div class="kin keep" style="position:relative;font-size:92px;margin-top:40px;color:#fff">Lisensi <span style="color:#FFD166">SPSS</span></div></div>
+ <div class="ab" id="s_book" style="left:330px;top:240px;width:420px;height:560px;border-radius:10px 22px 22px 10px;background:linear-gradient(160deg,#F2EFE9,#E3DCCD);box-shadow:0 40px 80px -30px rgba(0,0,0,.85);overflow:hidden;color:#1B1A18"><i style="position:absolute;left:0;top:0;bottom:0;width:28px;background:#0B1630"></i>
+  <div style="position:absolute;left:60px;top:56px;font-family:Inter;font-weight:700;font-size:20px;letter-spacing:.16em;color:#B4532E">FREE E-BOOK</div>
+  <div style="position:absolute;left:60px;top:100px;width:320px;font-family:PJS;font-weight:800;font-size:58px;line-height:1.05">Panduan Olah Data SPSS</div>
+  <div style="position:absolute;left:60px;bottom:50px;font-family:PJS;font-weight:800;font-size:28px">ResearchQ<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#FF9F43;margin-left:3px"></span></div></div>
+ <div class="chip" id="s_bonus" style="left:330px;top:840px;background:rgba(124,224,160,.18);border:1.5px solid rgba(124,224,160,.6);color:#BFF0D0;font-size:30px">+ setiap pembelian</div>
+ <div class="card" id="c_cta" style="left:90px;top:420px;width:900px;height:460px;padding:44px;text-align:center;background:rgba(18,36,74,.92);border-color:rgba(92,200,255,.6)"><div class="lab">Komen</div><div class="kin keep" style="position:relative;font-size:150px;line-height:1;margin-top:30px;color:#FFD166">"SPSS"</div><div style="margin-top:34px;font-family:Inter;font-weight:600;font-size:36px;color:#DCE7FF">nanti aku kirim link-nya</div></div>`);
+add(`<div class="card" id="r_sum" style="left:110px;top:300px;width:860px;height:560px;padding:36px 40px"><div class="lab">Metode yang tepat ✓</div>
+  ${[['Korelasi','Pearson','Spearman'],['2 kelompok independen','Independent T-Test','Mann-Whitney']].map(([a,b,c],i)=>`<div class="r_row" style="margin-top:${i?30:28}px"><div style="font-family:Inter;font-weight:700;font-size:26px;color:#A9BCE0">${a}</div><div style="display:flex;gap:16px;margin-top:12px"><div style="flex:1;padding:18px;border-radius:16px;background:rgba(92,200,255,.14);border:1.5px solid rgba(92,200,255,.45);font-family:PJS;font-weight:800;font-size:34px;color:#5CC8FF;text-align:center">${b}</div><div style="flex:1;padding:18px;border-radius:16px;background:rgba(255,209,102,.12);border:1.5px solid rgba(255,209,102,.45);font-family:PJS;font-weight:800;font-size:34px;color:#FFD166;text-align:center">${c}</div></div></div>`).join('')}
+  <div style="display:flex;gap:16px;margin-top:26px;font-weight:600;font-size:22px;color:#9FB0D0"><span style="flex:1;text-align:center">normal / asumsi terpenuhi</span><span style="flex:1;text-align:center">tidak normal</span></div></div>`);
+add(`<div class="bnum" id="n1" style="top:330px">01</div><div class="kin" id="n1t" style="left:0;width:1080px;top:760px;font-size:76px;color:#fff">Korelasi</div>
+ <div class="bnum" id="n2" style="top:330px">02</div><div class="kin" id="n2t" style="left:0;width:1080px;top:760px;font-size:68px;color:#fff;white-space:normal;line-height:1.05">2 Kelompok<br>Independen</div>`);
+// position the excerpt cards
+$('#a_ti').style.cssText+=';left:70px;top:300px';$('#a_df').style.cssText+=';left:110px;top:240px';$('#t_tb').style.cssText+=';left:120px;top:190px';
+
+// ---------- scene windows (sentence indices)
+const W1={hook:[0,SS(1)-.05],save:[SS(1)-.05,SS(2)-.05],art:[SS(2)-.05,SS(4)-.05],kor:[SS(4)-.05,SS(6)-.05],ind:[SS(6)-.05,SS(7)-.05],soft:[SS(7)-.05,SS(8)-.05],lic:[SS(8)-.05,SS(9)-.05],book:[SS(9)-.05,SS(10)-.05],cta:[SS(10)-.05,END+1]};
+const out=id=>W1[id][1]-.25;
+const THEME={hook:'light',save:'orange',art:'cream',kor:'dark',ind:'light',soft:'dark',lic:'blue',book:'cream',cta:'orange'};
+const TCOL={light:'#F6F7FB',cream:'#F2EFE6',dark:'radial-gradient(ellipse at 50% 30%,#163065 0%,#0B1630 60%,#060D1E 100%)',blue:'linear-gradient(160deg,#2F6FD6,#163A8A)',orange:'linear-gradient(160deg,#FF9F43,#F2672E)'};
+const ORDER=Object.keys(W1);
+function curScene(t){let c='hook';for(const k of ORDER)if(t>=W1[k][0])c=k;return c}
+function THEMEF(t){const c=curScene(t),i=ORDER.indexOf(c),prev=ORDER[Math.max(0,i-1)];const a=W1[c][0],p=i?io3(P(t,a-.05,a+.5)):1;
+  $('#thA').style.background=TCOL[THEME[prev]];const b=$('#thB');b.style.background=TCOL[THEME[c]];
+  const ox=[540,980,100,540,980,100,980,100,540][i%9],oy=[960,200,1700,300,1700,200,960,960,1500][i%9];b.style.clipPath=`circle(${(p*2300).toFixed(0)}px at ${ox}px ${oy}px)`;
+  const th=p>.5?THEME[c]:THEME[prev];const st=$('#stage');st.className=th;
+  const light=th==='light'||th==='cream';const d=$('#thdots');d.style.backgroundImage=`radial-gradient(circle, ${light?'rgba(11,22,48,.10)':'rgba(255,255,255,.10)'} 2px, transparent 2.5px)`;d.style.transform=`translate(${(-(t*8)%46).toFixed(1)}px,${(-(t*12)%46).toFixed(1)}px)`;
+  $('#wm').style.color=light?'rgba(11,22,48,.55)':'rgba(255,255,255,.7)';return th}
+// brand burst accents (own shape, ResearchQ orange) that sweep in from corners at every scene change
+const BURST=`<svg width="520" height="520" viewBox="-260 -260 520 520">${Array.from({length:9},(_,i)=>{const a=i/9*Math.PI*2;return `<path d="M0 0 L${(Math.cos(a-.12)*250).toFixed(1)} ${(Math.sin(a-.12)*250).toFixed(1)} A250 250 0 0 1 ${(Math.cos(a+.12)*250).toFixed(1)} ${(Math.sin(a+.12)*250).toFixed(1)} Z" fill="#FF7A2F"/>`}).join('')}<circle r="70" fill="#FF7A2F"/></svg>`;
+$('#bursts').innerHTML=[[-170,-170],[730,1570]].map(([x,y],i)=>`<div class="burst" id="bu${i}" style="left:${x}px;top:${y}px">${BURST}</div>`).join('');
+function BURSTF(t){let k=-1,a=0;ORDER.forEach((c,i)=>{if(i&&t>=W1[c][0]-.15&&t<W1[c][0]+.75){k=i;a=W1[c][0]-.15}});
+  [0,1].forEach(j=>{const el=$('#bu'+j);if(k<0){el.style.opacity=0;return}const p=P(t,a,a+.9),e=Math.sin(Math.PI*p);el.style.opacity=(e*1).toFixed(3);
+    el.style.transform=`rotate(${((j?-1:1)*(40+120*p)).toFixed(1)}deg) scale(${(.3+.9*e).toFixed(3)})`;el.style.filter=THEME[ORDER[k]]==='orange'?'brightness(.75)':'none'})}
+function SCN(t){
+  // hook
+  pop($('#h_t'),t,.05,{dy:30,s0:.9,b:out('hook')});pop($('#h_p'),t,FW(0,'parametrik')-.1,{dx:-80,dy:0,s0:.92,b:out('hook')});pop($('#h_n'),t,FW(0,'nonparametrik')-.1,{dx:80,dy:0,s0:.92,b:out('hook')});
+  draw($('#h_pc'),t,FW(0,'parametrik'),.8);draw($('#h_nc'),t,FW(0,'nonparametrik'),.8);pop($('#h_q'),t,FW(0,'kapan')-.1,{dy:20,s0:.8,b:out('hook')});
+  // save/follow
+  pop($('#i_save'),t,FW(1,'save')-.1,{dy:0,s0:.3,b:out('save')});pop($('#i_fol'),t,FW(1,'follow')-.1,{dx:120,dy:0,s0:.9,b:out('save')});
+  // article
+  const hk=FW(2,'hopkins');pop($('#a_ti'),t,hk-.25,{dy:80,s0:.9,b:FW(2,'parametrik')-.15});pop($('#a_ref'),t,FW(2,'2018')-.2,{dy:16,s0:.9,b:FW(2,'parametrik')-.15});
+  pop($('#a_df'),t,FW(2,'parametrik')-.1,{dy:80,s0:.92,b:out('art')});
+  $$('#a_df .hl1').forEach((h,i)=>{const s=FW(2,'asumsi')-.2+i*.35;h.style.transform=`scaleX(${o3(P(t,s,s+.45)).toFixed(3)})`});
+  $$('#a_df .hl2').forEach((h,i)=>{const s=FW(3,'nonparametrik')+i*.4;h.style.transform=`scaleX(${o3(P(t,s,s+.5)).toFixed(3)})`});
+  pop($('#a_p'),t,FW(3,'normal')-.2,{dx:-60,dy:0,s0:.9,b:out('art')});pop($('#a_n'),t,FW(3,'bergantung')-.1,{dx:-60,dy:0,s0:.9,b:out('art')});
+  // correlation
+  const ka=W1.kor[0],kn=ka+1.25;pop($('#n1'),t,ka+.05,{dy:0,s0:1.25,d:.5,b:kn-.25});pop($('#n1t'),t,ka+.2,{dy:30,s0:.9,b:kn-.25});
+  pop($('#k_t'),t,kn,{dy:20,b:out('kor')});pop($('#k_sc'),t,Math.max(kn+.1,FW(4,'hubungan')-.2),{dy:60,s0:.92,b:out('kor')});$$('.k_pt').forEach((c,i)=>op(c,P(t,FW(4,'variabel')-.2+i*.03,FW(4,'variabel')+i*.03)));
+  pop($('#k_fk'),t,FW(5,'normal')-.2,{dy:0,s0:1,b:out('kor')});draw($('#k_l1'),t,FW(5,'pearson')-.4,.4);draw($('#k_l2'),t,FW(5,'spearman')-.4,.4);
+  $$('.k_c').forEach((c,i)=>pop(c,t,[FW(5,'pearson'),FW(5,'spearman')][i]-.2,{dy:40,s0:.8}));
+  // independent groups
+  const ia0=W1.ind[0],ia=ia0+1.25;pop($('#n2'),t,ia0+.05,{dy:0,s0:1.25,d:.5,b:ia-.25});pop($('#n2t'),t,ia0+.2,{dy:30,s0:.9,b:ia-.25});
+  pop($('#t_tb'),t,ia+.05,{dy:70,s0:.92,b:out('ind')});
+  $$('#t_tb .hl1').forEach((h,i)=>{const s=[FW(6,'independent'),FW(6,'mannwhitney')][i]-.1;h.style.transform=`scaleX(${o3(P(t,s,s+.4)).toFixed(3)})`});
+  pop($('#t_fk'),t,FW(6,'kelompok')-.1,{dy:0,s0:1,b:out('ind')});draw($('#t_l1'),t,FW(6,'independent')-.4,.4);draw($('#t_l2'),t,FW(6,'mannwhitney')-.4,.4);
+  $$('.t_c').forEach((c,i)=>pop(c,t,[FW(6,'independent'),FW(6,'mannwhitney')][i]-.2,{dy:40,s0:.8}));
+  // software / license / e-book / CTA
+  pop($('#r_sum'),t,W1.soft[0]+.05,{dy:60,s0:.94,b:FW(7,'software')-.45});$$('#r_sum .r_row').forEach((r,i)=>pop(r,t,W1.soft[0]+.25+i*.35,{dx:-40,dy:0,s0:1,b:FW(7,'software')-.45}));
+  pop($('#s_win'),t,FW(7,'software')-.2,{dy:80,s0:.92,b:out('soft')});pop($('#s_lic'),t,W1.lic[0]+.05,{dy:60,s0:.9,b:out('lic')});
+  pop($('#s_book'),t,W1.book[0]+.05,{dy:120,s0:.85,b:out('book')});if(t>W1.book[0]&&t<W1.book[1])$('#s_book').style.transform+=` rotate(${(-3+1.5*Math.sin(t*1.3)).toFixed(2)}deg)`;pop($('#s_bonus'),t,FW(9,'pembelian')-.1,{dy:20,s0:.8,b:out('book')});
+  pop($('#c_cta'),t,W1.cta[0],{dy:60,s0:.85,d:.6})}
+
+// ---------- kinetic Indonesian subtitles: words enter one by one with the voice (4 motion styles), keywords in yellow
+const KW=['parametrik','nonparametrik','penelitian','save','follow','hopkins','2018','asumsi','distribusi','normal','korelasi','pearson','spearman','independen','independent','sample','ttest','mannwhitney','alternatif','spss','32','lisensi','ebook','free','komen','linknya','software'];
+const nk=w=>w.toLowerCase().replace(/[^a-z0-9]/g,'');
+var CU=[];SENT.forEach((s,k)=>{let cur=[];s.words.forEach((w,i)=>{cur.push(i);const brk=/[.,!?]$/.test(w[0])&&cur.length>=3||cur.length>=6||i===s.words.length-1;if(brk){CU.push({k,ids:cur});cur=[]}})});
+CU.forEach(c=>{c.a=SENT[c.k].words[c.ids[0]][1]-.06});CU.forEach((c,i)=>{const nx=CU[i+1];c.b=nx?Math.min(nx.a,(nx.k===c.k?nx.a:SENT[c.k].e+.35)):SENT[c.k].e+.8});
+const FXS=['up','pop','slide','drop'];
+$('#sub').innerHTML=CU.map((c,i)=>`<div class="cue" id="cu${i}"><div class="pill">${c.ids.map(j=>{const w=SENT[c.k].words[j];return `<span class="${KW.includes(nk(w[0]))?'k':''}" data-t="${w[1]}">${w[0]}</span>`}).join('')}</div></div>`).join('');
+CU.forEach((c,i)=>{c.el=$('#cu'+i);c.sp=[...c.el.querySelectorAll('span')];c.fx=FXS[i%4]});
+function SUB(t){const sb=$('#sub');const talk=MASV(t)>.5&&(frame(t).s>.8);sb.style.top=(talk?1130:1250)+'px';CU.forEach(c=>{const on=t>=c.a&&t<c.b;if(!sh(c.el,on))return;const inn=o3(P(t,c.a,c.a+.18)),out=P(t,c.b-.1,c.b);op(c.el,1-out);c.el.firstChild.style.transform=`scale(${(.94+.06*inn).toFixed(3)})`;
+  c.sp.forEach(s=>{const tw=+s.dataset.t,p=P(t,tw-.07,tw+.2),e=o3(p),bb=p>0?bk(p,2):0;let tr='';
+    if(c.fx==='up')tr=`translateY(${((1-e)*26).toFixed(1)}px)`;else if(c.fx==='pop')tr=`scale(${(.35+.65*bb).toFixed(3)})`;else if(c.fx==='slide')tr=`translateX(${((1-e)*-34).toFixed(1)}px)`;else tr=`translateY(${((1-e)*-28).toFixed(1)}px) rotate(${((1-e)*-5).toFixed(2)}deg)`;
+    s.style.opacity=cl(p*2).toFixed(3);s.style.transform=tr})})}
+
+// ---------- presenter: framing keyframes [t, mouthX, mouthY, scale]
+const MA0={x:831,y:1668};
+(function(){$('#mas').innerHTML=Object.entries(MAS).map(([k,v])=>{const i=MI[k],s=i.s,wd=(i.W||900)*s,mx=(i.x+i.w/2)*s,my=(i.y+i.h/2)*s;const lf=MA0.x-mx;
+  return `<div class="pz" id="${k}" style="left:${lf.toFixed(1)}px;top:${(MA0.y-my).toFixed(1)}px;width:${wd.toFixed(1)}px"><img src="${v}" style="display:block;width:100%"><div class="mo" id="mo_${k}" style="left:${(i.x*s).toFixed(2)}px;top:${(i.y*s).toFixed(2)}px;width:${(i.w*s).toFixed(2)}px;height:${(i.h*s).toFixed(2)}px;background-image:url(${MO[k]});transform-origin:50% ${((i.top+(i.h-2*i.top)*.18)*s).toFixed(1)}px"></div></div>`}).join('')})();
+const BIG=[540,1560,1.22],SIDE=[830,1690,.96],MID=[700,1640,1.06],STK=[880,1770,.6],STKL=[200,1770,.6];
+// visible windows: [start, end, framing]  (talking head = BIG/MID/SIDE, sticker = STK)
+const MWIN=[[0,SS(1)-.05,BIG],[FW(3,'sedangkan')-.25,SE(3)+.15,SIDE],[FW(5,'normal')-.2,FW(5,'normal')+1.5,STK],[FW(6,'mannwhitney')-.15,FW(6,'mannwhitney')+1.4,STK],[W1.lic[0],W1.lic[1]-.1,STKL],[W1.book[0]+.3,W1.book[0]+2.2,STK],[W1.cta[0]-.1,END+1,BIG]];
+function mwin(t){for(const w of MWIN)if(t>=w[0]-.01&&t<w[1])return w;return null}
+function MASV(t){let v=0;for(const [a,b] of MWIN)v=Math.max(v,Math.min(o3(P(t,a,a+.35)),1-o3(P(t,b-.3,b))));return v}
+function frame(t){const w=mwin(t)||MWIN.reduce((p,c)=>Math.abs(c[0]-t)<Math.abs(p[0]-t)?c:p);const f=w[2];return {x:f[0],y:f[1],s:f[2]}}
+const PT0=[[FW(5,'normal')-.2,'m_think'],[FW(6,'mannwhitney')-.15,'m_thumb'],[W1.book[0]+.3,'n_idea']];const PT=[[0,'m_think'],[FW(0,'kapan')-.1,'n_shrug'],[W1.save[0],'m_thumb'],[FW(1,'follow')-.1,'n_wink'],[W1.art[0],'n_present'],[FW(2,'parametrik')-.1,'m_point'],[FW(3,'nonparametrik')-.1,'n_idea'],[W1.kor[0],'n_present'],[FW(5,'pearson')-.1,'m_point'],[FW(5,'spearman')-.1,'m_thumb'],[W1.ind[0],'n_idea'],[FW(6,'mannwhitney')-.1,'m_point'],[W1.soft[0],'n_present'],[W1.lic[0],'m_point'],[W1.book[0],'n_idea'],[W1.cta[0],'n_wink']];
+PT.push(...PT0);PT.sort((a,b)=>a[0]-b[0]);
+function MOUTH(t,pose){const f=Math.max(0,Math.min(LIP.o.length-1,Math.round(t*60)));const o=LIP.o[f],w=LIP.w[f];const mn=pose==='m_think'?.3:pose==='m_warn'?.22:.13;$('#mo_'+pose).style.transform=`scale(${(.9+.16*w-.06*o).toFixed(3)},${(mn+(1-mn)*o).toFixed(3)})`;return o}
+function MASC(t){const vv=MASV(t),mm=$('#mas');mm.style.display=vv>.001?'block':'none';op(mm,cl(vv*3));let pose=PT[0][1],t0=-1;for(const [a,p] of PT)if(t>=a){pose=p;t0=a}Object.keys(MAS).forEach(n=>$('#'+n).style.display=n===pose?'block':'none');const lo=MOUTH(t,pose);
+  const f=frame(t),ch=P(t,t0-.05,t0+.3),e=ch>0?bk(ch,1.2):1,m=$('#mas');const s=f.s*(.985+.015*e);
+  m.style.transformOrigin=`${MA0.x}px ${MA0.y}px`;m.style.transform=`translate(${(f.x-MA0.x).toFixed(1)}px,${(f.y-MA0.y+(1-e)*14-2.5*lo+(1-vv)*500).toFixed(1)}px) scale(${s.toFixed(4)}) rotate(${(.8*Math.sin(t*1.5)).toFixed(2)}deg)`;
+  const g=$('#masglow');g.style.left=(f.x-450).toFixed(0)+'px';g.style.top=(f.y-560).toFixed(0)+'px';op(g,vv*(f.s>.8?1:.5));return f}
+
+initPaths();
+function render(t){const f=MASC(t);BG(t,(f.x-700)/300);THEMEF(t);SCN(t);BURSTF(t);SUB(t)}
+window.render=render;window.END=END;
+window.SFXLIST=()=>{const E=[],e=(k,t)=>E.push([k,+t.toFixed(3)]);
+  e('swoosh',.02);e('card0',FW(0,'parametrik')-.1);e('card2',FW(0,'nonparametrik')-.1);e('tap',FW(0,'kapan')-.1);
+  e('swoosh',W1.save[0]);e('popbig',FW(1,'save')-.1);e('click',FW(1,'follow')-.1);
+  e('swoosh',W1.art[0]);e('paper',FW(2,'hopkins')-.25);e('tap',FW(2,'2018')-.2);e('paper',FW(2,'parametrik')-.1);e('marker',FW(2,'asumsi')-.2);e('marker',FW(3,'nonparametrik'));e('card0',FW(3,'normal')-.2);e('card2',FW(3,'bergantung')-.1);
+  e('swoosh',W1.kor[0]);e('hit',W1.kor[0]+.05);e('pop',FW(4,'hubungan')-.2);e('blips',FW(4,'variabel')-.2);e('click',FW(5,'normal')-.2);e('card0',FW(5,'pearson')-.2);e('card2',FW(5,'spearman')-.2);
+  e('swoosh',W1.ind[0]);e('hit',W1.ind[0]+.05);e('paper',W1.ind[0]+.05);e('marker',FW(6,'independent')-.1);e('card0',FW(6,'independent')-.2);e('marker',FW(6,'mannwhitney')-.1);e('card2',FW(6,'mannwhitney')-.2);
+  e('swoosh',W1.soft[0]);e('morph',FW(7,'software')-.2);e('ding',FW(7,'spss')-.1);
+  e('swoosh',W1.lic[0]);e('popbig',W1.lic[0]+.05);e('swoosh',W1.book[0]);e('paper',W1.book[0]+.05);e('ding',FW(9,'pembelian')-.1);
+  e('riser',W1.cta[0]-.9);e('hit',W1.cta[0]+.05);e('confirm',W1.cta[0]+.4);return E};
+if(!location.search.includes('render')){const st=$('#stage');const fit=()=>{const k=Math.min(innerWidth/1080,innerHeight/1920);st.style.transform=`scale(${k})`;st.style.transformOrigin='0 0'};fit();addEventListener('resize',fit);
+  const t0=performance.now();const loop=()=>{render(((performance.now()-t0)/1000)%END);requestAnimationFrame(loop)};loop()}else render(0);
+</script></body></html>
