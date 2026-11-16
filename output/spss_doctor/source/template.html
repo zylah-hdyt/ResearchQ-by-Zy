@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><title>SPSS Doctor</title>
+<style>
+@font-face{font-family:'Inter';font-weight:500;src:url(data:font/woff2;base64,{{INTER500}}) format('woff2')}
+@font-face{font-family:'Inter';font-weight:600;src:url(data:font/woff2;base64,{{INTER600}}) format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;src:url(data:font/woff2;base64,{{INTER700}}) format('woff2')}
+@font-face{font-family:'PJS';font-weight:800;src:url(data:font/woff2;base64,{{PJS800}}) format('woff2')}
+:root{--nv:#0B1630;--nv2:#12244A;--bl:#3D8BFF;--cy:#5CC8FF;--or:#FF9F43;--yl:#FFD166;--wh:#F4F7FF;--mu:#9FB0D0}
+*{box-sizing:border-box}html,body{margin:0;background:#0B1630;overflow:hidden}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#0B1630;font-family:Inter,sans-serif;color:var(--wh)}
+.ab{position:absolute}
+#bg{position:absolute;inset:-80px}
+.blob{position:absolute;border-radius:50%;filter:blur(40px)}
+.card{position:absolute;border-radius:28px;background:rgba(18,36,74,.78);border:1.5px solid rgba(92,200,255,.28);box-shadow:0 30px 60px -24px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.06);backdrop-filter:blur(6px)}
+.lab{font-family:Inter;font-weight:700;font-size:20px;letter-spacing:.16em;text-transform:uppercase;color:var(--cy)}
+.kin{position:absolute;font-family:PJS;font-weight:800;letter-spacing:-.025em;white-space:nowrap;text-align:center}
+.chip{position:absolute;padding:12px 26px;border-radius:40px;font-family:Inter;font-weight:700;font-size:26px;white-space:nowrap}
+svg.ov{position:absolute;left:0;top:0;overflow:visible}
+path.dp{fill:none;stroke-linecap:round;stroke-linejoin:round}
+#sub{position:absolute;left:70px;top:1130px;width:940px;text-align:center;pointer-events:none}
+#sub .cue{position:absolute;left:0;top:0;width:940px;text-align:center;display:none}
+#sub .pill{display:inline-block;padding:12px 26px 16px;border-radius:22px;background:rgba(5,12,28,.66);box-shadow:0 14px 30px -12px rgba(0,0,0,.6)}
+#sub span{display:inline-block;margin:0 .12em;font-family:PJS;font-weight:800;font-size:46px;line-height:1.2;letter-spacing:-.015em;color:#fff;white-space:nowrap}
+#sub span.k{color:var(--yl);font-size:52px}
+#mas{position:absolute;left:0;top:0;width:1080px;height:1920px;pointer-events:none}
+#mas .pz{position:absolute;display:none}#mas .mo{position:absolute;background-size:100% 100%}
+#masglow{position:absolute;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(61,139,255,.28),rgba(61,139,255,0) 65%);pointer-events:none}
+#wm{position:absolute;left:60px;top:1846px;font-family:PJS;font-weight:800;font-size:30px;letter-spacing:-.02em;color:rgba(244,247,255,.7)}
+#wm i{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--or);margin-left:3px}
+.cell{position:absolute;border:1px solid rgba(92,200,255,.25);font-family:Inter;font-weight:600;font-size:20px;color:#DCE7FF;display:flex;align-items:center;padding-left:10px;overflow:hidden;white-space:nowrap}
+</style></head><body><div id="stage">
+<svg width="0" height="0" style="position:absolute"><filter id="gl"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></svg>
+<div id="bg"></div>
+<div id="vis"></div>
+<div id="masglow"></div>
+<div id="mas"></div>
+<div id="sub"></div>
+<div id="wm">ResearchQ<i></i></div>
+</div>
+<script>
+const SENT={{WORDS}};const MAS={{MASCOT}};const MO={{MOUTHS}};const MI={{MOUTHINFO}};const LIP={{LIP}};
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const cl=(v,a=0,b=1)=>v<a?a:v>b?b:v,P=(t,a,b)=>cl((t-a)/(b-a)),L=(a,b,p)=>a+(b-a)*p;
+const o3=x=>1-Math.pow(1-x,3),io3=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,bk=(x,s=1.3)=>1+(s+1)*Math.pow(x-1,3)+s*Math.pow(x-1,2);
+const hsh=n=>{const x=Math.sin(n*127.1+311.7)*43758.5453;return x-Math.floor(x)};
+const N=SENT.length,END=SENT[N-1].e+1.4;
+// word lookup: FW(sentenceIndex, needle, occurrence)
+const FW=(k,nd,occ=0)=>{const ws=SENT[k].words;let c=0;for(const w of ws){if(w[0].toLowerCase().replace(/[^a-z0-9]/g,'').includes(nd.toLowerCase())){if(c===occ)return w[1];c++}}return SENT[k].s};
+const SS=k=>SENT[k].s,SE=k=>SENT[k].e;
+function op(el,v){el.style.opacity=cl(v).toFixed(3)}function sh(el,on){el.style.display=on?'block':'none';return on}
+function pop(el,t,a,{b=1e9,dx=0,dy=40,s0=.85,d=.55}={}){if(!el)return;const p=P(t,a,a+d),q=P(t,b,b+.35),e=p>0?bk(p):0;
+  el.style.opacity=(cl(p*2.5)*(1-q)).toFixed(3);el.style.transform=`translate(${((1-o3(p))*dx+q*0).toFixed(1)}px,${((1-o3(p))*dy-q*20).toFixed(1)}px) scale(${(s0+(1-s0)*e).toFixed(4)})`}
+function initPaths(){$$('path.dp').forEach(p=>{const l=p.getTotalLength();p.dataset.l=l;p.style.strokeDasharray=l;p.style.strokeDashoffset=l})}
+function draw(p,t,a,dur=.6){if(!p)return;const k=io3(P(t,a,a+dur));p.style.strokeDashoffset=(+p.dataset.l*(1-k)).toFixed(1);p.style.opacity=t<a?0:1}
+const V=$('#vis');const add=h=>V.insertAdjacentHTML('beforeend',h);
+
+// ---------- living background: slow gradient blobs, 3-depth particles, data nodes + links, translucent stat grid
+(function(){let h=`<div class="ab" style="inset:0;background:radial-gradient(ellipse at 50% 30%,#163065 0%,#0E1E44 45%,#081226 100%)"></div>
+ <div class="blob" id="b1" style="left:-120px;top:120px;width:760px;height:760px;background:rgba(61,139,255,.30)"></div>
+ <div class="blob" id="b2" style="left:520px;top:900px;width:700px;height:700px;background:rgba(92,200,255,.18)"></div>
+ <div class="blob" id="b3" style="left:600px;top:60px;width:420px;height:420px;background:rgba(255,159,67,.12)"></div>
+ <div class="ab" id="grid" style="left:-200px;top:-200px;width:1600px;height:2400px;background-image:linear-gradient(rgba(92,200,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(92,200,255,.06) 1px,transparent 1px);background-size:80px 80px"></div>
+ <svg class="ov" id="geo" width="1240" height="2080"><g fill="none" stroke="rgba(92,200,255,.12)" stroke-width="2"><circle id="g1" cx="900" cy="420" r="210"/><circle cx="900" cy="420" r="150"/><path id="g2" d="M120 1480 l160 -92 l160 92 l0 184 l-160 92 l-160 -92 z"/><path d="M80 300 Q 300 220 520 330 T 960 280" stroke="rgba(255,159,67,.14)"/></g></svg>
+ <svg class="ov" id="net" width="1240" height="2080"></svg>`;
+ for(let i=0;i<54;i++){const z=i%3;h+=`<i class="pt" data-i="${i}" data-z="${z}" style="position:absolute;width:${[3,5,8][z]}px;height:${[3,5,8][z]}px;border-radius:50%;background:${i%7===0?'rgba(255,209,102,.6)':'rgba(140,200,255,.55)'};filter:blur(${[0,.5,1.5][z]}px)"></i>`}
+ $('#bg').innerHTML=h;
+ const nodes=Array.from({length:12},(_,i)=>[120+hsh(i+1)*1000,200+hsh(i+21)*1500]);window.NODES=nodes;
+ $('#net').innerHTML=nodes.map((n,i)=>`<circle class="nd" cx="${n[0]}" cy="${n[1]}" r="4" fill="rgba(92,200,255,.6)"/>`).join('')+nodes.map((n,i)=>{const m=nodes[(i*5+3)%nodes.length];return `<line class="lk" data-i="${i}" x1="${n[0]}" y1="${n[1]}" x2="${m[0]}" y2="${m[1]}" stroke="rgba(92,200,255,.35)" stroke-width="1.5"/>`}).join('')})();
+function BG(t,par){$('#b1').style.transform=`translate(${(90*Math.sin(t*.13)).toFixed(1)}px,${(60*Math.cos(t*.11)).toFixed(1)}px)`;$('#b2').style.transform=`translate(${(-80*Math.sin(t*.1)).toFixed(1)}px,${(70*Math.sin(t*.09)).toFixed(1)}px)`;$('#b3').style.transform=`translate(${(50*Math.cos(t*.12)).toFixed(1)}px,${(40*Math.sin(t*.15)).toFixed(1)}px)`;
+  $('#grid').style.transform=`translate(${(-(t*6)%80+par*20).toFixed(1)}px,${(-(t*9)%80).toFixed(1)}px)`;$('#geo').style.transform=`translate(${(par*35).toFixed(1)}px,0) rotate(${(t*.4).toFixed(2)}deg)`;$('#geo').style.transformOrigin='900px 420px';
+  $$('#bg .pt').forEach(p=>{const i=+p.dataset.i,z=+p.dataset.z,sp=[8,16,28][z],x=(hsh(i)*1240+Math.sin(t*.3+i)*30+par*[10,25,45][z]),y=((hsh(i+50)*2080-t*sp)%2080+2080)%2080;p.style.left=x.toFixed(1)+'px';p.style.top=y.toFixed(1)+'px';p.style.opacity=(.35+.45*(.5+.5*Math.sin(t*.8+i))).toFixed(2)});
+  $$('#net .lk').forEach(l=>{const i=+l.dataset.i,ph=(t*.25+hsh(i)*6)%6;l.style.opacity=(ph<1.5?Math.sin(ph/1.5*Math.PI)*.8:0).toFixed(2)})}
+
+// ---------- visual elements (illustrations, not screenshots)
+const HIST=[18,34,58,84,100,86,60,36,20];
+const histSVG=(id,w,h)=>`<svg class="ov" width="${w}" height="${h}">${HIST.map((v,i)=>`<rect class="${id}_b" x="${20+i*(w-40)/9}" y="${h-20}" width="${(w-40)/9-6}" height="0" rx="4" fill="rgba(61,139,255,.85)" data-v="${v}" data-h="${h}"/>`).join('')}<path class="dp" id="${id}_c" d="M20 ${h-24} C ${w*.3} ${h-24} ${w*.38} 18 ${w/2} 18 S ${w*.7} ${h-24} ${w-20} ${h-24}" stroke="#FFD166" stroke-width="5"/></svg>`;
+// hook: floating elements around the presenter
+add(`<div class="kin" id="h_t" style="left:0;width:1080px;top:200px;font-size:110px;color:#fff">SPSS <span style="color:#5CC8FF">DOCTOR</span></div>
+ <div class="ab" id="h_s" style="left:0;width:1080px;top:330px;text-align:center;font-family:Inter;font-weight:600;font-size:32px;color:#BFD3FF;letter-spacing:.02em">Troubleshooting + Data Preparation</div>
+ <div class="card h_f" id="h_out" style="left:50px;top:440px;width:330px;height:300px;padding:20px"><div class="lab">Output</div>${[0,1,2,3].map(i=>`<div style="display:flex;gap:10px;margin-top:14px">${[0,1,2].map(j=>`<i style="flex:${j?1:2};height:16px;border-radius:5px;background:rgba(160,190,255,${j?.22:.38})"></i>`).join('')}</div>`).join('')}</div>
+ <div class="card h_f" id="h_hist" style="left:410px;top:470px;width:270px;height:240px;padding:16px"><div class="lab">Histogram</div><div class="ab" style="left:10px;top:40px;width:240px;height:160px">${histSVG('hh',240,160)}</div></div>
+ <div class="card h_f" id="h_xls" style="left:710px;top:440px;width:320px;height:300px;padding:18px"><div class="lab" style="color:#7CE0A0">.xlsx / .csv</div>${[0,1,2,3,4].map(r=>`<div style="display:flex;gap:6px;margin-top:10px">${[0,1,2,3].map(c=>`<i style="flex:1;height:20px;border-radius:4px;background:${r===0?'rgba(124,224,160,.45)':'rgba(124,224,160,.16)'}"></i>`).join('')}</div>`).join('')}</div>
+ <div class="ab" id="h_sav" style="left:790px;top:800px;width:220px;height:260px">${fileIcon('#3D8BFF','.SAV')}</div>
+ <svg class="ov"><path class="dp" id="h_ln" d="M870 745 C 920 770 920 780 890 800" stroke="#5CC8FF" stroke-width="4" stroke-dasharray="4 10"/></svg>`);
+function fileIcon(col,ext,w=220,h=260){return `<svg width="${w}" height="${h}" viewBox="0 0 220 260"><path d="M20 10 h120 l60 60 v180 a10 10 0 0 1 -10 10 h-170 a10 10 0 0 1 -10 -10 v-230 a10 10 0 0 1 10 -10z" fill="#F4F7FF"/><path d="M140 10 v50 a10 10 0 0 0 10 10 h50" fill="#C8D6F5"/><rect x="0" y="150" width="190" height="66" rx="12" fill="${col}"/><text x="95" y="196" text-anchor="middle" font-family="PJS" font-weight="800" font-size="38" fill="#fff">${ext}</text>${[0,1,2].map(i=>`<rect x="34" y="${84+i*18}" width="${110-i*24}" height="8" rx="4" fill="#B8C7E6"/>`).join('')}</svg>`}
+// save & follow icons (generic UI icons)
+add(`<div class="ab" id="i_save" style="left:90px;top:500px;width:420px;text-align:center;zoom:1.45"><svg width="150" height="190" viewBox="0 0 150 190"><path d="M20 10 h110 a10 10 0 0 1 10 10 v160 l-65 -45 l-65 45 v-160 a10 10 0 0 1 10 -10z" fill="#FFD166"/></svg><div class="kin" style="position:relative;font-size:44px;color:#fff;margin-top:10px">Save</div></div>
+ <div class="ab" id="i_fol" style="left:330px;top:510px;width:420px;text-align:center;zoom:1.45"><svg width="170" height="170" viewBox="0 0 170 170"><circle cx="85" cy="85" r="80" fill="#3D8BFF"/><circle cx="70" cy="66" r="24" fill="#fff"/><path d="M30 128 q40 -50 80 0" fill="#fff"/><rect x="112" y="58" width="36" height="9" rx="4" fill="#fff"/><rect x="125" y="45" width="9" height="36" rx="4" fill="#fff"/></svg><div class="kin" style="position:relative;font-size:44px;color:#fff;margin-top:24px">Follow</div></div>`);
+// intro: AI analysis panel
+add(`<div class="card" id="a_panel" style="left:70px;top:380px;width:940px;height:620px;padding:30px">
+  <div class="ab" style="left:30px;top:24px;display:flex;gap:12px;align-items:center"><i style="width:14px;height:14px;border-radius:50%;background:#5CC8FF;box-shadow:0 0 12px #5CC8FF"></i><span class="lab">AI analysis panel</span></div>
+  <div class="ab" id="a_doc" style="left:30px;top:80px;width:400px;height:500px;border-radius:16px;background:rgba(244,247,255,.06);border:1px solid rgba(160,190,255,.2);overflow:hidden">${Array.from({length:11},(_,i)=>`<i style="position:absolute;left:24px;top:${30+i*42}px;width:${300-((i*53)%140)}px;height:14px;border-radius:7px;background:rgba(190,210,255,.18)"></i>`).join('')}<i id="a_scan" style="position:absolute;left:0;right:0;top:0;height:60px;background:linear-gradient(rgba(92,200,255,0),rgba(92,200,255,.35),rgba(92,200,255,0))"></i></div>
+  <div class="ab" style="left:460px;top:80px;width:440px;height:230px;border-radius:16px;background:rgba(244,247,255,.05);border:1px solid rgba(160,190,255,.2)">${histSVG('ah',440,230)}</div>
+  <div class="ab" style="left:460px;top:330px;width:440px;height:250px;border-radius:16px;background:rgba(244,247,255,.05);border:1px solid rgba(160,190,255,.2)"><svg class="ov" width="440" height="250"><path class="dp" id="a_line" d="M20 210 L80 170 L140 185 L200 120 L260 135 L320 80 L380 95 L420 50" stroke="#5CC8FF" stroke-width="5"/></svg></div></div>
+ <div class="kin" id="a_name" style="left:0;width:1080px;top:200px;font-size:96px;color:#fff">SPSS <span style="color:#5CC8FF">DOCTOR</span></div>
+ <div class="chip" id="a_rq" style="left:375px;top:318px;background:rgba(255,159,67,.18);border:1.5px solid rgba(255,159,67,.6);color:#FFC48A">ResearchQ Skill</div>`);
+// diagnosis: three cards
+add(`<div class="kin" id="d_t" style="left:0;width:1080px;top:190px;font-size:64px;color:#fff">Diagnosis <span style="color:#5CC8FF">Output SPSS</span></div>
+ <div class="card" id="d_n" style="left:50px;top:300px;width:470px;height:360px;padding:22px"><div class="lab">1 · Normality test</div><div class="ab" style="left:20px;top:70px;width:430px;height:270px">${histSVG('dn',430,270)}</div></div>
+ <div class="card" id="d_r" style="left:560px;top:300px;width:470px;height:360px;padding:22px"><div class="lab">2 · Reliability</div>
+  <div class="ab" style="left:22px;top:74px;width:426px">${[["Item","Cronbach's α if deleted"],["Item 1","· · ·"],["Item 2","· · ·"],["Item 3","· · ·"],["Item 4","· · ·"]].map((r,i)=>`<div class="d_row" style="display:flex;justify-content:space-between;padding:12px 14px;border-radius:10px;margin-bottom:6px;font-weight:${i?600:700};font-size:${i?24:20}px;color:${i?'#DCE7FF':'#5CC8FF'};background:${i?'rgba(244,247,255,.05)':'transparent'}"><span>${r[0]}</span><span>${r[1]}</span></div>`).join('')}</div>
+  <div class="ab" style="right:22px;bottom:14px;font-size:16px;color:#7F92B8">ilustrasi</div></div>
+ <div class="card" id="d_g" style="left:305px;top:700px;width:470px;height:360px;padding:22px"><div class="lab">3 · Regression</div>
+  <svg class="ov" width="470" height="360">${Array.from({length:22},(_,i)=>{const x=40+hsh(i+3)*390,y=320-((x-40)/390)*190-hsh(i+9)*70;return `<circle class="d_pt" cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="7" fill="rgba(160,190,255,.75)"/>`}).join('')}<path class="dp" id="d_rl" d="M40 300 L430 110" stroke="#FFD166" stroke-width="6"/></svg></div>
+ <div class="chip" id="d_more" style="left:360px;top:1075px;background:rgba(92,200,255,.14);border:1.5px solid rgba(92,200,255,.5);color:#BFE8FF">+ analisis lainnya</div>`);
+// step-by-step report
+add(`<div class="kin" id="s_t" style="left:0;width:1080px;top:190px;font-size:64px;color:#fff">Solusi <span style="color:#FFD166">Step-by-Step</span></div>
+ ${[['Gejala','Masalah pada output','#FF9F43'],['Kemungkinan penyebab','Dijelaskan dengan bahasa sederhana','#5CC8FF'],['Rekomendasi solusi','Langkah perbaikan, satu per satu','#7CE0A0']].map(([a,b,c],i)=>`<div class="card s_c" style="left:110px;top:${330+i*240}px;width:860px;height:190px;padding:30px 36px 30px 130px"><div class="ab" style="left:34px;top:52px;width:72px;height:72px;border-radius:50%;background:${c};color:#0B1630;font-family:PJS;font-weight:800;font-size:40px;display:flex;align-items:center;justify-content:center">${i+1}</div><div style="font-family:PJS;font-weight:800;font-size:46px;color:#fff">${a}</div><div style="font-weight:600;font-size:28px;color:#A9BCE0;margin-top:10px">${b}</div></div>`).join('')}
+ <svg class="ov"><path class="dp" id="s_l1" d="M180 520 L180 570" stroke="#5CC8FF" stroke-width="5"/><path class="dp" id="s_l2" d="M180 760 L180 810" stroke="#5CC8FF" stroke-width="5"/></svg>`);
+// Excel -> SAV (payoff)
+add(`<div class="kin" id="x_t" style="left:0;width:1080px;top:190px;font-size:64px;color:#fff">Excel / CSV <span style="color:#FFD166">→</span> <span style="color:#5CC8FF">.SAV</span></div>
+ <div class="card" id="x_sh" style="left:90px;top:320px;width:900px;height:560px;padding:0;overflow:hidden">
+  <div style="height:56px;background:rgba(124,224,160,.18);display:flex;align-items:center;padding-left:26px" class="lab"><span style="color:#7CE0A0">data_penelitian.xlsx</span></div>
+  <div class="ab" style="left:0;top:56px;width:900px;height:504px">${Array.from({length:8},(_,r)=>Array.from({length:6},(_,c)=>`<div class="cell x_c" data-k="${r*6+c}" style="left:${c*150}px;top:${r*63}px;width:150px;height:63px;${r===0?'color:#7CE0A0;font-weight:700':''}">${r===0?['id','usia','gender','X1_1','X1_2','Y1'][c]:(c===2?(r%2?'1':'2'):c===0?r:'·')}</div>`).join('')).join('')}</div></div>
+ <div class="ab" id="x_file" style="left:430px;top:420px;width:220px;height:260px">${fileIcon('#3D8BFF','.SAV')}</div>
+ <div class="card" id="x_vv" style="left:70px;top:330px;width:940px;height:620px;padding:24px 28px">
+  <div class="lab">Variable View · ilustrasi</div>
+  <div style="display:flex;margin-top:20px;font-weight:700;font-size:22px;color:#5CC8FF"><span style="width:200px">Name</span><span style="width:360px">Label</span><span>Values</span></div>
+  ${[['usia','Usia responden','—'],['gender','Jenis kelamin','1 = Laki-laki, 2 = Perempuan'],['X1_1','Kualitas layanan (1)','1 = STS … 5 = SS'],['X1_2','Kualitas layanan (2)','1 = STS … 5 = SS'],['Y1','Kepuasan (1)','1 = STS … 5 = SS']].map(([a,b,c])=>`<div class="x_r" style="display:flex;padding:16px 0;border-top:1px solid rgba(160,190,255,.15);font-size:25px;font-weight:600;color:#E3ECFF"><span style="width:200px;color:#fff">${a}</span><span class="x_lb" style="width:360px">${b}</span><span class="x_vl" style="color:#FFD166">${c}</span></div>`).join('')}
+  <div class="ab" style="left:28px;bottom:22px;font-size:20px;font-weight:600;color:#9FB0D0">Periksa kembali hasilnya sebelum dianalisis.</div></div>
+ <div class="chip" id="x_vlb" style="left:90px;top:985px;background:rgba(92,200,255,.16);border:1.5px solid rgba(92,200,255,.5);color:#BFE8FF">Variable Labels</div>
+ <div class="chip" id="x_vab" style="left:380px;top:985px;background:rgba(255,209,102,.14);border:1.5px solid rgba(255,209,102,.55);color:#FFE3A0">Value Labels</div>
+ <div class="ab" id="x_ok" style="left:300px;top:440px;width:480px;text-align:center"><div style="display:inline-block">${fileIcon('#3D8BFF','.SAV',190,224)}</div><div style="margin-top:14px;display:flex;justify-content:center;gap:14px;align-items:center;font-family:PJS;font-weight:800;font-size:40px"><span style="width:52px;height:52px;border-radius:50%;background:#7CE0A0;color:#0B1630;display:inline-flex;align-items:center;justify-content:center;font-size:34px">✓</span>Siap dibuka di SPSS</div></div>`);
+// closing + CTA
+add(`<div class="kin" id="c_n" style="left:0;width:1080px;top:300px;font-size:110px;color:#fff">SPSS <span style="color:#5CC8FF">DOCTOR</span></div>
+ <div class="chip" id="c_rq" style="left:340px;top:440px;font-size:30px;background:rgba(255,159,67,.18);border:1.5px solid rgba(255,159,67,.6);color:#FFC48A">ResearchQ Skills</div>
+ <div class="ab" id="c_two" style="left:90px;top:580px;width:900px;display:flex;gap:24px">${[['Membaca output','#5CC8FF'],['Persiapan data','#FFD166']].map(([a,c])=>`<div class="card" style="position:relative;flex:1;height:200px;padding:0;display:flex;align-items:center;justify-content:center;font-family:PJS;font-weight:800;font-size:44px;color:${c}">${a}</div>`).join('')}</div>
+ <div class="card" id="c_lic" style="left:120px;top:560px;width:840px;height:360px;padding:34px;text-align:center;border-color:rgba(255,209,102,.5)"><div class="lab" style="color:#FFD166">Software</div><div style="font-family:PJS;font-weight:800;font-size:92px;margin-top:40px">Lisensi <span style="color:#FFD166">SPSS 32</span></div></div>
+ <div class="card" id="c_cta" style="left:90px;top:470px;width:900px;height:420px;padding:40px;text-align:center;background:rgba(18,36,74,.9);border-color:rgba(92,200,255,.6)"><div style="font-family:PJS;font-weight:800;font-size:70px;line-height:1.15;margin-top:20px">Skill &amp; Lisensi SPSS</div><div style="display:inline-block;margin-top:46px;padding:16px 40px;border-radius:50px;background:#3D8BFF;font-family:PJS;font-weight:800;font-size:52px">Link di Bio ↗</div></div>`);
+
+// ---------- scene windows from the VO (sentence indices)
+const W1={hook:[0,SS(1)-.1],save:[SS(1)-.1,FW(1,'namanya')-.1],intro:[FW(1,'namanya')-.1,SS(3)-.05],diag:[SS(3)-.05,SS(4)-.05],steps:[SS(4)-.05,SS(5)-.05],xls:[SS(5)-.05,SS(7)-.05],close:[SS(7)-.05,SS(9)-.05],lic:[SS(9)-.05,FW(10,'cek')-.15],cta:[FW(10,'cek')-.15,END+1]};
+const inW=(id,t)=>t>=W1[id][0]&&t<W1[id][1];
+function grp(t,id,els){const [a,b]=W1[id];els.forEach(e=>{const el=$(e);if(!el)return;if(t<a-.1||t>b+.5){el.style.opacity=0;return}})}
+function SCN(t){
+  const out=(id)=>W1[id][1]-.25;
+  // hook
+  pop($('#h_t'),t,.05,{dy:30,s0:.9,b:out('hook')});pop($('#h_s'),t,.35,{dy:16,b:out('hook')});
+  [['#h_out',.3],['#h_hist',.5],['#h_xls',.7]].forEach(([s,d],i)=>{pop($(s),t,d,{dy:60,s0:.9,b:out('hook')});if(t<out('hook'))$(s).style.transform+=` translateY(${(10*Math.sin(t*1.2+i*2)).toFixed(1)}px)`});
+  $$('.hh_b').forEach((r,i)=>{const p=o3(P(t,.6+i*.05,1.1+i*.05));r.setAttribute('height',(p*r.dataset.v/100*(r.dataset.h-40)).toFixed(1));r.setAttribute('y',(r.dataset.h-20-p*r.dataset.v/100*(r.dataset.h-40)).toFixed(1))});draw($('#hh_c'),t,1.0,.8);
+  const ex=FW(0,'excel');draw($('#h_ln'),t,FW(0,'file')-.2,.5);pop($('#h_sav'),t,ex-.15,{dy:-40,s0:.5,b:out('hook')});op($('#h_ln'),t<out('hook')?1:0);
+  // save/follow
+  pop($('#i_save'),t,FW(1,'save')-.1,{dy:0,s0:.3,b:out('save')});pop($('#i_fol'),t,FW(1,'follow')-.1,{dx:120,dy:0,s0:.9,b:out('save')});
+  // intro
+  const ia=W1.intro[0];pop($('#a_name'),t,ia+.1,{dy:24,s0:.94,b:out('intro')});pop($('#a_rq'),t,FW(1,'skill')-.1,{dy:16,s0:.9,b:out('intro')});pop($('#a_panel'),t,FW(1,'skill')+.1,{dy:60,s0:.94,b:out('intro')});
+  $('#a_scan').style.top=((t*260)%540-60).toFixed(0)+'px';$$('.ah_b').forEach((r,i)=>{const p=o3(P(t,ia+.6+i*.06,ia+1.1+i*.06))*(0.85+.15*Math.sin(t*3+i));r.setAttribute('height',(p*r.dataset.v/100*(r.dataset.h-40)).toFixed(1));r.setAttribute('y',(r.dataset.h-20-p*r.dataset.v/100*(r.dataset.h-40)).toFixed(1))});draw($('#ah_c'),t,ia+1.2,.8);draw($('#a_line'),t,ia+1.0,1.0);
+  // diagnosis
+  const da=W1.diag[0];pop($('#d_t'),t,da,{dy:20,b:out('diag')});pop($('#d_n'),t,FW(3,'normalitas')-.3,{dx:-80,dy:0,s0:.92,b:out('diag')});pop($('#d_r'),t,FW(3,'reliabilitas')-.3,{dx:80,dy:0,s0:.92,b:out('diag')});pop($('#d_g'),t,FW(3,'regresi')-.3,{dy:80,s0:.92,b:out('diag')});
+  $$('.dn_b').forEach((r,i)=>{const s=FW(3,'normalitas')-.1+i*.07,p=o3(P(t,s,s+.4));r.setAttribute('height',(p*r.dataset.v/100*(r.dataset.h-40)).toFixed(1));r.setAttribute('y',(r.dataset.h-20-p*r.dataset.v/100*(r.dataset.h-40)).toFixed(1))});draw($('#dn_c'),t,FW(3,'normalitas')+.5,.9);
+  $$('.d_row').forEach((r,i)=>{if(!i)return;const hl=i===3&&t>FW(3,'reliabilitas')+.5;r.style.background=hl?'rgba(255,209,102,.22)':'rgba(244,247,255,.05)';r.style.boxShadow=hl?'inset 0 0 0 2px rgba(255,209,102,.6)':'none'});
+  $$('.d_pt').forEach((c,i)=>op(c,P(t,FW(3,'regresi')-.1+i*.02,FW(3,'regresi')+.1+i*.02)));draw($('#d_rl'),t,FW(3,'regresi')+.4,.8);pop($('#d_more'),t,FW(3,'analisis')-.1,{dy:20,s0:.8,b:out('diag')});
+  // steps
+  const sa=W1.steps[0];pop($('#s_t'),t,sa,{dy:20,b:out('steps')});const sc=[FW(4,'penjelasan'),FW(4,'penyebab'),FW(4,'solusi')];$$('.s_c').forEach((c,i)=>pop(c,t,sc[i]-.2,{dx:-90,dy:0,s0:.95,b:out('steps')}));draw($('#s_l1'),t,sc[1]-.2,.3);draw($('#s_l2'),t,sc[2]-.2,.3);op($('#s_l1'),t<out('steps')?1:0);op($('#s_l2'),t<out('steps')?1:0);
+  // excel -> sav
+  const xa=W1.xls[0],xc=FW(5,'dibuatkan'),xv=FW(5,'lengkap'),xo=FW(6,'buka');pop($('#x_t'),t,xa,{dy:20,b:out('xls')});
+  const sh2=$('#x_sh');pop(sh2,t,FW(5,'excel')-.2,{dy:60,s0:.94});const shrink=io3(P(t,xc-.1,xc+.6));if(t>=FW(5,'excel')-.2){sh2.style.transform=`translate(${(shrink*0).toFixed(1)}px,${(shrink*120).toFixed(1)}px) scale(${(1-shrink*.78).toFixed(3)})`;op(sh2,(1-P(t,xc+.45,xc+.65))*(t<out('xls')?1:0))}
+  $$('.x_c').forEach(c=>{const k=+c.dataset.k;op(c,P(t,FW(5,'upload')+k*.02,FW(5,'upload')+.15+k*.02))});
+  const fl=$('#x_file');pop(fl,t,xc+.45,{dy:0,s0:.4,b:xv-.35});
+  pop($('#x_vv'),t,xv-.25,{dy:60,s0:.94,b:xo-.2});$$('.x_r').forEach((r,i)=>op(r,P(t,xv-.05+i*.12,xv+.15+i*.12)));
+  $$('.x_lb').forEach((r,i)=>{r.style.color=t>FW(5,'variable')+.1?'#BFE8FF':'#E3ECFF'});$$('.x_vl').forEach(r=>{r.style.opacity=t>FW(5,'value')?1:.25});
+  pop($('#x_vlb'),t,FW(5,'variable')-.1,{dy:20,s0:.8,b:out('xls')});pop($('#x_vab'),t,FW(5,'value')-.1,{dy:20,s0:.8,b:out('xls')});pop($('#x_ok'),t,xo-.15,{dy:30,s0:.7,b:out('xls')});
+  // closing
+  const ca=W1.close[0];pop($('#c_n'),t,ca,{dy:24,s0:.94,b:W1.cta[0]-.3});pop($('#c_two'),t,FW(7,'membaca')-.2,{dy:40,s0:.94,b:FW(8,'dapatkan')-.2});pop($('#c_rq'),t,FW(8,'skill')-.2,{dy:16,s0:.8,b:W1.cta[0]-.3});
+  pop($('#c_lic'),t,FW(9,'lisensi')-.2,{dy:50,s0:.9,b:W1.cta[0]-.2});pop($('#c_cta'),t,W1.cta[0],{dy:50,s0:.9,d:.6})}
+
+// ---------- kinetic Indonesian subtitles: words enter one by one with the voice (4 motion styles), keywords in yellow
+const KW=['spss','doctor','excel','csv','sav','ai','save','follow','tips','researchq','normalitas','reliabilitas','regresi','analisis','solusi','stepbystep','penyebab','variable','value','label','upload','lisensi','32','bio','skill','skillnya','output','diagnosis','mendiagnosis','penelitian','penelitianmu','data'];
+const nk=w=>w.toLowerCase().replace(/[^a-z0-9]/g,'');
+var CU=[];SENT.forEach((s,k)=>{let cur=[];s.words.forEach((w,i)=>{cur.push(i);const brk=/[.,!?]$/.test(w[0])&&cur.length>=3||cur.length>=6||i===s.words.length-1;if(brk){CU.push({k,ids:cur});cur=[]}})});
+CU.forEach(c=>{c.a=SENT[c.k].words[c.ids[0]][1]-.06});CU.forEach((c,i)=>{const nx=CU[i+1];c.b=nx?Math.min(nx.a,(nx.k===c.k?nx.a:SENT[c.k].e+.35)):SENT[c.k].e+.8});
+const FXS=['up','pop','slide','drop'];
+$('#sub').innerHTML=CU.map((c,i)=>`<div class="cue" id="cu${i}"><div class="pill">${c.ids.map(j=>{const w=SENT[c.k].words[j];return `<span class="${KW.includes(nk(w[0]))?'k':''}" data-t="${w[1]}">${w[0]}</span>`}).join('')}</div></div>`).join('');
+CU.forEach((c,i)=>{c.el=$('#cu'+i);c.sp=[...c.el.querySelectorAll('span')];c.fx=FXS[i%4]});
+function SUB(t){CU.forEach(c=>{const on=t>=c.a&&t<c.b;if(!sh(c.el,on))return;const inn=o3(P(t,c.a,c.a+.18)),out=P(t,c.b-.1,c.b);op(c.el,1-out);c.el.firstChild.style.transform=`scale(${(.94+.06*inn).toFixed(3)})`;
+  c.sp.forEach(s=>{const tw=+s.dataset.t,p=P(t,tw-.07,tw+.2),e=o3(p),bb=p>0?bk(p,2):0;let tr='';
+    if(c.fx==='up')tr=`translateY(${((1-e)*26).toFixed(1)}px)`;else if(c.fx==='pop')tr=`scale(${(.35+.65*bb).toFixed(3)})`;else if(c.fx==='slide')tr=`translateX(${((1-e)*-34).toFixed(1)}px)`;else tr=`translateY(${((1-e)*-28).toFixed(1)}px) rotate(${((1-e)*-5).toFixed(2)}deg)`;
+    s.style.opacity=cl(p*2).toFixed(3);s.style.transform=tr})})}
+
+// ---------- presenter: framing keyframes [t, mouthX, mouthY, scale]
+const MA0={x:831,y:1668};
+(function(){$('#mas').innerHTML=Object.entries(MAS).map(([k,v])=>{const i=MI[k],s=i.s,wd=(i.W||900)*s,mx=(i.x+i.w/2)*s,my=(i.y+i.h/2)*s;const lf=MA0.x-mx;
+  return `<div class="pz" id="${k}" style="left:${lf.toFixed(1)}px;top:${(MA0.y-my).toFixed(1)}px;width:${wd.toFixed(1)}px"><img src="${v}" style="display:block;width:100%"><div class="mo" id="mo_${k}" style="left:${(i.x*s).toFixed(2)}px;top:${(i.y*s).toFixed(2)}px;width:${(i.w*s).toFixed(2)}px;height:${(i.h*s).toFixed(2)}px;background-image:url(${MO[k]});transform-origin:50% ${((i.top+(i.h-2*i.top)*.18)*s).toFixed(1)}px"></div></div>`}).join('')})();
+const BIG=[540,1560,1.22],SIDE=[830,1690,.96],MID=[700,1640,1.06];
+const FR=[[0,...BIG],[W1.save[0]+.2,...MID],[W1.intro[0]+.2,...SIDE],[W1.diag[0]+.2,...SIDE],[W1.steps[0]+.2,...SIDE],[W1.xls[0]+.2,...SIDE],[W1.close[0]+.2,...MID],[W1.close[0]+2.2,...[640,1600,1.12]],[W1.lic[0]+.2,...SIDE],[W1.cta[0]+.2,...BIG]];
+function frame(t){let a=FR[0],b=FR[0];for(let i=0;i<FR.length;i++){if(t>=FR[i][0]){a=FR[i];b=FR[i+1]||FR[i]}}const p=b===a?1:io3(P(t,b[0]-.6,b[0]));const q=t>=b[0]-.6&&b!==a?p:0;
+  return {x:L(a[1],b[1],q),y:L(a[2],b[2],q),s:L(a[3],b[3],q)}}
+const PT=[[0,'n_present'],[FW(0,'bahkan')-.1,'n_idea'],[W1.save[0],'m_thumb'],[FW(1,'follow')-.1,'n_wink'],[W1.intro[0],'n_present'],[W1.diag[0],'m_point'],[W1.steps[0],'m_think'],[FW(4,'solusi')-.1,'m_thumb'],[W1.xls[0],'n_idea'],[FW(6,'buka')-.1,'m_thumb'],[W1.close[0],'n_present'],[W1.lic[0],'m_point'],[W1.cta[0],'n_wink']];
+function MOUTH(t,pose){const f=Math.max(0,Math.min(LIP.o.length-1,Math.round(t*60)));const o=LIP.o[f],w=LIP.w[f];const mn=pose==='m_think'?.3:pose==='m_warn'?.22:.13;$('#mo_'+pose).style.transform=`scale(${(.9+.16*w-.06*o).toFixed(3)},${(mn+(1-mn)*o).toFixed(3)})`;return o}
+function MASC(t){let pose=PT[0][1],t0=-1;for(const [a,p] of PT)if(t>=a){pose=p;t0=a}Object.keys(MAS).forEach(n=>$('#'+n).style.display=n===pose?'block':'none');const lo=MOUTH(t,pose);
+  const f=frame(t),ch=P(t,t0-.05,t0+.3),e=ch>0?bk(ch,1.2):1,m=$('#mas');const s=f.s*(.985+.015*e);
+  m.style.transformOrigin=`${MA0.x}px ${MA0.y}px`;m.style.transform=`translate(${(f.x-MA0.x).toFixed(1)}px,${(f.y-MA0.y+(1-e)*14-2.5*lo).toFixed(1)}px) scale(${s.toFixed(4)}) rotate(${(.8*Math.sin(t*1.5)).toFixed(2)}deg)`;
+  const g=$('#masglow');g.style.left=(f.x-450).toFixed(0)+'px';g.style.top=(f.y-560).toFixed(0)+'px';return f}
+
+initPaths();
+function render(t){const f=MASC(t);BG(t,(f.x-700)/300);SCN(t);SUB(t)}
+window.render=render;window.END=END;
+// SFX cue list for the mix
+window.SFXLIST=()=>{const E=[],e=(k,t)=>E.push([k,+t.toFixed(3)]);
+  e('whoosh',.05);[.3,.5,.7].forEach(x=>e('tick',x));e('tick',FW(0,'excel')-.15);
+  e('whoosh',W1.save[0]);e('pop',FW(1,'save')-.1);e('tick',FW(1,'follow')-.1);
+  e('whoosh',W1.intro[0]);e('tick',FW(1,'skill')+.1);
+  e('whoosh',W1.diag[0]);['normalitas','reliabilitas','regresi'].forEach(w=>e('tick',FW(3,w)-.3));e('tick',FW(3,'analisis')-.1);
+  e('whoosh',W1.steps[0]);['penjelasan','penyebab','solusi'].forEach(w=>e('tick',FW(4,w)-.2));
+  e('whoosh',W1.xls[0]);e('morph',FW(5,'dibuatkan')-.1);e('tick',FW(5,'variable')-.1);e('tick',FW(5,'value')-.1);e('confirm',FW(6,'buka')-.15);
+  e('riser',W1.close[0]-.9);e('whoosh',W1.close[0]);e('tick',FW(9,'lisensi')-.2);e('whoosh',W1.cta[0]);e('confirm',W1.cta[0]+.3);return E};
+if(!location.search.includes('render')){const st=$('#stage');const fit=()=>{const k=Math.min(innerWidth/1080,innerHeight/1920);st.style.transform=`scale(${k})`;st.style.transformOrigin='0 0'};fit();addEventListener('resize',fit);
+  const t0=performance.now();const loop=()=>{render(((performance.now()-t0)/1000)%END);requestAnimationFrame(loop)};loop()}else render(0);
+</script></body></html>
