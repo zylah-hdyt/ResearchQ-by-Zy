@@ -89,7 +89,7 @@ const Capsule: React.FC<{frame: number; tex: THREE.Texture}> = ({frame, tex}) =>
 	// drains on "habis", vanishes into the split on B2
 	const fill = kf(frame, [0, f(WORD.limit), f(WORD.habis) + 4, f(WORD.menggunakannya) + 14], [0.92, 0.88, 0.22, 0.06], EASE_OUT);
 	const flicker = frame > f(WORD.habis) && frame < 96 ? 0.85 + 0.15 * rand(frame) : 1;
-	const exist = 1 - prog(frame, 112, 140, EASE_IN_OUT);
+	const exist = 1 - prog(frame, 108, 128, EASE_IN_OUT);
 	const spin = frame * 0.004 + 0.3;
 	const H = 1.5;
 	if (exist <= 0.001) return null;
@@ -122,11 +122,11 @@ const Capsule: React.FC<{frame: number; tex: THREE.Texture}> = ({frame, tex}) =>
 
 const SEG = 5;
 const Ring: React.FC<{frame: number; tex: THREE.Texture}> = ({frame, tex}) => {
-	const appear = prog(frame, 118, 150, EASE_OUT);
-	if (frame < 116 || frame > 362) return null;
+	const appear = prog(frame, 124, 154, EASE_OUT);
+	if (frame < 124 || frame > 362) return null;
 	const leave = prog(frame, 338, 360, EASE_IN_OUT);
 	const yFly = interpolate(appear, [0, 1], [0.0, 1.15]) + leave * 1.6;
-	const sx = interpolate(appear, [0, 1], [0.08, 0.62]) * (1 - leave * 0.4);
+	const sx = interpolate(appear, [0, 1], [0.22, 0.62]) * (1 - leave * 0.4);
 	// segments consumed during "setiap periode 5 jam" and refilled on "reset"
 	const consumeStart = f(WORD.yaitu1);
 	const consumeEnd = f(WORD.selesai) + 6;
@@ -180,10 +180,10 @@ const Ring: React.FC<{frame: number; tex: THREE.Texture}> = ({frame, tex}) => {
 
 const DAYS = 7;
 const Pillars: React.FC<{frame: number; tex: THREE.Texture}> = ({frame, tex}) => {
-	const appear = prog(frame, 118, 152, EASE_OUT);
-	if (frame < 116) return null;
+	const appear = prog(frame, 124, 156, EASE_OUT);
+	if (frame < 124) return null;
 	const y = interpolate(appear, [0, 1], [-0.3, -1.55]);
-	const s = interpolate(appear, [0, 1], [0.08, 1]);
+	const s = interpolate(appear, [0, 1], [0.3, 1]);
 	const lightStart = f(WORD.weekly);
 	const lightEnd = f(WORD.reset2);
 	return (
@@ -296,6 +296,7 @@ const Scene: React.FC = () => {
 			</Environment>
 			<LightShaft frame={frame} />
 			<Capsule frame={frame} tex={tex} />
+			<Halo tex={tex} position={[0, 0, 0.4]} size={interpolate(frame, [114, 126, 140], [0.5, 5.5, 7], clamp)} opacity={interpolate(frame, [114, 124, 140], [0, 0.85, 0], clamp)} color="#ffd9b8" />
 			<Ring frame={frame} tex={tex} />
 			<Pillars frame={frame} tex={tex} />
 			<Dust frame={frame} />

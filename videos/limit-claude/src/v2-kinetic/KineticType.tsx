@@ -305,8 +305,9 @@ const Week: React.FC = () => {
 		<div style={{position: 'absolute', left: 60, right: 60, top: 1010, display: 'flex', gap: 14}}>
 			{DAYS.map((d, i) => {
 				const p = prog(frame, a + ((b - a) / 7) * i, a + ((b - a) / 7) * i + 6);
+				const enter = prog(frame, f(WORD.limit3) + 4 + i * 1.5, f(WORD.limit3) + 12 + i * 1.5, EASE_OUT);
 				return (
-					<div key={i} style={{flex: 1, height: 150, border: `4px solid ${INK}`, position: 'relative', overflow: 'hidden'}}>
+					<div key={i} style={{flex: 1, height: 150, border: `4px solid ${INK}`, position: 'relative', overflow: 'hidden', opacity: enter, translate: `0 ${(1 - enter) * 60}px`}}>
 						<div style={{position: 'absolute', left: 0, right: 0, bottom: 0, height: `${p * 100}%`, backgroundColor: INK}} />
 						<div style={{position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: FONT.anton, fontSize: 76, color: p > 0.5 ? ORANGE : INK}}>{d}</div>
 					</div>
