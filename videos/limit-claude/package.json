@@ -1,0 +1,28 @@
+{
+  "name": "limit-claude",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "studio": "remotion studio",
+    "render:all": "bash scripts/render-all.sh"
+  },
+  "dependencies": {
+    "@react-three/drei": "10.7.9",
+    "@react-three/fiber": "9.8.2",
+    "@remotion/cli": "4.0.544",
+    "@remotion/effects": "4.0.544",
+    "@remotion/google-fonts": "4.0.544",
+    "@remotion/media": "4.0.544",
+    "@remotion/three": "4.0.544",
+    "@remotion/transitions": "4.0.544",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "remotion": "4.0.544",
+    "three": "0.186.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.2",
+    "@types/three": "0.186.0",
+    "typescript": "5.9.3"
+  }
+}
