@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><title>Instan dan Cepat</title>
+<style>
+@font-face{font-family:'Inter';font-weight:500;src:url(data:font/woff2;base64,{{INTER500}}) format('woff2')}
+@font-face{font-family:'Inter';font-weight:600;src:url(data:font/woff2;base64,{{INTER600}}) format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;src:url(data:font/woff2;base64,{{INTER700}}) format('woff2')}
+@font-face{font-family:'PJS';font-weight:800;src:url(data:font/woff2;base64,{{PJS800}}) format('woff2')}
+@font-face{font-family:'ISerif';font-style:italic;font-weight:400;src:url(data:font/woff2;base64,{{ISERIF}}) format('woff2')}
+:root{--nv:#0B1630;--ch:#16181D;--wh:#F5F7FA;--eb:#3D8BFF;--yl:#FFC94D}
+*{box-sizing:border-box}html,body{margin:0;background:#0B1630;overflow:hidden}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#0B1630;font-family:Inter,sans-serif;color:var(--wh)}
+#gl{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.ab{position:absolute}
+#pbd{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(6,10,22,0) 45%,rgba(6,10,22,.55) 72%,rgba(6,10,22,.85) 100%)}
+#topg{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(6,10,22,.62) 0%,rgba(6,10,22,.38) 22%,rgba(6,10,22,0) 42%)}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+.kt{position:absolute;left:0;width:1080px;text-align:center;font-family:PJS;font-weight:800;letter-spacing:-.03em;color:#fff;white-space:nowrap;text-shadow:0 2px 2px rgba(0,0,0,.45),0 6px 30px rgba(0,0,0,.75)}
+.sf{font-family:ISerif;font-style:italic;font-weight:400;letter-spacing:-.01em;text-shadow:0 2px 2px rgba(0,0,0,.5),0 8px 34px rgba(0,0,0,.8)!important}
+.lb{position:absolute;font-family:Inter;font-weight:700;font-size:30px;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.95);text-shadow:0 2px 0 rgba(0,0,0,.35),0 4px 18px rgba(0,0,0,.75)}
+.chap{position:absolute;left:72px;top:210px;display:flex;align-items:center;gap:18px;font-family:Inter;font-weight:700;font-size:28px;letter-spacing:.3em;color:#fff;text-shadow:0 4px 16px rgba(0,0,0,.7)}
+.chap i{display:block;height:3px;background:var(--yl)}
+.glass{position:absolute;border-radius:28px;background:rgba(11,22,48,.72);border:1.5px solid rgba(255,255,255,.14);box-shadow:0 40px 80px -30px rgba(0,0,0,.7);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);overflow:hidden}
+.bub{position:absolute;padding:16px 22px;border-radius:22px;font-size:27px;line-height:1.35;font-weight:500}
+.vc{position:absolute;width:420px;height:300px;border-radius:20px;overflow:hidden;background:linear-gradient(150deg,#1D3D7A,#0B1630);border:1.5px solid rgba(255,255,255,.14);box-shadow:0 30px 60px -24px rgba(0,0,0,.7)}
+.vc .pl{position:absolute;left:180px;top:95px;width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.92)}
+.vc .pl:after{content:'';position:absolute;left:25px;top:18px;border-left:20px solid #0B1630;border-top:13px solid transparent;border-bottom:13px solid transparent}
+.vc .du{position:absolute;right:14px;top:14px;padding:4px 10px;border-radius:8px;background:rgba(0,0,0,.65);font-size:18px;font-weight:700}
+.vc .ti{position:absolute;left:18px;right:18px;bottom:16px;font-family:PJS;font-weight:800;font-size:28px;line-height:1.12}
+#sub{position:absolute;left:60px;top:1340px;width:960px;text-align:center;pointer-events:none}
+#sub .cue{position:absolute;left:0;top:0;width:960px;text-align:center;display:none}
+#sub span{display:inline-block;margin:0 .12em;font-family:PJS;font-weight:800;font-size:50px;line-height:1.2;letter-spacing:-.015em;color:#fff;white-space:nowrap;
+ text-shadow:3px 0 0 #0B1630,-3px 0 0 #0B1630,0 3px 0 #0B1630,0 -3px 0 #0B1630,2px 2px 0 #0B1630,-2px 2px 0 #0B1630,2px -2px 0 #0B1630,-2px -2px 0 #0B1630,0 10px 24px rgba(0,0,0,.45)}
+#sub span.k{color:var(--yl);font-size:56px}
+#mas{position:absolute;left:0;top:0;width:1080px;height:1920px;pointer-events:none}
+#mas .pz{position:absolute;display:none}#mas .mo{position:absolute;background-size:100% 100%}
+#masglow{position:absolute;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(61,139,255,.35),rgba(61,139,255,0) 65%);pointer-events:none}
+#wm{position:absolute;left:60px;top:1846px;font-family:PJS;font-weight:800;font-size:30px;letter-spacing:-.02em;color:rgba(255,255,255,.75)}
+#wm i{display:inline-block;width:9px;height:9px;border-radius:50%;background:#FF9F43;margin-left:3px}
+#sdiv{position:absolute;left:0;width:1080px;height:6px;background:linear-gradient(90deg,var(--yl),#fff,var(--eb));opacity:0;box-shadow:0 0 24px rgba(255,255,255,.5)}
+</style></head><body><div id="stage">
+<canvas id="gl" width="1080" height="1920"></canvas>
+<div id="topg"></div><div id="pbd"></div>
+<div id="vis"></div>
+<div id="masglow"></div>
+<div id="mas"></div>
+<div id="sub"></div>
+<div id="flash"></div>
+<div id="wm">ResearchQ<i></i></div>
+</div>
+<script>
+const SENT={{WORDS}};const MAS={{MASCOT}};const MO={{MOUTHS}};const MI={{MOUTHINFO}};const LIP={{LIP}};const MEDIA={{MEDIA}};
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const cl=(v,a=0,b=1)=>v<a?a:v>b?b:v,P=(t,a,b)=>cl((t-a)/(b-a)),L=(a,b,p)=>a+(b-a)*p;
+const o3=x=>1-Math.pow(1-x,3),io3=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,iosin=x=>.5-.5*Math.cos(Math.PI*x),bk=(x,s=1.3)=>1+(s+1)*Math.pow(x-1,3)+s*Math.pow(x-1,2);
+const N=SENT.length,END=SENT[N-1].e+1.6;
+const FW=(k,nd,occ=0)=>{const ws=SENT[k].words;let c=0;for(const w of ws){if(w[0].toLowerCase().replace(/[^a-z0-9]/g,'').includes(nd.toLowerCase())){if(c===occ)return w[1];c++}}return SENT[k].s};
+const SS=k=>SENT[k].s,SE=k=>SENT[k].e;
+function op(el,v){el.style.opacity=cl(v).toFixed(3)}
+function pop(el,t,a,{b=1e9,dx=0,dy=40,s0=.9,d=.5,bl=0}={}){if(!el)return;const p=P(t,a,a+d),q=P(t,b,b+.3),e=p>0?o3(p):0;
+  el.style.opacity=(cl(p*2.2)*(1-q)).toFixed(3);el.style.visibility=(p<=0||q>=1)?'hidden':'visible';
+  el.style.transform=`translate(${((1-e)*dx).toFixed(1)}px,${((1-e)*dy-q*16).toFixed(1)}px) scale(${(s0+(1-s0)*(p>0?bk(p,1.1):0)).toFixed(4)})`;
+  el.style.filter=bl?`blur(${((1-e)*bl+q*8).toFixed(1)}px)`:''}
+const V=$('#vis');const add=h=>V.insertAdjacentHTML('beforeend',h);
+
+// =============== B-ROLL ENGINE (WebGL2: depth parallax, DOF, whip, grade, grain, leak, split) ===============
+const cv=$('#gl'),gl=cv.getContext('webgl2',{preserveDrawingBuffer:true,antialias:false});
+const VS=`#version 300 es
+in vec2 p;out vec2 vUv;void main(){vUv=vec2(p.x*.5+.5,1.-(p.y*.5+.5));gl_Position=vec4(p,0,1);}`;
+const FS=`#version 300 es
+precision highp float;in vec2 vUv;out vec4 o;
+uniform sampler2D tA,dA,tB,dB;uniform vec4 camA,camB,pA,pB,gA,gB;uniform vec3 shA,shB,hiA,hiB;uniform vec2 whA,whB;
+uniform float mixAB,split,splitY,time,grain,vig,leak,leakX;
+vec3 shot(sampler2D t,sampler2D d,vec2 uv,float pa,vec4 cam,vec4 p,vec2 wh){
+  vec2 s=vec2(min(1.,pa/cam.w),min(1.,cam.w/pa));vec2 u=(uv-.5)*s/cam.z+cam.xy;
+  float dd=texture(d,u).r;u+=p.xy*(dd-p.z);dd=texture(d,u).r;u=p.xy*(dd-p.z)+(uv-.5)*s/cam.z+cam.xy;
+  float r=p.w*abs(dd-p.z)*.012;vec3 c=vec3(0.);
+  for(int i=0;i<12;i++){float fi=float(i);float an=fi*2.39996;float rad=sqrt((fi+.5)/12.)*r;vec2 off=vec2(cos(an)/cam.w,sin(an))*rad+wh*(fi/11.-.5);c+=texture(t,clamp(u+off,.001,.999)).rgb;}
+  return c/12.;}
+vec3 grade(vec3 c,vec4 g,vec3 sh,vec3 hi){c=pow(max(c,0.),vec3(1./2.2));c=pow(c,vec3(2.2));c*=g.x;float l=dot(c,vec3(.2126,.7152,.0722));c=mix(vec3(l),c,g.y);
+  c=(c-.45)*g.z+.45;c=max(c,0.);l=clamp(dot(c,vec3(.2126,.7152,.0722)),0.,1.);c=c*mix(vec3(1.),hi,l)+sh*(1.-l)*(1.-l);c=g.w+c*(1.-g.w);return c;}
+float hash(vec2 q){return fract(sin(dot(q,vec2(12.9898,78.233)))*43758.5453);}
+void main(){vec2 uv=vUv;vec3 c;
+  if(split>.5){ if(uv.y<splitY){vec2 u=vec2(uv.x,uv.y/splitY);c=grade(shot(tA,dA,u,1080./(1920.*splitY),camA,pA,whA),gA,shA,hiA);}
+               else{vec2 u=vec2(uv.x,(uv.y-splitY)/(1.-splitY));c=grade(shot(tB,dB,u,1080./(1920.*(1.-splitY)),camB,pB,whB),gB,shB,hiB);} }
+  else{ vec3 a=mixAB<.999?grade(shot(tA,dA,uv,.5625,camA,pA,whA),gA,shA,hiA):vec3(0.);vec3 b=mixAB>.001?grade(shot(tB,dB,uv,.5625,camB,pB,whB),gB,shB,hiB):vec3(0.);c=mix(a,b,mixAB);}
+  vec2 q=uv-vec2(leakX,.25);c+=leak*vec3(1.,.55,.18)*exp(-dot(q*vec2(1.,.6),q*vec2(1.,.6))*5.);
+  float v=length((uv-.5)*vec2(1.,.75))*1.35;c*=1.-vig*pow(v,2.4);
+  c+=(hash(uv*vec2(1080.,1920.)+fract(time*7.31)*91.)-.5)*grain;
+  o=vec4(clamp(c,0.,1.),1.);}`;
+function sh(type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(s));return s}
+const prog=gl.createProgram();gl.attachShader(prog,sh(gl.VERTEX_SHADER,VS));gl.attachShader(prog,sh(gl.FRAGMENT_SHADER,FS));gl.linkProgram(prog);gl.useProgram(prog);
+const vb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,vb);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+const lp=gl.getAttribLocation(prog,'p');gl.enableVertexAttribArray(lp);gl.vertexAttribPointer(lp,2,gl.FLOAT,false,0,0);
+const U={};['tA','dA','tB','dB','camA','camB','pA','pB','gA','gB','shA','shB','hiA','hiB','whA','whB','mixAB','split','splitY','time','grain','vig','leak','leakX'].forEach(n=>U[n]=gl.getUniformLocation(prog,n));
+gl.uniform1i(U.tA,0);gl.uniform1i(U.dA,1);gl.uniform1i(U.tB,2);gl.uniform1i(U.dB,3);
+const TEX={};
+function mkTex(img){const t=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);return t}
+const ld=src=>new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src});
+window.READY=Promise.all(Object.entries(MEDIA).map(async([k,v])=>{const [im,dm]=await Promise.all([ld(v.img),ld(v.dep)]);TEX[k]={t:mkTex(im),d:mkTex(dm),ar:im.width/im.height}}));
+
+// grades: [expo,sat,contrast,fade], shadow tint, highlight tint
+const GR={dark:[[.58,.55,1.3,.01],[.008,.02,.06],[.9,.97,1.1]],
+  warm:[[.94,.84,1.06,.03],[.06,.04,.018],[1.10,1.0,.80]],
+  warmbw:[[1.02,.0,1.0,.06],[.06,.04,.02],[1.08,1.0,.84]],
+  modern:[[1.06,1.02,1.06,.0],[.0,.03,.075],[.99,1.0,1.04]],
+  night:[[.42,.55,1.35,.0],[.006,.018,.05],[.9,.97,1.12]],
+  dusk:[[.5,.8,1.15,.01],[.03,.022,.04],[1.06,.96,.82]],
+  cool:[[.72,.7,1.15,.01],[.0,.025,.07],[.93,.98,1.08]]};
+// ---------- shot list (filled after word timing is known)
+let SH=[];
+function camOf(s,t){const p=cl((t-s.a)/(s.b-s.a),-.3,1.35),e=L(p,iosin(cl(p)),.35);const z=L(s.z[0],s.z[1],e);const c0=s.c?s.c[0]:[.5,.5],c1=s.c?s.c[1]:c0;
+  return {cx:L(c0[0],c1[0],e),cy:L(c0[1],c1[1],e),z,px:(s.par||[0,0])[0]*(e*2-1),py:(s.par||[0,0])[1]*(e*2-1)}}
+function bindShot(slot,s,t,extra={}){const T=TEX[s.n];const c=camOf(s,t);gl.activeTexture(gl.TEXTURE0+slot*2);gl.bindTexture(gl.TEXTURE_2D,T.t);gl.activeTexture(gl.TEXTURE1+slot*2);gl.bindTexture(gl.TEXTURE_2D,T.d);
+  const pa=extra.pa||.5625,sx=Math.min(1,pa/T.ar)/c.z*.5,sy=Math.min(1,T.ar/pa)/c.z*.5;const cx=cl(c.cx+(extra.dx||0),sx+.012,1-sx-.012),cy=cl(c.cy,sy+.012,1-sy-.012);
+  const g=GR[s.g||'modern'],X=slot?'B':'A';gl.uniform4f(U['cam'+X],cx,cy,c.z,T.ar);gl.uniform4f(U['p'+X],c.px,c.py,s.f==null?.55:s.f,s.dof||0);
+  gl.uniform4f(U['g'+X],...g[0]);gl.uniform3f(U['sh'+X],...g[1]);gl.uniform3f(U['hi'+X],...g[2]);gl.uniform2f(U['wh'+X],extra.wh||0,0)}
+function BROLL(t){let i=0;for(let k=0;k<SH.length;k++)if(t>=SH[k].a)i=k;const s=SH[i],pr=SH[Math.max(0,i-1)];
+  gl.uniform1f(U.time,t);gl.uniform1f(U.grain,s.g==='warm'||s.g==='warmbw'?.075:.05);gl.uniform1f(U.vig,(s.g==='dark'||s.g==='night')?.95:s.g==='modern'?.45:.7);
+  const lk=(s.g==='warm'||s.g==='warmbw')?(.10+.06*Math.sin(t*1.7))*P(t,s.a,s.a+.6):0;gl.uniform1f(U.leak,lk);gl.uniform1f(U.leakX,.15+.7*((t*.08)%1));
+  if(s.split){const sy=L(1,.5,io3(P(t,s.a+.05,s.a+.65)));const sy2=L(sy,.5,0);const syy=s.split2?L(.5,.5,0):sy;
+    const yB=t<s.sb?L(1,.5,io3(P(t,s.sb-.6,s.sb))):.5; // bottom panel slides up when "sekarang" starts
+    gl.uniform1f(U.split,1);gl.uniform1f(U.splitY,Math.max(.5,yB));bindShot(0,{...s,n:s.n,g:s.g},t,{pa:1080/(1920*Math.max(.5,yB))});bindShot(1,{...s,n:s.n2,g:s.g2,c:s.c2,z:s.z2,par:s.par2},t,{pa:1080/(1920*(1-Math.max(.5,yB)+1e-3))});
+    gl.drawArrays(gl.TRIANGLE_STRIP,0,4);const d=$('#sdiv');d.style.top=(Math.max(.5,yB)*1920-3).toFixed(0)+'px';op(d,yB<.995?1:0);return}
+  $('#sdiv').style.opacity=0;gl.uniform1f(U.split,0);const td=s.td||(s.tr==='whip'?.42:s.tr==='fade'?.6:s.tr==='flash'?.5:0);
+  if(i>0&&td>0&&t<s.a+td){const e=P(t,s.a,s.a+td);
+    if(s.tr==='whip'){const k=io3(e),bl=Math.sin(Math.PI*e)*.085*(s.dir||1);bindShot(0,pr,t,{dx:k*.12*(s.dir||1),wh:bl});bindShot(1,s,t,{dx:-(1-k)*.12*(s.dir||1),wh:bl});gl.uniform1f(U.mixAB,cl((e-.35)/.3))}
+    else{bindShot(0,pr,t);bindShot(1,s,t);gl.uniform1f(U.mixAB,iosin(e))}}
+  else{bindShot(0,s,t);bindShot(1,s,t);gl.uniform1f(U.mixAB,1)}
+  gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+  // flash for 'flash' transitions and hard accents
+  let fl=0;for(const x of SH){if(x.tr==='flash'){fl=Math.max(fl,Math.max(0,1-Math.abs(t-x.a-.04)/.22))}}$('#flash').style.opacity=(fl*.85).toFixed(3)}
+
+// =============== OVERLAYS ===============
+const CH=(id,txt,col='var(--yl)')=>`<div class="chap" id="${id}"><i style="width:56px;background:${col}"></i>${txt}</div>`;
+add(`<div class="kt" id="h1" style="top:300px;font-size:120px;line-height:1">serba <span style="color:var(--yl)">instan</span></div>
+ <div class="kt sf" id="h2" style="top:440px;font-size:110px;line-height:1;color:#fff">&amp; cepat?</div>
+ <div class="kt" id="m1" style="top:780px;font-size:150px;line-height:1;letter-spacing:-.04em">menyerah.</div>
+ <div class="lb" id="m1l" style="left:0;width:1080px;text-align:center;top:720px">sedikit aja, udah</div>`);
+// save & follow
+add(`<div class="ab" id="i_save" style="left:410px;top:430px;width:260px;text-align:center"><div style="height:230px;display:flex;align-items:center;justify-content:center"><svg width="170" height="215" viewBox="0 0 150 190"><path d="M20 10 h110 a10 10 0 0 1 10 10 v160 l-65 -45 l-65 45 v-160 a10 10 0 0 1 10 -10z" fill="#FFC94D"/></svg></div><div class="kt" style="position:relative;width:260px;font-size:58px;margin-top:18px">Save</div></div>
+ <div class="ab" id="i_fol" style="left:620px;top:430px;width:260px;text-align:center"><div style="height:230px;display:flex;align-items:center;justify-content:center"><svg width="215" height="215" viewBox="0 0 170 170"><circle cx="85" cy="85" r="80" fill="#3D8BFF"/><circle cx="70" cy="66" r="24" fill="#fff"/><path d="M30 128 q40 -50 80 0" fill="#fff"/><rect x="112" y="58" width="36" height="9" rx="4" fill="#fff"/><rect x="125" y="45" width="9" height="36" rx="4" fill="#fff"/></svg></div><div class="kt" style="position:relative;width:260px;font-size:58px;margin-top:18px">Follow</div></div>`);
+// 2021 rewind
+add(`${CH('c_dulu','DULU · KULIAH')}
+ <div class="kt" id="yr" style="top:520px;font-size:280px;line-height:1;letter-spacing:-.05em;color:#FFF4DC;text-shadow:0 10px 60px rgba(255,170,60,.45)"><span id="yrn">2026</span></div>
+ <div class="lb" id="yrl" style="left:0;width:1080px;text-align:center;top:470px;color:#FFE2A8">kembali ke</div>
+ <div class="ab" id="noai" style="left:0;top:560px;width:1080px;text-align:center">
+   <div class="lb" style="position:relative;color:#FFE2A8">dulu belum ada</div>
+   <div style="position:relative;display:inline-block;font-family:PJS;font-weight:800;font-size:250px;line-height:1.05;letter-spacing:-.04em;color:#fff;text-shadow:0 10px 50px rgba(0,0,0,.5)">AI<i id="noai_s" style="position:absolute;left:-30px;right:-30px;top:52%;height:16px;border-radius:8px;background:var(--yl);transform-origin:0 50%;transform:scaleX(0)"></i></div></div>`);
+// tiktok 2021 & no creators
+add(`<div class="ab" id="tk" style="left:0;top:470px;width:1080px;text-align:center"><div class="lb" style="position:relative">TikTok · 2021</div><div class="sf" style="font-size:120px;line-height:1.05;margin-top:16px;text-shadow:0 8px 40px rgba(0,0,0,.6)">belum seramai<br>sekarang</div></div>
+ <div class="ab" id="kr" style="left:0;top:430px;width:1080px;text-align:center"><div class="lb" style="position:relative">belum banyak</div><div style="font-family:PJS;font-weight:800;font-size:110px;line-height:1.02;letter-spacing:-.03em;margin-top:12px;text-shadow:0 8px 40px rgba(0,0,0,.6)">kreator<br>edukasi</div></div>
+ <div class="glass" id="lv0" style="left:190px;top:470px;width:700px;height:290px;padding:34px 40px">
+   <div style="display:flex;align-items:center;gap:16px"><span style="padding:8px 18px;border-radius:10px;background:rgba(255,255,255,.14);font-weight:800;font-size:26px;letter-spacing:.12em;color:rgba(255,255,255,.45);text-decoration:line-through">LIVE</span><span style="font-size:26px;font-weight:600;color:rgba(255,255,255,.55)">tanya-jawab gratis</span></div>
+   <div style="margin-top:34px;font-family:PJS;font-weight:800;font-size:46px;line-height:1.15">skripsi &amp; penelitian<br><span style="color:var(--yl)">tanya ke siapa?</span></div></div>`);
+// cari sendiri + montage + berharga
+add(`<div class="kt" id="cs" style="top:330px;font-size:118px;line-height:1">cari <span class="sf" style="color:var(--yl);font-size:130px">sendiri.</span></div>
+ ${['buku','jurnal','YouTube','referensi'].map((w,i)=>`<div class="ab mt" id="mt${i}" style="left:0;top:690px;width:1080px;text-align:center"><div class="lb" style="position:relative;color:#FFE2A8">0${i+1}</div><div class="sf" style="font-size:170px;line-height:1.05;text-shadow:0 10px 50px rgba(0,0,0,.6)">${w}</div></div>`).join('')}
+ <div class="ab" id="bh" style="left:0;top:560px;width:1080px;text-align:center"><div class="lb" style="position:relative;color:#FFE2A8">informasi saat itu</div><div class="sf" style="font-size:190px;line-height:1.05;color:var(--yl);text-shadow:0 10px 60px rgba(0,0,0,.55)">berharga.</div></div>`);
+// sekarang
+add(`${CH('c_now','SEKARANG','var(--eb)')}
+ <div class="kt" id="now" style="top:330px;font-size:150px;line-height:1;color:#fff">sekarang<span style="color:var(--eb)">.</span></div>
+ <div class="lb" id="nowl" style="left:0;width:1080px;text-align:center;top:500px">coba lihat</div>
+ <div class="glass" id="ai" style="left:80px;top:300px;width:920px;height:560px">
+   <div style="height:76px;display:flex;align-items:center;gap:14px;padding:0 30px;border-bottom:1px solid rgba(255,255,255,.12);font-weight:700;font-size:28px"><svg width="34" height="34" viewBox="0 0 34 34"><path d="M17 2 L20 14 L32 17 L20 20 L17 32 L14 20 L2 17 L14 14Z" fill="#3D8BFF"/></svg>Asisten AI</div>
+   <div class="bub" id="ai_u" style="right:28px;top:104px;max-width:640px;background:#3D8BFF;color:#fff">Jelasin uji t pakai bahasa sederhana dong</div>
+   <div class="bub" id="ai_r" style="left:28px;top:230px;width:760px;background:rgba(255,255,255,.1);color:#EAF0FF;min-height:150px;white-space:pre-wrap"></div></div>
+ <div class="lb" id="ytl" style="left:80px;top:300px">YouTube · tutorial</div>
+ <div class="vc" id="v0" style="left:80px;top:350px"><div class="pl"></div><div class="du">12:04</div><div class="ti">Tutorial SPSS dari nol</div></div>
+ <div class="vc" id="v1" style="left:580px;top:350px;background:linear-gradient(150deg,#2B6CE0,#0E1F45)"><div class="pl"></div><div class="du">08:31</div><div class="ti">Cara baca output regresi</div></div>
+ <div class="vc" id="v2" style="left:330px;top:680px;background:linear-gradient(150deg,#3E3A8C,#0B1630)"><div class="pl"></div><div class="du">15:20</div><div class="ti">SmartPLS untuk pemula</div></div>`);
+// jurnal online + live + discussion
+add(`<div class="glass" id="jr" style="left:100px;top:320px;width:880px;height:470px;padding:30px 36px">
+   <div class="lb" style="position:relative;color:#9CC2FF">jurnal online</div>
+   <div style="margin-top:20px;height:70px;border-radius:16px;background:rgba(255,255,255,.1);display:flex;align-items:center;padding:0 24px;font-size:28px;color:#DCE7FF"><svg width="30" height="30" viewBox="0 0 30 30" style="margin-right:14px"><circle cx="12" cy="12" r="9" stroke="#9CC2FF" stroke-width="3" fill="none"/><path d="M19 19 L27 27" stroke="#9CC2FF" stroke-width="3"/></svg><span id="jq"></span></div>
+   ${[0,1,2].map(i=>`<div class="jrow" style="margin-top:${i?14:22}px;display:flex;align-items:center;gap:18px;padding:16px 18px;border-radius:16px;background:rgba(255,255,255,.06)"><span style="width:52px;height:62px;border-radius:8px;background:#E5463A;display:flex;align-items:flex-end;justify-content:center;font-size:14px;font-weight:800;padding-bottom:6px">PDF</span><div style="flex:1"><div style="height:16px;width:${[88,72,80][i]}%;border-radius:8px;background:rgba(255,255,255,.55)"></div><div style="height:12px;width:${[52,60,44][i]}%;border-radius:6px;background:rgba(255,255,255,.25);margin-top:12px"></div></div><span style="padding:6px 12px;border-radius:10px;background:rgba(124,224,160,.2);color:#9FF0C0;font-size:18px;font-weight:700">Open Access</span></div>`).join('')}</div>
+ <div class="ab" id="lv" style="left:80px;top:300px;width:920px">
+   <div style="display:flex;align-items:center;gap:16px"><span style="padding:10px 20px;border-radius:12px;background:#FF3B4E;font-weight:800;font-size:30px;letter-spacing:.14em;box-shadow:0 0 30px rgba(255,59,78,.6)">LIVE</span><span style="font-size:26px;font-weight:700;padding:10px 16px;border-radius:12px;background:rgba(0,0,0,.45)">diskusi gratis · ilustrasi</span></div>
+   <div class="bub lvb" style="position:relative;margin-top:26px;display:inline-block;background:rgba(11,22,48,.78);border:1.5px solid rgba(255,255,255,.14)">Kak, cara uji validitas gimana?</div><br>
+   <div class="bub lvb" style="position:relative;margin-top:14px;margin-left:120px;display:inline-block;background:rgba(11,22,48,.78);border:1.5px solid rgba(255,255,255,.14)">Sampel minimal berapa ya?</div><br>
+   <div class="bub lvb" style="position:relative;margin-top:14px;display:inline-block;background:rgba(61,139,255,.85)">Boleh tanya soal Bab 4? 🙏</div></div>
+ <div class="ab" id="ds" style="left:0;top:380px;width:1080px;text-align:center"><div class="lb" style="position:relative">berbagi ilmu &amp;</div><div class="sf" style="font-size:150px;line-height:1.05;text-shadow:0 10px 50px rgba(0,0,0,.55)">diskusi <span style="color:var(--yl)">gratis</span></div></div>`);
+// jauh lebih mudah
+add(`<div class="ab" id="md" style="left:0;top:250px;width:1080px;text-align:center"><div class="lb" style="position:relative">sumber belajar sekarang</div><div style="font-family:PJS;font-weight:800;font-size:96px;line-height:1.05;letter-spacing:-.03em;margin-top:14px;text-shadow:0 8px 40px rgba(0,0,0,.6)">jauh lebih</div><div style="font-family:PJS;font-weight:800;font-size:190px;line-height:.95;letter-spacing:-.05em;color:var(--eb);text-shadow:0 8px 50px rgba(61,139,255,.45)">MUDAH</div><div class="sf" style="font-size:84px;line-height:1.1">ditemukan</div></div>
+ <div class="ab" id="q1" style="left:0;top:470px;width:1080px;text-align:center"><div class="sf" style="font-size:96px;line-height:1.05;color:rgba(255,255,255,.8)">nggak paham?</div><div style="font-family:PJS;font-weight:800;font-size:92px;line-height:1.1;margin-top:10px">→ cari penjelasan <span style="color:var(--yl)">lain</span></div></div>
+ <div class="ab" id="q2" style="left:0;top:470px;width:1080px;text-align:center"><div class="sf" style="font-size:96px;line-height:1.05;color:rgba(255,255,255,.85)">masih bingung?</div><div style="font-family:PJS;font-weight:800;font-size:110px;line-height:1.1;margin-top:10px">→ tanya <span style="color:var(--eb)">AI</span></div></div>
+ <div class="ab" id="gm" style="left:0;top:300px;width:1080px;text-align:center"><div class="lb" style="position:relative">belum benar-benar mencoba</div><div class="sf" style="font-size:84px;line-height:1.1;margin-top:18px">sudah merasa</div><div style="font-family:PJS;font-weight:800;font-size:150px;line-height:1;letter-spacing:-.04em;color:var(--yl);text-shadow:0 8px 50px rgba(0,0,0,.6)">gak mampu?</div></div>`);
+// split + closing
+add(`<div id="sdiv"></div>
+ <div class="ab" id="sp1" style="left:72px;top:230px"><div class="lb" style="position:relative;color:#FFE2A8">dulu</div><div style="font-family:PJS;font-weight:800;font-size:76px;line-height:1.05;margin-top:10px;text-shadow:0 8px 30px rgba(0,0,0,.7)">akses informasi<br><span class="sf" style="color:var(--yl);font-size:88px">terbatas</span></div></div>
+ <div class="ab" id="sp2" style="left:72px;top:1010px"><div class="lb" style="position:relative;color:#9CC2FF">sekarang</div><div style="font-family:PJS;font-weight:800;font-size:76px;line-height:1.05;margin-top:10px;text-shadow:0 8px 30px rgba(0,0,0,.7)">bisa ditemukan<br><span class="sf" style="color:var(--eb);font-size:88px">di mana-mana</span></div></div>
+ <div class="ab" id="cl1" style="left:0;top:330px;width:1080px;text-align:center"><div class="lb" style="position:relative;color:#FFE2A8">di tengah semua kemudahan ini</div><div class="sf" style="font-size:110px;line-height:1.08;margin-top:18px;text-shadow:0 10px 50px rgba(0,0,0,.6)">jangan sampai</div></div>
+ <div class="ab" id="cl2" style="left:0;top:250px;width:1080px;text-align:center"><div style="font-family:PJS;font-weight:800;font-size:88px;line-height:1.05;letter-spacing:-.03em;text-shadow:0 8px 40px rgba(0,0,0,.6)">kemauan belajar</div><div class="sf" style="font-size:110px;line-height:1.05;color:var(--yl)">yang berkurang.</div></div>
+ <div class="ab" id="end" style="left:0;top:560px;width:1080px;text-align:center"><div class="lb" style="position:relative">@researchq.id</div></div>`);
+
+// =============== SCENE TIMING ===============
+let W={};
+function buildTimeline(){
+  const sav=SS(2),d21=SS(3),tk=SS(4),kr=SS(5),cs=SS(6),mt=SS(7),bh=SS(8),now=SS(9),ai=SS(10),yt=SS(11),jr=SS(12),md=SS(13),q=SS(14),gm=SS(15),sp=SS(16),sp2=SS(17),cl=SS(18);
+  const mz=FW(1,'menyerah')-.3,dulu=FW(3,'dulu')-.12,apl=FW(5,'apalagi')-.1,jn=FW(7,'jurnal')-.06,nt=FW(7,'nonton')-.06,bg=FW(7,'berbagi')-.06,bk=FW(12,'bahkan')-.1,dsk=FW(12,'diskusi')-.25,ms=FW(14,'masih')-.1,js=FW(18,'justru')-.15;
+  W={sav,d21,tk,kr,cs,mt,bh,now,ai,yt,jr,md,q,gm,sp,sp2,cl,mz,dulu,apl,jn,nt,bg,bk,dsk,ms,js};
+  SH=[
+   {n:'frustrated_student_hoodie',a:0,b:SS(1),z:[1.22,1.08],c:[[.5,.42],[.5,.45]],par:[.012,.004],g:'night',f:.6,dof:.6},
+   {n:'overwhelmed_sticky_notes',a:SS(1),b:mz,z:[1.06,1.16],c:[[.5,.45],[.5,.4]],par:[.01,0],g:'dark',f:.6,dof:.4,tr:'whip',dir:1},
+   {n:'laptop_dark_glow',a:mz,b:sav,z:[1.18,1.08],c:[[.5,.55],[.5,.55]],par:[0,.01],g:'dark',f:.8,dof:.3},
+   {n:'student_thinking_laptop',a:sav,b:d21,z:[1.1,1.16],c:[[.5,.45],[.5,.45]],par:[.006,0],g:'cool',f:.9,dof:1.6,tr:'fade'},
+   {n:'library_warm_lights',a:d21,b:dulu,z:[1.06,1.2],c:[[.5,.5],[.5,.5]],par:[.018,.004],g:'warm',f:.2,dof:.5,tr:'flash'},
+   {n:'desk_notes_coffee_warm',a:dulu,b:tk,z:[1.14,1.06],c:[[.5,.45],[.5,.55]],par:[.004,.012],g:'warm',f:.7,dof:.5,tr:'fade'},
+   {n:'hand_phone_scroll',a:tk,b:kr,z:[1.08,1.16],c:[[.55,.6],[.52,.62]],par:[.012,0],g:'warm',f:.75,dof:.8,tr:'fade'},
+   {n:'empty_classroom',a:kr,b:apl,z:[1.04,1.18],c:[[.5,.5],[.5,.5]],par:[0,.012],g:'warm',f:.2,dof:.3},
+   {n:'empty_lecture_hall',a:apl,b:cs,z:[1.12,1.05],c:[[.5,.5],[.48,.5]],par:[.012,0],g:'warm',f:.5,dof:.3,tr:'fade'},
+   {n:'student_library_aisle',a:cs,b:mt,z:[1.06,1.2],c:[[.5,.48],[.5,.46]],par:[0,.01],g:'warm',f:.25,dof:.5,tr:'fade'},
+   {n:'open_book_notes',a:mt,b:jn,z:[1.12,1.2],c:[[.5,.55],[.5,.55]],par:[.012,0],g:'warm',f:.8,dof:.8},
+   {n:'handwriting_journal_notes',a:jn,b:nt,z:[1.2,1.1],c:[[.55,.5],[.5,.5]],par:[.01,0],g:'warm',f:.8,dof:.8},
+   {n:'laptop_typing_bw',a:nt,b:bg,z:[1.1,1.2],c:[[.5,.5],[.5,.5]],par:[.01,0],g:'warmbw',f:.8,dof:.6},
+   {n:'students_sharing_laptop',a:bg,b:bh,z:[1.08,1.16],c:[[.5,.45],[.5,.45]],par:[.012,0],g:'warm',f:.5,dof:.5},
+   {n:'reading_book_sunlight',a:bh,b:now,z:[1.05,1.14],c:[[.5,.5],[.5,.48]],par:[.006,.006],g:'warm',f:.7,dof:.5,tr:'fade'},
+   {n:'bright_library_corridor',a:now,b:ai,z:[1.04,1.2],c:[[.5,.5],[.5,.5]],par:[0,.012],g:'modern',f:.2,dof:1.2,tr:'whip',dir:-1},
+   {n:'ai_robot_laptop_render',a:ai,b:yt,z:[1.14,1.06],c:[[.5,.5],[.5,.5]],par:[.012,0],g:'modern',f:.7,dof:1.4,tr:'fade',td:.35},
+   {n:'student_headphones_laptop',a:yt,b:jr,z:[1.08,1.16],c:[[.5,.5],[.5,.5]],par:[.012,0],g:'modern',f:.8,dof:1.6,tr:'whip',dir:1},
+   {n:'laptop_phone_hands',a:jr,b:bk,z:[1.06,1.14],c:[[.5,.5],[.5,.52]],par:[.01,0],g:'modern',f:.8,dof:1.5,tr:'fade',td:.35},
+   {n:'video_call_class',a:bk,b:dsk,z:[1.1,1.04],c:[[.52,.5],[.5,.5]],par:[.012,0],g:'modern',f:.75,dof:.6,tr:'whip',dir:-1},
+   {n:'students_discussion_laughing',a:dsk,b:md,z:[1.06,1.14],c:[[.5,.48],[.5,.48]],par:[.012,0],g:'modern',f:.5,dof:.8,tr:'fade',td:.4},
+   {n:'curved_library_bright',a:md,b:q,z:[1.06,1.16],c:[[.5,.5],[.52,.5]],par:[.016,0],g:'modern',f:.3,dof:1.6,tr:'fade',td:.4},
+   {n:'typing_laptop_closeup',a:q,b:ms,z:[1.14,1.06],c:[[.5,.5],[.5,.5]],par:[.01,0],g:'modern',f:.75,dof:1.0,tr:'whip',dir:1},
+   {n:'ai_abstract_network',a:ms,b:gm,z:[1.04,1.2],c:[[.5,.5],[.5,.5]],par:[.01,.01],g:'dark',f:.9,dof:.6,tr:'fade',td:.35},
+   {n:'student_thinking_laptop',a:gm,b:sp,z:[1.04,1.16],c:[[.42,.42],[.42,.42]],par:[.008,0],g:'cool',f:.85,dof:.5,tr:'fade'},
+   {n:'books_stack_dulu',split:true,n2:'online_class_laptop_sekarang',sb:sp2,a:sp,b:cl,z:[1.1,1.2],c:[[.5,.5],[.5,.5]],par:[.012,0],g:'warm',f:.8,dof:.4,
+    z2:[1.15,1.05],c2:[[.5,.5],[.5,.5]],par2:[.012,0],g2:'modern'},
+   {n:'silhouette_reading_sunset',a:cl,b:js,z:[1.04,1.14],c:[[.45,.5],[.45,.5]],par:[.014,0],g:'warm',f:.6,dof:.3,tr:'fade',td:.7},
+   {n:'students_overhead_laptops_books',a:js,b:END,z:[1.14,1.04],c:[[.5,.5],[.5,.5]],par:[0,.012],g:'dusk',f:.6,dof:.8,tr:'fade',td:.6}];
+  // split: give each panel its own view by reusing camA for top and B for bottom
+  SH.forEach(s=>{if(s.split){s.g2=s.g2||'modern'}});
+}
+
+function SCN(t){const w=W;
+  // hook
+  pop($('#h1'),t,FW(0,'instan')-.15,{dy:30,s0:.85,b:SS(1)-.2});pop($('#h2'),t,FW(0,'cepat')-.15,{dy:20,s0:.9,b:SS(1)-.2,bl:10});
+  pop($('#m1l'),t,FW(1,'sedikit')-.1,{dy:14,b:w.sav-.2});pop($('#m1'),t,FW(1,'menyerah')-.12,{dy:0,s0:1.35,d:.35,b:w.sav-.2,bl:16});
+  // save / follow
+  const fo=FW(2,'follow')-.1,sx=io3(P(t,fo-.08,fo+.3));pop($('#i_save'),t,FW(2,'save')-.1,{dy:30,s0:.5,b:w.d21-.25});$('#i_save').style.left=(410-210*sx).toFixed(1)+'px';pop($('#i_fol'),t,fo,{dy:30,s0:.5,b:w.d21-.25});
+  // 2021 rewind
+  pop($('#c_dulu'),t,w.d21+.15,{dx:-40,dy:0,b:w.tk-.2});pop($('#yrl'),t,w.d21+.1,{dy:10,b:w.dulu-.25});pop($('#yr'),t,w.d21+.05,{dy:0,s0:1.1,b:w.dulu-.25,bl:20});
+  const y0=w.d21+.15,y1=FW(3,'2021')+.05;const yv=Math.round(L(2026,2021,io3(P(t,y0,y1))));$('#yrn').textContent=yv;$('#yr').style.color=t>=y1?'#FFC94D':'#FFF4DC';
+  pop($('#noai'),t,w.dulu+.05,{dy:24,s0:.92,b:w.tk-.2});$('#noai_s').style.transform=`scaleX(${o3(P(t,FW(3,'seperti')-.25,FW(3,'seperti')+.25)).toFixed(3)})`;
+  pop($('#tk'),t,w.tk+.1,{dy:24,b:w.kr-.2,bl:8});pop($('#kr'),t,w.kr+.1,{dy:24,b:w.apl-.2});pop($('#lv0'),t,w.apl+.05,{dy:50,s0:.94,b:w.cs-.2});
+  pop($('#cs'),t,FW(6,'cari')-.15,{dy:24,s0:.9,b:w.mt-.15});
+  ['mt','jn','nt','bg'].forEach((k,i)=>{const a=[w.mt,w.jn,w.nt,w.bg][i],b=[w.jn,w.nt,w.bg,w.bh][i];pop($('#mt'+i),t,a+.02,{dy:0,s0:1.12,d:.3,b:b-.18,bl:12})});
+  pop($('#bh'),t,FW(8,'berharga')-.25,{dy:20,s0:.95,b:w.now-.15,bl:14});
+  // now
+  pop($('#c_now'),t,w.now+.1,{dx:-40,dy:0,b:w.sp-.2});pop($('#now'),t,w.now+.05,{dy:0,s0:1.25,d:.35,b:w.ai-.15});pop($('#nowl'),t,FW(9,'coba')-.1,{dy:10,b:w.ai-.15});
+  pop($('#ai'),t,w.ai+.05,{dy:70,s0:.94,b:w.yt-.2});op($('#ai_u'),P(t,w.ai+.3,w.ai+.5));
+  {const txt='Uji t dipakai untuk membandingkan\nrata-rata dua kelompok.\nContoh: nilai kelas A vs kelas B.';const n=Math.floor(cl((t-FW(10,'membantu')+.1)*38,0,txt.length));$('#ai_r').textContent=txt.slice(0,n)+(t>w.ai+.6&&n<txt.length?'▍':'');op($('#ai_r'),P(t,w.ai+.55,w.ai+.7))}
+  pop($('#ytl'),t,w.yt+.05,{dx:-30,dy:0,b:w.jr-.2});[0,1,2].forEach(i=>pop($('#v'+i),t,w.yt+.12+i*.22,{dy:60,s0:.88,b:w.jr-.2}));
+  pop($('#jr'),t,w.jr+.05,{dy:60,s0:.94,b:w.bk-.2});{const qq='kepuasan kerja karyawan';const n=Math.floor(cl((t-w.jr-.35)*30,0,qq.length));$('#jq').textContent=qq.slice(0,n)}
+  $$('.jrow').forEach((r,i)=>pop(r,t,w.jr+1.1+i*.25,{dx:-30,dy:0,s0:1,b:w.bk-.2}));
+  pop($('#lv'),t,w.bk+.1,{dy:0,s0:1,b:w.dsk-.15});$$('.lvb').forEach((r,i)=>pop(r,t,w.bk+.5+i*.55,{dy:30,s0:.85,b:w.dsk-.15}));
+  pop($('#ds'),t,w.dsk+.15,{dy:20,s0:.95,b:w.md-.15,bl:10});
+  pop($('#md'),t,w.md+.1,{dy:0,s0:1,b:w.q-.15});$$('#md>div').forEach((e,i)=>pop(e,t,[w.md+.1,FW(13,'jauh')-.1,FW(13,'mudah')-.12,FW(13,'ditemukan')-.1][i],{dy:24,s0:i===2?1.3:.9,d:.4,b:w.q-.15}));
+  pop($('#q1'),t,w.q+.08,{dy:20,b:w.ms-.15});pop($('#q2'),t,w.ms+.08,{dy:20,b:w.gm-.15});
+  pop($('#gm'),t,FW(15,'belum')-.15,{dy:20,b:w.sp-.15});$$('#gm>div').forEach((e,i)=>pop(e,t,[FW(15,'belum')-.15,FW(15,'sudah')-.12,FW(15,'mampu')-.4][i],{dy:20,s0:i===2?1.2:.95,d:.4,b:w.sp-.15}));
+  pop($('#sp1'),t,w.sp+.35,{dx:-40,dy:0,b:w.cl-.2});pop($('#sp2'),t,w.sp2+.05,{dx:-40,dy:0,b:w.cl-.2});
+  pop($('#cl1'),t,FW(18,'jangan')-.1,{dy:20,b:w.js-.15,bl:10});pop($('#cl2'),t,FW(18,'kemauan')-.15,{dy:20,s0:.95,b:END+5});pop($('#end'),t,SE(18)+.1,{dy:10,b:END+5});
+  // letterbox-free darkening behind presenter
+  op($('#pbd'),MASV(t))}
+
+// =============== SUBTITLES (boxless, kinetic) ===============
+const KW=['instan','cepat','menyerah','save','follow','2021','ai','tiktok','kreator','gratis','skripsi','penelitian','sendiri','buku','jurnal','youtube','referensi','berharga','sekarang','tutorial','online','diskusi','mudah','lain','mampu','terbatas','manamana','kemauan','belajar','berkurang'];
+const nk=w=>w.toLowerCase().replace(/[^a-z0-9]/g,'');
+var CU=[];SENT.forEach((s,k)=>{let cur=[];s.words.forEach((w,i)=>{cur.push(i);const brk=/[.,!?]$/.test(w[0])&&cur.length>=2||cur.length>=5||i===s.words.length-1;if(brk){CU.push({k,ids:cur});cur=[]}})});
+CU.forEach(c=>{c.a=SENT[c.k].words[c.ids[0]][1]-.06});CU.forEach((c,i)=>{const nx=CU[i+1];c.b=nx?Math.min(nx.a,(nx.k===c.k?nx.a:SENT[c.k].e+.35)):SENT[c.k].e+.8});
+const FXS=['up','pop','slide','drop'];
+$('#sub').innerHTML=CU.map((c,i)=>`<div class="cue" id="cu${i}">${c.ids.map(j=>{const w=SENT[c.k].words[j];return `<span class="${KW.includes(nk(w[0]))?'k':''}" data-t="${w[1]}">${w[0]}</span>`}).join('')}</div>`).join('');
+CU.forEach((c,i)=>{c.el=$('#cu'+i);c.sp=[...c.el.querySelectorAll('span')];c.fx=FXS[i%4]});
+function SUB(t){const sb=$('#sub');const f=frame(t),talk=MASV(t)>.5;sb.style.top=(talk?(f.s>1.1?1050:1180):1340)+'px';
+  CU.forEach(c=>{const on=t>=c.a&&t<c.b;c.el.style.display=on?'block':'none';if(!on)return;op(c.el,1-P(t,c.b-.1,c.b));
+  c.sp.forEach(s=>{const tw=+s.dataset.t,p=P(t,tw-.07,tw+.2),e=o3(p),bb=p>0?bk(p,2):0;let tr='';
+    if(c.fx==='up')tr=`translateY(${((1-e)*26).toFixed(1)}px)`;else if(c.fx==='pop')tr=`scale(${(.35+.65*bb).toFixed(3)})`;else if(c.fx==='slide')tr=`translateX(${((1-e)*-34).toFixed(1)}px)`;else tr=`translateY(${((1-e)*-28).toFixed(1)}px)`;
+    s.style.display=t>=tw-.07?'inline-block':'none';s.style.opacity=cl(p*2).toFixed(3);s.style.transform=tr})})}
+
+// =============== PRESENTER (mascot, lip-sync) ===============
+const MA0={x:831,y:1668};
+(function(){$('#mas').innerHTML=Object.entries(MAS).map(([k,v])=>{const i=MI[k],s=i.s,wd=(i.W||900)*s,mx=(i.x+i.w/2)*s,my=(i.y+i.h/2)*s;const lf=MA0.x-mx;
+  return `<div class="pz" id="${k}" style="left:${lf.toFixed(1)}px;top:${(MA0.y-my).toFixed(1)}px;width:${wd.toFixed(1)}px"><img src="${v}" style="display:block;width:100%"><div class="mo" id="mo_${k}" style="left:${(i.x*s).toFixed(2)}px;top:${(i.y*s).toFixed(2)}px;width:${(i.w*s).toFixed(2)}px;height:${(i.h*s).toFixed(2)}px;background-image:url(${MO[k]});transform-origin:50% ${((i.top+(i.h-2*i.top)*.18)*s).toFixed(1)}px"></div></div>`}).join('')})();
+const BIG=[540,1560,1.22],SIDE=[830,1690,.96];
+let MWIN=[],PT=[];
+function buildPresenter(){const w=W;
+  MWIN=[[.3,SS(1)-.1,BIG],[w.sav-.05,w.d21-.15,BIG],[FW(6,'nggak')-.2,SE(6)+.05,SIDE],[w.now-.05,w.ai-.1,BIG],[w.md+.05,w.q-.1,BIG],[FW(15,'sudah')-.35,SE(15)+.1,SIDE],[w.js-.1,END+2,BIG]];
+  PT=[[0,'m_think'],[FW(0,'instan')-.2,'n_shrug'],[w.sav,'m_thumb'],[FW(2,'follow')-.1,'n_wink'],[FW(6,'nggak')-.2,'m_point'],[w.now,'n_present'],[w.md,'n_idea'],[FW(13,'mudah')-.2,'m_point'],[FW(15,'sudah')-.35,'m_think'],[w.js-.1,'n_present'],[FW(18,'kemauan')-.2,'m_point'],[SE(18)-.1,'n_wink']]}
+function mwin(t){for(const x of MWIN)if(t>=x[0]-.01&&t<x[1])return x;return null}
+function MASV(t){let v=0;for(const [a,b] of MWIN)v=Math.max(v,Math.min(o3(P(t,a,a+.4)),1-o3(P(t,b-.3,b))));return v}
+function frame(t){const w=mwin(t)||MWIN.reduce((p,c)=>Math.abs(c[0]-t)<Math.abs(p[0]-t)?c:p,MWIN[0]);const f=w[2];return {x:f[0],y:f[1],s:f[2]}}
+function MOUTH(t,pose){const f=Math.max(0,Math.min(LIP.o.length-1,Math.round(t*60)));const o=LIP.o[f],w=LIP.w[f];const mn=pose==='m_think'?.3:pose==='m_warn'?.22:.13;$('#mo_'+pose).style.transform=`scale(${(.9+.16*w-.06*o).toFixed(3)},${(mn+(1-mn)*o).toFixed(3)})`;return o}
+function MASC(t){const vv=MASV(t),mm=$('#mas');mm.style.display=vv>.001?'block':'none';op(mm,cl(vv*3));let pose=PT[0][1],t0=-1;for(const [a,p] of PT)if(t>=a){pose=p;t0=a}
+  Object.keys(MAS).forEach(n=>$('#'+n).style.display=n===pose?'block':'none');const lo=MOUTH(t,pose);
+  const f=frame(t),ch=P(t,t0-.05,t0+.3),e=ch>0?bk(ch,1.2):1,m=$('#mas');const s=f.s*(.985+.015*e)*(1+.012*Math.sin(t*.9));
+  m.style.transformOrigin=`${MA0.x}px ${MA0.y}px`;m.style.transform=`translate(${(f.x-MA0.x).toFixed(1)}px,${(f.y-MA0.y+(1-e)*14-2.5*lo+(1-vv)*520).toFixed(1)}px) scale(${s.toFixed(4)}) rotate(${(.8*Math.sin(t*1.5)).toFixed(2)}deg)`;
+  const g=$('#masglow');g.style.left=(f.x-450).toFixed(0)+'px';g.style.top=(f.y-560).toFixed(0)+'px';op(g,vv*(f.s>.8?1:.6));return f}
+
+buildTimeline();buildPresenter();
+function render(t){BROLL(t);MASC(t);SCN(t);SUB(t)}
+window.render=render;window.END=END;
+window.SFXLIST=()=>{const E=[],e=(k,t)=>E.push([k,+t.toFixed(3)]);const w=W;
+  e('hit',FW(0,'instan')-.12);e('swoosh',FW(0,'cepat')-.2);
+  e('whoosh',SS(1)-.12);e('boom',FW(1,'menyerah')-.1);
+  e('swoosh',w.sav);e('pop',FW(2,'save')-.1);e('pop2',FW(2,'follow')-.1);
+  e('rewind',w.d21-.05);e('flash',w.d21);e('tick',FW(3,'2021'));e('marker',FW(3,'seperti')-.2);
+  e('soft',w.tk);e('soft',w.kr);e('soft',w.apl);e('step',FW(6,'cari')-.15);
+  e('shutter',w.mt);e('shutter',w.jn);e('shutter',w.nt);e('shutter',w.bg);e('chime',FW(8,'berharga')-.2);
+  e('riser',w.now-1.1);e('whoosh',w.now-.12);e('hit',w.now+.02);
+  e('pop',w.ai+.05);e('typing',FW(10,'membantu')-.1);e('whoosh',w.yt-.12);[0,1,2].forEach(i=>e('card'+i,w.yt+.12+i*.22));
+  e('pop',w.jr+.05);e('typing2',w.jr+.35);e('whoosh',w.bk-.12);e('live',w.bk+.1);[0,1,2].forEach(i=>e('blip',w.bk+.5+i*.55));
+  e('soft',w.dsk);e('hit2',FW(13,'mudah')-.1);e('whoosh',w.q-.12);e('pop',w.ms+.08);
+  e('soft',w.gm);e('boom2',FW(15,'mampu')-.3);
+  e('slide',w.sp+.05);e('slide',w.sp2-.55);e('soft',w.cl);e('chime',FW(18,'belajar')-.1);return E};
+if(!location.search.includes('render')){const st=$('#stage');const fit=()=>{const k=Math.min(innerWidth/1080,innerHeight/1920);st.style.transform=`scale(${k})`;st.style.transformOrigin='0 0'};fit();addEventListener('resize',fit);
+  window.READY.then(()=>{const t0=performance.now();const loop=()=>{render(((performance.now()-t0)/1000)%END);requestAnimationFrame(loop)};loop()})}
+</script></body></html>
