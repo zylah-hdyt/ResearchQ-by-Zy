@@ -11,6 +11,7 @@ import {SocialCut} from './v7-social/SocialCut';
 import {Whiteboard} from './v8-whiteboard/Whiteboard';
 import {SwissPoster} from './v9-swiss/SwissPoster';
 import {MENTAL_FRAMES, MentalSwiss} from './v10-mental/MentalSwiss';
+import {CINE_FRAMES, MentalCinematic} from './v11-cinematic/MentalCinematic';
 
 const common = {durationInFrames: DURATION, fps: FPS, width: W, height: H} as const;
 
@@ -26,5 +27,6 @@ export const RemotionRoot: React.FC = () => (
 		<Composition id="V8-Whiteboard" component={Whiteboard} {...common} />
 		<Composition id="V9-SwissPoster" component={SwissPoster} {...common} />
 		<Composition id="Mental-SwissTalk" component={MentalSwiss} {...common} durationInFrames={MENTAL_FRAMES} />
+		<Composition id="Mental-Cinematic" component={MentalCinematic} {...common} durationInFrames={CINE_FRAMES} />
 	</Folder>
 );
