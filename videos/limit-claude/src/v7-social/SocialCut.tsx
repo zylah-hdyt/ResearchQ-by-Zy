@@ -156,7 +156,7 @@ const Caption: React.FC = () => {
 	if (!c) return null;
 	const a = Math.round(c.a * 30);
 	const d = frame - a;
-	const k = interpolate(d, [0, 3, 7], [1.3, 0.96, 1], {...clamp, easing: EASE_OUT});
+	const k = interpolate(d, [0, 3, 7], [1.1, 0.97, 1], {...clamp, easing: EASE_OUT});
 	const habis = c.t === 'habis';
 	const words = c.t.toUpperCase().split(' ');
 	const longest = Math.max(...words.map((w) => w.length));
