@@ -7,6 +7,9 @@ h=h.replace('{{MASCOT}}',json.dumps({n:'data:image/png;base64,'+b(f'{M}/poses/b_
 h=h.replace('{{MOUTHINFO}}',open(f'{M}/mouth.json').read()).replace('{{LIP}}',open(f'{P}/lip/lip.json').read())
 MED={}
 for f in sorted(glob.glob(f'{P}/media/*.jpg')):
-    n=os.path.basename(f)[:-4];MED[n]={'img':'data:image/jpeg;base64,'+b(f),'dep':'data:image/png;base64,'+b(f[:-4]+'_d.png')}
+    n=os.path.basename(f)[:-4]
+    if "'"+n+"'" not in h: continue
+    MED[n]={'img':'data:image/jpeg;base64,'+b(f),'dep':'data:image/png;base64,'+b(f[:-4]+'_d.png')}
+T=f'{PK}/assets/textures';h=h.replace('{{PAPER}}','data:image/jpeg;base64,'+b(f'{T}/paper.jpg')).replace('{{GRAIN}}',json.dumps(['data:image/jpeg;base64,'+b(f'{T}/grain{i}.jpg') for i in range(8)]))
 h=h.replace('{{MEDIA}}',json.dumps(MED)).replace('{{WORDS}}',open(f'{P}/work/words.json').read())
-open(f'{P}/video.html','w').write(h);print('built',len(h)//1024,'KB media',len(MED))
+open(f'{P}/video.html','w').write(h);print('built',len(h)//1024,'KB media',len(MED),sorted(MED))

@@ -1,7 +1,7 @@
 # Instan dan Cepat · catatan produksi
 
 **Format:** TikTok 9:16, 1080×1920, 30 fps, ±75,9 dtk. VO asli user (`Instant_dan_Cepat.m4a`), isi dan timing tidak diubah. Hanya highpass, EQ ringan, de-esser, kompresi lembut, dan normalisasi loudness.
-**Gaya:** cinematic educational storytelling + presenter (maskot ResearchQ, lip-sync) + B-roll foto realistis yang dijadikan "footage" 2.5D + motion graphics + subtitle kinetic tanpa kotak.
+**Gaya (v2, setelah revisi user):** cinematic educational storytelling + presenter (maskot ResearchQ, lip-sync). Hanya **8 foto** realistis (dibuat bergerak 2.5D). Sebagian besar adegan berupa **komponen animasi** di latar grafis sinematik (night navy / kertas hangat 2021 / modern electric-blue + grain film). Subtitle kinetic tanpa kotak. **Tanpa suara kaget** (tidak ada boom/hit/impact/riser).
 **Hasil:** `Instan_dan_Cepat_FINAL.mp4` (H.264 2-pass ±9 Mbps, 85 MB; -14.7 LUFS, peak -1.6 dBFS) · subtitle terpisah `subtitle_id.srt`.
 
 ## Sumber aset & lisensi
@@ -50,3 +50,21 @@
 - ASR sempat "mendengar" pengulangan "TikTok juga belum seramai" dan "Terima kasih" di akhir. Setelah dicek dengan energi suara, keduanya halusinasi ASR dan tidak dimasukkan ke subtitle.
 - Timing kata: Whisper (prefix-probing, `align.py`), lalu dikoreksi onset tiap kalimat dari energi suara (`tools/fix_onsets.py`).
 - Render: `node recp.js <awal> <akhir>` (Chromium + WebGL SwiftShader, 4 worker), build: `python3 tools/build.py <pack> <proyek>`.
+
+## Revisi v2 (feedback user)
+- Foto dikurangi dari 28 jadi **8**: hoodie (hook), perpustakaan hangat (2021 + split), lorong perpustakaan (cari sendiri), membaca di cahaya (berharga), lorong terang (sekarang + split), video-call (kreator live), mahasiswa termenung (gak mampu), siluet senja (penutup).
+- Adegan lain diganti komponen animasi:
+  - progress bar "memahami materi" yang macet di 18% dan kursor menekan "Tutup" (menyerah);
+  - timeline 2021→sekarang dengan penanda "kamu di sini";
+  - mockup HP dengan feed yang masih sepi;
+  - grid slot kreator yang kebanyakan masih kosong;
+  - kartu LIVE yang pudar;
+  - 4 kartu ikon beranimasi (buku membuka halaman, jurnal di-highlight, video berjalan, kartu referensi menyebar);
+  - chat Asisten AI dengan teks mengetik;
+  - kartu tutorial dengan progress tontonan;
+  - pencarian jurnal online + Open Access;
+  - jaringan "kamu → AI / YouTube / Jurnal online / Live diskusi / Komunitas";
+  - flowchart "Nggak paham? → Cari penjelasan lain → Masih bingung? → Tanya AI";
+  - meter akses Dulu vs Sekarang;
+  - grafik "kemudahan ↑ / kemauan belajar ↓".
+- SFX tanpa impact: swoosh lembut, pop/klik UI, tick, typing, rewind lembut, chime. Spektrum dicek: tidak ada bagian yang didominasi frekuensi rendah.

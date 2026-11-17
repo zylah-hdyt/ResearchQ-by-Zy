@@ -32,13 +32,15 @@ for k,t in E['ev']:
     elif k=='boom2': put(t,fit(K['boom'],rate=1.0,trim=.45),-25)
     elif k=='pop': put(t,fit(K['pop1'],rate=rs.uniform(.95,1.1)),-26,p)
     elif k=='pop2': put(t,fit(K['pop1'],rate=1.18),-26,.25)
-    elif k.startswith('card'): i=int(k[-1]); put(t,fit(K['pop1'],rate=[.95,1.06,1.17][i]),-27,[-.3,.3,0][i])
+    elif k.startswith('card'): i=int(k[-1]); put(t,fit(K['pop1'],rate=[.95,1.06,1.17,1.28][i]),-27,[-.3,.3,0,-.15][i])
     elif k=='rewind':
         n=int(1.0*SR);tt=np.arange(n)/SR;y=bpnoise(1.0,900,2600,.35)*(.55+.45*np.sin(2*np.pi*(9+14*tt)*tt));y*=np.minimum(1,tt/.08)*np.minimum(1,(1-tt)/.12);put(t,y,-27)
     elif k=='flash': put(t,fit(K['spark'],rate=.9,trim=.7),-29)
     elif k=='tick': put(t,fit(K['clk3'],rate=1.0),-26)
     elif k=='marker': n=int(.3*SR);y=bpnoise(.3,3000,6000,.4)*np.sin(np.pi*np.arange(n)/n)**2;put(t,y,-32,p)
     elif k=='soft': n=int(.7*SR);y=bpnoise(.7,700,1800,.5)*np.sin(np.pi*np.arange(n)/n)**2;put(t-.3,y,-31,p)
+    elif k=='click': put(t,fit(K['clk1'],rate=1.0),-27,p)
+    elif k=='tick2': put(t,fit(K['tap'],rate=1.35),-33,p)
     elif k=='step': put(t,fit(K['tap'],rate=.85),-29)
     elif k=='shutter': put(t,fit(K['clk1'],rate=1.1),-25,p); put(t+.07,fit(K['clk3'],rate=1.3),-29,p)
     elif k=='chime':
