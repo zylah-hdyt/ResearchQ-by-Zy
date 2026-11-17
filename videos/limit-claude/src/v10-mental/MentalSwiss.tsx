@@ -276,10 +276,11 @@ const S06: React.FC = () => (
 );
 
 // ---------- 07 sekali vs dua-tiga kali ----------
-const Boxes: React.FC<{top: number; fills: number[]; color: string}> = ({top, fills, color}) => {
+const Boxes: React.FC<{top: number; fills: number[]; color: string; show: number}> = ({top, fills, color, show}) => {
 	const frame = useCurrentFrame();
+	if (frame < show) return null;
 	return (
-		<div style={{position: 'absolute', left: M, top, display: 'flex', gap: 18}}>
+		<div style={{position: 'absolute', left: M, top, display: 'flex', gap: 18, opacity: prog(frame, show, show + 6)}}>
 			{[0, 1, 2].map((i) => {
 				const at = fills[i];
 				const on = at !== undefined && frame >= at;
@@ -305,7 +306,7 @@ const S07: React.FC = () => (
 		<Clip at={T(30.14)} style={{left: M, top: 550}}>
 			<Txt size={60} color={BLACK}>ORANG LAIN</Txt>
 		</Clip>
-		<Boxes top={630} fills={[T(31.38)]} color={BLACK} />
+		<Boxes top={630} fills={[T(31.38)]} color={BLACK} show={T(30.14)} />
 		<Clip at={T(31.38)} dur={5} style={{left: 640, top: 600}}>
 			<Txt size={220} color={BLACK}>1×</Txt>
 		</Clip>
@@ -318,9 +319,9 @@ const S07: React.FC = () => (
 		<Clip at={T(33.48)} style={{left: M, top: 960}}>
 			<Txt size={60} color={RED}>LU</Txt>
 		</Clip>
-		<Boxes top={1040} fills={[T(34.22), T(34.22) + 4, T(34.92)]} color={RED} />
-		<Clip at={T(34.22)} dur={5} style={{left: 640, top: 1010}}>
-			<Txt size={220} color={RED}>{'2–3×'}</Txt>
+		<Boxes top={1040} fills={[T(34.22), T(34.22) + 4, T(34.92)]} color={RED} show={T(33.48)} />
+		<Clip at={T(34.22)} dur={5} style={{left: 610, top: 1030}}>
+			<Txt size={168} color={RED}>{'2–3×'}</Txt>
 		</Clip>
 		<Clip at={T(35.74)} style={{left: M, top: 1220}}>
 			<Txt size={34} color={RED} mono>
@@ -399,9 +400,9 @@ const Counter: React.FC = () => {
 };
 const S10: React.FC = () => (
 	<>
-		<Clip at={T(42.74)} style={{left: M, top: 160}}>
+		<Clip at={T(41.98)} dur={24} style={{left: M, top: 160}}>
 			<Txt size={30} color={BLACK} mono>
-				BUKAN SIAPA YANG
+				YANG MEMBEDAKAN BUKAN SIAPA YANG
 			</Txt>
 		</Clip>
 		<Clip at={T(43.72)} style={{left: M - 6, top: 205}}>
