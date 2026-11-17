@@ -38,7 +38,9 @@ export type SfxName =
 	| 'mouse-click'
 	| 'shutter-modern'
 	| 'shutter-old'
-	| 'ding';
+	| 'ding'
+	| 'vine-boom'
+	| 'record-scratch';
 
 const src = (name: SfxName) =>
 	LOCAL.has(name) ? staticFile(`sfx/${name}.wav`) : `${REMOTE}${name}.wav`;

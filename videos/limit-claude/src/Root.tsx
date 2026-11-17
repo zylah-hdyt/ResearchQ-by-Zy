@@ -6,6 +6,10 @@ import {KineticType} from './v2-kinetic/KineticType';
 import {Documentary} from './v3-documentary/Documentary';
 import {TechUI} from './v4-techui/TechUI';
 import {PaperCraft} from './v5-paper/PaperCraft';
+import {UiDemo} from './v6-uidemo/UiDemo';
+import {SocialCut} from './v7-social/SocialCut';
+import {Whiteboard} from './v8-whiteboard/Whiteboard';
+import {SwissPoster} from './v9-swiss/SwissPoster';
 
 const common = {durationInFrames: DURATION, fps: FPS, width: W, height: H} as const;
 
@@ -16,5 +20,9 @@ export const RemotionRoot: React.FC = () => (
 		<Composition id="V3-Documentary" component={Documentary} {...common} />
 		<Composition id="V4-TechUI" component={TechUI} {...common} />
 		<Composition id="V5-PaperCraft" component={PaperCraft} {...common} />
+		<Composition id="V6-UiDemo" component={UiDemo} {...common} />
+		<Composition id="V7-SocialCut" component={SocialCut} {...common} />
+		<Composition id="V8-Whiteboard" component={Whiteboard} {...common} />
+		<Composition id="V9-SwissPoster" component={SwissPoster} {...common} />
 	</Folder>
 );
