@@ -2,7 +2,7 @@
 
 **Format:** TikTok 9:16, 1080×1920, 30 fps, ±75,9 dtk. VO asli user (`Instant_dan_Cepat.m4a`), isi dan timing tidak diubah. Hanya highpass, EQ ringan, de-esser, kompresi lembut, dan normalisasi loudness.
 **Gaya:** cinematic educational storytelling + presenter (maskot ResearchQ, lip-sync) + B-roll foto realistis yang dijadikan "footage" 2.5D + motion graphics + subtitle kinetic tanpa kotak.
-**Hasil:** `Instan_dan_Cepat_FINAL.mp4` · subtitle terpisah `subtitle_id.srt`.
+**Hasil:** `Instan_dan_Cepat_FINAL.mp4` (H.264 2-pass ±9 Mbps, 85 MB; -14.7 LUFS, peak -1.6 dBFS) · subtitle terpisah `subtitle_id.srt`.
 
 ## Sumber aset & lisensi
 - Semua foto berasal dari **Unsplash** (CDN resmi `images.unsplash.com`), dengan **Unsplash License**: bebas dipakai komersial dan tanpa wajib atribusi. Daftar per file ada di `assets/CREDITS.csv` (adegan, nama file, URL sumber, lisensi).
