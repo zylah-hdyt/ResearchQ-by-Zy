@@ -25,6 +25,16 @@
 .li i{font-style:normal;color:#111;font-size:50px}
 .stp{display:flex;align-items:center;gap:22px;padding:24px 30px;margin:18px 0;border-radius:22px;background:#fff;border:1px solid #E4E4E2;font-size:50px;font-weight:700;box-shadow:0 20px 40px -24px rgba(0,0,0,.3)}
 .stp em{width:64px;height:64px;border-radius:50%;background:var(--bl);color:#fff;font-style:normal;font-size:34px;display:flex;align-items:center;justify-content:center;flex:none}
+#ph_g{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tt{position:relative;height:200px;border-radius:12px;overflow:hidden}.tt i{position:absolute;left:50%;top:42%;margin:-16px 0 0 -12px;border-left:26px solid rgba(255,255,255,.85);border-top:16px solid transparent;border-bottom:16px solid transparent}
+.tt span{position:absolute;left:10px;bottom:30px;font-family:PJS;font-weight:800;font-size:22px;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.4)}.tt em{position:absolute;left:10px;bottom:8px;font-style:normal;font-size:16px;font-weight:700;color:rgba(255,255,255,.85)}
+.tt.edu{outline:4px solid #FFD36B;outline-offset:-4px}.tt.edu span,.tt.edu em{color:#fff}
+.ail{position:absolute;width:150px;height:150px;border-radius:30px;background:#fff;border:1px solid #E4E4E2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;box-shadow:0 26px 50px -24px rgba(0,0,0,.4)}
+.ail svg{width:64px;height:64px}.ail b{font-family:Inter;font-weight:700;font-size:21px;color:#333}
+.yrow{display:flex;gap:18px;padding:12px 18px;align-items:flex-start}.yrow img{width:330px;height:184px;border-radius:14px;object-fit:cover;flex:none}
+.yrow div{font-family:Inter;font-weight:600;font-size:27px;line-height:1.25;color:#F1F1F1}.yrow small{display:block;margin-top:8px;font-size:21px;color:#9A9A9A;font-weight:500}
+.lc{position:absolute;left:18px;right:110px;font-size:25px;line-height:1.3;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.6)}.lc b{color:#FFD36B;margin-right:8px}
+.ht{position:absolute;right:26px;width:44px;height:44px}
 #cap{position:absolute;left:110px;top:1150px;width:860px;text-align:center;pointer-events:none}
 #cap .cue{position:absolute;left:0;top:0;width:860px;text-align:center;display:none;line-height:1.18}
 #cap span{display:inline-block;margin:0 .13em;font-family:Inter;font-weight:600;font-size:52px;letter-spacing:-.01em;white-space:nowrap}
@@ -41,7 +51,7 @@ svg.ov{position:absolute;left:0;top:0;overflow:visible}path.dp{fill:none;stroke-
 <div id="wm">researchq.id</div>
 </div>
 <script>
-const SENT={{WORDS}};const MAS={{MASCOT}};const MO={{MOUTHS}};const MI={{MOUTHINFO}};const LIP={{LIP}};const PH={{PHOTOS}};
+const SENT={{WORDS}};const MAS={{MASCOT}};const MO={{MOUTHS}};const MI={{MOUTHINFO}};const LIP={{LIP}};const PH={{PHOTOS}};const AIL={{AILOGOS}};const YTT={{YTTHUMBS}};
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const cl=(v,a=0,b=1)=>v<a?a:v>b?b:v,P=(t,a,b)=>cl((t-a)/(b-a)),L=(a,b,p)=>a+(b-a)*p;
 const o3=x=>1-Math.pow(1-x,3),io3=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,bk=(x,s=1.3)=>1+(s+1)*Math.pow(x-1,3)+s*Math.pow(x-1,2);
@@ -81,11 +91,11 @@ add(`<div class="card dk sh" id="noai" style="left:150px;top:330px;width:780px;h
    <div style="margin-top:14px;font-size:30px;font-weight:600;color:#8A8D94">belum tersedia · 2021</div></div>
   <div style="position:absolute;left:60px;right:60px;bottom:58px;height:60px"><i id="tl_l" style="position:absolute;left:0;right:0;top:22px;height:4px;background:#3A3D44;transform-origin:0 50%"></i>
    ${['2021','2022','2023','2024','2025','kini'].map((y,i)=>`<div class="tlp" style="position:absolute;left:${i*132-20}px;top:${i?14:8}px;width:60px;text-align:center"><i style="display:block;margin:0 auto;width:${i?18:30}px;height:${i?18:30}px;border-radius:50%;background:${i?'#4A4D55':'var(--or)'}"></i><div style="margin-top:8px;font-size:${i?18:22}px;font-weight:700;color:${i?'#6A6D75':'#F2A37E'}">${y}</div></div>`).join('')}</div></div>`);
-// phone sparse feed
-add(`<div class="ab" id="ph" style="left:345px;top:280px;width:390px;height:740px;border-radius:56px;background:#0F1012;border:12px solid #1D1F23;overflow:hidden" class="sh">
-  <div style="height:90px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:12px;font-weight:700;font-size:24px;color:#E8E8E8">Untuk Anda · 2021</div>
-  ${[0,1,2].map(i=>`<div class="sk" style="margin:14px 20px;height:${[250,160,150][i]}px;border-radius:18px;background:linear-gradient(100deg,#1B1C20 30%,#2A2C31 50%,#1B1C20 70%);background-size:300% 100%"></div>`).join('')}
-  <div id="ph_c" style="position:absolute;left:20px;right:20px;bottom:24px;padding:12px;border-radius:14px;background:#2A2017;font-size:20px;font-weight:700;color:#F2B58F;text-align:center">konten edukasi: masih sedikit</div></div>`);
+// phone: busy For-You grid (lots of content, education is rare)
+add(`<div class="ab sh" id="ph" style="left:330px;top:270px;width:420px;height:780px;border-radius:58px;background:#0F1012;border:12px solid #1D1F23;overflow:hidden">
+  <div style="position:absolute;left:0;right:0;top:0;height:92px;z-index:2;background:linear-gradient(#0F1012 70%,rgba(15,16,18,0));display:flex;align-items:flex-end;justify-content:center;gap:26px;padding-bottom:14px;font-weight:700;font-size:24px;color:#8A8D94"><span>Mengikuti</span><span style="color:#fff;border-bottom:3px solid #fff;padding-bottom:4px">Untuk Anda</span></div>
+  <div id="ph_g" style="position:absolute;left:10px;right:10px;top:96px">${[0,1,2].map(()=>`<div class="tt" style="background:linear-gradient(160deg,#FF5E7E,#7A1C3B)"><i></i><span>dance</span><em>♥ 12rb</em></div><div class="tt" style="background:linear-gradient(160deg,#7B61FF,#2A1D6B)"><i></i><span>musik</span><em>♥ 8.4rb</em></div><div class="tt" style="background:linear-gradient(160deg,#FFB347,#7A4A0F)"><i></i><span>kuliner</span><em>♥ 31rb</em></div><div class="tt" style="background:linear-gradient(160deg,#2ED3B7,#0E5A4E)"><i></i><span>prank</span><em>♥ 5.2rb</em></div><div class="tt" style="background:linear-gradient(160deg,#4C8DFF,#14306B)"><i></i><span>game</span><em>♥ 19rb</em></div><div class="tt" style="background:linear-gradient(160deg,#FF7AC6,#6B1F4F)"><i></i><span>OOTD</span><em>♥ 7.7rb</em></div><div class="tt" style="background:linear-gradient(160deg,#9BE15D,#2F5A12)"><i></i><span>vlog</span><em>♥ 2.9rb</em></div><div class="tt" style="background:linear-gradient(160deg,#FFD93D,#6B5A0F)"><i></i><span>komedi</span><em>♥ 44rb</em></div><div class="tt" style="background:linear-gradient(160deg,#3BC9DB,#0F4E5A)"><i></i><span>travel</span><em>♥ 6.1rb</em></div><div class="tt" style="background:linear-gradient(160deg,#F59F00,#6B4500)"><i></i><span>kucing</span><em>♥ 15rb</em></div><div class="tt edu" style="background:linear-gradient(160deg,#FFFFFF,#2F6FED)"><i></i><span>edukasi</span><em>♥ 0.3</em></div><div class="tt" style="background:linear-gradient(160deg,#FF8A3D,#6B2E0A)"><i></i><span>sport</span><em>♥ 9.8rb</em></div>`).join('')}</div>
+  <div id="ph_c" style="position:absolute;left:20px;right:20px;bottom:24px;z-index:2;padding:12px;border-radius:14px;background:#2F6FED;font-size:22px;font-weight:800;color:#fff;text-align:center">konten edukasi? masih jarang</div></div>`);
 // creators grid -> struck list
 add(`<div class="card wt sh" id="grid" style="left:190px;top:300px;width:700px;height:640px;padding:40px">
   <div style="font-family:JBM;font-size:26px;color:#888;margin-bottom:26px">/kreator-edukasi · 2021</div>
@@ -106,22 +116,34 @@ add(IC.map((s,i)=>`<div class="card wt sh mc" id="mc${i}" style="left:${120+i*21
 add(photo('pbh','reading_book_sunlight',200,300,680,700));
 // sekarang
 add(`${photo('pnow','bright_library_corridor',190,290,700,520)}<div class="big" id="nowb" style="top:740px;font-size:220px">sekarang</div>`);
-// AI chat (dark)
-add(`<div class="card dk sh" id="ai" style="left:110px;top:300px;width:860px;height:640px">
-  <div style="height:74px;display:flex;align-items:center;gap:12px;padding:0 28px;border-bottom:1px solid #2A2C31;font-family:JBM;font-size:26px;color:#9AA0A6"><span style="color:#FF5F57">●</span><span style="color:#FEBC2E">●</span><span style="color:#28C840">●</span>&nbsp;&nbsp;/asisten-ai</div>
-  <div id="ai_u" style="position:absolute;right:28px;top:104px;max-width:640px;padding:16px 22px;border-radius:20px;background:#2F6FED;color:#fff;font-size:30px;font-weight:600">Jelasin uji t pakai bahasa sederhana dong</div>
-  <div id="ai_r" style="position:absolute;left:28px;top:240px;width:780px;padding:22px 26px;border-radius:20px;background:#1F2126;color:#E6E6E6;font-family:JBM;font-size:30px;line-height:1.45;white-space:pre-wrap;min-height:200px"></div></div>`);
-// tutorials (dark thumbnails, fanned)
-add([['Tutorial SPSS dari nol','12:04',-8,150,330],['Cara baca output regresi','08:31',0,330,380],['SmartPLS untuk pemula','15:20',8,510,330]].map(([ti,du,r,x,y],i)=>`<div class="card dk sh vc" id="v${i}" style="left:${x}px;top:${y}px;width:420px;height:300px" data-r="${r}"><div style="position:absolute;inset:0;background:linear-gradient(150deg,#22252B,#101114)"></div><div style="position:absolute;left:175px;top:90px;width:70px;height:70px;border-radius:50%;background:#FF3D3D"></div><div style="position:absolute;left:200px;top:108px;border-left:26px solid #fff;border-top:17px solid transparent;border-bottom:17px solid transparent"></div><div style="position:absolute;right:14px;top:14px;padding:4px 10px;border-radius:8px;background:#000;font-size:18px;font-weight:700">${du}</div><div style="position:absolute;left:20px;right:20px;bottom:24px;font-family:PJS;font-weight:800;font-size:30px;line-height:1.1">${ti}</div><i class="vpb" style="position:absolute;left:0;bottom:0;height:7px;width:420px;background:#FF3D3D;transform-origin:0 50%;transform:scaleX(0)"></i></div>`).join('')+`<div class="pill" id="ytl" style="left:330px;top:720px">/youtube-tutorial</div>`);
+// AI: logos (official glyphs from Simple Icons, CC0) + chat
+add(`${[['claude','Claude'],['openai','ChatGPT'],['googlegemini','Gemini'],['perplexity','Perplexity'],['githubcopilot','Copilot']].map(([k,n],i)=>`<div class="ail" id="ail${i}" style="left:${121+i*172}px;top:290px">${AIL[k]}<b>${n}</b></div>`).join('')}
+ <div class="card dk sh" id="ai" style="left:110px;top:480px;width:860px;height:520px">
+  <div style="height:70px;display:flex;align-items:center;gap:12px;padding:0 28px;border-bottom:1px solid #2A2C31;font-family:JBM;font-size:26px;color:#9AA0A6"><span style="color:#FF5F57">●</span><span style="color:#FEBC2E">●</span><span style="color:#28C840">●</span>&nbsp;&nbsp;/tanya-ai</div>
+  <div id="ai_u" style="position:absolute;right:28px;top:94px;max-width:640px;padding:16px 22px;border-radius:20px;background:#2F6FED;color:#fff;font-size:30px;font-weight:600">Jelasin uji t pakai bahasa sederhana dong</div>
+  <div id="ai_r" style="position:absolute;left:28px;top:220px;width:780px;padding:22px 26px;border-radius:20px;background:#1F2126;color:#E6E6E6;font-family:JBM;font-size:30px;line-height:1.45;white-space:pre-wrap;min-height:200px"></div></div>`);
+// YouTube: the user's channel videos (thumbnails cropped from the channel screenshot)
+add(`<div class="card dk sh" id="yt" style="left:90px;top:280px;width:900px;height:740px;background:#0F0F0F;border-color:#262626">
+  <div style="height:92px;display:flex;align-items:center;gap:16px;padding:0 26px;border-bottom:1px solid #262626"><div style="width:52px;height:36px;border-radius:10px;background:#FF0000;position:relative"><i style="position:absolute;left:20px;top:9px;border-left:16px solid #fff;border-top:9px solid transparent;border-bottom:9px solid transparent"></i></div><b style="font-family:PJS;font-size:34px;color:#fff">NotYourLecture</b><span style="margin-left:auto;font-size:24px;color:#fff;border-bottom:3px solid #fff;padding-bottom:6px;font-weight:700">Videos</span></div>
+  <div style="position:absolute;left:0;right:0;top:92px;bottom:0;overflow:hidden"><div id="yt_l" style="position:absolute;left:0;right:0;top:10px"><div class="yrow"><img src="${YTT['bab3']}"><div>Buat BAB 3 Penelitian dari Nol dengan Claude AI!<small>NotYourLecture</small></div></div><div class="yrow"><img src="${YTT['claude_pro']}"><div>Mau Claude Pro? Ini Cara Upgradenya!<small>NotYourLecture</small></div></div><div class="yrow"><img src="${YTT['claude_vs_mendeley']}"><div>Claude AI vs Mendeley: Mana yang Lebih Cepat?<small>NotYourLecture</small></div></div><div class="yrow"><img src="${YTT['bab2']}"><div>Membuat Bab 2 Menggunakan Claude AI!<small>NotYourLecture</small></div></div><div class="yrow"><img src="${YTT['judul_bab1']}"><div>Full Tutorial! Judul Sampai Bab 1 Dengan Claude AI!<small>NotYourLecture</small></div></div><div class="yrow"><img src="${YTT['scopus']}"><div>Trik Rahasia Mencari Jurnal SCOPUS Berkualitas!<small>NotYourLecture</small></div></div></div></div></div>`);
 // journal search (white)
 add(`<div class="card wt sh" id="jr" style="left:110px;top:310px;width:860px;height:620px;padding:34px 36px">
   <div style="font-family:JBM;font-size:26px;color:#888">/jurnal-online</div>
   <div style="margin-top:20px;height:80px;border-radius:18px;background:#F3F3F1;display:flex;align-items:center;padding:0 24px;font-size:32px;color:#222"><svg width="32" height="32" viewBox="0 0 30 30" style="margin-right:14px"><circle cx="12" cy="12" r="9" stroke="#999" stroke-width="3" fill="none"/><path d="M19 19 L27 27" stroke="#999" stroke-width="3"/></svg><span id="jq"></span></div>
   ${[0,1,2].map(i=>`<div class="jrow" style="margin-top:${i?14:24}px;display:flex;align-items:center;gap:18px;padding:18px 20px;border-radius:18px;background:#F7F7F5;border:1px solid #ECECEA"><span style="width:56px;height:68px;border-radius:8px;background:#E5463A;color:#fff;display:flex;align-items:flex-end;justify-content:center;font-size:15px;font-weight:800;padding-bottom:6px">PDF</span><div style="flex:1"><div style="height:16px;width:${[88,72,80][i]}%;border-radius:8px;background:#CFCFCC"></div><div style="height:12px;width:${[52,60,44][i]}%;border-radius:6px;background:#E2E2DF;margin-top:12px"></div></div><span style="padding:6px 12px;border-radius:10px;background:#E3F6EA;color:#1E8A4C;font-size:20px;font-weight:700">Open Access</span></div>`).join('')}</div>`);
-// live on video-call photo
-add(`${photo('plv','video_call_class',150,300,780,620)}
- <div class="ab" id="lvb" style="left:180px;top:330px;padding:10px 20px;border-radius:12px;background:#FF3D3D;color:#fff;font-weight:800;font-size:30px;letter-spacing:.14em">LIVE</div>
- ${['Kak, cara uji validitas gimana?','Sampel minimal berapa ya?','Boleh tanya soal Bab 4? 🙏'].map((x,i)=>`<div class="card wt sh lvq" style="left:${[90,420,160][i]}px;top:${[640,760,860][i]}px;padding:16px 22px;font-size:30px;font-weight:600;border-radius:20px;overflow:visible">${x}</div>`).join('')}`);
+// LIVE streaming UI: host, viewers, hearts, research Q&A chat
+add(`<div class="ab sh" id="lv" style="left:240px;top:260px;width:600px;height:760px;border-radius:40px;overflow:hidden;background:#111">
+  ${photo('plv','students_discussion_laughing',0,0,600,760)}
+  <div class="ab" style="left:0;right:0;top:0;height:220px;background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,0))"></div>
+  <div class="ab" style="left:0;right:0;bottom:0;height:470px;background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.8))"></div>
+  <div class="ab" style="left:20px;top:22px;display:flex;align-items:center;gap:12px;padding:8px 16px 8px 8px;border-radius:30px;background:rgba(0,0,0,.4)"><span style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#FFD36B,#F26B3A)"></span><span style="color:#fff;font-weight:800;font-size:24px">Kelas Riset</span><span style="padding:6px 12px;border-radius:14px;background:#FE2C55;color:#fff;font-weight:800;font-size:18px">Ikuti</span></div>
+  <div class="ab" style="right:20px;top:26px;display:flex;gap:10px;align-items:center"><span id="lvb" style="padding:6px 14px;border-radius:10px;background:#FE2C55;color:#fff;font-weight:800;font-size:22px;letter-spacing:.08em">LIVE</span><span id="lvv" style="padding:6px 12px;border-radius:10px;background:rgba(0,0,0,.45);color:#fff;font-weight:700;font-size:22px">0</span></div>
+  <div class="ab" style="left:20px;top:92px;padding:8px 14px;border-radius:12px;background:rgba(0,0,0,.4);color:#fff;font-weight:700;font-size:22px">Bedah Skripsi: Validitas &amp; Sampel</div>
+  <div id="lvchat" class="ab" style="left:0;right:0;bottom:96px;height:330px;overflow:hidden"><div id="lvin" class="ab" style="left:0;right:0;bottom:0"><div class="lc" style="position:relative;left:auto;right:auto;margin:0 110px 10px 18px"><b>dina_s2</b>kak, uji validitas pakai apa ya?</div><div class="lc" style="position:relative;left:auto;right:auto;margin:0 110px 10px 18px"><b>rizky.mhs</b>sampel minimal berapa kak?</div><div class="lc" style="position:relative;left:auto;right:auto;margin:0 110px 10px 18px"><b>ayu_skripsi</b>PLS-SEM sama CB-SEM bedanya apa?</div><div class="lc" style="position:relative;left:auto;right:auto;margin:0 110px 10px 18px"><b>fajar</b>cara cari jurnal Q1 gimana?</div><div class="lc" style="position:relative;left:auto;right:auto;margin:0 110px 10px 18px"><b>nisa.r</b>hasil gak signifikan, Bab 4 gimana?</div><div class="lc" style="position:relative;left:auto;right:auto;margin:0 110px 10px 18px"><b>bima</b>makasih kak, jelas banget!</div></div></div>
+  <div id="lvpin" class="ab" style="left:18px;right:18px;top:150px;padding:12px 16px;border-radius:16px;background:rgba(255,255,255,.92);color:#141414;font-size:22px;font-weight:600"><b style="color:#2F6FED">Disematkan · dijawab</b><br>uji validitas → outer loading &amp; AVE (PLS-SEM)</div>
+  <div class="ab" style="left:18px;right:18px;bottom:22px;height:58px;border-radius:29px;background:rgba(255,255,255,.18);color:rgba(255,255,255,.8);font-size:22px;display:flex;align-items:center;padding:0 22px">Tulis pertanyaan…</div>
+  ${[0,1,2,3,4,5,6,7].map(i=>`<svg class="ht" data-i="${i}" viewBox="0 0 24 24"><path d="M12 21s-7-4.6-9.3-9C1 8.4 3.2 5 6.6 5c2 0 3.4 1.1 4.4 2.5C12 6.1 13.4 5 15.4 5 18.8 5 21 8.4 19.3 12c-2.3 4.4-7.3 9-7.3 9z" fill="${['#FE2C55','#FF8A3D','#FFD36B','#FF5E7E'][i%4]}"/></svg>`).join('')}</div>
+ <div class="pill" style="left:610px;top:1000px;font-size:22px;padding:6px 14px" id="lvil">ilustrasi</div>`);
 // source pills around the mascot card (mudah)
 const SRC=[['AI',90,330],['YouTube',720,300],['Jurnal online',40,620],['Live diskusi',700,640],['Komunitas',420,985]];
 add(SRC.map(([n,x,y],i)=>`<div class="pill src" style="left:${x}px;top:${y}px;font-family:PJS;font-weight:800;font-size:32px">${n}</div>`).join(''));
@@ -156,8 +178,8 @@ function SCN(t){const w=W,o=(a,b)=>({b});
   // no AI
   pop($('#noai'),t,w.dulu+.02,{dy:80,b:w.tk-.2,tilt:[8,-8]});$('#noai_s').style.transform=`scaleX(${o3(P(t,FW(3,'seperti')-.25,FW(3,'seperti')+.25)).toFixed(3)})`;
   $('#tl_l').style.transform=`scaleX(${o3(P(t,w.dulu+.3,w.dulu+1.1)).toFixed(3)})`;$$('.tlp').forEach((e,i)=>op(e,P(t,w.dulu+.35+i*.14,w.dulu+.55+i*.14)));
-  // phone
-  pop($('#ph'),t,w.tk+.02,{dy:140,s0:.95,d:.6,b:w.kr-.2,tilt:[6,10]});$$('#ph .sk').forEach(s=>s.style.backgroundPosition=`${(100-((t*60)%200)).toFixed(1)}% 0`);op($('#ph_c'),P(t,FW(4,'seramai')-.1,FW(4,'seramai')+.2));
+  // phone: busy grid scrolling
+  pop($('#ph'),t,w.tk+.02,{dy:140,s0:.95,d:.6,b:w.kr-.2,tilt:[6,10]});$('#ph_g').style.transform=`translateY(${(-((t-w.tk)*260)).toFixed(1)}px)`;pop($('#ph_c'),t,FW(4,'seramai')-.1,{dy:20,s0:.8,b:w.kr-.2});
   // creators -> struck list
   pop($('#grid'),t,w.kr+.02,{dy:80,b:w.apl-.2,tilt:[6,-8]});$$('#grid .av').forEach((a,i)=>{const x=[FW(5,'kreator'),FW(5,'edukasi')][i];op(a,P(t,x-.1,x+.15));a.style.transform=`scale(${(.6+.4*o3(P(t,x-.1,x+.3))).toFixed(3)})`});
   pop($('#lst0'),t,w.apl,{dy:0,s0:1,d:.2,b:w.cs-.2});$$('.l0').forEach((e,i)=>{const x=[FW(5,'live'),FW(5,'seputar'),FW(5,'penelitian')][i];pop(e,t,x-.1,{dx:-40,dy:0,s0:1,d:.35,b:w.cs-.2});e.querySelector('s').style.transform=`scaleX(${o3(P(t,x+.4,x+.8)).toFixed(3)})`});
@@ -170,16 +192,20 @@ function SCN(t){const w=W,o=(a,b)=>({b});
   pop($('#pbh'),t,w.bh+.02,{dy:80,b:w.now-.15,tilt:[5,8]});kb($('#pbh'),t,w.bh,w.now);
   // sekarang
   pop($('#pnow'),t,w.now+.02,{dy:80,b:w.ai-.12,tilt:[6,-6]});kb($('#pnow'),t,w.now,w.ai);pop($('#nowb'),t,w.now+.12,{dy:30,s0:.85,d:.4,b:w.ai-.12});
-  // AI chat
-  pop($('#ai'),t,w.ai+.02,{dy:90,b:w.yt-.2,tilt:[8,6]});op($('#ai_u'),P(t,w.ai+.3,w.ai+.5));
-  {const txt='Uji t dipakai untuk membandingkan\nrata-rata dua kelompok.\nContoh: nilai kelas A vs kelas B.';const n=Math.floor(cl((t-FW(10,'membantu')+.1)*38,0,txt.length));$('#ai_r').textContent=txt.slice(0,n)+(t>w.ai+.6&&n<txt.length?'▍':'');op($('#ai_r'),P(t,w.ai+.55,w.ai+.7))}
-  // tutorials
-  [0,1,2].forEach(i=>{const e=$('#v'+i);pop(e,t,w.yt+.05+i*.18,{dy:80,s0:.85,b:w.jr-.2});e.style.transform+=` rotate(${e.dataset.r}deg)`;e.querySelector('.vpb').style.transform=`scaleX(${cl((t-w.yt-.4-i*.2)/[2.4,3.2,2.0][i]).toFixed(3)})`});pop($('#ytl'),t,w.yt+.6,{dy:20,s0:.8,b:w.jr-.2});
+  // AI logos + chat
+  $$('.ail').forEach((e,i)=>pop(e,t,w.ai+.02+i*.13,{dy:50,s0:.6,d:.4,b:w.yt-.2}));
+  pop($('#ai'),t,w.ai+.55,{dy:90,b:w.yt-.2,tilt:[8,6]});op($('#ai_u'),P(t,w.ai+.8,w.ai+1.0));
+  {const txt='Uji t dipakai untuk membandingkan\nrata-rata dua kelompok.\nContoh: nilai kelas A vs kelas B.';const n=Math.floor(cl((t-FW(10,'menjelaskan')+.05)*42,0,txt.length));$('#ai_r').textContent=txt.slice(0,n)+(t>w.ai+1&&n<txt.length?'▍':'');op($('#ai_r'),P(t,w.ai+1.0,w.ai+1.15))}
+  // YouTube channel list
+  pop($('#yt'),t,w.yt+.02,{dy:90,b:w.jr-.15,tilt:[7,-6]});$('#yt_l').style.transform=`translateY(${(-420*io3(P(t,w.yt+.5,w.jr-.1))).toFixed(1)}px)`;
   // journal
   pop($('#jr'),t,w.jr+.02,{dy:90,b:w.bk-.2,tilt:[8,-6]});{const qq='kepuasan kerja karyawan';$('#jq').textContent=qq.slice(0,Math.floor(cl((t-w.jr-.35)*30,0,qq.length)))}$$('.jrow').forEach((r,i)=>pop(r,t,w.jr+1.1+i*.25,{dx:-30,dy:0,s0:1,b:w.bk-.2}));
-  // live
-  pop($('#plv'),t,w.bk+.02,{dy:80,b:w.md-.15,tilt:[5,6]});kb($('#plv'),t,w.bk,w.md);pop($('#lvb'),t,w.bk+.3,{dy:0,s0:.6,b:w.md-.15});$('#lvb').style.opacity=(+$('#lvb').style.opacity*(.8+.2*Math.sin(t*6))).toFixed(3);
-  $$('.lvq').forEach((e,i)=>pop(e,t,w.bk+.6+i*.6,{dy:40,s0:.8,b:w.md-.15}));
+  // live UI
+  {const a=w.bk;pop($('#lv'),t,a+.02,{dy:90,b:w.md-.15,tilt:[5,-6]});kb($('#plv'),t,a,w.md);op($('#lvil'),P(t,a+.4,a+.6)*(1-P(t,w.md-.15,w.md+.1)));
+   $('#lvb').style.opacity=(.75+.25*Math.sin(t*6)).toFixed(2);$('#lvv').textContent='👁 '+(Math.round(L(860,1240,P(t,a,w.md)))).toLocaleString('id-ID');
+   const T=[a+.45,a+1.05,a+1.65,a+2.25,a+2.85,a+3.45];const lines=$$('#lvin .lc');let shown=0;lines.forEach((l,i)=>{const p=P(t,T[i],T[i]+.3);l.style.display=t>=T[i]?'block':'none';l.style.opacity=o3(p).toFixed(3);l.style.transform=`translateY(${((1-o3(p))*20).toFixed(1)}px)`;if(t>=T[i])shown++});
+   pop($('#lvpin'),t,FW(12,'diskusi')-.2,{dy:-20,s0:.9,b:w.md-.15});
+   $$('#lv .ht').forEach(h=>{const i=+h.dataset.i,ph=((t-a)*.55+i/8)%1;h.style.bottom=(110+ph*520).toFixed(1)+'px';h.style.right=(26+18*Math.sin(t*2+i*1.7)).toFixed(1)+'px';h.style.opacity=(t>a+.5?Math.sin(Math.PI*ph):0).toFixed(3);h.style.transform=`scale(${(.6+.6*ph).toFixed(2)})`})}
   // source pills around presenter
   $$('.src').forEach((e,i)=>{pop(e,t,FW(13,'sumber')+.1+i*.22,{dy:30,s0:.6,d:.4,b:w.q-.2});e.style.transform+=` translateY(${(8*Math.sin(t*1.6+i)).toFixed(1)}px)`});
   // steps
@@ -216,16 +242,17 @@ window.READY=Promise.all([...document.images].map(i=>i.complete?Promise.resolve(
 function render(t){SCN(t);MASC(t);CAP(t)}
 window.render=render;window.END=END;
 window.SFXLIST=()=>{const E=[],e=(k,t)=>E.push([k,+t.toFixed(3)]);const w=W;
-  e('pop',.25);e('soft',SS(1));e('pop',SS(1)+.05);e('click',FW(1,'udah')-.05);e('pop2',FW(1,'menyerah')-.1);
-  e('soft',w.sav);e('pop',FW(2,'save')-.1);e('pop2',FW(2,'follow')-.1);
-  e('rewind',w.d21);e('tick',FW(3,'2021'));e('soft',w.dulu);e('marker',FW(3,'seperti')-.2);
-  e('soft',w.tk);e('soft',w.kr);e('card0',FW(5,'kreator')-.1);e('card1',FW(5,'edukasi')-.1);[FW(5,'live'),FW(5,'seputar'),FW(5,'penelitian')].forEach((x,i)=>e('card'+i,x-.1));
-  e('soft',w.cs);['card0','card1','card2','card3'].forEach((k,i)=>e(k,[w.mt,w.jn,w.nt,w.bg][i]));e('soft',w.bh);e('chime',FW(8,'berharga')-.2);
-  e('whoosh',w.now-.08);e('soft',w.ai);e('typing',FW(10,'membantu')-.1);e('soft',w.yt);[0,1,2].forEach(i=>e('card'+i,w.yt+.05+i*.18));
-  e('soft',w.jr);e('typing2',w.jr+.35);e('soft',w.bk);e('live',w.bk+.3);[0,1,2].forEach(i=>e('blip',w.bk+.6+i*.6));
-  e('soft',w.md);[0,1,2,3,4].forEach(i=>e('card'+(i%4),FW(13,'sumber')+.1+i*.22));
-  e('soft',w.q);[w.q+.05,FW(14,'cari')-.15,w.ms+.02,FW(14,'tanya')-.15].forEach((x,i)=>e(i===3?'pop2':'click',x));
-  e('soft',w.gm);e('slide',w.sp);e('slide',w.sp2-.1);e('soft',w.cl);e('soft',w.js);e('chime',SE(18)+.2);return E};
+  e('pop',.25);e('pop',SS(1)+.05);e('click',FW(1,'udah')-.05);e('pop2',FW(1,'menyerah')-.1);
+  e('pop',FW(2,'save')-.1);e('pop2',FW(2,'follow')-.1);
+  e('rewind',w.d21);e('tick',FW(3,'2021'));e('marker',FW(3,'seperti')-.2);
+  e('swoosh',w.tk+.02);e('pop2',FW(4,'seramai')-.1);e('card0',FW(5,'kreator')-.1);e('card1',FW(5,'edukasi')-.1);[FW(5,'live'),FW(5,'seputar'),FW(5,'penelitian')].forEach((x,i)=>e('card'+i,x-.1));
+  ['card0','card1','card2','card3'].forEach((k,i)=>e(k,[w.mt,w.jn,w.nt,w.bg][i]));e('chime',FW(8,'berharga')-.2);
+  e('swoosh',w.now);[0,1,2,3,4].forEach(i=>e('card'+(i%4),w.ai+.02+i*.13));e('typing',FW(10,'menjelaskan')-.05);
+  e('swoosh',w.yt+.5);e('typing2',w.jr+.35);
+  e('live',w.bk+.3);[0,1,2,3,4,5].forEach(i=>e('tick2',w.bk+.45+i*.6));e('pop2',FW(12,'diskusi')-.2);
+  [0,1,2,3,4].forEach(i=>e('card'+(i%4),FW(13,'sumber')+.1+i*.22));
+  [w.q+.05,FW(14,'cari')-.15,w.ms+.02,FW(14,'tanya')-.15].forEach((x,i)=>e(i===3?'pop2':'click',x));
+  e('slide',w.sp);e('slide',w.sp2-.1);e('chime',SE(18)+.2);return E};
 if(!location.search.includes('render')){const st=$('#stage');const fit=()=>{const k=Math.min(innerWidth/1080,innerHeight/1920);st.style.transform=`scale(${k})`;st.style.transformOrigin='0 0'};fit();addEventListener('resize',fit);
   window.READY.then(()=>{const t0=performance.now();const loop=()=>{render(((performance.now()-t0)/1000)%END);requestAnimationFrame(loop)};loop()})}
 </script></body></html>

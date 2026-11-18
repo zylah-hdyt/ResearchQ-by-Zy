@@ -38,7 +38,7 @@ for k,t in E['ev']:
     elif k=='flash': put(t,fit(K['spark'],rate=.9,trim=.7),-29)
     elif k=='tick': put(t,fit(K['clk3'],rate=1.0),-26)
     elif k=='marker': n=int(.3*SR);y=bpnoise(.3,3000,6000,.4)*np.sin(np.pi*np.arange(n)/n)**2;put(t,y,-32,p)
-    elif k=='soft': n=int(.7*SR);y=bpnoise(.7,700,1800,.5)*np.sin(np.pi*np.arange(n)/n)**2;put(t-.3,y,-31,p)
+    elif k=='soft': raise SystemExit("'soft' noise swell is BANNED by the user (Instan dan Cepat, 49-52 s)")
     elif k=='click': put(t,fit(K['clk1'],rate=1.0),-27,p)
     elif k=='tick2': put(t,fit(K['tap'],rate=1.35),-33,p)
     elif k=='step': put(t,fit(K['tap'],rate=.85),-29)

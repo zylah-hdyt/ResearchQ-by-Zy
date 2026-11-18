@@ -11,5 +11,14 @@ for f in sorted(glob.glob(f'{P}/assets/*/*.jpg')):
     n=os.path.basename(f)[:-4]
     if "'"+n+"'" not in h: continue
     im=Image.open(f).convert('RGB');im.thumbnail((1500,1500));bio=io.BytesIO();im.save(bio,'JPEG',quality=86);PH[n]='data:image/jpeg;base64,'+base64.b64encode(bio.getvalue()).decode()
+import re
+COL={'claude':'#D97757','openai':'#111111','googlegemini':'url(#gg)','perplexity':'#1FB8CD','githubcopilot':'#111111'}
+AIL={}
+for k,c in COL.items():
+    sv=open(f'{P}/assets/logos_ai/{k}.svg').read();sv=re.sub(r'<title>.*?</title>','',sv)
+    defs='<defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4796E3"/><stop offset=".55" stop-color="#9168C0"/><stop offset="1" stop-color="#D96570"/></linearGradient></defs>' if k=='googlegemini' else ''
+    sv=sv.replace('<path ',defs+f'<path fill="{c}" ',1);AIL[k]=sv
+YTT={os.path.basename(f)[:-4]:'data:image/jpeg;base64,'+b(f) for f in glob.glob(f'{P}/assets/yt_thumbs/*.jpg') if not os.path.basename(f).startswith('_')}
+h=h.replace('{{AILOGOS}}',json.dumps(AIL)).replace('{{YTTHUMBS}}',json.dumps(YTT))
 h=h.replace('{{PHOTOS}}',json.dumps(PH)).replace('{{WORDS}}',open(f'{P}/work/words.json').read())
 open(f'{P}/video_ref.html','w').write(h);print('built',len(h)//1024,'KB photos',sorted(PH))

@@ -76,3 +76,16 @@ File: `Instan_dan_Cepat_REFSTYLE.mp4` (sumber: `source/template_ref.html`, build
 - Daftar ✦ yang dicoret ("belum ada 2021") dan daftar sumber belajar. Langkah bernomor dalam lingkaran biru. Label pill monospace gaya `/perintah`.
 - **Presenter (maskot lip-sync) hanya 5 kali**, di dalam kartu presenter dengan label pill: `/serba-instan` (0–5 dtk), `/save-dan-follow` (9–13), `/lebih-mudah` (51–55), `/gak-mampu?` (59–64), `/kemauan-belajar` (71–76).
 - 6 foto Unsplash sebagai kartu foto (library hangat, lorong perpustakaan, membaca, lorong terang, video-call, siluet). SFX lembut tanpa suara kaget.
+
+### Revisi REFSTYLE (feedback user)
+- **YouTube:** daftar video asli channel NotYourLecture yang bergulir (thumbnail + judul dari screenshot channel).
+- **AI:** deretan logo Claude · ChatGPT · Gemini · Perplexity · Copilot (glyph resmi Simple Icons, diwarnai warna merek), lalu chat `/tanya-ai`.
+- **TikTok:** feed "Untuk Anda" penuh konten yang bergulir; tile "edukasi" jarang muncul.
+- **Live:** UI live streaming "Kelas Riset" lengkap:
+  - badge LIVE dan jumlah penonton yang naik (ilustrasi);
+  - hati beterbangan;
+  - chat bergulir berisi pertanyaan riset;
+  - pertanyaan disematkan "uji validitas → outer loading & AVE";
+  - kolom "Tulis pertanyaan…".
+- **Backsound cerita (12,6–39,2 dtk):** musik sinematik storyteller hasil sintesis (`tools/music.py`): piano arpeggio, string pad, cello, reverb, progresi Am–F–C–G, 72 bpm. Volume ±17 LU di bawah VO, fade in/out.
+- **SFX:** desis "soft" (noise swell, sempat terdengar di 49–52 dtk) dihapus dan dilarang permanen. Transisi memakai swoosh sampel pelan atau tanpa suara; chat live memakai ketukan halus.
