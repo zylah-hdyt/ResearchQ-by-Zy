@@ -189,7 +189,7 @@ const ListCard: React.FC<{at: number; y: number; img: string; label: string; tit
 				<Anton size={66} style={{marginTop: 4}}>
 					{title}
 				</Anton>
-				{strikeAt ? <div style={{position: 'absolute', left: -6, top: 64, height: 10, width: `calc(${sp * 100}% + 12px)`, backgroundColor: ORANGE, borderRadius: 5}} /> : null}
+				{strikeAt ? <div style={{position: 'absolute', left: -6, top: 64, height: 10, width: sp > 0 ? `calc(${sp * 100}% + 12px)` : 0, backgroundColor: ORANGE, borderRadius: 5}} /> : null}
 			</div>
 		</div>
 	);
@@ -326,7 +326,7 @@ const S4: React.FC = () => {
 						<Anton size={120} color="#fff">LU</Anton>
 						<div style={{position: 'relative'}}>
 							<Anton size={120} color="rgba(255,255,255,0.45)">NGGAK</Anton>
-							<div style={{position: 'absolute', left: -6, top: 64, height: 12, width: `calc(${sp * 100}% + 12px)`, backgroundColor: ORANGE, borderRadius: 6}} />
+							<div style={{position: 'absolute', left: -6, top: 64, height: 12, width: sp > 0 ? `calc(${sp * 100}% + 12px)` : 0, backgroundColor: ORANGE, borderRadius: 6}} />
 						</div>
 					</div>
 					<Anton size={170} color={ORANGE}>MAMPU.</Anton>
@@ -339,16 +339,19 @@ const S4: React.FC = () => {
 // ---------- scene 5 · bukan kecerdasan ----------
 const S5: React.FC = () => {
 	const frame = useCurrentFrame();
-	const e = useEnter(T(19.46));
+	const e = useEnter(T(18.3));
 	const sp = prog(frame, T(20.2), T(20.2) + 8, EASE_IN_OUT);
+	const word = prog(frame, T(19.72) - 1, T(19.72) + 6, EASE_OUT);
 	return (
 		<>
 			{e.visible ? (
 				<div style={{...cardStyle, left: 80, top: 560, width: 920, height: 200, padding: '30px 40px', backgroundColor: INK, ...e.style}}>
 					<Mono color="rgba(255,255,255,0.55)">yang kurang itu bukan</Mono>
 					<div style={{position: 'relative', display: 'inline-block', marginTop: 6}}>
-						<Anton size={92} color="#fff">KECERDASAN</Anton>
-						<div style={{position: 'absolute', left: -8, top: 50, height: 12, width: `calc(${sp * 100}% + 16px)`, backgroundColor: ORANGE, borderRadius: 6}} />
+						<Anton size={92} color="#fff" style={{opacity: word, translate: `0 ${(1 - word) * 20}px`}}>
+							KECERDASAN
+						</Anton>
+						<div style={{position: 'absolute', left: -8, top: 50, height: 12, width: sp > 0 ? `calc(${sp * 100}% + 16px)` : 0, backgroundColor: ORANGE, borderRadius: 6}} />
 					</div>
 				</div>
 			) : null}
@@ -581,11 +584,16 @@ const Wipe: React.FC<{kind: 'steps' | 'diag'; p: number; children: React.ReactNo
 const SceneLayer: React.FC<{i: number}> = ({i}) => {
 	const sc = SCENES[i];
 	const C = CONTENT[i];
+	const s0 = T(sc.at);
+	const s1 = i + 1 < SCENES.length ? T(SCENES[i + 1].at) : REF_FRAMES + 30;
 	return (
 		<AbsoluteFill>
 			<Background theme={sc.theme} />
 			<C />
 			<Watermark theme={sc.theme} />
+			{MASCOT.filter((m) => m.from < s1 && m.to > s0).map((m, k) => (
+				<Narrator key={k} pose={m.pose} cx={m.cx} k={m.k} from={m.from} to={m.to} enter={m.enter ?? true} exit={m.exit ?? true} />
+			))}
 			<Subtitle theme={sc.theme} />
 		</AbsoluteFill>
 	);
@@ -626,7 +634,8 @@ const CUES: Cue[] = [
 	{at: 17.62, s: 's00', v: db(-24)},
 	// cream · bukan kecerdasan
 	{at: 18.07, s: 's13', v: db(-20), rate: 1.3, trim: 0.3},
-	{at: 19.46, s: 's04', v: db(-21)},
+	{at: 18.3, s: 's04', v: db(-21)},
+	{at: 19.72, s: 's05', v: db(-23)},
 	{at: 20.2, s: 's01', v: db(-19), rate: 1.5, trim: 0.35},
 	{at: 21.08, s: 's04', v: db(-20), rate: 0.95},
 	{at: 22.26, s: 's04', v: db(-20), rate: 1.05},
@@ -693,9 +702,6 @@ export const MentalRef: React.FC = () => {
 			<Wipe kind={SCENES[idx].wipe} p={p}>
 				<SceneLayer i={idx} />
 			</Wipe>
-			{MASCOT.map((m, i) => (
-				<Narrator key={i} pose={m.pose} cx={m.cx} k={m.k} from={m.from} to={m.to} enter={m.enter ?? true} exit={m.exit ?? true} />
-			))}
 			<AbsoluteFill style={{backgroundColor: '#000', opacity: Math.max(interpolate(frame, [0, 6], [1, 0], clamp), interpolate(frame, [REF_FRAMES - 15, REF_FRAMES - 1], [0, 1], clamp))}} />
 			<Audio src={staticFile('vo_mental.wav')} />
 			{CUES.map((c, i) => (
