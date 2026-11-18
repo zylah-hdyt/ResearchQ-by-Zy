@@ -6,6 +6,7 @@ import {loadFont as interTight} from '@remotion/google-fonts/InterTight';
 import {loadFont as jetbrains} from '@remotion/google-fonts/JetBrainsMono';
 import {loadFont as playfair} from '@remotion/google-fonts/PlayfairDisplay';
 import {loadFont as archivo} from '@remotion/google-fonts/ArchivoBlack';
+import {loadFont as pjs} from '@remotion/google-fonts/PlusJakartaSans';
 
 const latin = {subsets: ['latin' as const]};
 
@@ -20,4 +21,5 @@ export const FONT = {
 	playfair: playfair('italic', {...latin, weights: ['400', '600']}).fontFamily,
 	playfairRoman: playfair('normal', {...latin, weights: ['600', '800']}).fontFamily,
 	archivo: archivo('normal', {...latin, weights: ['400']}).fontFamily,
+	pjs: pjs('normal', {...latin, weights: ['700', '800']}).fontFamily,
 };
