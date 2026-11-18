@@ -68,3 +68,11 @@
   - meter akses Dulu vs Sekarang;
   - grafik "kemudahan ↑ / kemauan belajar ↓".
 - SFX tanpa impact: swoosh lembut, pop/klik UI, tick, typing, rewind lembut, chime. Spektrum dicek: tidak ada bagian yang didominasi frekuensi rendah.
+
+## Versi gaya referensi (InsiderForce "5 Free Claude Code Plugins" / "8 Commands")
+File: `Instan_dan_Cepat_REFSTYLE.mp4` (sumber: `source/template_ref.html`, build `source/tools/build_ref.py`, render `source/recp_ref.js`).
+- Latar abu-terang polos konsisten. Satu elemen visual di zona atas-tengah berupa kartu melayang dengan bayangan lembut besar dan sedikit miring 3D (kartu UI gelap/terang, kartu foto, HP, angka besar).
+- Caption hitam di bawah visual: kata muncul satu per satu dari abu ke hitam, kata kunci tebal dan lebih besar. Watermark `researchq.id` abu pucat.
+- Daftar ✦ yang dicoret ("belum ada 2021") dan daftar sumber belajar. Langkah bernomor dalam lingkaran biru. Label pill monospace gaya `/perintah`.
+- **Presenter (maskot lip-sync) hanya 5 kali**, di dalam kartu presenter dengan label pill: `/serba-instan` (0–5 dtk), `/save-dan-follow` (9–13), `/lebih-mudah` (51–55), `/gak-mampu?` (59–64), `/kemauan-belajar` (71–76).
+- 6 foto Unsplash sebagai kartu foto (library hangat, lorong perpustakaan, membaca, lorong terang, video-call, siluet). SFX lembut tanpa suara kaget.
