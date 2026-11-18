@@ -41,6 +41,7 @@ for k,t in E['ev']:
     elif k=='soft': raise SystemExit("'soft' noise swell is BANNED by the user (Instan dan Cepat, 49-52 s)")
     elif k=='click': put(t,fit(K['clk1'],rate=1.0),-27,p)
     elif k=='tick2': put(t,fit(K['tap'],rate=1.35),-33,p)
+    elif k=='flip': put(t,fit(K['swoosh'],rate=1.7,trim=.25),-29,p)
     elif k=='step': put(t,fit(K['tap'],rate=.85),-29)
     elif k=='shutter': put(t,fit(K['clk1'],rate=1.1),-25,p); put(t+.07,fit(K['clk3'],rate=1.3),-29,p)
     elif k=='chime':

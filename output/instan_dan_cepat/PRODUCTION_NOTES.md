@@ -89,3 +89,13 @@ File: `Instan_dan_Cepat_REFSTYLE.mp4` (sumber: `source/template_ref.html`, build
   - kolom "Tulis pertanyaan…".
 - **Backsound cerita (12,6–39,2 dtk):** musik sinematik storyteller hasil sintesis (`tools/music.py`): piano arpeggio, string pad, cello, reverb, progresi Am–F–C–G, 72 bpm. Volume ±17 LU di bawah VO, fade in/out.
 - **SFX:** desis "soft" (noise swell, sempat terdengar di 49–52 dtk) dihapus dan dilarang permanen. Transisi memakai swoosh sampel pelan atau tanpa suara; chat live memakai ketukan halus.
+
+## Versi FULL MOTION (setelah user menolak konsep kartu kecil)
+File: `Instan_dan_Cepat_FULLMOTION.mp4` (sumber: `source/template_full.html`, build `source/tools/build_full.py`, render `source/recp_full.js`).
+- **22 adegan full animasi tanpa henti**, masing-masing dengan latar berbeda: navy + sinar berputar, arang + denyut merah, oranye halftone, foto sepia 2021 + scanline + light leak, kertas buku bergaris, gradasi pink-ungu-cyan bergaris, teal bertitik, 4 kuadran warna, emas berkilau, biru speed-line, lilac dengan blob warna, YouTube gelap, kertas biru bergrid, ungu, mint, slate dengan tanda tanya jatuh, split diagonal, senja, malam ungu.
+- **Isi memenuhi layar:** tipografi raksasa (sampai 520 px), HP besar dengan feed bergulir, grid avatar besar, kuadran ikon, orbit logo AI 3D, aplikasi YouTube full-screen berisi video channel, live streaming full-screen, jaringan sumber belajar, flowchart zigzag, grafik penutup.
+- **Kamera:** setiap adegan bergerak (push/pull, drift, rotasi halus), punch-in di kata kunci, pan vertikal di flowchart.
+- **Transisi:** whip-pan + motion blur, whip vertikal, zoom-through, swing berputar, flip 3D, circle reveal, rewind (kilat + getar) ke 2021, slide.
+- **Maskot** berdiri bebas tanpa kotak, 5 kali: tengah-bawah (hook, "lebih mudah", penutup) dan kanan-bawah (save/follow, "gak mampu?"). Masuk dengan slide dan berayun ringan.
+- **Foto hanya full-screen** (perpustakaan 2021, lorong, host live, siluet senja). Tidak ada kartu foto kecil.
+- **Audio:** backsound cerita sinematik 12,6–39,2 dtk, SFX lembut (swoosh sampel, pop, klik, ketukan chat, chime, rewind). Tanpa "soft", tanpa suara kaget.
