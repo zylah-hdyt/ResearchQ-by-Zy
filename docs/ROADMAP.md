@@ -1,6 +1,6 @@
 # Development Roadmap
 
-> Product naming & branding stays **pending** until Phase 5.
+> Product name is final: **MyFi**. Logo and visual identity stay **pending** until Phase 5.
 
 | Phase | Scope | Status |
 |---|---|---|
@@ -14,7 +14,7 @@
 | 3 | **Netlify (free)** deployment with `netlify.toml` | ✅ Config ready |
 | 4 | Product depth: recurring transactions, custom categories UI, live FX rates (opt-in), receipt attachments, data import (CSV/XLSX), PWA install & offline | 🔜 Planned |
 | 4 | Quality: E2E suite in CI (Playwright), accessibility audit (WCAG 2.2 AA), performance budget, error monitoring | 🔜 Planned |
-| 5 | **Branding stage**: product name, logo, colour refinement, marketing site, store listings — replace `app.name` placeholder | 🕓 Pending (intentionally deferred) |
+| 5 | **Branding stage**: logo, colour refinement, favicon/app icons, marketing site, store listings (name **MyFi** already decided) | 🕓 Pending |
 
 ## Acceptance checklist for this update
 - [x] Greeting from local time, name from the authenticated profile (no hardcoded demo text)

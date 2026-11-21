@@ -1,5 +1,8 @@
 export const en = {
-  'app.name': 'Finance App',
+  'app.name': 'MyFi',
+  'app.tagline': 'My Financial',
+  'app.credit': 'Developed by Zy',
+  'settings.about': 'About',
   'common.save': 'Save',
   'common.cancel': 'Cancel',
   'common.delete': 'Delete',

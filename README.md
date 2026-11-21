@@ -1,9 +1,10 @@
-# Personal Finance Web App *(name pending)*
+# MyFi — My Financial
 
 Bilingual (Bahasa Indonesia / English) personal finance web app with a personalized dashboard,
 multi-currency wallets, budgets, analytics, and professional Excel (.xlsx) export.
 
-> Branding is intentionally not final — "Finance App" is a placeholder until the branding stage.
+> Name: **MyFi** (My Financial). Logo and visual identity are still pending — the current icon is a placeholder.
+> Developed by Zy.
 
 ## Run
 ```bash

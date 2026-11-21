@@ -4,6 +4,7 @@ import { useAuth } from '../auth/AuthProvider';
 import { useI18n } from '../i18n';
 import type { MessageKey } from '../i18n/en';
 import { isCloud } from '../lib/supabase';
+import { Credit } from '../components/Credit';
 
 export function AuthPage() {
   const { t } = useI18n();
@@ -35,7 +36,7 @@ export function AuthPage() {
   return (
     <div className="auth">
       <div className="auth-side">
-        <div className="brand" style={{ padding: 0 }}><span className="brand-mark" style={{ background: 'rgba(255,255,255,.18)' }}><Wallet size={17} /></span>{t('app.name')}</div>
+        <div className="brand" style={{ padding: 0 }}><span className="brand-mark" style={{ background: 'rgba(255,255,255,.18)' }}><Wallet size={17} /></span>{t('app.name')}<span style={{ fontWeight: 400, opacity: .75, marginLeft: 8 }}>{t('app.tagline')}</span></div>
         <div><h1>{t('auth.welcome')}</h1><p>{t('auth.subtitle')}</p></div>
         <button className="btn" style={{ alignSelf: 'flex-start', background: 'rgba(255,255,255,.14)', border: 'none', color: '#fff' }}
           onClick={() => setGuestLanguage(guestLanguage === 'id' ? 'en' : 'id')}>
@@ -61,6 +62,7 @@ export function AuthPage() {
           </div>
           {!isCloud && <p className="hint" style={{ textAlign: 'center' }}>{t('auth.localNote')}</p>}
         </form>
+        <Credit className="auth-credit" />
       </div>
     </div>
   );

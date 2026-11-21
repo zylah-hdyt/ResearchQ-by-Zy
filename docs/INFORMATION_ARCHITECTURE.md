@@ -1,6 +1,6 @@
 # Information Architecture
 
-> Product name pending — "Finance App" is a placeholder.
+> Product: **MyFi** (My Financial). Author credit "Developed by Zy" appears on Auth, in the sidebar and under Account settings → About.
 
 ## Site map
 ```

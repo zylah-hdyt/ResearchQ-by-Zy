@@ -1,8 +1,8 @@
-# Product Requirements Document — Personal Finance Web App
+# Product Requirements Document — MyFi (My Financial)
 
-> **Branding status: PENDING.** The product name, logo and visual identity are intentionally not final.
-> The UI uses the neutral placeholder "Finance App" (`app.name` in `app/src/i18n/*.ts`). Naming happens
-> only after the functional application is sufficiently complete (see `ROADMAP.md`, Phase 5).
+> **Branding status:** product name is final — **MyFi** (short for *My Financial*). Author credit "Developed by Zy" is shown on the
+> sign-in page, the sidebar and Account settings (About). The **logo and final visual identity are still pending**; the current
+> wallet icon is a placeholder (`app.name`, `app.tagline`, `app.credit` in `app/src/i18n/*.ts`).
 
 ## 1. Purpose
 A bilingual (Bahasa Indonesia / English) web app that helps individuals track income, expenses,

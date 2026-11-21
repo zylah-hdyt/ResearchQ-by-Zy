@@ -7,6 +7,7 @@ import { useI18n } from '../i18n';
 import { CURRENCIES, type CurrencyCode, type Language, type ThemePref } from '../data/types';
 import { useToast } from '../components/Toast';
 import { IdentityCard } from './Profile';
+import { Credit } from '../components/Credit';
 
 export function Settings() {
   const { t } = useI18n();
@@ -101,6 +102,13 @@ export function Settings() {
       <section className="card">
         <div className="card-head"><h2>{t('settings.danger')}</h2></div>
         <button className="btn danger" onClick={() => { if (confirm(t('settings.deleteConfirm'))) { data.clearAll(); toast(t('common.saved')); } }}>{t('settings.deleteData')}</button>
+      </section>
+      <section className="card">
+        <div className="card-head"><h2>{t('settings.about')}</h2></div>
+        <div className="row between">
+          <span><strong>{t('app.name')}</strong> <span className="muted">· {t('app.tagline')}</span></span>
+          <Credit />
+        </div>
       </section>
     </>
   );

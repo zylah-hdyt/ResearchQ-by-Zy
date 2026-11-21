@@ -4,6 +4,7 @@ import { useAuth } from '../auth/AuthProvider';
 import { useI18n } from '../i18n';
 import type { MessageKey } from '../i18n/en';
 import { NotificationBell, ProfileChip } from './UserIdentity';
+import { Credit } from './Credit';
 
 const NAV: { to: string; label: MessageKey; short?: MessageKey; icon: typeof Wallet }[] = [
   { to: '/', label: 'nav.dashboard', icon: LayoutDashboard },
@@ -32,6 +33,7 @@ export function Layout() {
         <NavLink to="/profile" className="nav-link"><User size={18} />{t('nav.profile')}</NavLink>
         <NavLink to="/settings" className="nav-link"><Settings size={18} />{t('nav.settings')}</NavLink>
         <button className="nav-link" style={{ border: 'none', background: 'none', cursor: 'pointer' }} onClick={signOut}><LogOut size={18} />{t('nav.signOut')}</button>
+        <Credit className="sidebar-credit" />
       </aside>
       <div className="main">
         {!isDashboard && (

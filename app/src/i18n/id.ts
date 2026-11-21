@@ -1,7 +1,10 @@
 import type { MessageKey } from './en';
 
 export const id: Record<MessageKey, string> = {
-  'app.name': 'Finance App',
+  'app.name': 'MyFi',
+  'app.tagline': 'My Financial',
+  'app.credit': 'Dikembangkan oleh Zy',
+  'settings.about': 'Tentang',
   'common.save': 'Simpan',
   'common.cancel': 'Batal',
   'common.delete': 'Hapus',
