@@ -47,6 +47,10 @@ export const en = {
   'auth.err.password': 'Password must be at least 8 characters.',
   'auth.err.email': 'Enter a valid email address.',
   'auth.err.name': 'Enter your name.',
+  'auth.confirmEmail': 'Check your email to confirm your account, then sign in.',
+  'auth.err.generic': 'Something went wrong. Please try again.',
+  'sync.error': 'Could not save your changes. They were reverted.',
+  'sync.loadError': 'Could not load your data. Check your connection and try again.',
   'auth.localNote': 'Your data is stored privately on this device for this preview.',
 
   'greeting.morning': 'Good morning, {name}',

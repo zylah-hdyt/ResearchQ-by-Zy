@@ -10,13 +10,20 @@ app/src
 │   ├── en.ts                     source dictionary (typed MessageKey)
 │   ├── id.ts                     Indonesian — Record<MessageKey,string>, compile-time complete
 │   └── index.tsx                 I18nProvider, useI18n(), translator(), categoryLabel(), detectLanguage()
-├── auth/AuthProvider.tsx         session, signIn/signUp/signOut, profile, updateProfile, greetingName(), theme
+├── auth/
+│   ├── AuthProvider.tsx          session, profile, updateProfile (optimistic + rollback), greetingName(), theme
+│   ├── backend.ts / index.ts     AuthBackend interface, picked from env
+│   ├── supabaseBackend.ts        Supabase Auth + profiles table
+│   └── localBackend.ts           browser accounts (fallback)
 ├── data/
 │   ├── types.ts                  domain model (Profile, Wallet, Transaction, Budget, …)
-│   ├── storage.ts                persistence adapter (localStorage, per-user namespace)
+│   ├── backend.ts                DataBackend interface (load / save diff)
+│   ├── supabaseBackend.ts        cloud: row mapping, paging, ordered diff writes
+│   ├── localBackend.ts, storage.ts   browser fallback (per-user namespace)
+│   ├── index.ts                  picks backend from env
 │   └── seed.ts                   built-in categories
 ├── store/
-│   ├── DataProvider.tsx          user-scoped CRUD, dedupe on commit
+│   ├── DataProvider.tsx          loads from backend, optimistic CRUD, ordered write queue, dedupe
 │   └── sample.ts                 deterministic sample data
 ├── lib/                          pure, unit-tested logic
 │   ├── finance.ts                balances, opening/closing, summaries, cashflow, budgets

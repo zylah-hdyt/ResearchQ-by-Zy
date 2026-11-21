@@ -49,6 +49,10 @@ export const id: Record<MessageKey, string> = {
   'auth.err.password': 'Kata sandi minimal 8 karakter.',
   'auth.err.email': 'Masukkan alamat email yang valid.',
   'auth.err.name': 'Masukkan nama Anda.',
+  'auth.confirmEmail': 'Cek email Anda untuk konfirmasi akun, lalu masuk.',
+  'auth.err.generic': 'Terjadi kesalahan. Silakan coba lagi.',
+  'sync.error': 'Perubahan gagal disimpan dan dikembalikan.',
+  'sync.loadError': 'Gagal memuat data Anda. Periksa koneksi lalu coba lagi.',
   'auth.localNote': 'Pada versi pratinjau ini, data Anda disimpan secara privat di perangkat ini.',
 
   'greeting.morning': 'Selamat pagi, {name}',

@@ -6,6 +6,9 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  # Public by design: the publishable key only grants what row-level security allows.
+  VITE_SUPABASE_URL = "https://yklnobntpxnfnwehzdep.supabase.co"
+  VITE_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_i30QwFr7INzzjuWolELveg_-8-d_LYv"
 
 # Single-page app fallback.
 [[redirects]]

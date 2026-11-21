@@ -13,7 +13,7 @@ import { storage } from '../data/storage';
 export function IdentityCard({ children }: { children?: React.ReactNode }) {
   const { profile } = useAuth();
   const { t, lang } = useI18n();
-  const acc = storage.listAccounts().find((a) => a.id === profile!.userId);
+  const since = profile!.createdAt ?? storage.listAccounts().find((a) => a.id === profile!.userId)?.createdAt;
   return (
     <section className="card identity">
       <div className="identity-main">
@@ -21,7 +21,7 @@ export function IdentityCard({ children }: { children?: React.ReactNode }) {
         <div style={{ minWidth: 0 }}>
           <h1>{profile!.fullName || greetingName(profile!)}</h1>
           <p>{profile!.email}</p>
-          {acc && <p className="small">{t('profile.memberSince', { date: formatDate(acc.createdAt.slice(0, 10), lang, { month: 'long', year: 'numeric' }) })}</p>}
+          {since && <p className="small">{t('profile.memberSince', { date: formatDate(since.slice(0, 10), lang, { month: 'long', year: 'numeric' }) })}</p>}
         </div>
       </div>
       {children}

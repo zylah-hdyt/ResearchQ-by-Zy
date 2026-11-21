@@ -3,6 +3,7 @@ import { Wallet, Languages } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
 import { useI18n } from '../i18n';
 import type { MessageKey } from '../i18n/en';
+import { isCloud } from '../lib/supabase';
 
 export function AuthPage() {
   const { t } = useI18n();
@@ -12,6 +13,7 @@ export function AuthPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [err, setErr] = useState<string | null>(null);
+  const [info, setInfo] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
   const submit = async (e: React.FormEvent) => {
@@ -19,6 +21,14 @@ export function AuthPage() {
     setBusy(true);
     const res = mode === 'in' ? await signIn(email, password) : await signUp(name, email, password);
     setBusy(false);
+    if (res === 'confirm') {
+      setErr(null);
+      setInfo(t('auth.confirmEmail'));
+      setMode('in');
+      setPassword('');
+      return;
+    }
+    setInfo(null);
     setErr(res ? t(`auth.err.${res}` as MessageKey) : null);
   };
 
@@ -40,15 +50,16 @@ export function AuthPage() {
           )}
           <label className="field">{t('auth.email')}<input className="input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" required /></label>
           <label className="field">{t('auth.password')}<input className="input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete={mode === 'in' ? 'current-password' : 'new-password'} required minLength={8} /></label>
+          {info && <div className="banner" role="status">{info}</div>}
           {err && <div className="error" role="alert">{err}</div>}
           <button className="btn primary" type="submit" disabled={busy} style={{ height: 44 }}>{busy ? t('common.loading') : mode === 'in' ? t('auth.signIn') : t('auth.signUp')}</button>
           <div className="small muted" style={{ textAlign: 'center' }}>
             {mode === 'in' ? t('auth.noAccount') : t('auth.haveAccount')}{' '}
-            <button type="button" className="btn ghost sm" style={{ color: 'var(--brand)' }} onClick={() => { setMode(mode === 'in' ? 'up' : 'in'); setErr(null); }}>
+            <button type="button" className="btn ghost sm" style={{ color: 'var(--brand)' }} onClick={() => { setMode(mode === 'in' ? 'up' : 'in'); setErr(null); setInfo(null); }}>
               {mode === 'in' ? t('auth.signUp') : t('auth.signIn')}
             </button>
           </div>
-          <p className="hint" style={{ textAlign: 'center' }}>{t('auth.localNote')}</p>
+          {!isCloud && <p className="hint" style={{ textAlign: 'center' }}>{t('auth.localNote')}</p>}
         </form>
       </div>
     </div>

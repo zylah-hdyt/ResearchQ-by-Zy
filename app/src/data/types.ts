@@ -33,6 +33,7 @@ export interface Profile {
   weekStartsOn: 0 | 1;
   budgetAlerts: boolean;
   updatedAt: string;
+  createdAt?: string;
 }
 
 export type WalletType = 'cash' | 'bank' | 'ewallet' | 'credit' | 'savings' | 'investment';

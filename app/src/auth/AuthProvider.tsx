@@ -1,17 +1,15 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import type { Language, Profile } from '../data/types';
-import { storage } from '../data/storage';
-import { hashPassword, newSalt } from '../lib/password';
-import { uid } from '../lib/id';
-import { detectLanguage, I18nProvider } from '../i18n';
-
-type AuthError = 'invalid' | 'exists' | 'password' | 'email' | 'name';
+import { detectLanguage, I18nProvider, translator } from '../i18n';
+import { useToast } from '../components/Toast';
+import type { AuthError, SignUpResult } from './backend';
+import { authBackend } from './index';
 
 interface AuthValue {
   profile: Profile | null;
   ready: boolean;
   signIn: (email: string, password: string) => Promise<AuthError | null>;
-  signUp: (fullName: string, email: string, password: string) => Promise<AuthError | null>;
+  signUp: (fullName: string, email: string, password: string) => Promise<SignUpResult>;
   signOut: () => void;
   updateProfile: (patch: Partial<Profile>) => void;
   guestLanguage: Language;
@@ -20,87 +18,55 @@ interface AuthValue {
 
 const Ctx = createContext<AuthValue | null>(null);
 const LANG_KEY = 'fa.v1:guestLang';
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const toast = useToast();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [ready, setReady] = useState(false);
-  const [guestLanguage, setGuestLanguageState] = useState<Language>(
-    () => (localStorage.getItem(LANG_KEY) as Language) || detectLanguage(),
-  );
+  const profileRef = useRef<Profile | null>(null);
+  const [guestLanguage, setGuestLanguageState] = useState<Language>(() => {
+    try { return (localStorage.getItem(LANG_KEY) as Language) || detectLanguage(); } catch { return detectLanguage(); }
+  });
 
   useEffect(() => {
-    const s = storage.getSession();
-    if (s) setProfile(storage.getProfile(s.userId));
-    setReady(true);
+    const off = authBackend.init((p) => {
+      // Ignore no-op refreshes so open forms keep their state.
+      if (JSON.stringify(p) !== JSON.stringify(profileRef.current)) {
+        profileRef.current = p;
+        setProfile(p);
+      }
+      setReady(true);
+    });
+    return off;
   }, []);
 
   const setGuestLanguage = (l: Language) => {
-    localStorage.setItem(LANG_KEY, l);
+    try { localStorage.setItem(LANG_KEY, l); } catch { /* ignore */ }
     setGuestLanguageState(l);
   };
 
-  const signIn = useCallback(async (email: string, password: string) => {
-    const acc = storage.listAccounts().find((a) => a.email === email.trim().toLowerCase());
-    if (!acc) return 'invalid' as const;
-    const h = await hashPassword(password, acc.salt);
-    if (h !== acc.passwordHash) return 'invalid' as const;
-    storage.setSession({ userId: acc.id });
-    setProfile(storage.getProfile(acc.id));
-    return null;
-  }, []);
-
+  const signIn = useCallback((email: string, password: string) => authBackend.signIn(email, password), []);
   const signUp = useCallback(
-    async (fullName: string, email: string, password: string) => {
-      const e = email.trim().toLowerCase();
-      if (!fullName.trim()) return 'name' as const;
-      if (!EMAIL_RE.test(e)) return 'email' as const;
-      if (password.length < 8) return 'password' as const;
-      const accounts = storage.listAccounts();
-      if (accounts.some((a) => a.email === e)) return 'exists' as const;
-      const salt = newSalt();
-      const now = new Date().toISOString();
-      const acc = { id: uid('u_'), email: e, salt, passwordHash: await hashPassword(password, salt), createdAt: now };
-      storage.saveAccounts([...accounts, acc]);
-      const p: Profile = {
-        userId: acc.id,
-        email: e,
-        fullName: fullName.trim(),
-        displayName: '',
-        avatarDataUrl: null,
-        phone: '',
-        country: guestLanguage === 'id' ? 'Indonesia' : '',
-        dateOfBirth: '',
-        preferredCurrency: guestLanguage === 'id' ? 'IDR' : 'USD',
-        language: guestLanguage,
-        theme: 'system',
-        weekStartsOn: 1,
-        budgetAlerts: true,
-        updatedAt: now,
-      };
-      storage.saveProfile(p);
-      storage.setSession({ userId: acc.id });
-      setProfile(p);
-      return null;
-    },
+    (fullName: string, email: string, password: string) => authBackend.signUp(fullName, email, password, guestLanguage),
     [guestLanguage],
   );
-
-  const signOut = useCallback(() => {
-    storage.setSession(null);
-    setProfile(null);
-  }, []);
+  const signOut = useCallback(() => { void authBackend.signOut(); }, []);
 
   const updateProfile = useCallback((patch: Partial<Profile>) => {
-    setProfile((prev) => {
-      if (!prev) return prev;
-      const next = { ...prev, ...patch, userId: prev.userId, email: prev.email, updatedAt: new Date().toISOString() };
-      storage.saveProfile(next);
-      return next;
+    const prev = profileRef.current;
+    if (!prev) return;
+    const next = { ...prev, ...patch, userId: prev.userId, email: prev.email, updatedAt: new Date().toISOString() };
+    profileRef.current = next;
+    setProfile(next);
+    authBackend.saveProfile(next).catch((e) => {
+      console.error(e);
+      profileRef.current = prev;
+      setProfile(prev);
+      toast(translator(prev.language)('sync.error'));
     });
-  }, []);
+  }, [toast]);
 
-  // Apply theme preference.
+  // Apply theme preference and document language.
   useEffect(() => {
     const theme = profile?.theme ?? 'system';
     const root = document.documentElement;

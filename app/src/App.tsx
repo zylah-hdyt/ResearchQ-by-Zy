@@ -37,11 +37,11 @@ function Gate() {
 export default function App() {
   return (
     <HashRouter>
-      <AuthProvider>
-        <ToastProvider>
+      <ToastProvider>
+        <AuthProvider>
           <Gate />
-        </ToastProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </ToastProvider>
     </HashRouter>
   );
 }
