@@ -15,6 +15,12 @@ npm run build      # production build in app/dist
 ```
 Create an account, then use **Load sample data** on the dashboard to explore.
 
+## Deploy to Netlify (free)
+`netlify.toml` is already configured (base `app`, build `npm run build`, publish `dist`).
+1. Sign in at netlify.com with GitHub → **Add new site → Import an existing project**.
+2. Pick this repository and the branch to deploy → **Deploy**. No settings need to be changed.
+3. Every push to that branch redeploys automatically.
+
 ## Documentation
 - [Product Requirements](docs/PRD.md)
 - [Information Architecture](docs/INFORMATION_ARCHITECTURE.md)
