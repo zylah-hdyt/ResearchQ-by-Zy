@@ -1,0 +1,31 @@
+# Netlify (free plan) — builds the web app in app/ and publishes app/dist.
+[build]
+  base = "app"
+  command = "npm ci && npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  # Public by design: the publishable key only grants what row-level security allows.
+  VITE_SUPABASE_URL = "https://yklnobntpxnfnwehzdep.supabase.co"
+  VITE_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_i30QwFr7INzzjuWolELveg_-8-d_LYv"
+
+# Single-page app fallback.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Hashed build assets can be cached for a year.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

@@ -1,0 +1,17 @@
+import type { Language, Profile } from '../data/types';
+
+export type AuthError = 'invalid' | 'exists' | 'password' | 'email' | 'name' | 'generic';
+/** `confirm` = account created, but the user must confirm their email before signing in. */
+export type SignUpResult = AuthError | 'confirm' | null;
+
+export interface AuthBackend {
+  /** Restore any existing session and keep `onProfile` updated. Returns an unsubscribe function. */
+  init(onProfile: (p: Profile | null) => void): () => void;
+  signIn(email: string, password: string): Promise<AuthError | null>;
+  signUp(fullName: string, email: string, password: string, lang: Language): Promise<SignUpResult>;
+  signOut(): Promise<void>;
+  saveProfile(p: Profile): Promise<void>;
+}
+
+export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const defaultCurrency = (lang: Language) => (lang === 'id' ? 'IDR' : 'USD');

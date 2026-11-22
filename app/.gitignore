@@ -1,0 +1,7 @@
+node_modules
+dist
+*.tsbuildinfo
+test-output
+.env
+.env.local
+dist-local
