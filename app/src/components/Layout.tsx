@@ -1,9 +1,12 @@
+import { useEffect } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { LayoutDashboard, ArrowLeftRight, Wallet, PieChart, BarChart3, Settings, LogOut, User } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
 import { useI18n } from '../i18n';
 import type { MessageKey } from '../i18n/en';
-import { NotificationBell, ProfileChip } from './UserIdentity';
+import { NotificationBell } from './UserIdentity';
+import { ThemeToggle } from './ThemeToggle';
+import { AccountMenu } from './AccountMenu';
 import { Credit } from './Credit';
 import { LogoMark, Wordmark } from './Logo';
 
@@ -22,6 +25,7 @@ export function Layout() {
   const current = [...NAV, { to: '/profile', label: 'nav.profile' as MessageKey }, { to: '/settings', label: 'nav.settings' as MessageKey }]
     .find((n) => (n.to === '/' ? loc.pathname === '/' : loc.pathname.startsWith(n.to)));
   const isDashboard = loc.pathname === '/';
+  useEffect(() => { document.title = `${current ? t(current.label) + ' · ' : ''}MyFi`; }, [current, t]);
 
   return (
     <div className="shell">
@@ -41,8 +45,9 @@ export function Layout() {
           <header className="topbar">
             <span className="topbar-title">{current ? t(current.label) : ''}</span>
             <div className="topbar-actions">
+              <ThemeToggle />
               <NotificationBell />
-              <ProfileChip />
+              <AccountMenu variant="avatar" />
             </div>
           </header>
         )}

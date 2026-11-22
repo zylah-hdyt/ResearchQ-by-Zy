@@ -16,6 +16,9 @@
 | 4 | Quality: E2E suite in CI (Playwright), accessibility audit (WCAG 2.2 AA), performance budget, error monitoring | 🔜 Planned |
 | 5 | **Branding**: ✅ name MyFi, ✅ logo + favicon + app icons + web manifest · ⏳ availability checks (trademark, domain, stores), marketing site, store listings | 🟡 In progress |
 
+## Audit
+See [AUDIT.md](AUDIT.md) for findings fixed on 22 Nov 2026 and the prioritised list of what is still missing (P0 launch blockers, P1 product, P2 later).
+
 ## Acceptance checklist for this update
 - [x] Greeting from local time, name from the authenticated profile (no hardcoded demo text)
 - [x] Avatar photo upload and automatic initials avatar

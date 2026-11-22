@@ -17,7 +17,7 @@ financial data to professionally formatted Microsoft Excel workbooks.
 | Requirement | Detail |
 |---|---|
 | Supported languages | Bahasa Indonesia (`id`), English (`en`) |
-| Default | Detected from the browser (`id`/`ms` → Indonesian, otherwise English); switchable before sign-in |
+| Default | **Indonesian for everyone** (also on the sign-in page); switch to English any time — before sign-in, in the account menu, or in Settings |
 | Per user | Stored in the profile (`language`), applied instantly across UI, number/date formats, and Excel exports |
 | Coverage | Every UI string, category names, greetings, notifications, export dialog and **Excel sheet names, headers and notes** |
 
@@ -26,7 +26,11 @@ financial data to professionally formatted Microsoft Excel workbooks.
 ### 4.1 Authentication & profile (NEW)
 - Sign up (full name, email, password ≥ 8 chars), sign in, sign out.
 - Profile fields: full name, preferred display name, profile photo, email (read-only), phone, country, date of birth.
-- Preferences: preferred currency, language, appearance (system/light/dark), week start, budget alerts, exchange rates.
+- Preferences: preferred currency (**Rupiah by default**), language (Indonesian by default), appearance (**light by default**, dark, or follow system), week start, budget alerts, exchange rates, change password.
+- **Rupiah first:** Rupiah is always written "Rp 1.250.000" in both languages; amount fields group digits live ("1.250.000") and accept either separator style.
+- **Charts:** colour-blind-safe (income blue, expense orange), tooltips on hover and keyboard focus, table view for every chart, ranked bars for category breakdowns, month-to-date change versus the same period last month.
+- **Themes:** two themes, light and dark, switchable in one tap (sign-in page, dashboard header, top bar, account menu).
+- **Account menu** (⋮ or avatar) on every page: Profile, Settings, language, theme, **Sign out** — reachable on phones.
 - Profile photo upload: images ≤ 8 MB, centre-cropped and resized to 256×256 JPEG.
 - **Initials avatar** when no photo: up to two initials from the full name, deterministic calm background colour.
 

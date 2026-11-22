@@ -8,12 +8,28 @@ import { CURRENCIES, type CurrencyCode, type Language, type ThemePref } from '..
 import { useToast } from '../components/Toast';
 import { IdentityCard } from './Profile';
 import { Credit } from '../components/Credit';
+import { parseNumber } from '../lib/money';
 
 export function Settings() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const toast = useToast();
-  const { profile, updateProfile } = useAuth();
+  const { profile, updateProfile, changePassword } = useAuth();
   const data = useData();
+  const [pw, setPw] = useState({ next: '', confirm: '' });
+  const [pwErr, setPwErr] = useState<string | null>(null);
+  const [pwBusy, setPwBusy] = useState(false);
+  const submitPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (pw.next.length < 8) return setPwErr(t('auth.err.password'));
+    if (pw.next !== pw.confirm) return setPwErr(t('settings.passwordMismatch'));
+    setPwBusy(true);
+    const res = await changePassword(pw.next);
+    setPwBusy(false);
+    if (res) return setPwErr(t(res === 'password' ? 'auth.err.password' : 'auth.err.generic'));
+    setPwErr(null);
+    setPw({ next: '', confirm: '' });
+    toast(t('settings.passwordChanged'));
+  };
   const p = profile!;
   const others = [...new Set([...data.wallets.map((w) => w.currency), ...data.budgets.map((b) => b.currency), ...data.rates.map((r) => r.code)])].filter((c) => c !== p.preferredCurrency);
   const [rates, setRates] = useState<Record<string, string>>(() => Object.fromEntries(data.rates.map((r) => [r.code, String(r.rate)])));
@@ -35,7 +51,7 @@ export function Settings() {
 
   const saveRates = () => {
     const list = Object.entries(rates)
-      .map(([code, v]) => ({ code: code as CurrencyCode, rate: Number(String(v).replace(',', '.')) }))
+      .map(([code, v]) => ({ code: code as CurrencyCode, rate: parseNumber(String(v), lang) }))
       .filter((r) => r.code !== p.preferredCurrency && Number.isFinite(r.rate) && r.rate > 0);
     data.setRates(list);
     toast(t('common.saved'));
@@ -79,6 +95,21 @@ export function Settings() {
           </label>
         </div>
       </section>
+
+      <form className="card" onSubmit={submitPassword}>
+        <div className="card-head"><h2>{t('settings.changePassword')}</h2></div>
+        <div className="form-grid">
+          <label className="field">{t('settings.newPassword')}
+            <input className="input" type="password" autoComplete="new-password" minLength={8} value={pw.next} onChange={(e) => setPw({ ...pw, next: e.target.value })} />
+            <span className="hint">{t('settings.passwordHint')}</span>
+          </label>
+          <label className="field">{t('settings.confirmPassword')}
+            <input className="input" type="password" autoComplete="new-password" value={pw.confirm} onChange={(e) => setPw({ ...pw, confirm: e.target.value })} />
+          </label>
+        </div>
+        {pwErr && <div className="error" role="alert" style={{ marginTop: 10 }}>{pwErr}</div>}
+        <div className="row" style={{ justifyContent: 'flex-end', marginTop: 14 }}><button className="btn primary" type="submit" disabled={pwBusy || !pw.next}>{t('common.save')}</button></div>
+      </form>
 
       <section className="card">
         <div className="card-head"><h2>{t('settings.rates')}</h2></div>

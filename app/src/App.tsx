@@ -11,6 +11,7 @@ import { Budgets } from './pages/Budgets';
 import { Reports } from './pages/Reports';
 import { Profile } from './pages/Profile';
 import { Settings } from './pages/Settings';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 function Gate() {
   const { profile, ready } = useAuth();
@@ -39,7 +40,9 @@ export default function App() {
     <HashRouter>
       <ToastProvider>
         <AuthProvider>
-          <Gate />
+          <ErrorBoundary>
+            <Gate />
+          </ErrorBoundary>
         </AuthProvider>
       </ToastProvider>
     </HashRouter>

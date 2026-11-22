@@ -3,12 +3,12 @@ import { useAuth } from '../auth/AuthProvider';
 import { useData } from '../store/DataProvider';
 import { categoryLabel, useI18n } from '../i18n';
 import { RangePicker } from '../components/RangePicker';
-import { Donut, CashflowChart } from '../components/Charts';
+import { CashflowChart, RankedBars } from '../components/Charts';
 import { Money } from '../components/Money';
 import { ExportButton } from '../export/ExportDialog';
 import { collapse, dedupe, inRange, monthsIn, summarize, walletPeriods, type CashflowPoint } from '../lib/finance';
 import { convert } from '../lib/money';
-import { formatMoney, formatPercent, monthKey } from '../lib/format';
+import { formatMoney, monthKey } from '../lib/format';
 import { presetRange, type RangePreset } from '../lib/ranges';
 import type { CurrencyCode } from '../data/types';
 
@@ -51,18 +51,8 @@ export function Reports() {
   }
   const periods = walletPeriods(data.wallets, txs, range);
 
-  const catList = (items: ReturnType<typeof byCat>) => items.length === 0 ? <p className="muted small">{t('rep.noData')}</p> : (
-    <div className="row wrap" style={{ alignItems: 'center', gap: 20 }}>
-      <Donut items={items.map((i) => ({ label: categoryLabel(i.cat, t), value: i.value, color: i.cat?.color ?? '#999' }))} />
-      <div className="stack" style={{ flex: 1, minWidth: 200, gap: 8 }}>
-        {items.slice(0, 7).map((i) => (
-          <div key={i.cat?.id} className="row between small">
-            <span className="row"><i className="swatch" style={{ background: i.cat?.color }} />{categoryLabel(i.cat, t)}</span>
-            <span className="num">{formatMoney(i.value, base, lang)} <span className="muted">· {formatPercent(i.share, lang)}</span></span>
-          </div>
-        ))}
-      </div>
-    </div>
+  const catList = (items: ReturnType<typeof byCat>, tone: 'income' | 'expense') => items.length === 0 ? <p className="muted small">{t('rep.noData')}</p> : (
+    <RankedBars tone={tone} currency={base} items={items.map((i) => ({ key: i.cat?.id ?? 'x', label: categoryLabel(i.cat, t), value: i.value, share: i.share }))} />
   );
 
   return (
@@ -76,14 +66,14 @@ export function Reports() {
       </div>
       {missing.length > 0 && <div className="banner">{t('common.notConverted', { codes: missing.join(', ') })}</div>}
       <section className="grid grid-3">
-        <div className="card stat"><span className="label">{t('dash.income')}</span><Money className="value income" value={inc.value} currency={base} /></div>
-        <div className="card stat"><span className="label">{t('dash.expense')}</span><Money className="value expense" value={exp.value} currency={base} /></div>
-        <div className="card stat"><span className="label">{t('dash.net')}</span><Money className="value" value={inc.value - exp.value} currency={base} sign /></div>
+        <div className="card stat"><div className="stat-main"><span className="label"><i className="swatch" style={{ background: 'var(--chart-income)' }} />{t('dash.income')}</span><Money className="value" value={inc.value} currency={base} /></div></div>
+        <div className="card stat"><div className="stat-main"><span className="label"><i className="swatch" style={{ background: 'var(--chart-expense)' }} />{t('dash.expense')}</span><Money className="value" value={exp.value} currency={base} /></div></div>
+        <div className="card stat"><div className="stat-main"><span className="label"><i className="swatch" style={{ background: 'var(--brand)' }} />{t('dash.net')}</span><Money className="value" value={inc.value - exp.value} currency={base} sign /></div></div>
       </section>
       <section className="card"><div className="card-head"><h2>{t('dash.cashflow')}</h2></div><CashflowChart points={points} currency={base} /></section>
       <div className="grid grid-2">
-        <section className="card"><div className="card-head"><h2>{t('rep.byCategory')}</h2></div>{catList(expCats)}</section>
-        <section className="card"><div className="card-head"><h2>{t('rep.incomeByCategory')}</h2></div>{catList(incCats)}</section>
+        <section className="card"><div className="card-head"><h2>{t('rep.byCategory')}</h2></div>{catList(expCats, 'expense')}</section>
+        <section className="card"><div className="card-head"><h2>{t('rep.incomeByCategory')}</h2></div>{catList(incCats, 'income')}</section>
       </div>
       <section className="card">
         <div className="card-head"><h2>{t('rep.walletMovement')}</h2></div>
