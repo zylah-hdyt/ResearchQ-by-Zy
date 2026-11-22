@@ -6,9 +6,10 @@ import { RangePicker } from '../components/RangePicker';
 import { CashflowChart, RankedBars } from '../components/Charts';
 import { Money } from '../components/Money';
 import { ExportButton } from '../export/ExportDialog';
-import { collapse, dedupe, inRange, monthsIn, summarize, walletPeriods, type CashflowPoint } from '../lib/finance';
+import { collapse, dedupe, inRange, summarize, walletPeriods } from '../lib/finance';
+import { autoBuckets, flowByBucket } from '../lib/periods';
 import { convert } from '../lib/money';
-import { formatMoney, monthKey } from '../lib/format';
+import { formatMoney } from '../lib/format';
 import { presetRange, type RangePreset } from '../lib/ranges';
 import type { CurrencyCode } from '../data/types';
 
@@ -41,14 +42,7 @@ export function Reports() {
   const expCats = byCat('expense');
   const incCats = byCat('income');
 
-  const points: CashflowPoint[] = monthsIn(range).slice(-12).map((m) => ({ month: m, income: 0, expense: 0 }));
-  const cur = new Map(data.wallets.map((w) => [w.id, w.currency]));
-  for (const x of txs) {
-    if (x.type === 'transfer' || !inRange(x, range)) continue;
-    const p = points.find((pp) => pp.month === monthKey(x.occurredAt));
-    const v = convert(x.amount, cur.get(x.walletId) as CurrencyCode, base, base, data.rates);
-    if (p && v != null) x.type === 'income' ? (p.income += v) : (p.expense += v);
-  }
+  const points = flowByBucket(txs, data.wallets, autoBuckets(range, lang), base, base, data.rates).points;
   const periods = walletPeriods(data.wallets, txs, range);
 
   const catList = (items: ReturnType<typeof byCat>, tone: 'income' | 'expense') => items.length === 0 ? <p className="muted small">{t('rep.noData')}</p> : (

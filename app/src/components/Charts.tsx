@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { CurrencyCode } from '../data/types';
-import type { CashflowPoint } from '../lib/finance';
+import type { FlowPoint } from '../lib/periods';
 import { barPath, niceTicks } from '../lib/chart';
 import { formatMoney, localeOf } from '../lib/format';
 import { useI18n } from '../i18n';
@@ -10,7 +10,7 @@ import { useI18n } from '../i18n';
  * 2px surface gap between the pair, hairline solid grid, hover/focus tooltip listing every series,
  * a legend, and a table view as the accessible twin.
  */
-export function CashflowChart({ points, currency }: { points: CashflowPoint[]; currency: CurrencyCode }) {
+export function CashflowChart({ points, currency }: { points: FlowPoint[]; currency: CurrencyCode }) {
   const { lang, t } = useI18n();
   const ref = useRef<HTMLDivElement>(null);
   const [W, setW] = useState(640);
@@ -35,8 +35,8 @@ export function CashflowChart({ points, currency }: { points: CashflowPoint[]; c
   const slot = plotW / points.length;
   const bw = Math.max(6, Math.min(24, slot / 2 - 8));
   const gap = 2;
-  const monthShort = (k: string) => new Intl.DateTimeFormat(localeOf(lang), { month: 'short' }).format(new Date(Number(k.slice(0, 4)), Number(k.slice(5)) - 1, 1));
-  const monthLong = (k: string) => new Intl.DateTimeFormat(localeOf(lang), { month: 'long', year: 'numeric' }).format(new Date(Number(k.slice(0, 4)), Number(k.slice(5)) - 1, 1));
+  // Thin the axis labels so they never collide (e.g. 30 daily or 12 monthly buckets on a phone).
+  const labelEvery = Math.max(1, Math.ceil(points.length / Math.max(2, Math.floor(plotW / 46))));
   const money = (v: number) => formatMoney(v, currency, lang);
   const tip = active != null ? points[active] : null;
   const tipX = active != null ? Math.min(Math.max(padL + slot * active + slot / 2, 96), W - 96) : 0;
@@ -46,11 +46,11 @@ export function CashflowChart({ points, currency }: { points: CashflowPoint[]; c
       {table ? (
         <div className="table-wrap">
           <table className="data">
-            <thead><tr><th>{t('chart.month')}</th><th className="r">{t('dash.income')}</th><th className="r">{t('dash.expense')}</th><th className="r">{t('chart.net')}</th></tr></thead>
+            <thead><tr><th>{t('chart.period')}</th><th className="r">{t('dash.income')}</th><th className="r">{t('dash.expense')}</th><th className="r">{t('chart.net')}</th></tr></thead>
             <tbody>
               {points.map((p) => (
-                <tr key={p.month}>
-                  <td>{monthLong(p.month)}</td>
+                <tr key={p.key}>
+                  <td>{p.longLabel}</td>
                   <td className="r">{money(p.income)}</td>
                   <td className="r">{money(p.expense)}</td>
                   <td className="r"><strong>{formatMoney(p.income - p.expense, currency, lang, { sign: true })}</strong></td>
@@ -74,15 +74,15 @@ export function CashflowChart({ points, currency }: { points: CashflowPoint[]; c
               const hi = Math.max(p.income > 0 ? 2 : 0, base - y(p.income));
               const he = Math.max(p.expense > 0 ? 2 : 0, base - y(p.expense));
               return (
-                <g key={p.month}>
+                <g key={p.key}>
                   {on && <rect x={padL + slot * i + 2} y={padT} width={slot - 4} height={plotH} rx={8} fill="var(--surface-2)" />}
                   <path d={barPath(cx - bw - gap / 2, base, base - hi, bw)} fill="var(--chart-income)" opacity={active != null && !on ? 0.55 : 1} />
                   <path d={barPath(cx + gap / 2, base, base - he, bw)} fill="var(--chart-expense)" opacity={active != null && !on ? 0.55 : 1} />
-                  <text x={cx} y={H - 8} textAnchor="middle" style={on ? { fill: 'var(--text)', fontWeight: 600 } : undefined}>{monthShort(p.month)}</text>
+                  {(i % labelEvery === 0 || on) && <text x={cx} y={H - 8} textAnchor="middle" style={on ? { fill: 'var(--text)', fontWeight: 600 } : undefined}>{p.label}</text>}
                   {/* Hit target: the whole slot, far larger than the marks. */}
                   <rect
                     x={padL + slot * i} y={padT} width={slot} height={plotH + padB} fill="transparent" tabIndex={0} role="img" className="chart-hit"
-                    aria-label={`${monthLong(p.month)}: ${t('dash.income')} ${money(p.income)}, ${t('dash.expense')} ${money(p.expense)}`}
+                    aria-label={`${p.longLabel}: ${t('dash.income')} ${money(p.income)}, ${t('dash.expense')} ${money(p.expense)}`}
                     onPointerEnter={() => setActive(i)} onPointerMove={() => setActive(i)} onFocus={() => setActive(i)} onBlur={() => setActive(null)}
                   />
                 </g>
@@ -92,7 +92,7 @@ export function CashflowChart({ points, currency }: { points: CashflowPoint[]; c
           </svg>
           {tip && (
             <div className="chart-tip" style={{ left: tipX, top: 0 }} role="status">
-              <div className="chart-tip-title">{monthLong(tip.month)}</div>
+              <div className="chart-tip-title">{tip.longLabel}</div>
               <div className="chart-tip-row"><i style={{ background: 'var(--chart-income)' }} /><strong>{money(tip.income)}</strong><span>{t('dash.income')}</span></div>
               <div className="chart-tip-row"><i style={{ background: 'var(--chart-expense)' }} /><strong>{money(tip.expense)}</strong><span>{t('dash.expense')}</span></div>
               <div className="chart-tip-net"><span>{t('chart.net')}</span><strong>{formatMoney(tip.income - tip.expense, currency, lang, { sign: true })}</strong></div>
@@ -100,7 +100,7 @@ export function CashflowChart({ points, currency }: { points: CashflowPoint[]; c
           )}
         </div>
       )}
-      <div className="row between" style={{ marginTop: 6 }}>
+      <div className="row between wrap" style={{ marginTop: 6 }}>
         <div className="legend">
           <span><i className="swatch" style={{ background: 'var(--chart-income)' }} />{t('dash.income')}</span>
           <span><i className="swatch" style={{ background: 'var(--chart-expense)' }} />{t('dash.expense')}</span>

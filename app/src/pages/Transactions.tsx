@@ -10,7 +10,7 @@ import { ExportButton } from '../export/ExportDialog';
 import { dedupe, inRange } from '../lib/finance';
 import { presetRange, type RangePreset } from '../lib/ranges';
 import { formatDate } from '../lib/format';
-import { TxRow } from './Dashboard';
+import { TxRow } from '../components/TxRow';
 
 export function Transactions() {
   const { t, lang } = useI18n();

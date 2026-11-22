@@ -10,6 +10,7 @@ import { deriveNotifications } from '../lib/notifications';
 import { Avatar } from './Avatar';
 import { ThemeToggle } from './ThemeToggle';
 import { AccountMenu } from './AccountMenu';
+import { QuickAddButton } from './QuickAdd';
 import type { MessageKey } from '../i18n/en';
 
 /** Re-renders every minute so the greeting follows the local clock. */
@@ -107,7 +108,8 @@ export function GreetingHeader() {
         </div>
       </div>
       <div className="identity-actions">
-        <ThemeToggle />
+        <QuickAddButton className="mobile-only" />
+        <ThemeToggle className="icon-btn desktop-only" />
         <NotificationBell />
         <AccountMenu />
       </div>

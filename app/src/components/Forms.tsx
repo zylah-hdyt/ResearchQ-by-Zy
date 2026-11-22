@@ -12,22 +12,26 @@ import { Modal } from './Modal';
 import { useToast } from './Toast';
 
 
-export function TransactionForm({ initial, onClose }: { initial?: Transaction; onClose: () => void }) {
+export function TransactionForm({ initial, preset, duplicateOf, onClose }: {
+  initial?: Transaction; preset?: { type?: TxType; walletId?: string; toWalletId?: string }; duplicateOf?: Transaction; onClose: () => void;
+}) {
   const { t, lang } = useI18n();
   const toast = useToast();
   const { wallets, categories, saveTransaction, deleteTransaction } = useData();
-  const active = wallets.filter((w) => !w.archived || w.id === initial?.walletId || w.id === initial?.toWalletId);
-  const [type, setType] = useState<TxType>(initial?.type ?? 'expense');
-  const [walletId, setWalletId] = useState(initial?.walletId ?? active[0]?.id ?? '');
-  const [toWalletId, setToWalletId] = useState(initial?.toWalletId ?? active[1]?.id ?? '');
-  const [categoryId, setCategoryId] = useState(initial?.categoryId ?? '');
-  const initFrom = wallets.find((w) => w.id === (initial?.walletId ?? active[0]?.id));
-  const initTo = wallets.find((w) => w.id === initial?.toWalletId);
-  const [amount, setAmount] = useState(toInputText(initial?.amount, initFrom?.currency ?? 'IDR', lang));
-  const [toAmount, setToAmount] = useState(toInputText(initial?.toAmount, initTo?.currency ?? 'IDR', lang));
+  // A duplicate starts from an existing transaction but is saved as a NEW one dated now.
+  const seed = initial ?? duplicateOf;
+  const active = wallets.filter((w) => !w.archived || w.id === seed?.walletId || w.id === seed?.toWalletId || w.id === preset?.walletId);
+  const [type, setType] = useState<TxType>(seed?.type ?? preset?.type ?? 'expense');
+  const [walletId, setWalletId] = useState(seed?.walletId ?? preset?.walletId ?? active[0]?.id ?? '');
+  const [toWalletId, setToWalletId] = useState(seed?.toWalletId ?? preset?.toWalletId ?? active.find((w) => w.id !== (seed?.walletId ?? preset?.walletId ?? active[0]?.id))?.id ?? '');
+  const [categoryId, setCategoryId] = useState(seed?.categoryId ?? '');
+  const initFrom = wallets.find((w) => w.id === (seed?.walletId ?? preset?.walletId ?? active[0]?.id));
+  const initTo = wallets.find((w) => w.id === seed?.toWalletId);
+  const [amount, setAmount] = useState(toInputText(seed?.amount, initFrom?.currency ?? 'IDR', lang));
+  const [toAmount, setToAmount] = useState(toInputText(seed?.toAmount, initTo?.currency ?? 'IDR', lang));
   const [occurredAt, setOccurredAt] = useState(initial?.occurredAt ?? toLocalDateTime(new Date()));
-  const [description, setDescription] = useState(initial?.description ?? '');
-  const [notes, setNotes] = useState(initial?.notes ?? '');
+  const [description, setDescription] = useState(seed?.description ?? '');
+  const [notes, setNotes] = useState(seed?.notes ?? '');
   const [err, setErr] = useState<MessageKey | null>(null);
 
   const from = wallets.find((w) => w.id === walletId);
@@ -55,7 +59,7 @@ export function TransactionForm({ initial, onClose }: { initial?: Transaction; o
 
   return (
     <Modal
-      title={initial ? t('tx.edit') : t('tx.add')}
+      title={initial ? t('tx.edit') : duplicateOf ? t('tx.duplicate') : t('tx.add')}
       onClose={onClose}
       footer={<>
         {initial && <button className="btn danger" style={{ marginRight: 'auto' }} onClick={() => { if (confirm(t('common.confirmDelete'))) { deleteTransaction(initial.id); onClose(); } }}>{t('common.delete')}</button>}
@@ -111,7 +115,7 @@ export function TransactionForm({ initial, onClose }: { initial?: Transaction; o
   );
 }
 
-const WALLET_TYPES: WalletType[] = ['bank', 'cash', 'ewallet', 'savings', 'credit', 'investment'];
+const WALLET_TYPES: WalletType[] = ['bank', 'cash', 'ewallet', 'savings', 'credit', 'investment', 'other'];
 const WALLET_COLORS = ['#1d4ed8', '#15803d', '#0891b2', '#7c3aed', '#be185d', '#b45309', '#475569'];
 
 export function WalletForm({ initial, onClose }: { initial?: Wallet; onClose: () => void }) {

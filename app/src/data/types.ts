@@ -39,7 +39,7 @@ export interface Profile {
   termsAcceptedAt?: string;
 }
 
-export type WalletType = 'cash' | 'bank' | 'ewallet' | 'credit' | 'savings' | 'investment';
+export type WalletType = 'cash' | 'bank' | 'ewallet' | 'credit' | 'savings' | 'investment' | 'other';
 
 export interface Wallet {
   id: string;
