@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Budget, CurrencyCode, Transaction, TxType, Wallet, WalletType } from '../data/types';
+import type { Budget, BudgetPeriod, CurrencyCode, Transaction, TxType, Wallet, WalletType } from '../data/types';
 import { CURRENCIES } from '../data/types';
 import { useData } from '../store/DataProvider';
 import { useAuth } from '../auth/AuthProvider';
@@ -9,25 +9,31 @@ import { toLocalDateTime } from '../lib/format';
 import { parseAmount, toInputText } from '../lib/money';
 import { AmountInput } from './AmountInput';
 import { Modal } from './Modal';
+import { useConfirm } from './Confirm';
 import { useToast } from './Toast';
 
 
-export function TransactionForm({ initial, onClose }: { initial?: Transaction; onClose: () => void }) {
+export function TransactionForm({ initial, preset, duplicateOf, onClose }: {
+  initial?: Transaction; preset?: { type?: TxType; walletId?: string; toWalletId?: string }; duplicateOf?: Transaction; onClose: () => void;
+}) {
   const { t, lang } = useI18n();
   const toast = useToast();
-  const { wallets, categories, saveTransaction, deleteTransaction } = useData();
-  const active = wallets.filter((w) => !w.archived || w.id === initial?.walletId || w.id === initial?.toWalletId);
-  const [type, setType] = useState<TxType>(initial?.type ?? 'expense');
-  const [walletId, setWalletId] = useState(initial?.walletId ?? active[0]?.id ?? '');
-  const [toWalletId, setToWalletId] = useState(initial?.toWalletId ?? active[1]?.id ?? '');
-  const [categoryId, setCategoryId] = useState(initial?.categoryId ?? '');
-  const initFrom = wallets.find((w) => w.id === (initial?.walletId ?? active[0]?.id));
-  const initTo = wallets.find((w) => w.id === initial?.toWalletId);
-  const [amount, setAmount] = useState(toInputText(initial?.amount, initFrom?.currency ?? 'IDR', lang));
-  const [toAmount, setToAmount] = useState(toInputText(initial?.toAmount, initTo?.currency ?? 'IDR', lang));
+  const { wallets, categories, saveTransaction, deleteTransaction, restoreTransaction } = useData();
+  const confirm = useConfirm();
+  // A duplicate starts from an existing transaction but is saved as a NEW one dated now.
+  const seed = initial ?? duplicateOf;
+  const active = wallets.filter((w) => !w.archived || w.id === seed?.walletId || w.id === seed?.toWalletId || w.id === preset?.walletId);
+  const [type, setType] = useState<TxType>(seed?.type ?? preset?.type ?? 'expense');
+  const [walletId, setWalletId] = useState(seed?.walletId ?? preset?.walletId ?? active[0]?.id ?? '');
+  const [toWalletId, setToWalletId] = useState(seed?.toWalletId ?? preset?.toWalletId ?? active.find((w) => w.id !== (seed?.walletId ?? preset?.walletId ?? active[0]?.id))?.id ?? '');
+  const [categoryId, setCategoryId] = useState(seed?.categoryId ?? '');
+  const initFrom = wallets.find((w) => w.id === (seed?.walletId ?? preset?.walletId ?? active[0]?.id));
+  const initTo = wallets.find((w) => w.id === seed?.toWalletId);
+  const [amount, setAmount] = useState(toInputText(seed?.amount, initFrom?.currency ?? 'IDR', lang));
+  const [toAmount, setToAmount] = useState(toInputText(seed?.toAmount, initTo?.currency ?? 'IDR', lang));
   const [occurredAt, setOccurredAt] = useState(initial?.occurredAt ?? toLocalDateTime(new Date()));
-  const [description, setDescription] = useState(initial?.description ?? '');
-  const [notes, setNotes] = useState(initial?.notes ?? '');
+  const [description, setDescription] = useState(seed?.description ?? '');
+  const [notes, setNotes] = useState(seed?.notes ?? '');
   const [err, setErr] = useState<MessageKey | null>(null);
 
   const from = wallets.find((w) => w.id === walletId);
@@ -55,10 +61,10 @@ export function TransactionForm({ initial, onClose }: { initial?: Transaction; o
 
   return (
     <Modal
-      title={initial ? t('tx.edit') : t('tx.add')}
+      title={initial ? t('tx.edit') : duplicateOf ? t('tx.duplicate') : t('tx.add')}
       onClose={onClose}
       footer={<>
-        {initial && <button className="btn danger" style={{ marginRight: 'auto' }} onClick={() => { if (confirm(t('common.confirmDelete'))) { deleteTransaction(initial.id); onClose(); } }}>{t('common.delete')}</button>}
+        {initial && <button className="btn danger" style={{ marginRight: 'auto' }} onClick={async () => { if (await confirm({ title: t('tx.deleteTitle'), body: t('tx.deleteBody'), confirmLabel: t('common.delete'), danger: true })) { deleteTransaction(initial.id); onClose(); toast(t('tx.deleted'), { label: t('tx.undo'), onClick: () => restoreTransaction(initial) }); } }}>{t('common.delete')}</button>}
         <button className="btn" onClick={onClose}>{t('common.cancel')}</button>
         <button className="btn primary" onClick={submit}>{t('common.save')}</button>
       </>}
@@ -111,7 +117,7 @@ export function TransactionForm({ initial, onClose }: { initial?: Transaction; o
   );
 }
 
-const WALLET_TYPES: WalletType[] = ['bank', 'cash', 'ewallet', 'savings', 'credit', 'investment'];
+const WALLET_TYPES: WalletType[] = ['bank', 'cash', 'ewallet', 'savings', 'credit', 'investment', 'other'];
 const WALLET_COLORS = ['#1d4ed8', '#15803d', '#0891b2', '#7c3aed', '#be185d', '#b45309', '#475569'];
 
 export function WalletForm({ initial, onClose }: { initial?: Wallet; onClose: () => void }) {
@@ -119,10 +125,11 @@ export function WalletForm({ initial, onClose }: { initial?: Wallet; onClose: ()
   const toast = useToast();
   const { profile } = useAuth();
   const { saveWallet, deleteWallet } = useData();
+  const confirm = useConfirm();
   const [name, setName] = useState(initial?.name ?? '');
   const [type, setType] = useState<WalletType>(initial?.type ?? 'bank');
   const [currency, setCurrency] = useState<CurrencyCode>(initial?.currency ?? profile!.preferredCurrency);
-  const [initialBalance, setInitial] = useState(toInputText(initial?.initialBalance ?? 0, initial?.currency ?? profile!.preferredCurrency, lang));
+  const [initialBalance, setInitial] = useState(initial ? toInputText(initial.initialBalance, initial.currency, lang) : '');
   const [color, setColor] = useState(initial?.color ?? WALLET_COLORS[0]);
   const [err, setErr] = useState<string | null>(null);
 
@@ -135,8 +142,8 @@ export function WalletForm({ initial, onClose }: { initial?: Wallet; onClose: ()
   return (
     <Modal title={initial ? t('acc.edit') : t('acc.add')} onClose={onClose}
       footer={<>
-        {initial && <button className="btn danger" style={{ marginRight: 'auto' }} onClick={() => {
-          if (!confirm(t('common.confirmDelete'))) return;
+        {initial && <button className="btn danger" style={{ marginRight: 'auto' }} onClick={async () => {
+          if (!(await confirm({ title: t('common.confirmDelete'), confirmLabel: t('common.delete'), danger: true }))) return;
           if (deleteWallet(initial.id)) onClose(); else setErr(t('acc.deleteBlocked'));
         }}>{t('common.delete')}</button>}
         <button className="btn" onClick={onClose}>{t('common.cancel')}</button>
@@ -166,31 +173,38 @@ export function WalletForm({ initial, onClose }: { initial?: Wallet; onClose: ()
   );
 }
 
-export function BudgetForm({ initial, onClose }: { initial?: Budget; onClose: () => void }) {
+export function BudgetForm({ initial, defaultPeriod = 'monthly', onClose }: { initial?: Budget; defaultPeriod?: BudgetPeriod; onClose: () => void }) {
   const { t, lang } = useI18n();
   const toast = useToast();
   const { profile } = useAuth();
   const { categories, budgets, saveBudget, deleteBudget } = useData();
+  const confirm = useConfirm();
   const cats = categories.filter((c) => c.type === 'expense');
-  const [categoryId, setCategoryId] = useState(initial?.categoryId ?? cats.find((c) => !budgets.some((b) => b.categoryId === c.id))?.id ?? '');
+  const [period, setPeriod] = useState<BudgetPeriod>(initial?.period ?? defaultPeriod);
+  const [categoryId, setCategoryId] = useState(initial?.categoryId ?? cats.find((c) => !budgets.some((b) => b.categoryId === c.id && b.period === (initial?.period ?? defaultPeriod)))?.id ?? '');
   const [currency, setCurrency] = useState<CurrencyCode>(initial?.currency ?? profile!.preferredCurrency);
   const [amount, setAmount] = useState(toInputText(initial?.amount, initial?.currency ?? profile!.preferredCurrency, lang));
   const [err, setErr] = useState<string | null>(null);
   const submit = () => {
     if (!categoryId) return setErr(t('tx.err.category'));
     if (!(parseAmount(amount, currency, lang) > 0)) return setErr(t('tx.err.amount'));
-    if (budgets.some((b) => b.categoryId === categoryId && b.id !== initial?.id)) return setErr(t('bud.exists'));
-    saveBudget({ id: initial?.id, categoryId, amount: parseAmount(amount, currency, lang), currency });
+    if (budgets.some((b) => b.categoryId === categoryId && b.period === period && b.id !== initial?.id)) return setErr(t('bud.exists'));
+    saveBudget({ id: initial?.id, categoryId, amount: parseAmount(amount, currency, lang), period, currency });
     toast(t('common.saved'));
     onClose();
   };
   return (
     <Modal title={initial ? t('bud.edit') : t('bud.add')} onClose={onClose}
       footer={<>
-        {initial && <button className="btn danger" style={{ marginRight: 'auto' }} onClick={() => { if (confirm(t('common.confirmDelete'))) { deleteBudget(initial.id); onClose(); } }}>{t('common.delete')}</button>}
+        {initial && <button className="btn danger" style={{ marginRight: 'auto' }} onClick={async () => { if (await confirm({ title: t('common.confirmDelete'), confirmLabel: t('common.delete'), danger: true })) { deleteBudget(initial.id); onClose(); } }}>{t('common.delete')}</button>}
         <button className="btn" onClick={onClose}>{t('common.cancel')}</button>
         <button className="btn primary" onClick={submit}>{t('common.save')}</button>
       </>}>
+      <div className="field">{t('bud.period')}
+        <div className="segmented fill" role="group" aria-label={t('bud.period')}>
+          {(['monthly', 'weekly'] as BudgetPeriod[]).map((x) => <button key={x} type="button" className={period === x ? 'on' : ''} aria-pressed={period === x} onClick={() => setPeriod(x)}>{t(`bud.period.${x}` as MessageKey)}</button>)}
+        </div>
+      </div>
       <div className="form-grid">
         <label className="field full">{t('tx.category')}
           <select className="input" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
@@ -198,7 +212,7 @@ export function BudgetForm({ initial, onClose }: { initial?: Budget; onClose: ()
             {cats.map((c) => <option key={c.id} value={c.id}>{categoryLabel(c, t)}</option>)}
           </select>
         </label>
-        <label className="field">{t('bud.monthly')}<AmountInput currency={currency} value={amount} onChange={setAmount} /></label>
+        <label className="field">{period === 'weekly' ? t('bud.weeklyLimit') : t('bud.monthly')}<AmountInput currency={currency} value={amount} onChange={setAmount} /></label>
         <label className="field">{t('acc.currency')}
           <select className="input" value={currency} onChange={(e) => setCurrency(e.target.value as CurrencyCode)}>
             {CURRENCIES.map((c) => <option key={c}>{c}</option>)}

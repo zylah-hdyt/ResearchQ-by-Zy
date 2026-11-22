@@ -1,109 +1,149 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Plus, Search } from 'lucide-react';
+import { useDeferredValue, useEffect, useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { Plus, Search, SlidersHorizontal, X } from 'lucide-react';
+import { useAuth } from '../auth/AuthProvider';
 import { useData } from '../store/DataProvider';
 import { categoryLabel, useI18n } from '../i18n';
 import type { MessageKey } from '../i18n/en';
-import type { Transaction, TxType } from '../data/types';
-import { TransactionForm } from '../components/Forms';
-import { RangePicker } from '../components/RangePicker';
+import type { Transaction } from '../data/types';
 import { ExportButton } from '../export/ExportDialog';
-import { dedupe, inRange } from '../lib/finance';
-import { presetRange, type RangePreset } from '../lib/ranges';
-import { formatDate } from '../lib/format';
-import { TxRow } from './Dashboard';
+import { useConfirm } from '../components/Confirm';
+import { FilterSheet } from '../components/FilterSheet';
+import { Modal } from '../components/Modal';
+import { useQuickAdd } from '../components/QuickAdd';
+import { useToast } from '../components/Toast';
+import { TxDetail } from '../components/TxDetail';
+import { TxRow } from '../components/TxRow';
+import { dedupe } from '../lib/finance';
+import { formatDate, formatMoney } from '../lib/format';
+import { useMedia } from '../lib/hooks';
+import { presetRange } from '../lib/ranges';
+import { activeCount, applyFilters, defaultFilters, groupByDay, summarizeList, type FilterCtx, type TxFilters } from '../lib/txFilter';
+
+const PAGE = 100;
 
 export function Transactions() {
   const { t, lang } = useI18n();
+  const { profile } = useAuth();
   const data = useData();
-  const [preset, setPreset] = useState<RangePreset>('thisMonth');
-  const [range, setRange] = useState(() => presetRange('thisMonth', data.transactions));
-  const [type, setType] = useState<'all' | TxType>('all');
-  const [walletId, setWalletId] = useState('all');
-  const [categoryId, setCategoryId] = useState('all');
-  const [q, setQ] = useState('');
-  const [editing, setEditing] = useState<Transaction | 'new' | null>(null);
-  const [limit, setLimit] = useState(100);
+  const { openAdd, openEdit, openDuplicate } = useQuickAdd();
+  const toast = useToast();
+  const confirm = useConfirm();
+  const base = profile!.preferredCurrency;
+  const wide = useMedia('(min-width: 1100px)');
 
-  const list = useMemo(() => {
-    const needle = q.trim().toLowerCase();
-    return dedupe(data.transactions)
-      .filter((x) => inRange(x, range))
-      .filter((x) => type === 'all' || x.type === type)
-      .filter((x) => walletId === 'all' || x.walletId === walletId || x.toWalletId === walletId)
-      .filter((x) => categoryId === 'all' || x.categoryId === categoryId)
-      .filter((x) => !needle || `${x.description} ${x.notes}`.toLowerCase().includes(needle))
-      .sort((a, b) => b.occurredAt.localeCompare(a.occurredAt));
-  }, [data.transactions, range, type, walletId, categoryId, q]);
+  const incoming = useLocation().state as { categoryId?: string; from?: string; to?: string } | null;
+  const [filters, setFilters] = useState<TxFilters>(() => {
+    const d = defaultFilters(presetRange('thisMonth', data.transactions));
+    if (!incoming?.from || !incoming.to) return d;
+    return { ...d, preset: 'custom', range: { from: incoming.from, to: incoming.to }, type: 'expense', categoryIds: incoming.categoryId ? [incoming.categoryId] : [] };
+  });
+  const [sheet, setSheet] = useState(false);
+  const [selId, setSelId] = useState<string | null>(null);
+  const [limit, setLimit] = useState(PAGE);
+  const q = useDeferredValue(filters.q);
 
-  useEffect(() => setLimit(100), [range, type, walletId, categoryId, q]);
+  const ctx: FilterCtx = useMemo(() => ({
+    wallets: data.wallets, base, rates: data.rates,
+    categoryLabel: (id) => categoryLabel(data.categories.find((c) => c.id === id), t),
+  }), [data.wallets, data.categories, data.rates, base, t]);
 
-  const groups = useMemo(() => {
-    const m = new Map<string, Transaction[]>();
-    for (const x of list.slice(0, limit)) {
-      const d = x.occurredAt.slice(0, 10);
-      m.set(d, [...(m.get(d) ?? []), x]);
-    }
-    return [...m.entries()];
-  }, [list, limit]);
+  const all = useMemo(() => dedupe(data.transactions), [data.transactions]);
+  const list = useMemo(() => applyFilters(all, { ...filters, q }, ctx).sort((a, b) => b.occurredAt.localeCompare(a.occurredAt) || b.id.localeCompare(a.id)), [all, filters, q, ctx]);
+  const totals = useMemo(() => summarizeList(list, ctx), [list, ctx]);
+  const groups = useMemo(() => groupByDay(list.slice(0, limit), ctx), [list, limit, ctx]);
+  const selected = list.find((x) => x.id === selId) ?? null;
+  const badge = activeCount(filters);
+
+  useEffect(() => setLimit(PAGE), [filters.range, filters.type, filters.walletIds, filters.categoryIds, filters.min, filters.max, q]);
+
+  const remove = async (tx: Transaction) => {
+    if (!(await confirm({ title: t('tx.deleteTitle'), body: t('tx.deleteBody'), confirmLabel: t('tx.delete'), danger: true }))) return;
+    data.deleteTransaction(tx.id);
+    setSelId(null);
+    toast(t('tx.deleted'), { label: t('tx.undo'), onClick: () => { data.restoreTransaction(tx); toast(t('tx.restored')); } });
+  };
+  const detail = (tx: Transaction) => <TxDetail tx={tx} onEdit={() => openEdit(tx)} onDuplicate={() => openDuplicate(tx)} onDelete={() => remove(tx)} />;
+
+  // Removable chips for every active filter.
+  const chips: { key: string; label: string; clear: () => void }[] = [];
+  const set = (p: Partial<TxFilters>) => setFilters((f) => ({ ...f, ...p }));
+  if (filters.preset !== 'thisMonth') chips.push({ key: 'p', label: `${formatDate(filters.range.from, lang)} – ${formatDate(filters.range.to, lang)}`, clear: () => set({ preset: 'thisMonth', range: presetRange('thisMonth', data.transactions) }) });
+  if (filters.type !== 'all') chips.push({ key: 't', label: t(`tx.type.${filters.type}` as MessageKey), clear: () => set({ type: 'all' }) });
+  for (const id of filters.walletIds) chips.push({ key: 'w' + id, label: data.wallets.find((w) => w.id === id)?.name ?? '', clear: () => set({ walletIds: filters.walletIds.filter((x) => x !== id) }) });
+  for (const id of filters.categoryIds) chips.push({ key: 'c' + id, label: categoryLabel(data.categories.find((c) => c.id === id), t), clear: () => set({ categoryIds: filters.categoryIds.filter((x) => x !== id) }) });
+  if (filters.min != null || filters.max != null) {
+    const range = filters.min != null && filters.max != null ? `${formatMoney(filters.min, base, lang, { compact: true })} – ${formatMoney(filters.max, base, lang, { compact: true })}` : filters.max != null ? t('tx.filter.upTo', { v: formatMoney(filters.max, base, lang, { compact: true }) }) : t('tx.filter.from', { v: formatMoney(filters.min!, base, lang, { compact: true }) });
+    chips.push({ key: 'a', label: t('tx.filter.amountChip', { range }), clear: () => set({ min: null, max: null }) });
+  }
+
+  const exportDefaults = {
+    preset: filters.preset, range: filters.range, type: filters.type,
+    walletId: filters.walletIds.length === 1 ? filters.walletIds[0] : 'all',
+    categoryId: filters.categoryIds.length === 1 ? filters.categoryIds[0] : 'all',
+  };
+  const compact = (v: number, signed = false) => formatMoney(v, base, lang, { compact: true, sign: signed });
 
   return (
     <>
       <div className="page-head">
-        <div>
-          <h1>{t('tx.title')}</h1>
-          <span className="muted small">{t('tx.count', { n: list.length })}</span>
-        </div>
-        <div className="row">
-          <ExportButton context="transactions" defaults={{ preset, range, type, walletId, categoryId }} />
-          <button className="btn primary" onClick={() => setEditing('new')} disabled={data.wallets.length === 0}><Plus size={16} />{t('tx.add')}</button>
+        <div><h1>{t('tx.title')}</h1><div className="sub">{t('tx.count', { n: list.length })}</div></div>
+        <div className="page-actions">
+          <ExportButton context="transactions" defaults={exportDefaults} />
+          <button className="btn primary desktop-only" onClick={() => openAdd()} disabled={data.wallets.length === 0}><Plus size={16} aria-hidden />{t('tx.add')}</button>
         </div>
       </div>
 
-      <section className="card filters">
-        <label className="field" style={{ flex: 2 }}>{t('common.search')}
-          <div style={{ position: 'relative' }}>
-            <Search size={16} style={{ position: 'absolute', left: 11, top: 12, color: 'var(--muted)' }} />
-            <input className="input" style={{ paddingLeft: 34 }} value={q} onChange={(e) => setQ(e.target.value)} />
-          </div>
+      <div className="tx-toolbar">
+        <label className="input-affix grow">
+          <Search size={17} aria-hidden />
+          <input className="input" type="search" value={filters.q} onChange={(e) => set({ q: e.target.value })} placeholder={t('tx.searchPlaceholder')} aria-label={t('common.search')} />
         </label>
-        <div className="field">{t('rep.period')}<RangePicker preset={preset} range={range} onChange={(p, r) => { setPreset(p); setRange(r); }} /></div>
-        <label className="field">{t('tx.filterType')}
-          <select className="input" value={type} onChange={(e) => { setType(e.target.value as 'all' | TxType); setCategoryId('all'); }}>
-            <option value="all">{t('common.all')}</option>
-            {(['income', 'expense', 'transfer'] as TxType[]).map((x) => <option key={x} value={x}>{t(`tx.type.${x}` as MessageKey)}</option>)}
-          </select>
-        </label>
-        <label className="field">{t('tx.filterWallet')}
-          <select className="input" value={walletId} onChange={(e) => setWalletId(e.target.value)}>
-            <option value="all">{t('common.all')}</option>
-            {data.wallets.map((w) => <option key={w.id} value={w.id}>{w.name}</option>)}
-          </select>
-        </label>
-        <label className="field">{t('tx.filterCategory')}
-          <select className="input" value={categoryId} onChange={(e) => setCategoryId(e.target.value)} disabled={type === 'transfer'}>
-            <option value="all">{t('common.all')}</option>
-            {data.categories.filter((c) => type === 'all' || c.type === type).map((c) => <option key={c.id} value={c.id}>{categoryLabel(c, t)}</option>)}
-          </select>
-        </label>
-      </section>
+        <button className="btn" onClick={() => setSheet(true)} aria-haspopup="dialog" aria-label={badge > 0 ? `${t('tx.filters')} (${badge})` : t('tx.filters')}><SlidersHorizontal size={17} aria-hidden /><span>{t('tx.filters')}</span>{badge > 0 && <span className="count-badge">{badge}</span>}</button>
+      </div>
 
-      <section className="card" style={{ paddingTop: 4 }}>
-        {groups.length === 0 && <div className="empty">{t('tx.empty')}</div>}
-        {groups.map(([day, items]) => (
-          <div key={day}>
-            <div className="date-head">{formatDate(day, lang, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</div>
-            <div className="list">{items.map((x) => <TxRow key={x.id} tx={x} onClick={() => setEditing(x)} />)}</div>
-          </div>
-        ))}
-        {list.length > limit && (
-          <div className="row" style={{ justifyContent: 'center', padding: '14px 0 6px' }}>
-            <button className="btn" onClick={() => setLimit(limit + 100)}>{t('common.showMore')} ({list.length - limit})</button>
-          </div>
+      {chips.length > 0 && (
+        <div className="chips" aria-label={t('tx.filters')}>
+          {chips.map((c) => <span key={c.key} className="chip filter">{c.label}<button onClick={c.clear} aria-label={t('tx.filter.clear', { name: c.label })}><X size={14} aria-hidden /></button></span>)}
+          <button className="btn ghost sm" onClick={() => setFilters(defaultFilters(presetRange('thisMonth', data.transactions), 'thisMonth'))}>{t('tx.filter.reset')}</button>
+        </div>
+      )}
+
+      <div className="mini-strip card flush" aria-label={t('dash.summary')}>
+        <div><span className="mini-label"><i className="swatch" style={{ background: 'var(--chart-income)' }} />{t('tx.sum.income')}</span><strong className="num" title={formatMoney(totals.income, base, lang)}>{compact(totals.income)}</strong></div>
+        <div><span className="mini-label"><i className="swatch" style={{ background: 'var(--chart-expense)' }} />{t('tx.sum.expense')}</span><strong className="num" title={formatMoney(totals.expense, base, lang)}>{compact(totals.expense)}</strong></div>
+        <div><span className="mini-label"><i className="swatch" style={{ background: 'var(--brand)' }} />{t('tx.sum.net')}</span><strong className="num" title={formatMoney(totals.net, base, lang, { sign: true })}>{compact(totals.net, true)}</strong></div>
+      </div>
+
+      <div className="split aside-right">
+        <section className="card flush tx-list" aria-label={t('tx.title')}>
+          {groups.length === 0 && (
+            <div className="empty">
+              <p>{all.length === 0 ? t('tx.emptyFirst') : t('tx.empty2')}</p>
+              {all.length === 0 && data.wallets.length > 0 && <button className="btn primary" onClick={() => openAdd()}><Plus size={16} aria-hidden />{t('tx.add')}</button>}
+            </div>
+          )}
+          {groups.map((g) => (
+            <div key={g.day} role="group" aria-label={formatDate(g.day, lang)}>
+              <div className="date-head"><span>{formatDate(g.day, lang, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</span><span className="net">{t('tx.dayNet', { v: compact(g.net, true) })}</span></div>
+              <div className="list list-pad">{g.items.map((x) => <TxRow key={x.id} tx={x} selected={x.id === selId} onClick={() => setSelId(x.id)} />)}</div>
+            </div>
+          ))}
+          {list.length > limit && (
+            <div className="row" style={{ justifyContent: 'center', padding: '16px 0' }}>
+              <button className="btn" onClick={() => setLimit(limit + PAGE)}>{t('common.showMore')} ({list.length - limit})</button>
+            </div>
+          )}
+        </section>
+        {wide && (
+          <aside className="card sticky-col" aria-label={t('tx.details')}>
+            {selected ? detail(selected) : <p className="muted small" style={{ textAlign: 'center', padding: '24px 8px' }}>{t('tx.pickOne')}</p>}
+          </aside>
         )}
-      </section>
+      </div>
 
-      {data.wallets.length > 0 && <button className="fab" aria-label={t('tx.add')} onClick={() => setEditing('new')}><Plus size={24} /></button>}
-      {editing && <TransactionForm initial={editing === 'new' ? undefined : editing} onClose={() => setEditing(null)} />}
+      {!wide && selected && <Modal title={t('tx.details')} onClose={() => setSelId(null)}>{detail(selected)}</Modal>}
+      {sheet && <FilterSheet value={filters} onApply={setFilters} onClose={() => setSheet(false)} />}
     </>
   );
 }

@@ -12,6 +12,8 @@
 | 3 | Auth extras: forgot/reset password, Google sign-in, custom SMTP, avatar storage bucket, offline cache | ⏳ Next |
 | 3 | Export hardening: Web Worker generation for > 20k rows | ⏳ Next |
 | 3 | **Netlify (free)** deployment with `netlify.toml` | ✅ Config ready |
+| 4 | **Product & UI/UX upgrade** (audit → design system → dashboard → transactions → wallets & budgets → analytics → verification). See [AUDIT_V2.md](AUDIT_V2.md) | ✅ Done |
+| 4 | Prepared, not built: savings goals, subscription tracker, financial calendar, smart insights, receipt OCR ([FEATURE_ARCHITECTURE.md](FEATURE_ARCHITECTURE.md)) | 🔜 Designed |
 | 4 | Product depth: recurring transactions, custom categories UI, live FX rates (opt-in), receipt attachments, data import (CSV/XLSX), PWA install & offline | 🔜 Planned |
 | 4 | Quality: E2E suite in CI (Playwright), accessibility audit (WCAG 2.2 AA), performance budget, error monitoring | 🔜 Planned |
 | 5 | **Branding**: ✅ name MyFi, ✅ logo + favicon + app icons + web manifest · ⏳ availability checks (trademark, domain, stores), marketing site, store listings | 🟡 In progress |

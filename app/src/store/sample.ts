@@ -81,14 +81,15 @@ export function buildSampleData(userId: string, base: CurrencyCode, d: UserData,
 
   const budgets: Budget[] = [
     ['cat_food', 110], ['cat_groceries', 30], ['cat_transport', 40], ['cat_shopping', 50], ['cat_entertainment', 15],
-  ].map(([c, usd]) => ({ id: uid('b_'), userId, categoryId: c as string, amount: s(usd as number), currency: base, createdAt: created }));
+  ].map(([c, usd]) => ({ id: uid('b_'), userId, categoryId: c as string, amount: s(usd as number), period: 'monthly' as const, currency: base, createdAt: created }));
+  budgets.push({ id: uid('b_'), userId, categoryId: 'cat_transport', amount: s(12), period: 'weekly', currency: base, createdAt: created });
 
   const rate = USD_IN[base] / USD_IN[foreign];
   return {
     ...d,
     wallets: [...d.wallets, ...wallets],
     transactions: [...txs, ...d.transactions],
-    budgets: [...d.budgets.filter((b) => !budgets.some((x) => x.categoryId === b.categoryId)), ...budgets],
+    budgets: [...d.budgets.filter((b) => !budgets.some((x) => x.categoryId === b.categoryId && x.period === b.period)), ...budgets],
     rates: d.rates.some((x) => x.code === foreign) ? d.rates : [...d.rates, { code: foreign, rate: Math.round(rate * 100) / 100 }],
   };
 }
