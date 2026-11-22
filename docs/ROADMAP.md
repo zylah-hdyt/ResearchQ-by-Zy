@@ -18,6 +18,8 @@
 | 4 | Quality: E2E suite in CI (Playwright), accessibility audit (WCAG 2.2 AA), performance budget, error monitoring | 🔜 Planned |
 | 5 | **Branding**: ✅ name MyFi, ✅ logo + favicon + app icons + web manifest · ⏳ availability checks (trademark, domain, stores), marketing site, store listings | 🟡 In progress |
 
+Visual identity: see [REDESIGN.md](REDESIGN.md).
+
 ## Launch readiness
 Terms/Privacy, consent and account deletion are done; forgot-password (needs SMTP), CAPTCHA, backups and the Supabase Site URL are tracked in [AUDIT.md](AUDIT.md).
 

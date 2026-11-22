@@ -44,7 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
   const profileRef = useRef<Profile | null>(null);
   const [guestLanguage, setGuestLanguageState] = useState<Language>(() => readKey<Language>(LANG_KEY, ['id', 'en'], detectLanguage()));
-  const [guestTheme, setGuestThemeState] = useState<ThemePref>(() => readKey<ThemePref>(THEME_KEY, ['light', 'dark', 'system'], 'light'));
+  const [guestTheme, setGuestThemeState] = useState<ThemePref>(() => readKey<ThemePref>(THEME_KEY, ['light', 'dark', 'system'], 'dark'));
 
   useEffect(() => {
     const off = authBackend.init((p) => {

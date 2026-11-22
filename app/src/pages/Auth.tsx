@@ -8,11 +8,12 @@ import { isCloud } from '../lib/supabase';
 import { Credit } from '../components/Credit';
 import { ThemeToggle } from '../components/ThemeToggle';
 import { LogoMark, Wordmark } from '../components/Logo';
+import { Aurora, CardObject, Float } from '../components/Scene';
 
-export function AuthPage() {
+export function AuthPage({ initialMode = 'in' }: { initialMode?: 'in' | 'up' }) {
   const { t } = useI18n();
   const { signIn, signUp, guestLanguage, setGuestLanguage } = useAuth();
-  const [mode, setMode] = useState<'in' | 'up'>('in');
+  const [mode, setMode] = useState<'in' | 'up'>(initialMode);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -47,9 +48,12 @@ export function AuthPage() {
   return (
     <div className="auth">
       <div className="auth-side">
-        <div className="brand" style={{ padding: 0 }}><LogoMark size={36} className="logo-on-dark" /><Wordmark tagline={t('app.tagline')} /></div>
+        <Aurora strength={1.1} />
+        <div className="brand" style={{ padding: 0 }}><LogoMark size={36} /><Wordmark tagline={t('app.tagline')} /></div>
+        <div className="auth-art"><Float><CardObject /></Float></div>
         <div><h1>{t('auth.welcome')}</h1><p>{t('auth.subtitle')}</p></div>
-        <button className="btn" style={{ alignSelf: 'flex-start', background: 'rgba(255,255,255,.14)', border: 'none', color: '#fff' }}
+        <button className="btn auth-lang"
+
           onClick={() => setGuestLanguage(guestLanguage === 'id' ? 'en' : 'id')}>
           <Languages size={16} />{guestLanguage === 'id' ? 'English' : 'Bahasa Indonesia'}
         </button>
@@ -74,7 +78,7 @@ export function AuthPage() {
           )}
           {info && <div className="banner" role="status">{info}</div>}
           {err && <div className="error" role="alert">{err}</div>}
-          <button className="btn primary" type="submit" disabled={busy} style={{ height: 44 }}>{busy ? t('common.loading') : mode === 'in' ? t('auth.signIn') : t('auth.signUp')}</button>
+          <button className="btn primary lg" type="submit" disabled={busy}>{busy ? t('common.loading') : mode === 'in' ? t('auth.signIn') : t('auth.signUp')}</button>
           <div className="small muted" style={{ textAlign: 'center' }}>
             {mode === 'in' ? t('auth.noAccount') : t('auth.haveAccount')}{' '}
             <button type="button" className="btn ghost sm" style={{ color: 'var(--brand)' }} onClick={() => { setMode(mode === 'in' ? 'up' : 'in'); setErr(null); setInfo(null); shownAt.current = Date.now(); }}>
