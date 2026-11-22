@@ -281,3 +281,106 @@ table.data td.r, table.data th.r { text-align: right; font-variant-numeric: tabu
   .identity-actions .icon-btn { width: 36px; }
   .identity-main { gap: 10px; }
 }
+
+/* ───────── Data-viz tokens (validated: income blue / expense orange pass the colour-blind checks, light and dark) ───────── */
+:root {
+  --chart-income: #2a78d6; --chart-expense: #eb6834; --chart-muted: #b9bfbc;
+  --chart-grid: #e6ebe8; --chart-axis: #c7cfcb;
+  --income: var(--chart-income); --expense: var(--chart-expense); --transfer: #6250d6;
+  --income-ink: #1c5cab; --expense-ink: #b8400c;
+  --good-ink: #166534; --bad-ink: #b91c1c;
+  --meter-warn: #fab219; --meter-crit: #d03b3b;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --chart-income: #3987e5; --chart-expense: #d95926; --chart-muted: #4a5753;
+    --chart-grid: #232d2a; --chart-axis: #34413d;
+    --transfer: #9085e9; --income-ink: #6da7ec; --expense-ink: #fb923c; --good-ink: #4ade80; --bad-ink: #f87171;
+  }
+}
+:root[data-theme="dark"] {
+  --chart-income: #3987e5; --chart-expense: #d95926; --chart-muted: #4a5753;
+  --chart-grid: #232d2a; --chart-axis: #34413d;
+  --transfer: #9085e9; --income-ink: #6da7ec; --expense-ink: #fb923c; --good-ink: #4ade80; --bad-ink: #f87171;
+}
+.income { color: var(--income-ink); }
+.expense { color: var(--expense-ink); }
+.transfer { color: var(--transfer); }
+.chip.ok { color: var(--good-ink); }
+
+/* Hero figure: ≥ 48px on desktop, proportional digits (tabular only in columns) */
+.balance-value { font-size: clamp(2rem, 7vw, 3rem); font-weight: 700; letter-spacing: -.025em; line-height: 1.05; font-variant-numeric: proportional-nums; margin: 8px 0 6px; }
+.stat .value { font-variant-numeric: proportional-nums; }
+
+/* Stat tiles with delta and sparkline */
+.card.stat { flex-direction: row; align-items: stretch; justify-content: space-between; gap: 12px; }
+.stat-main { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.stat-delta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; font-size: .8rem; }
+.stat-delta .good, .stat-delta .bad { display: inline-flex; align-items: center; gap: 3px; font-weight: 650; }
+.stat-delta .good { color: var(--good-ink); }
+.stat-delta .bad { color: var(--bad-ink); }
+.spark { flex: none; align-self: flex-end; }
+@media (max-width: 600px) {
+  .stats .card.stat { padding: 12px 16px; }
+  .stats .stat > .muted, .stats .stat-delta { display: flex; }
+  .stats .spark { align-self: center; }
+}
+
+/* Cashflow chart */
+.chart-wrap { min-width: 0; }
+.chart text { fill: var(--muted); font-size: 11px; }
+.chart-hit { cursor: default; outline: none; }
+.chart-hit:focus-visible { stroke: var(--brand); stroke-width: 2; rx: 8; }
+.chart-tip { position: absolute; transform: translateX(-50%); pointer-events: none; min-width: 170px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; box-shadow: 0 8px 28px rgba(0,0,0,.16); font-size: .82rem; z-index: 5; }
+.chart-tip-title { font-weight: 600; margin-bottom: 6px; }
+.chart-tip-row { display: flex; align-items: center; gap: 8px; padding: 2px 0; }
+.chart-tip-row i { width: 12px; height: 3px; border-radius: 2px; flex: none; }
+.chart-tip-row strong { font-variant-numeric: tabular-nums; }
+.chart-tip-row span, .chart-tip-net span { color: var(--muted); }
+.chart-tip-net { display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid var(--border); margin-top: 6px; padding-top: 6px; }
+
+/* Ranked bars (part-to-whole) */
+.rank { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.rank-row { display: grid; grid-template-columns: minmax(110px, 1fr) minmax(80px, 2fr) auto; align-items: center; gap: 14px; }
+.rank-name { font-size: .9rem; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rank-track { height: 10px; background: color-mix(in srgb, var(--text) 6%, transparent); border-radius: 0 4px 4px 0; overflow: hidden; }
+.rank-fill { display: block; height: 100%; border-radius: 0 4px 4px 0; }
+.rank-val { font-size: .85rem; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+@media (max-width: 600px) { .rank-row { grid-template-columns: 1fr auto; row-gap: 4px; } .rank-track { grid-column: 1 / -1; grid-row: 2; } }
+
+/* Meters: fill carries severity; the track is a lighter step of the same colour */
+.progress { --fill: var(--brand); height: 8px; background: color-mix(in srgb, var(--fill) 16%, var(--surface)); }
+.progress.warning { --fill: var(--meter-warn); }
+.progress.exceeded { --fill: var(--meter-crit); }
+.progress > span, .progress.warning > span, .progress.exceeded > span { background: var(--fill); }
+.status-flag { display: inline-flex; align-items: center; }
+.status-flag.warning { color: var(--warn); }
+.status-flag.exceeded { color: var(--bad-ink); }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; padding: 0; }
+
+/* ───────── Accessibility & touch ───────── */
+:where(a, button, [role="button"], [tabindex]):focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 8px; }
+.nav-link:focus-visible { outline-offset: -2px; }
+@media (pointer: coarse) {
+  .btn:not(.sm) { min-height: 44px; }
+  .icon-btn { width: 44px; height: 44px; }
+  .input, select.input { height: 46px; font-size: 16px; }
+  .segmented button { padding: 9px 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .content > * { animation: rise .32s cubic-bezier(.2, .7, .2, 1) both; }
+  .content > *:nth-child(2) { animation-delay: .04s; } .content > *:nth-child(3) { animation-delay: .08s; }
+  .content > *:nth-child(4) { animation-delay: .12s; } .content > *:nth-child(n+5) { animation-delay: .16s; }
+}
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } }
+
+/* Ranked bars: one shared grid so every track has the same length */
+.rank { display: grid; grid-template-columns: minmax(120px, 1.1fr) minmax(90px, 2fr) auto; gap: 12px 16px; align-items: center; }
+.rank-row { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: center; }
+@media (max-width: 600px) { .rank { grid-template-columns: 1fr auto; } .rank-track { grid-column: 1 / -1; grid-row: 2; } }
+.chart-toggle { color: var(--muted); font-weight: 500; }
+.chart-toggle:hover { color: var(--text); }
+.stats .stat-main .label { margin-bottom: 2px; }

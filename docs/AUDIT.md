@@ -19,6 +19,16 @@ Full review of the live app (code + browser tests on desktop and an iPhone viewp
 | 12 | No Content-Security-Policy / HSTS | Medium | Added in `netlify.toml`; export verified under the CSP |
 | 13 | Missing page meta | Low | Theme-colour for light/dark, Open Graph tags |
 
+## Data-viz and UI polish pass (dashboard, reports, charts)
+Applied the `dataviz` skill (form choice, validated colour, mark specs, interaction, accessibility):
+
+- **Colour-blind-safe palette, validated with the skill's script.** The old green/orange income/expense pair scored ΔE 7.0 (below the 8 target; dark mode failed the lightness band). Now **income = blue, expense = orange** (ΔE 24.7 light / 26.8 dark, all checks pass). Transfers moved to violet so they never look like income. Brand teal stays for chrome and "on track".
+- **Cashflow chart rebuilt:** bars ≤ 24px with 4px rounded ends on one baseline, 2px gap between the pair, hairline solid grid, round axis ticks, legend, hover **and keyboard-focus** tooltip listing every series plus the net, and a **table view** twin.
+- **Stat tiles** now carry a change versus the *same period* last month (like-for-like), a 6-month sparkline (gray line, current month in the accent) and proportional digits; the balance is a ≥ 48px hero figure.
+- **Part-to-whole:** the donut was replaced by **ranked horizontal bars** (largest first, value at the bar tip, one hue = the measure, tail folded into "Other").
+- **Budget meters:** fill carries severity (teal → amber → red), track is a lighter step of the same colour, and warning/exceeded also get an icon + text (never colour alone).
+- **Accessibility/touch:** visible focus rings, focus trap and focus return in dialogs, 44px tap targets on touch devices, reduced-motion support, page title per screen, subtle entrance animation.
+
 ## Still missing — before a public launch (P0)
 1. **Forgot / reset password.** Needs a custom email sender (SMTP): Supabase's built-in email is for testing only and does not reliably deliver to ordinary users. Also required to turn **Confirm email** back on safely.
 2. **Terms of Service and Privacy Policy** pages plus consent at sign-up (the app stores financial data; Indonesian PDP law applies).

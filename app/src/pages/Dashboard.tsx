@@ -1,18 +1,20 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowDownLeft, ArrowUpRight, ArrowLeftRight, Plus, Lightbulb, Wallet as WalletIcon, Database } from 'lucide-react';
+import { AlertTriangle, ArrowDownLeft, ArrowUpRight, ArrowLeftRight, CircleAlert, Plus, Lightbulb, TrendingDown, TrendingUp, Wallet as WalletIcon, Database } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
 import { useData } from '../store/DataProvider';
 import { categoryLabel, useI18n } from '../i18n';
 import { GreetingHeader } from '../components/UserIdentity';
 import { Money } from '../components/Money';
-import { CashflowChart } from '../components/Charts';
+import { CashflowChart, Sparkline } from '../components/Charts';
+import { pctChange } from '../lib/chart';
 import { TransactionForm, WalletForm } from '../components/Forms';
 import { budgetLines, cashflowSeries, categoryTotals, collapse, dedupe, monthRange, summarize, walletBalance } from '../lib/finance';
 import { convert } from '../lib/money';
-import { formatDate, formatMoney, formatPercent, formatTime } from '../lib/format';
+import { formatDate, formatMoney, formatPercent, formatTime, toLocalDate } from '../lib/format';
 import type { CurrencyCode, Transaction } from '../data/types';
 import type { TFn } from '../i18n';
+import type { MessageKey } from '../i18n/en';
 
 export function Dashboard() {
   const { t, lang } = useI18n();
@@ -41,6 +43,17 @@ export function Dashboard() {
   const expense = collapse(sum.expense, base, base, data.rates);
   const net = income.value - expense.value;
   const flow = cashflowSeries(txs, data.wallets, 6, base, base, data.rates);
+  // Month-to-date versus the same stretch of last month (a partial month is never compared with a full one).
+  const nowD = new Date();
+  const prevStart = new Date(nowD.getFullYear(), nowD.getMonth() - 1, 1);
+  const prevDays = new Date(nowD.getFullYear(), nowD.getMonth(), 0).getDate();
+  const prevRange = { from: toLocalDate(prevStart), to: toLocalDate(new Date(prevStart.getFullYear(), prevStart.getMonth(), Math.min(nowD.getDate(), prevDays))) };
+  const prevSum = summarize(txs, data.wallets, prevRange);
+  const prevIncome = collapse(prevSum.income, base, base, data.rates).value;
+  const prevExpense = collapse(prevSum.expense, base, base, data.rates).value;
+  const trendIncome = flow.points.map((p) => p.income);
+  const trendExpense = flow.points.map((p) => p.expense);
+  const trendNet = flow.points.map((p) => p.income - p.expense);
   const budgets = budgetLines(data.budgets, data.categories, txs, data.wallets, month, base, data.rates)
     .sort((a, b) => b.utilization - a.utilization);
   const recent = [...txs].sort((a, b) => b.occurredAt.localeCompare(a.occurredAt)).slice(0, 6);
@@ -72,7 +85,7 @@ export function Dashboard() {
                 <Plus size={15} />{t('tx.add')}
               </button>
             </div>
-            <div className="balance-value num">{formatMoney(balance.value, base, lang)}</div>
+            <div className="balance-value">{formatMoney(balance.value, base, lang)}</div>
             <span className="muted small">{t('dash.acrossAccounts', { n: active.length })}</span>
             <div className="wallet-pills">
               {active.slice(0, 5).map((w) => (
@@ -84,9 +97,9 @@ export function Dashboard() {
 
           {/* 3. Income & expense summary */}
           <section className="grid grid-3 stats" aria-label={t('dash.thisMonth')}>
-            <Stat label={t('dash.income')} icon={<ArrowDownLeft size={16} />} color="var(--income)" value={income.value} currency={base} hint={t('dash.thisMonth')} />
-            <Stat label={t('dash.expense')} icon={<ArrowUpRight size={16} />} color="var(--expense)" value={expense.value} currency={base} hint={t('dash.thisMonth')} />
-            <Stat label={t('dash.net')} icon={<ArrowLeftRight size={16} />} color="var(--brand)" value={net} currency={base} hint={t('dash.thisMonth')} sign />
+            <Stat label={t('dash.income')} icon={<ArrowDownLeft size={16} />} color="var(--income)" value={income.value} currency={base} change={pctChange(income.value, prevIncome)} upIsGood trend={trendIncome} />
+            <Stat label={t('dash.expense')} icon={<ArrowUpRight size={16} />} color="var(--expense)" value={expense.value} currency={base} change={pctChange(expense.value, prevExpense)} upIsGood={false} trend={trendExpense} />
+            <Stat label={t('dash.net')} icon={<ArrowLeftRight size={16} />} color="var(--brand)" value={net} currency={base} sign change={pctChange(net, prevIncome - prevExpense)} upIsGood trend={trendNet} />
           </section>
 
           <div className="grid grid-2">
@@ -104,10 +117,18 @@ export function Dashboard() {
                   {budgets.slice(0, 4).map((b) => (
                     <div key={b.budget.id}>
                       <div className="row between small" style={{ marginBottom: 6 }}>
-                        <span style={{ fontWeight: 550 }}>{categoryLabel(b.category, t)}</span>
+                        <span className="row" style={{ fontWeight: 550, gap: 6 }}>
+                          {categoryLabel(b.category, t)}
+                          {b.status !== 'onTrack' && (
+                            <span className={`status-flag ${b.status}`} title={t(`bud.status.${b.status}` as MessageKey)}>
+                              {b.status === 'exceeded' ? <CircleAlert size={14} aria-hidden /> : <AlertTriangle size={14} aria-hidden />}
+                              <span className="sr-only">{t(`bud.status.${b.status}` as MessageKey)}</span>
+                            </span>
+                          )}
+                        </span>
                         <span className="muted num">{t('bud.of', { spent: formatMoney(b.spent, b.budget.currency, lang, { compact: true }), limit: formatMoney(b.limit, b.budget.currency, lang, { compact: true }) })}</span>
                       </div>
-                      <div className={`progress ${b.status}`}><span style={{ width: `${Math.min(100, b.utilization * 100)}%` }} /></div>
+                      <div className={`progress ${b.status}`} role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(b.utilization * 100)} aria-label={categoryLabel(b.category, t)}><span style={{ width: `${Math.min(100, b.utilization * 100)}%` }} /></div>
                     </div>
                   ))}
                 </div>
@@ -142,12 +163,31 @@ export function Dashboard() {
   );
 }
 
-function Stat({ label, icon, color, value, currency, hint, sign }: { label: string; icon: React.ReactNode; color: string; value: number; currency: CurrencyCode; hint: string; sign?: boolean }) {
+function Stat({ label, icon, color, value, currency, sign, change, upIsGood, trend }: {
+  label: string; icon: React.ReactNode; color: string; value: number; currency: CurrencyCode; sign?: boolean;
+  change: number | null; upIsGood: boolean; trend: number[];
+}) {
+  const { t, lang } = useI18n();
+  const good = change != null && change !== 0 && (change > 0) === upIsGood;
   return (
     <div className="card stat">
-      <span className="label"><span className="stat-icon" style={{ background: `color-mix(in srgb, ${color} 14%, transparent)`, color }}>{icon}</span>{label}</span>
-      <Money className="value" value={value} currency={currency} sign={sign} />
-      <span className="muted small">{hint}</span>
+      <div className="stat-main">
+        <span className="label"><span className="stat-icon" style={{ background: `color-mix(in srgb, ${color} 14%, transparent)`, color }}>{icon}</span>{label}</span>
+        <Money className="value" value={value} currency={currency} sign={sign} />
+        <span className="stat-delta">
+          {change == null ? <span className="muted">{t('dash.thisMonth')}</span> : change === 0 ? <span className="muted">{formatPercent(0, lang)} {t('chart.vsPeriod')}</span> : (
+            <>
+              <span className={good ? 'good' : 'bad'}>
+                {change > 0 ? <TrendingUp size={14} aria-hidden /> : <TrendingDown size={14} aria-hidden />}
+                <span className="sr-only">{change > 0 ? t('chart.up') : t('chart.down')}</span>
+                {change > 0 ? '+' : '−'}{formatPercent(Math.abs(change), lang)}
+              </span>
+              <span className="muted"> {t('chart.vsPeriod')}</span>
+            </>
+          )}
+        </span>
+      </div>
+      <Sparkline values={trend} accent={color} label={t('chart.trend')} />
     </div>
   );
 }

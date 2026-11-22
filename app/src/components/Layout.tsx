@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { LayoutDashboard, ArrowLeftRight, Wallet, PieChart, BarChart3, Settings, LogOut, User } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
@@ -24,6 +25,7 @@ export function Layout() {
   const current = [...NAV, { to: '/profile', label: 'nav.profile' as MessageKey }, { to: '/settings', label: 'nav.settings' as MessageKey }]
     .find((n) => (n.to === '/' ? loc.pathname === '/' : loc.pathname.startsWith(n.to)));
   const isDashboard = loc.pathname === '/';
+  useEffect(() => { document.title = `${current ? t(current.label) + ' · ' : ''}MyFi`; }, [current, t]);
 
   return (
     <div className="shell">
