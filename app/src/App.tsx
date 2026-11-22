@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AuthProvider, useAuth } from './auth/AuthProvider';
 import { DataProvider } from './store/DataProvider';
 import { ToastProvider } from './components/Toast';
 import { Layout } from './components/Layout';
 import { AuthPage } from './pages/Auth';
+import { Welcome, hasWelcomed } from './pages/Welcome';
 import { Dashboard } from './pages/Dashboard';
 import { Transactions } from './pages/Transactions';
 import { Accounts } from './pages/Accounts';
@@ -20,8 +22,9 @@ import { TERMS_VERSION } from './lib/legal';
 
 function Gate() {
   const { profile, ready } = useAuth();
+  const [entry, setEntry] = useState<'in' | 'up' | null>(() => (hasWelcomed() ? 'in' : null));
   if (!ready) return null;
-  if (!profile) return <AuthPage />;
+  if (!profile) return entry ? <AuthPage initialMode={entry} /> : <Welcome onDone={setEntry} />;
   if (profile.termsVersion !== TERMS_VERSION) return <ConsentScreen />;
   return (
     <DataProvider key={profile.userId}>

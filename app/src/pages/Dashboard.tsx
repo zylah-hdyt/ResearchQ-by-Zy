@@ -8,6 +8,7 @@ import type { MessageKey } from '../i18n/en';
 import { GreetingHeader } from '../components/UserIdentity';
 import { Money } from '../components/Money';
 import { CashflowChart } from '../components/Charts';
+import { CoinObject } from '../components/Scene';
 import { EyeToggle } from '../components/Privacy';
 import { Kpi } from '../components/Kpi';
 import { RangeTabs } from '../components/RangeTabs';
@@ -84,6 +85,7 @@ export function Dashboard() {
          <div className="dash-main">
           {/* 2 · Total balance */}
           <section className="dash-hero" aria-label={t('dash.totalBalance')}>
+            <CoinObject className="hero-coin" />
             <div className="row between">
               <span className="hero-eyebrow">{t('dash.totalBalance')}</span>
               <EyeToggle className="icon-btn hero-eye" />
