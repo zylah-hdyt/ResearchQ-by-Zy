@@ -6,14 +6,14 @@ import { useAuth } from '../auth/AuthProvider';
 import { categoryLabel, useI18n } from '../i18n';
 import type { MessageKey } from '../i18n/en';
 import { toLocalDateTime } from '../lib/format';
-import { toMajor, toMinor } from '../lib/money';
+import { parseAmount, toInputText } from '../lib/money';
+import { AmountInput } from './AmountInput';
 import { Modal } from './Modal';
 import { useToast } from './Toast';
 
-const majorStr = (minor?: number) => (minor == null ? '' : String(toMajor(minor)));
 
 export function TransactionForm({ initial, onClose }: { initial?: Transaction; onClose: () => void }) {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const toast = useToast();
   const { wallets, categories, saveTransaction, deleteTransaction } = useData();
   const active = wallets.filter((w) => !w.archived || w.id === initial?.walletId || w.id === initial?.toWalletId);
@@ -21,8 +21,10 @@ export function TransactionForm({ initial, onClose }: { initial?: Transaction; o
   const [walletId, setWalletId] = useState(initial?.walletId ?? active[0]?.id ?? '');
   const [toWalletId, setToWalletId] = useState(initial?.toWalletId ?? active[1]?.id ?? '');
   const [categoryId, setCategoryId] = useState(initial?.categoryId ?? '');
-  const [amount, setAmount] = useState(majorStr(initial?.amount));
-  const [toAmount, setToAmount] = useState(majorStr(initial?.toAmount));
+  const initFrom = wallets.find((w) => w.id === (initial?.walletId ?? active[0]?.id));
+  const initTo = wallets.find((w) => w.id === initial?.toWalletId);
+  const [amount, setAmount] = useState(toInputText(initial?.amount, initFrom?.currency ?? 'IDR', lang));
+  const [toAmount, setToAmount] = useState(toInputText(initial?.toAmount, initTo?.currency ?? 'IDR', lang));
   const [occurredAt, setOccurredAt] = useState(initial?.occurredAt ?? toLocalDateTime(new Date()));
   const [description, setDescription] = useState(initial?.description ?? '');
   const [notes, setNotes] = useState(initial?.notes ?? '');
@@ -34,14 +36,14 @@ export function TransactionForm({ initial, onClose }: { initial?: Transaction; o
   const cats = categories.filter((c) => c.type === (type === 'income' ? 'income' : 'expense'));
 
   const submit = () => {
-    const amt = toMinor(amount);
-    if (!(amt > 0)) return setErr('tx.err.amount');
     if (!from) return setErr('tx.err.wallet');
+    const amt = parseAmount(amount, from.currency, lang);
+    if (!(amt > 0)) return setErr('tx.err.amount');
     if (type === 'transfer') {
       if (!to) return setErr('tx.err.wallet');
       if (to.id === from.id) return setErr('tx.err.sameWallet');
     } else if (!categoryId || !cats.some((c) => c.id === categoryId)) return setErr('tx.err.category');
-    const recv = crossCurrency ? toMinor(toAmount) : amt;
+    const recv = crossCurrency ? parseAmount(toAmount, to!.currency, lang) : amt;
     if (type === 'transfer' && !(recv > 0)) return setErr('tx.err.amount');
     saveTransaction({
       id: initial?.id, type, walletId, amount: amt, occurredAt, description: description.trim(), notes: notes.trim(),
@@ -68,7 +70,7 @@ export function TransactionForm({ initial, onClose }: { initial?: Transaction; o
       </div>
       <div className="form-grid">
         <label className="field">{t('tx.amount')}{from && ` (${from.currency})`}
-          <input className="input num" inputMode="decimal" autoFocus value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="0" />
+          <AmountInput autoFocus currency={from?.currency ?? 'IDR'} value={amount} onChange={setAmount} />
         </label>
         <label className="field">{t('tx.date')}
           <input className="input" type="datetime-local" value={occurredAt} onChange={(e) => setOccurredAt(e.target.value)} />
@@ -94,7 +96,7 @@ export function TransactionForm({ initial, onClose }: { initial?: Transaction; o
         )}
         {crossCurrency && (
           <label className="field full">{t('tx.toAmount')} ({to!.currency})
-            <input className="input num" inputMode="decimal" value={toAmount} onChange={(e) => setToAmount(e.target.value)} />
+            <AmountInput currency={to!.currency} value={toAmount} onChange={setToAmount} />
           </label>
         )}
         <label className="field full">{t('tx.description')}
@@ -113,20 +115,20 @@ const WALLET_TYPES: WalletType[] = ['bank', 'cash', 'ewallet', 'savings', 'credi
 const WALLET_COLORS = ['#1d4ed8', '#15803d', '#0891b2', '#7c3aed', '#be185d', '#b45309', '#475569'];
 
 export function WalletForm({ initial, onClose }: { initial?: Wallet; onClose: () => void }) {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const toast = useToast();
   const { profile } = useAuth();
   const { saveWallet, deleteWallet } = useData();
   const [name, setName] = useState(initial?.name ?? '');
   const [type, setType] = useState<WalletType>(initial?.type ?? 'bank');
   const [currency, setCurrency] = useState<CurrencyCode>(initial?.currency ?? profile!.preferredCurrency);
-  const [initialBalance, setInitial] = useState(majorStr(initial?.initialBalance ?? 0));
+  const [initialBalance, setInitial] = useState(toInputText(initial?.initialBalance ?? 0, initial?.currency ?? profile!.preferredCurrency, lang));
   const [color, setColor] = useState(initial?.color ?? WALLET_COLORS[0]);
   const [err, setErr] = useState<string | null>(null);
 
   const submit = () => {
     if (!name.trim()) return setErr(t('acc.name'));
-    saveWallet({ id: initial?.id, name: name.trim(), type, currency, initialBalance: toMinor(initialBalance || 0), color, archived: initial?.archived ?? false });
+    saveWallet({ id: initial?.id, name: name.trim(), type, currency, initialBalance: parseAmount(initialBalance || '0', currency, lang), color, archived: initial?.archived ?? false });
     toast(t('common.saved'));
     onClose();
   };
@@ -152,7 +154,7 @@ export function WalletForm({ initial, onClose }: { initial?: Wallet; onClose: ()
             {CURRENCIES.map((c) => <option key={c}>{c}</option>)}
           </select>
         </label>
-        <label className="field full">{t('acc.initial')}<input className="input num" inputMode="decimal" value={initialBalance} onChange={(e) => setInitial(e.target.value)} /></label>
+        <label className="field full">{t('acc.initial')}<AmountInput currency={currency} value={initialBalance} onChange={setInitial} /></label>
         <div className="field full">{t('acc.color')}
           <div className="row">{WALLET_COLORS.map((c) => (
             <button key={c} aria-label={c} onClick={() => setColor(c)} style={{ width: 28, height: 28, borderRadius: 8, background: c, border: color === c ? '3px solid var(--text)' : '2px solid transparent', cursor: 'pointer' }} />
@@ -165,20 +167,20 @@ export function WalletForm({ initial, onClose }: { initial?: Wallet; onClose: ()
 }
 
 export function BudgetForm({ initial, onClose }: { initial?: Budget; onClose: () => void }) {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const toast = useToast();
   const { profile } = useAuth();
   const { categories, budgets, saveBudget, deleteBudget } = useData();
   const cats = categories.filter((c) => c.type === 'expense');
   const [categoryId, setCategoryId] = useState(initial?.categoryId ?? cats.find((c) => !budgets.some((b) => b.categoryId === c.id))?.id ?? '');
-  const [amount, setAmount] = useState(majorStr(initial?.amount));
   const [currency, setCurrency] = useState<CurrencyCode>(initial?.currency ?? profile!.preferredCurrency);
+  const [amount, setAmount] = useState(toInputText(initial?.amount, initial?.currency ?? profile!.preferredCurrency, lang));
   const [err, setErr] = useState<string | null>(null);
   const submit = () => {
     if (!categoryId) return setErr(t('tx.err.category'));
-    if (!(toMinor(amount) > 0)) return setErr(t('tx.err.amount'));
+    if (!(parseAmount(amount, currency, lang) > 0)) return setErr(t('tx.err.amount'));
     if (budgets.some((b) => b.categoryId === categoryId && b.id !== initial?.id)) return setErr(t('bud.exists'));
-    saveBudget({ id: initial?.id, categoryId, amount: toMinor(amount), currency });
+    saveBudget({ id: initial?.id, categoryId, amount: parseAmount(amount, currency, lang), currency });
     toast(t('common.saved'));
     onClose();
   };
@@ -196,7 +198,7 @@ export function BudgetForm({ initial, onClose }: { initial?: Budget; onClose: ()
             {cats.map((c) => <option key={c.id} value={c.id}>{categoryLabel(c, t)}</option>)}
           </select>
         </label>
-        <label className="field">{t('bud.monthly')}<input className="input num" inputMode="decimal" value={amount} onChange={(e) => setAmount(e.target.value)} /></label>
+        <label className="field">{t('bud.monthly')}<AmountInput currency={currency} value={amount} onChange={setAmount} /></label>
         <label className="field">{t('acc.currency')}
           <select className="input" value={currency} onChange={(e) => setCurrency(e.target.value as CurrencyCode)}>
             {CURRENCIES.map((c) => <option key={c}>{c}</option>)}

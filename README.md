@@ -37,4 +37,5 @@ Supabase dashboard → Authentication → Sign In / Providers → Email → turn
 - [Component Architecture](docs/COMPONENT_ARCHITECTURE.md)
 - [Roadmap](docs/ROADMAP.md)
 - [Brand basics](docs/BRAND.md)
+- [Audit & what is still missing](docs/AUDIT.md)
 

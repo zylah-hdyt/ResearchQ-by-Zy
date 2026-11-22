@@ -8,6 +8,8 @@ import { dayPart } from '../lib/greeting';
 import { formatMoney, formatPercent } from '../lib/format';
 import { deriveNotifications } from '../lib/notifications';
 import { Avatar } from './Avatar';
+import { ThemeToggle } from './ThemeToggle';
+import { AccountMenu } from './AccountMenu';
 import type { MessageKey } from '../i18n/en';
 
 /** Re-renders every minute so the greeting follows the local clock. */
@@ -105,7 +107,9 @@ export function GreetingHeader() {
         </div>
       </div>
       <div className="identity-actions">
+        <ThemeToggle />
         <NotificationBell />
+        <AccountMenu />
       </div>
     </section>
   );

@@ -41,7 +41,7 @@ export function createSupabaseAuth(db: SupabaseClient): AuthBackend {
       return null;
     },
 
-    async signUp(fullName, email, password, lang) {
+    async signUp(fullName, email, password, lang, theme) {
       const e = email.trim().toLowerCase();
       if (!fullName.trim()) return 'name';
       if (!EMAIL_RE.test(e)) return 'email';
@@ -49,7 +49,7 @@ export function createSupabaseAuth(db: SupabaseClient): AuthBackend {
       const { data, error } = await db.auth.signUp({
         email: e,
         password,
-        options: { data: { full_name: fullName.trim(), language: lang, preferred_currency: defaultCurrency(lang) } },
+        options: { data: { full_name: fullName.trim(), language: lang, preferred_currency: defaultCurrency(), theme } },
       });
       if (error) {
         if (/already|registered/i.test(error.message)) return 'exists';
@@ -61,6 +61,13 @@ export function createSupabaseAuth(db: SupabaseClient): AuthBackend {
       if (!data.session) return 'confirm';
       emit(await loadProfile(data.user?.id));
       return null;
+    },
+
+    async changePassword(newPassword) {
+      if (newPassword.length < 8) return 'password';
+      const { error } = await db.auth.updateUser({ password: newPassword });
+      if (!error) return null;
+      return /password/i.test(error.message) ? 'password' : 'generic';
     },
 
     async signOut() {

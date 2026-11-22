@@ -22,9 +22,9 @@ export function categoryLabel(c: Category | undefined, t: TFn): string {
   return c.name ?? '—';
 }
 
+/** Indonesian is the default for everyone; people switch to English themselves. */
 export function detectLanguage(): Language {
-  const l = (typeof navigator !== 'undefined' ? navigator.language : 'en').toLowerCase();
-  return l.startsWith('id') || l.startsWith('ms') ? 'id' : 'en';
+  return 'id';
 }
 
 interface I18nValue {

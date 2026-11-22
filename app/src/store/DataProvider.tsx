@@ -109,7 +109,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
       setRates: (rates) => commit((d) => ({ ...d, rates })),
       markNotificationsRead: (ids) =>
         commit((d) => ({ ...d, readNotifications: [...new Set([...d.readNotifications, ...ids])] })),
-      loadSample: () => commit((d) => buildSampleData(userId, profile!.preferredCurrency, d)),
+      loadSample: () => commit((d) => buildSampleData(userId, profile!.preferredCurrency, d, profile!.language)),
       clearAll: () => commit((d) => ({ ...d, wallets: [], transactions: [], budgets: [], readNotifications: [] })),
     }),
     [data, commit, userId, profile],

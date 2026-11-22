@@ -5,6 +5,7 @@ import { useI18n } from '../i18n';
 import type { MessageKey } from '../i18n/en';
 import { isCloud } from '../lib/supabase';
 import { Credit } from '../components/Credit';
+import { ThemeToggle } from '../components/ThemeToggle';
 import { LogoMark, Wordmark } from '../components/Logo';
 
 export function AuthPage() {
@@ -45,6 +46,7 @@ export function AuthPage() {
         </button>
       </div>
       <div className="auth-form">
+        <div className="auth-tools"><ThemeToggle /></div>
         <form onSubmit={submit} noValidate>
           <h1>{mode === 'in' ? t('auth.signIn') : t('auth.signUp')}</h1>
           {mode === 'up' && (

@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Camera, Trash2, Settings } from 'lucide-react';
+import { Camera, Trash2, Settings, LogOut } from 'lucide-react';
 import { greetingName, useAuth } from '../auth/AuthProvider';
 import { useI18n } from '../i18n';
 import { Avatar } from '../components/Avatar';
@@ -11,7 +11,7 @@ import { storage } from '../data/storage';
 
 /** Shared identity card — same avatar + name presentation as the dashboard greeting. */
 export function IdentityCard({ children }: { children?: React.ReactNode }) {
-  const { profile } = useAuth();
+  const { profile, signOut } = useAuth();
   const { t, lang } = useI18n();
   const since = profile!.createdAt ?? storage.listAccounts().find((a) => a.id === profile!.userId)?.createdAt;
   return (
@@ -24,7 +24,10 @@ export function IdentityCard({ children }: { children?: React.ReactNode }) {
           {since && <p className="small">{t('profile.memberSince', { date: formatDate(since.slice(0, 10), lang, { month: 'long', year: 'numeric' }) })}</p>}
         </div>
       </div>
-      {children}
+      <div className="row wrap" style={{ justifyContent: 'flex-end' }}>
+        {children}
+        <button className="btn" onClick={signOut}><LogOut size={16} />{t('nav.signOut')}</button>
+      </div>
     </section>
   );
 }

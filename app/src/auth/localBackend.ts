@@ -1,4 +1,4 @@
-import type { Language, Profile } from '../data/types';
+import type { Language, Profile, ThemePref } from '../data/types';
 import { storage } from '../data/storage';
 import { hashPassword, newSalt } from '../lib/password';
 import { uid } from '../lib/id';
@@ -22,7 +22,7 @@ export function createLocalAuth(): AuthBackend {
       emit(storage.getProfile(acc.id));
       return null;
     },
-    async signUp(fullName, email, password, lang: Language) {
+    async signUp(fullName, email, password, lang: Language, theme: ThemePref) {
       const e = email.trim().toLowerCase();
       if (!fullName.trim()) return 'name';
       if (!EMAIL_RE.test(e)) return 'email';
@@ -35,12 +35,24 @@ export function createLocalAuth(): AuthBackend {
       storage.saveAccounts([...accounts, acc]);
       const p: Profile = {
         userId: acc.id, email: e, fullName: fullName.trim(), displayName: '', avatarDataUrl: null, phone: '',
-        country: lang === 'id' ? 'Indonesia' : '', dateOfBirth: '', preferredCurrency: defaultCurrency(lang),
-        language: lang, theme: 'system', weekStartsOn: 1, budgetAlerts: true, updatedAt: now, createdAt: now,
+        country: lang === 'id' ? 'Indonesia' : '', dateOfBirth: '', preferredCurrency: defaultCurrency(),
+        language: lang, theme, weekStartsOn: 1, budgetAlerts: true, updatedAt: now, createdAt: now,
       };
       storage.saveProfile(p);
       storage.setSession({ userId: acc.id });
       emit(p);
+      return null;
+    },
+    async changePassword(newPassword) {
+      if (newPassword.length < 8) return 'password';
+      const session = storage.getSession();
+      const accounts = storage.listAccounts();
+      const acc = accounts.find((a) => a.id === session?.userId);
+      if (!acc) return 'generic';
+      const salt = newSalt();
+      storage.saveAccounts(accounts.map((a) => (a.id === acc.id ? { ...a, salt, passwordHash: '' } : a)));
+      const passwordHash = await hashPassword(newPassword, salt);
+      storage.saveAccounts(storage.listAccounts().map((a) => (a.id === acc.id ? { ...a, salt, passwordHash } : a)));
       return null;
     },
     async signOut() {

@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import type { Language, Profile } from '../data/types';
+import type { Language, Profile, ThemePref } from '../data/types';
 import { detectLanguage, I18nProvider, translator } from '../i18n';
 import { useToast } from '../components/Toast';
 import type { AuthError, SignUpResult } from './backend';
@@ -11,22 +11,37 @@ interface AuthValue {
   signIn: (email: string, password: string) => Promise<AuthError | null>;
   signUp: (fullName: string, email: string, password: string) => Promise<SignUpResult>;
   signOut: () => void;
+  changePassword: (newPassword: string) => Promise<AuthError | null>;
   updateProfile: (patch: Partial<Profile>) => void;
+  /** Language / theme for the signed-in user, or the visitor's own choice before sign-in. */
+  language: Language;
+  setLanguage: (l: Language) => void;
+  theme: ThemePref;
+  setTheme: (t: ThemePref) => void;
   guestLanguage: Language;
   setGuestLanguage: (l: Language) => void;
 }
 
 const Ctx = createContext<AuthValue | null>(null);
 const LANG_KEY = 'fa.v1:guestLang';
+const THEME_KEY = 'fa.v1:guestTheme';
+
+function readKey<T extends string>(key: string, allowed: T[], fallback: T): T {
+  try {
+    const v = localStorage.getItem(key) as T | null;
+    return v && allowed.includes(v) ? v : fallback;
+  } catch {
+    return fallback;
+  }
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const toast = useToast();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [ready, setReady] = useState(false);
   const profileRef = useRef<Profile | null>(null);
-  const [guestLanguage, setGuestLanguageState] = useState<Language>(() => {
-    try { return (localStorage.getItem(LANG_KEY) as Language) || detectLanguage(); } catch { return detectLanguage(); }
-  });
+  const [guestLanguage, setGuestLanguageState] = useState<Language>(() => readKey<Language>(LANG_KEY, ['id', 'en'], detectLanguage()));
+  const [guestTheme, setGuestThemeState] = useState<ThemePref>(() => readKey<ThemePref>(THEME_KEY, ['light', 'dark', 'system'], 'light'));
 
   useEffect(() => {
     const off = authBackend.init((p) => {
@@ -40,17 +55,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return off;
   }, []);
 
-  const setGuestLanguage = (l: Language) => {
+  const setGuestLanguage = useCallback((l: Language) => {
     try { localStorage.setItem(LANG_KEY, l); } catch { /* ignore */ }
     setGuestLanguageState(l);
-  };
+  }, []);
+  const setGuestTheme = useCallback((t: ThemePref) => {
+    try { localStorage.setItem(THEME_KEY, t); } catch { /* ignore */ }
+    setGuestThemeState(t);
+  }, []);
 
   const signIn = useCallback((email: string, password: string) => authBackend.signIn(email, password), []);
   const signUp = useCallback(
-    (fullName: string, email: string, password: string) => authBackend.signUp(fullName, email, password, guestLanguage),
-    [guestLanguage],
+    (fullName: string, email: string, password: string) => authBackend.signUp(fullName, email, password, guestLanguage, guestTheme),
+    [guestLanguage, guestTheme],
   );
   const signOut = useCallback(() => { void authBackend.signOut(); }, []);
+  const changePassword = useCallback((pw: string) => authBackend.changePassword(pw), []);
 
   const updateProfile = useCallback((patch: Partial<Profile>) => {
     const prev = profileRef.current;
@@ -66,23 +86,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
   }, [toast]);
 
-  // Apply theme preference and document language.
+  const language = profile?.language ?? guestLanguage;
+  const theme = profile?.theme ?? guestTheme;
+  const setLanguage = useCallback((l: Language) => (profileRef.current ? updateProfile({ language: l }) : setGuestLanguage(l)), [updateProfile, setGuestLanguage]);
+  const setTheme = useCallback((t: ThemePref) => (profileRef.current ? updateProfile({ theme: t }) : setGuestTheme(t)), [updateProfile, setGuestTheme]);
+
+  // Apply theme and document language.
   useEffect(() => {
-    const theme = profile?.theme ?? 'system';
     const root = document.documentElement;
     if (theme === 'system') root.removeAttribute('data-theme');
     else root.setAttribute('data-theme', theme);
-    root.lang = profile?.language ?? guestLanguage;
-  }, [profile?.theme, profile?.language, guestLanguage]);
+    root.lang = language;
+  }, [theme, language]);
 
   const value = useMemo(
-    () => ({ profile, ready, signIn, signUp, signOut, updateProfile, guestLanguage, setGuestLanguage }),
-    [profile, ready, signIn, signUp, signOut, updateProfile, guestLanguage],
+    () => ({ profile, ready, signIn, signUp, signOut, changePassword, updateProfile, language, setLanguage, theme, setTheme, guestLanguage, setGuestLanguage }),
+    [profile, ready, signIn, signUp, signOut, changePassword, updateProfile, language, setLanguage, theme, setTheme, guestLanguage, setGuestLanguage],
   );
 
   return (
     <Ctx.Provider value={value}>
-      <I18nProvider lang={profile?.language ?? guestLanguage}>{children}</I18nProvider>
+      <I18nProvider lang={language}>{children}</I18nProvider>
     </Ctx.Provider>
   );
 }

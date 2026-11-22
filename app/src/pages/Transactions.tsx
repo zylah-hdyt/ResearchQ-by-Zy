@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Plus, Search } from 'lucide-react';
 import { useData } from '../store/DataProvider';
 import { categoryLabel, useI18n } from '../i18n';
@@ -22,6 +22,7 @@ export function Transactions() {
   const [categoryId, setCategoryId] = useState('all');
   const [q, setQ] = useState('');
   const [editing, setEditing] = useState<Transaction | 'new' | null>(null);
+  const [limit, setLimit] = useState(100);
 
   const list = useMemo(() => {
     const needle = q.trim().toLowerCase();
@@ -34,14 +35,16 @@ export function Transactions() {
       .sort((a, b) => b.occurredAt.localeCompare(a.occurredAt));
   }, [data.transactions, range, type, walletId, categoryId, q]);
 
+  useEffect(() => setLimit(100), [range, type, walletId, categoryId, q]);
+
   const groups = useMemo(() => {
     const m = new Map<string, Transaction[]>();
-    for (const x of list) {
+    for (const x of list.slice(0, limit)) {
       const d = x.occurredAt.slice(0, 10);
       m.set(d, [...(m.get(d) ?? []), x]);
     }
     return [...m.entries()];
-  }, [list]);
+  }, [list, limit]);
 
   return (
     <>
@@ -92,6 +95,11 @@ export function Transactions() {
             <div className="list">{items.map((x) => <TxRow key={x.id} tx={x} onClick={() => setEditing(x)} />)}</div>
           </div>
         ))}
+        {list.length > limit && (
+          <div className="row" style={{ justifyContent: 'center', padding: '14px 0 6px' }}>
+            <button className="btn" onClick={() => setLimit(limit + 100)}>{t('common.showMore')} ({list.length - limit})</button>
+          </div>
+        )}
       </section>
 
       {data.wallets.length > 0 && <button className="fab" aria-label={t('tx.add')} onClick={() => setEditing('new')}><Plus size={24} /></button>}

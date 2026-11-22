@@ -3,7 +3,9 @@ import { LayoutDashboard, ArrowLeftRight, Wallet, PieChart, BarChart3, Settings,
 import { useAuth } from '../auth/AuthProvider';
 import { useI18n } from '../i18n';
 import type { MessageKey } from '../i18n/en';
-import { NotificationBell, ProfileChip } from './UserIdentity';
+import { NotificationBell } from './UserIdentity';
+import { ThemeToggle } from './ThemeToggle';
+import { AccountMenu } from './AccountMenu';
 import { Credit } from './Credit';
 import { LogoMark, Wordmark } from './Logo';
 
@@ -41,8 +43,9 @@ export function Layout() {
           <header className="topbar">
             <span className="topbar-title">{current ? t(current.label) : ''}</span>
             <div className="topbar-actions">
+              <ThemeToggle />
               <NotificationBell />
-              <ProfileChip />
+              <AccountMenu variant="avatar" />
             </div>
           </header>
         )}

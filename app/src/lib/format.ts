@@ -4,8 +4,15 @@ const LOCALES: Record<Language, string> = { id: 'id-ID', en: 'en-US' };
 export const localeOf = (lang: Language) => LOCALES[lang];
 
 export function formatMoney(minor: number, currency: CurrencyCode, lang: Language, opts?: { compact?: boolean; sign?: boolean }) {
+  if (currency === 'IDR') {
+    // Rupiah is always written "Rp 1.250.000" (no decimals), in both languages.
+    const value = Math.round(minor / 100);
+    const nf = new Intl.NumberFormat(localeOf(lang), opts?.compact ? { notation: 'compact', maximumFractionDigits: 1 } : { maximumFractionDigits: 0 });
+    const sign = value < 0 ? '-' : opts?.sign && value > 0 ? '+' : '';
+    return `${sign}Rp\u00A0${nf.format(Math.abs(value))}`;
+  }
   const major = minor / 100;
-  const digits = currency === 'IDR' || currency === 'JPY' ? 0 : 2;
+  const digits = currency === 'JPY' ? 0 : 2;
   const fmt = new Intl.NumberFormat(localeOf(lang), {
     style: 'currency',
     currency,
