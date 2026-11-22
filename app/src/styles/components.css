@@ -169,3 +169,5 @@ table.data tfoot td { font-weight: 650; border-bottom: none; }
   .content > .overlay { animation: none; }
 }
 @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+.segmented.fill { flex-wrap: nowrap; }
+.segmented.fill button { padding-inline: 4px; min-width: 0; white-space: nowrap; }

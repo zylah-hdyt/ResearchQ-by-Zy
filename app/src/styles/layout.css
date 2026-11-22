@@ -43,3 +43,7 @@
   h1 { font-size: 1.55rem; }
 }
 @media (max-width: 380px) { .bottom-nav a { font-size: 10px; } }
+
+/* Touch targets in the top bar */
+.topbar > a.mobile-only { place-items: center; min-width: 44px; min-height: 44px; margin-left: -6px; }
+.profile-chip { min-width: 44px; min-height: 44px; justify-content: center; }

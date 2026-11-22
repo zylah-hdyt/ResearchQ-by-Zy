@@ -13,6 +13,7 @@ import { Profile } from './pages/Profile';
 import { Settings } from './pages/Settings';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { LegalPage } from './pages/Legal';
+import { ConfirmProvider } from './components/Confirm';
 import { ConsentScreen } from './pages/Consent';
 import { TERMS_VERSION } from './lib/legal';
 
@@ -45,11 +46,13 @@ export default function App() {
       <ToastProvider>
         <AuthProvider>
           <ErrorBoundary>
+           <ConfirmProvider>
             <Routes>
               <Route path="/terms" element={<LegalPage kind="terms" />} />
               <Route path="/privacy" element={<LegalPage kind="privacy" />} />
               <Route path="*" element={<Gate />} />
             </Routes>
+           </ConfirmProvider>
           </ErrorBoundary>
         </AuthProvider>
       </ToastProvider>

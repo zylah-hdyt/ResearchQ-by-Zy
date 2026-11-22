@@ -13,6 +13,8 @@ interface DataValue extends UserData {
   deleteWallet: (id: string) => boolean;
   saveTransaction: (t: Omit<Transaction, 'id' | 'userId' | 'createdAt'> & { id?: string }) => void;
   deleteTransaction: (id: string) => void;
+  /** Put a deleted transaction back exactly as it was (same id), used by Undo. */
+  restoreTransaction: (t: Transaction) => void;
   saveBudget: (b: Omit<Budget, 'id' | 'userId' | 'createdAt'> & { id?: string }) => void;
   deleteBudget: (id: string) => void;
   setRates: (r: ExchangeRate[]) => void;
@@ -100,6 +102,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
           return { ...d, transactions: [{ ...clean, id: uid('tx_'), userId, createdAt: now() } as Transaction, ...d.transactions] };
         }),
       deleteTransaction: (id) => commit((d) => ({ ...d, transactions: d.transactions.filter((x) => x.id !== id) })),
+      restoreTransaction: (tx) => commit((d) => ({ ...d, transactions: [tx, ...d.transactions.filter((x) => x.id !== tx.id)] })),
       saveBudget: (b) =>
         commit((d) => {
           if (b.id) return { ...d, budgets: d.budgets.map((x) => (x.id === b.id ? { ...x, ...b, id: x.id } : x)) };

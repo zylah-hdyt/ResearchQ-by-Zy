@@ -9,6 +9,7 @@ import { toLocalDateTime } from '../lib/format';
 import { parseAmount, toInputText } from '../lib/money';
 import { AmountInput } from './AmountInput';
 import { Modal } from './Modal';
+import { useConfirm } from './Confirm';
 import { useToast } from './Toast';
 
 
@@ -17,7 +18,8 @@ export function TransactionForm({ initial, preset, duplicateOf, onClose }: {
 }) {
   const { t, lang } = useI18n();
   const toast = useToast();
-  const { wallets, categories, saveTransaction, deleteTransaction } = useData();
+  const { wallets, categories, saveTransaction, deleteTransaction, restoreTransaction } = useData();
+  const confirm = useConfirm();
   // A duplicate starts from an existing transaction but is saved as a NEW one dated now.
   const seed = initial ?? duplicateOf;
   const active = wallets.filter((w) => !w.archived || w.id === seed?.walletId || w.id === seed?.toWalletId || w.id === preset?.walletId);
@@ -62,7 +64,7 @@ export function TransactionForm({ initial, preset, duplicateOf, onClose }: {
       title={initial ? t('tx.edit') : duplicateOf ? t('tx.duplicate') : t('tx.add')}
       onClose={onClose}
       footer={<>
-        {initial && <button className="btn danger" style={{ marginRight: 'auto' }} onClick={() => { if (confirm(t('common.confirmDelete'))) { deleteTransaction(initial.id); onClose(); } }}>{t('common.delete')}</button>}
+        {initial && <button className="btn danger" style={{ marginRight: 'auto' }} onClick={async () => { if (await confirm({ title: t('tx.deleteTitle'), body: t('tx.deleteBody'), confirmLabel: t('common.delete'), danger: true })) { deleteTransaction(initial.id); onClose(); toast(t('tx.deleted'), { label: t('tx.undo'), onClick: () => restoreTransaction(initial) }); } }}>{t('common.delete')}</button>}
         <button className="btn" onClick={onClose}>{t('common.cancel')}</button>
         <button className="btn primary" onClick={submit}>{t('common.save')}</button>
       </>}
@@ -123,6 +125,7 @@ export function WalletForm({ initial, onClose }: { initial?: Wallet; onClose: ()
   const toast = useToast();
   const { profile } = useAuth();
   const { saveWallet, deleteWallet } = useData();
+  const confirm = useConfirm();
   const [name, setName] = useState(initial?.name ?? '');
   const [type, setType] = useState<WalletType>(initial?.type ?? 'bank');
   const [currency, setCurrency] = useState<CurrencyCode>(initial?.currency ?? profile!.preferredCurrency);
@@ -139,8 +142,8 @@ export function WalletForm({ initial, onClose }: { initial?: Wallet; onClose: ()
   return (
     <Modal title={initial ? t('acc.edit') : t('acc.add')} onClose={onClose}
       footer={<>
-        {initial && <button className="btn danger" style={{ marginRight: 'auto' }} onClick={() => {
-          if (!confirm(t('common.confirmDelete'))) return;
+        {initial && <button className="btn danger" style={{ marginRight: 'auto' }} onClick={async () => {
+          if (!(await confirm({ title: t('common.confirmDelete'), confirmLabel: t('common.delete'), danger: true }))) return;
           if (deleteWallet(initial.id)) onClose(); else setErr(t('acc.deleteBlocked'));
         }}>{t('common.delete')}</button>}
         <button className="btn" onClick={onClose}>{t('common.cancel')}</button>
@@ -175,6 +178,7 @@ export function BudgetForm({ initial, onClose }: { initial?: Budget; onClose: ()
   const toast = useToast();
   const { profile } = useAuth();
   const { categories, budgets, saveBudget, deleteBudget } = useData();
+  const confirm = useConfirm();
   const cats = categories.filter((c) => c.type === 'expense');
   const [categoryId, setCategoryId] = useState(initial?.categoryId ?? cats.find((c) => !budgets.some((b) => b.categoryId === c.id))?.id ?? '');
   const [currency, setCurrency] = useState<CurrencyCode>(initial?.currency ?? profile!.preferredCurrency);
@@ -191,7 +195,7 @@ export function BudgetForm({ initial, onClose }: { initial?: Budget; onClose: ()
   return (
     <Modal title={initial ? t('bud.edit') : t('bud.add')} onClose={onClose}
       footer={<>
-        {initial && <button className="btn danger" style={{ marginRight: 'auto' }} onClick={() => { if (confirm(t('common.confirmDelete'))) { deleteBudget(initial.id); onClose(); } }}>{t('common.delete')}</button>}
+        {initial && <button className="btn danger" style={{ marginRight: 'auto' }} onClick={async () => { if (await confirm({ title: t('common.confirmDelete'), confirmLabel: t('common.delete'), danger: true })) { deleteBudget(initial.id); onClose(); } }}>{t('common.delete')}</button>}
         <button className="btn" onClick={onClose}>{t('common.cancel')}</button>
         <button className="btn primary" onClick={submit}>{t('common.save')}</button>
       </>}>

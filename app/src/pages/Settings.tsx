@@ -9,6 +9,7 @@ import { useToast } from '../components/Toast';
 import { IdentityCard } from './Profile';
 import { Credit } from '../components/Credit';
 import { Modal } from '../components/Modal';
+import { useConfirm } from '../components/Confirm';
 import { parseNumber } from '../lib/money';
 
 export function Settings() {
@@ -23,6 +24,7 @@ export function Settings() {
   const [delText, setDelText] = useState('');
   const [delBusy, setDelBusy] = useState(false);
   const [delErr, setDelErr] = useState<string | null>(null);
+  const confirm = useConfirm();
   const word = t('settings.deleteWord');
   const submitDelete = async () => {
     setDelBusy(true);
@@ -146,7 +148,7 @@ export function Settings() {
       <section className="card">
         <div className="card-head"><h2>{t('settings.danger')}</h2></div>
         <div className="stack">
-          <div><button className="btn danger" onClick={() => { if (confirm(t('settings.deleteConfirm'))) { data.clearAll(); toast(t('common.saved')); } }}>{t('settings.deleteData')}</button></div>
+          <div><button className="btn danger" onClick={async () => { if (await confirm({ title: t('settings.deleteData'), body: t('settings.deleteConfirm'), confirmLabel: t('common.delete'), danger: true })) { data.clearAll(); toast(t('common.saved')); } }}>{t('settings.deleteData')}</button></div>
           <div>
             <button className="btn danger" onClick={() => { setDelText(''); setDelErr(null); setDelOpen(true); }}>{t('settings.deleteAccount')}</button>
             <p className="hint" style={{ margin: '8px 0 0' }}>{t('settings.deleteAccountHint')}</p>
