@@ -22,7 +22,7 @@ export function createLocalAuth(): AuthBackend {
       emit(storage.getProfile(acc.id));
       return null;
     },
-    async signUp(fullName, email, password, lang: Language, theme: ThemePref) {
+    async signUp(fullName, email, password, lang: Language, theme: ThemePref, termsVersion: string) {
       const e = email.trim().toLowerCase();
       if (!fullName.trim()) return 'name';
       if (!EMAIL_RE.test(e)) return 'email';
@@ -36,11 +36,20 @@ export function createLocalAuth(): AuthBackend {
       const p: Profile = {
         userId: acc.id, email: e, fullName: fullName.trim(), displayName: '', avatarDataUrl: null, phone: '',
         country: lang === 'id' ? 'Indonesia' : '', dateOfBirth: '', preferredCurrency: defaultCurrency(),
-        language: lang, theme, weekStartsOn: 1, budgetAlerts: true, updatedAt: now, createdAt: now,
+        language: lang, theme, weekStartsOn: 1, budgetAlerts: true, updatedAt: now, createdAt: now, termsVersion, termsAcceptedAt: now,
       };
       storage.saveProfile(p);
       storage.setSession({ userId: acc.id });
       emit(p);
+      return null;
+    },
+    async deleteAccount() {
+      const session = storage.getSession();
+      if (!session) return 'generic';
+      storage.deleteUser(session.userId);
+      storage.saveAccounts(storage.listAccounts().filter((a) => a.id !== session.userId));
+      storage.setSession(null);
+      emit(null);
       return null;
     },
     async changePassword(newPassword) {

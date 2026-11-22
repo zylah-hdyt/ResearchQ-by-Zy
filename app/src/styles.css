@@ -371,7 +371,7 @@ table.data td.r, table.data th.r { text-align: right; font-variant-numeric: tabu
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .content > * { animation: rise .32s cubic-bezier(.2, .7, .2, 1) both; }
+  .content > * { animation: rise .32s cubic-bezier(.2, .7, .2, 1) backwards; } /* backwards, not both: nothing may keep a stacking context after the animation, or dropdowns get covered by later blocks */
   .content > *:nth-child(2) { animation-delay: .04s; } .content > *:nth-child(3) { animation-delay: .08s; }
   .content > *:nth-child(4) { animation-delay: .12s; } .content > *:nth-child(n+5) { animation-delay: .16s; }
 }
@@ -384,3 +384,18 @@ table.data td.r, table.data th.r { text-align: right; font-variant-numeric: tabu
 .chart-toggle { color: var(--muted); font-weight: 500; }
 .chart-toggle:hover { color: var(--text); }
 .stats .stat-main .label { margin-bottom: 2px; }
+
+/* Legal pages, consent, honeypot */
+.link { color: var(--brand); text-decoration: underline; text-underline-offset: 2px; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.legal { max-width: 760px; margin: 0 auto; padding: 18px 20px 56px; min-height: 100%; }
+.legal-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--border); margin-bottom: 18px; }
+.legal article h1 { font-size: 1.7rem; }
+.legal article h2 { font-size: 1.08rem; margin: 26px 0 6px; }
+.legal article p, .legal article li { line-height: 1.65; color: var(--text); }
+.legal article ul { padding-left: 20px; margin: 6px 0; }
+.legal article li { margin: 4px 0; }
+.legal-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 36px; padding-top: 14px; border-top: 1px solid var(--border); font-size: .85rem; }
+
+/* Page entrance animation must never touch dialogs or the floating button. */
+.content > .overlay, .content > .fab { animation: none; }

@@ -12,11 +12,15 @@ import { Reports } from './pages/Reports';
 import { Profile } from './pages/Profile';
 import { Settings } from './pages/Settings';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { LegalPage } from './pages/Legal';
+import { ConsentScreen } from './pages/Consent';
+import { TERMS_VERSION } from './lib/legal';
 
 function Gate() {
   const { profile, ready } = useAuth();
   if (!ready) return null;
   if (!profile) return <AuthPage />;
+  if (profile.termsVersion !== TERMS_VERSION) return <ConsentScreen />;
   return (
     <DataProvider key={profile.userId}>
       <Routes>
@@ -41,7 +45,11 @@ export default function App() {
       <ToastProvider>
         <AuthProvider>
           <ErrorBoundary>
-            <Gate />
+            <Routes>
+              <Route path="/terms" element={<LegalPage kind="terms" />} />
+              <Route path="/privacy" element={<LegalPage kind="privacy" />} />
+              <Route path="*" element={<Gate />} />
+            </Routes>
           </ErrorBoundary>
         </AuthProvider>
       </ToastProvider>

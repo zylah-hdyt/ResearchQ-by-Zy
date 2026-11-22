@@ -1,4 +1,5 @@
 import { useEffect, useRef, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import { useI18n } from '../i18n';
 
@@ -32,7 +33,8 @@ export function Modal({ title, onClose, children, footer }: { title: ReactNode; 
     };
   }, [onClose]);
 
-  return (
+  // Rendered on <body> so page-level animations and stacking never affect dialogs.
+  return createPortal(
     <div className="overlay" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
       <div className="modal" role="dialog" aria-modal="true" ref={ref}>
         <div className="modal-head">
@@ -42,6 +44,7 @@ export function Modal({ title, onClose, children, footer }: { title: ReactNode; 
         <div className="modal-body">{children}</div>
         {footer && <div className="modal-foot">{footer}</div>}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

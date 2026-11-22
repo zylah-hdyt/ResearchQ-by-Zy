@@ -44,6 +44,7 @@ histories load completely.
 ## Migrations
 1. `20261121000000_initial_finance_schema.sql` — tables, RLS, sign-up trigger.
 2. `20261122000000_defaults_indonesian_rupiah_light_theme.sql` — new accounts default to Indonesian, IDR and the light theme.
+3. `20261122010000_consent_and_account_deletion.sql` — `profiles.terms_version` / `terms_accepted_at`, consent captured by the sign-up trigger, and `delete_my_account()` (self-service deletion; cascades through every table).
 
 ## Operational notes (free plan)
 - Email confirmation is required at sign-up (Supabase default); the built-in mailer is rate-limited. Configure custom SMTP in the dashboard for production volumes.
