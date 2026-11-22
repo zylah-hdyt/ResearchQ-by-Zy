@@ -34,6 +34,9 @@ export interface Profile {
   budgetAlerts: boolean;
   updatedAt: string;
   createdAt?: string;
+  /** Version of the Terms / Privacy Policy the user accepted, and when. */
+  termsVersion?: string;
+  termsAcceptedAt?: string;
 }
 
 export type WalletType = 'cash' | 'bank' | 'ewallet' | 'credit' | 'savings' | 'investment';

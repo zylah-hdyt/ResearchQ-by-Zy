@@ -30,6 +30,8 @@ financial data to professionally formatted Microsoft Excel workbooks.
 - **Rupiah first:** Rupiah is always written "Rp 1.250.000" in both languages; amount fields group digits live ("1.250.000") and accept either separator style.
 - **Charts:** colour-blind-safe (income blue, expense orange), tooltips on hover and keyboard focus, table view for every chart, ranked bars for category breakdowns, month-to-date change versus the same period last month.
 - **Themes:** two themes, light and dark, switchable in one tap (sign-in page, dashboard header, top bar, account menu).
+- **Legal & consent:** public Terms of Service and Privacy Policy pages (Indonesian/English); sign-up requires accepting them (version and time stored on the profile); existing users are asked to accept again when the version changes.
+- **Delete account:** Settings → Delete account (type the confirmation word); permanently removes the account and all data.
 - **Account menu** (⋮ or avatar) on every page: Profile, Settings, language, theme, **Sign out** — reachable on phones.
 - Profile photo upload: images ≤ 8 MB, centre-cropped and resized to 256×256 JPEG.
 - **Initials avatar** when no photo: up to two initials from the full name, deterministic calm background colour.

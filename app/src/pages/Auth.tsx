@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Languages } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
 import { useI18n } from '../i18n';
@@ -18,9 +19,17 @@ export function AuthPage() {
   const [err, setErr] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [agree, setAgree] = useState(false);
+  // Basic bot friction: a hidden field humans never fill, and a minimum time on the form.
+  const [trap, setTrap] = useState('');
+  const shownAt = useRef(Date.now());
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (mode === 'up') {
+      if (!agree) return setErr(t('auth.err.consent'));
+      if (trap || Date.now() - shownAt.current < 2500) return setErr(t('auth.err.generic'));
+    }
     setBusy(true);
     const res = mode === 'in' ? await signIn(email, password) : await signUp(name, email, password);
     setBusy(false);
@@ -54,18 +63,30 @@ export function AuthPage() {
           )}
           <label className="field">{t('auth.email')}<input className="input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" required /></label>
           <label className="field">{t('auth.password')}<input className="input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete={mode === 'in' ? 'current-password' : 'new-password'} required minLength={8} /></label>
+          {mode === 'up' && (
+            <>
+              <input className="hp" tabIndex={-1} autoComplete="off" aria-hidden="true" name="website" value={trap} onChange={(e) => setTrap(e.target.value)} />
+              <label className="row" style={{ alignItems: 'flex-start', gap: 10, fontSize: '.88rem' }}>
+                <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} style={{ marginTop: 3 }} />
+                <span>{t('auth.agree')} <Link to="/terms" className="link">{t('legal.terms')}</Link> {t('auth.and')} <Link to="/privacy" className="link">{t('legal.privacy')}</Link>.</span>
+              </label>
+            </>
+          )}
           {info && <div className="banner" role="status">{info}</div>}
           {err && <div className="error" role="alert">{err}</div>}
           <button className="btn primary" type="submit" disabled={busy} style={{ height: 44 }}>{busy ? t('common.loading') : mode === 'in' ? t('auth.signIn') : t('auth.signUp')}</button>
           <div className="small muted" style={{ textAlign: 'center' }}>
             {mode === 'in' ? t('auth.noAccount') : t('auth.haveAccount')}{' '}
-            <button type="button" className="btn ghost sm" style={{ color: 'var(--brand)' }} onClick={() => { setMode(mode === 'in' ? 'up' : 'in'); setErr(null); setInfo(null); }}>
+            <button type="button" className="btn ghost sm" style={{ color: 'var(--brand)' }} onClick={() => { setMode(mode === 'in' ? 'up' : 'in'); setErr(null); setInfo(null); shownAt.current = Date.now(); }}>
               {mode === 'in' ? t('auth.signUp') : t('auth.signIn')}
             </button>
           </div>
           {!isCloud && <p className="hint" style={{ textAlign: 'center' }}>{t('auth.localNote')}</p>}
         </form>
-        <Credit className="auth-credit" />
+        <div className="auth-credit">
+          <Link to="/terms" className="link">{t('legal.terms')}</Link> · <Link to="/privacy" className="link">{t('legal.privacy')}</Link>
+          <div><Credit /></div>
+        </div>
       </div>
     </div>
   );

@@ -8,16 +8,29 @@ import { CURRENCIES, type CurrencyCode, type Language, type ThemePref } from '..
 import { useToast } from '../components/Toast';
 import { IdentityCard } from './Profile';
 import { Credit } from '../components/Credit';
+import { Modal } from '../components/Modal';
 import { parseNumber } from '../lib/money';
 
 export function Settings() {
   const { t, lang } = useI18n();
   const toast = useToast();
-  const { profile, updateProfile, changePassword } = useAuth();
+  const { profile, updateProfile, changePassword, deleteAccount } = useAuth();
   const data = useData();
   const [pw, setPw] = useState({ next: '', confirm: '' });
   const [pwErr, setPwErr] = useState<string | null>(null);
   const [pwBusy, setPwBusy] = useState(false);
+  const [delOpen, setDelOpen] = useState(false);
+  const [delText, setDelText] = useState('');
+  const [delBusy, setDelBusy] = useState(false);
+  const [delErr, setDelErr] = useState<string | null>(null);
+  const word = t('settings.deleteWord');
+  const submitDelete = async () => {
+    setDelBusy(true);
+    const res = await deleteAccount();
+    setDelBusy(false);
+    if (res) return setDelErr(t('auth.err.generic'));
+    toast(t('settings.accountDeleted'));
+  };
   const submitPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     if (pw.next.length < 8) return setPwErr(t('auth.err.password'));
@@ -132,13 +145,39 @@ export function Settings() {
 
       <section className="card">
         <div className="card-head"><h2>{t('settings.danger')}</h2></div>
-        <button className="btn danger" onClick={() => { if (confirm(t('settings.deleteConfirm'))) { data.clearAll(); toast(t('common.saved')); } }}>{t('settings.deleteData')}</button>
+        <div className="stack">
+          <div><button className="btn danger" onClick={() => { if (confirm(t('settings.deleteConfirm'))) { data.clearAll(); toast(t('common.saved')); } }}>{t('settings.deleteData')}</button></div>
+          <div>
+            <button className="btn danger" onClick={() => { setDelText(''); setDelErr(null); setDelOpen(true); }}>{t('settings.deleteAccount')}</button>
+            <p className="hint" style={{ margin: '8px 0 0' }}>{t('settings.deleteAccountHint')}</p>
+          </div>
+        </div>
       </section>
+      {delOpen && (
+        <Modal
+          title={t('settings.deleteAccount')}
+          onClose={() => !delBusy && setDelOpen(false)}
+          footer={<>
+            <button className="btn" onClick={() => setDelOpen(false)} disabled={delBusy}>{t('common.cancel')}</button>
+            <button className="btn danger" onClick={submitDelete} disabled={delBusy || delText.trim().toUpperCase() !== word}>{t('settings.deleteAccount')}</button>
+          </>}
+        >
+          <p style={{ margin: 0 }}>{t('settings.deleteAccountHint')}</p>
+          <label className="field">{t('settings.deleteAccountConfirm', { word })}
+            <input className="input" value={delText} onChange={(e) => setDelText(e.target.value)} autoComplete="off" autoCapitalize="characters" />
+          </label>
+          {delErr && <div className="error" role="alert">{delErr}</div>}
+        </Modal>
+      )}
       <section className="card">
         <div className="card-head"><h2>{t('settings.about')}</h2></div>
         <div className="row between">
           <span><strong>{t('app.name')}</strong> <span className="muted">· {t('app.tagline')}</span></span>
           <Credit />
+        </div>
+        <div className="row wrap" style={{ marginTop: 10, gap: 16 }}>
+          <Link to="/terms" className="link small">{t('legal.terms')}</Link>
+          <Link to="/privacy" className="link small">{t('legal.privacy')}</Link>
         </div>
       </section>
     </>

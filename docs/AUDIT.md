@@ -29,14 +29,17 @@ Applied the `dataviz` skill (form choice, validated colour, mark specs, interact
 - **Budget meters:** fill carries severity (teal → amber → red), track is a lighter step of the same colour, and warning/exceeded also get an icon + text (never colour alone).
 - **Accessibility/touch:** visible focus rings, focus trap and focus return in dialogs, 44px tap targets on touch devices, reduced-motion support, page title per screen, subtle entrance animation.
 
-## Still missing — before a public launch (P0)
-1. **Forgot / reset password.** Needs a custom email sender (SMTP): Supabase's built-in email is for testing only and does not reliably deliver to ordinary users. Also required to turn **Confirm email** back on safely.
-2. **Terms of Service and Privacy Policy** pages plus consent at sign-up (the app stores financial data; Indonesian PDP law applies).
-3. **Self-service account deletion** (SQL function + button).
-4. **Supabase → Authentication → URL Configuration:** set *Site URL* to the Netlify address (needed for email links).
-5. **Bot protection on sign-up** (CAPTCHA such as Cloudflare Turnstile) and rate limits — sign-up is open and email confirmation is currently off.
-6. **Backups.** The free Supabase plan has no automatic backups; users can export to Excel, but a scheduled database backup is advisable before real users arrive.
-7. Delete the two test accounts (`e2e-test-a@example.com`, `e2e-test-b@example.com`) if still present.
+## Launch blockers (P0) — status
+| # | Item | Status |
+|---|---|---|
+| 1 | **Terms of Service and Privacy Policy** (ID + EN, public pages, linked from sign-in and Settings) | ✅ Done — drafts written for this app's real data flows (Supabase, Netlify, UU PDP No. 27/2022); **have them reviewed by a lawyer before a wide public launch**; set `VITE_CONTACT_EMAIL` to publish a contact address |
+| 2 | **Consent at sign-up** (required checkbox; version + time stored) and **re-consent** screen for existing accounts when the version changes | ✅ Done |
+| 3 | **Self-service account deletion** (`delete_my_account()` + confirm dialog); removes the auth user and every row (verified: 18 → 0 rows, other users untouched) | ✅ Done |
+| 4 | **Bot friction on sign-up** | 🟡 Partial — hidden honeypot field + minimum time on the form. This stops naive bots only; add **Cloudflare Turnstile** (needs a free Cloudflare account + keys) for real protection |
+| 5 | **Forgot / reset password** | ⏳ Needs a custom email sender (SMTP, e.g. Resend free plan). Supabase's built-in email is for testing only. Also required before turning **Confirm email** back on |
+| 6 | **Supabase → Authentication → URL Configuration:** Site URL = the Netlify address | ⏳ You (needed for email links) |
+| 7 | **Backups** — the free Supabase plan has none | ⏳ Decide: scheduled export, or upgrade before real users arrive |
+| 8 | Supabase advisor: *leaked-password protection* disabled | ⏳ Enable in Authentication → Password security if your plan offers it. (`delete_my_account` is flagged as executable by signed-in users — intentional, it only deletes the caller's own account.) |
 
 ## Still missing — product (P1)
 - Custom categories screen (the database already supports it).

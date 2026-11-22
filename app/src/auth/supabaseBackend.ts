@@ -10,6 +10,7 @@ const profileFrom = (r: Row): Profile => ({
   dateOfBirth: r.date_of_birth as string, preferredCurrency: r.preferred_currency as CurrencyCode,
   language: r.language as Language, theme: r.theme as ThemePref, weekStartsOn: r.week_starts_on as 0 | 1,
   budgetAlerts: r.budget_alerts as boolean, updatedAt: r.updated_at as string, createdAt: r.created_at as string,
+  termsVersion: (r.terms_version as string) ?? undefined, termsAcceptedAt: (r.terms_accepted_at as string) ?? undefined,
 });
 
 export function createSupabaseAuth(db: SupabaseClient): AuthBackend {
@@ -41,7 +42,7 @@ export function createSupabaseAuth(db: SupabaseClient): AuthBackend {
       return null;
     },
 
-    async signUp(fullName, email, password, lang, theme) {
+    async signUp(fullName, email, password, lang, theme, termsVersion) {
       const e = email.trim().toLowerCase();
       if (!fullName.trim()) return 'name';
       if (!EMAIL_RE.test(e)) return 'email';
@@ -49,7 +50,7 @@ export function createSupabaseAuth(db: SupabaseClient): AuthBackend {
       const { data, error } = await db.auth.signUp({
         email: e,
         password,
-        options: { data: { full_name: fullName.trim(), language: lang, preferred_currency: defaultCurrency(), theme } },
+        options: { data: { full_name: fullName.trim(), language: lang, preferred_currency: defaultCurrency(), theme, terms_version: termsVersion } },
       });
       if (error) {
         if (/already|registered/i.test(error.message)) return 'exists';
@@ -60,6 +61,14 @@ export function createSupabaseAuth(db: SupabaseClient): AuthBackend {
       if (data.user && data.user.identities?.length === 0) return 'exists';
       if (!data.session) return 'confirm';
       emit(await loadProfile(data.user?.id));
+      return null;
+    },
+
+    async deleteAccount() {
+      const { error } = await db.rpc('delete_my_account');
+      if (error) return 'generic';
+      await db.auth.signOut({ scope: 'local' });
+      emit(null);
       return null;
     },
 
@@ -80,6 +89,7 @@ export function createSupabaseAuth(db: SupabaseClient): AuthBackend {
         full_name: p.fullName, display_name: p.displayName, avatar_data_url: p.avatarDataUrl, phone: p.phone,
         country: p.country, date_of_birth: p.dateOfBirth, preferred_currency: p.preferredCurrency, language: p.language,
         theme: p.theme, week_starts_on: p.weekStartsOn, budget_alerts: p.budgetAlerts, updated_at: new Date().toISOString(),
+        terms_version: p.termsVersion ?? null, terms_accepted_at: p.termsAcceptedAt ?? null,
       }).eq('user_id', p.userId);
       if (error) throw new Error(error.message);
     },

@@ -4,6 +4,7 @@ import { detectLanguage, I18nProvider, translator } from '../i18n';
 import { useToast } from '../components/Toast';
 import type { AuthError, SignUpResult } from './backend';
 import { authBackend } from './index';
+import { TERMS_VERSION } from '../lib/legal';
 
 interface AuthValue {
   profile: Profile | null;
@@ -12,6 +13,8 @@ interface AuthValue {
   signUp: (fullName: string, email: string, password: string) => Promise<SignUpResult>;
   signOut: () => void;
   changePassword: (newPassword: string) => Promise<AuthError | null>;
+  deleteAccount: () => Promise<AuthError | null>;
+  acceptTerms: () => void;
   updateProfile: (patch: Partial<Profile>) => void;
   /** Language / theme for the signed-in user, or the visitor's own choice before sign-in. */
   language: Language;
@@ -66,11 +69,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signIn = useCallback((email: string, password: string) => authBackend.signIn(email, password), []);
   const signUp = useCallback(
-    (fullName: string, email: string, password: string) => authBackend.signUp(fullName, email, password, guestLanguage, guestTheme),
+    (fullName: string, email: string, password: string) => authBackend.signUp(fullName, email, password, guestLanguage, guestTheme, TERMS_VERSION),
     [guestLanguage, guestTheme],
   );
   const signOut = useCallback(() => { void authBackend.signOut(); }, []);
   const changePassword = useCallback((pw: string) => authBackend.changePassword(pw), []);
+  const deleteAccount = useCallback(() => authBackend.deleteAccount(), []);
 
   const updateProfile = useCallback((patch: Partial<Profile>) => {
     const prev = profileRef.current;
@@ -86,6 +90,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
   }, [toast]);
 
+  const acceptTerms = useCallback(() => updateProfile({ termsVersion: TERMS_VERSION, termsAcceptedAt: new Date().toISOString() }), [updateProfile]);
+
   const language = profile?.language ?? guestLanguage;
   const theme = profile?.theme ?? guestTheme;
   const setLanguage = useCallback((l: Language) => (profileRef.current ? updateProfile({ language: l }) : setGuestLanguage(l)), [updateProfile, setGuestLanguage]);
@@ -100,8 +106,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [theme, language]);
 
   const value = useMemo(
-    () => ({ profile, ready, signIn, signUp, signOut, changePassword, updateProfile, language, setLanguage, theme, setTheme, guestLanguage, setGuestLanguage }),
-    [profile, ready, signIn, signUp, signOut, changePassword, updateProfile, language, setLanguage, theme, setTheme, guestLanguage, setGuestLanguage],
+    () => ({ profile, ready, signIn, signUp, signOut, changePassword, deleteAccount, acceptTerms, updateProfile, language, setLanguage, theme, setTheme, guestLanguage, setGuestLanguage }),
+    [profile, ready, signIn, signUp, signOut, changePassword, deleteAccount, acceptTerms, updateProfile, language, setLanguage, theme, setTheme, guestLanguage, setGuestLanguage],
   );
 
   return (
