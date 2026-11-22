@@ -3,8 +3,7 @@
 Bilingual (Bahasa Indonesia / English) personal finance web app with a personalized dashboard,
 multi-currency wallets, budgets, analytics, and professional Excel (.xlsx) export.
 
-> Name: **MyFi** (My Financial). Logo and visual identity are still pending — the current icon is a placeholder.
-> Developed by Zy.
+> **MyFi** (My Financial) · logo "Flow M" · Developed by Zy. Brand guide: [docs/BRAND.md](docs/BRAND.md).
 
 ## Run
 ```bash
@@ -37,4 +36,5 @@ Supabase dashboard → Authentication → Sign In / Providers → Email → turn
 - [Database Schema](docs/DATABASE_SCHEMA.md) · [SQL migration](supabase/migrations/20261121000000_initial_finance_schema.sql)
 - [Component Architecture](docs/COMPONENT_ARCHITECTURE.md)
 - [Roadmap](docs/ROADMAP.md)
+- [Brand basics](docs/BRAND.md)
 

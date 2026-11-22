@@ -5,6 +5,7 @@ import { useI18n } from '../i18n';
 import type { MessageKey } from '../i18n/en';
 import { NotificationBell, ProfileChip } from './UserIdentity';
 import { Credit } from './Credit';
+import { LogoMark, Wordmark } from './Logo';
 
 const NAV: { to: string; label: MessageKey; short?: MessageKey; icon: typeof Wallet }[] = [
   { to: '/', label: 'nav.dashboard', icon: LayoutDashboard },
@@ -25,7 +26,7 @@ export function Layout() {
   return (
     <div className="shell">
       <aside className="sidebar">
-        <div className="brand"><span className="brand-mark"><Wallet size={17} /></span>{t('app.name')}</div>
+        <div className="brand"><LogoMark size={32} /><Wordmark /></div>
         {NAV.map((n) => (
           <NavLink key={n.to} to={n.to} end={n.to === '/'} className="nav-link"><n.icon size={18} />{t(n.label)}</NavLink>
         ))}

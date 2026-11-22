@@ -1,8 +1,7 @@
 # Product Requirements Document — MyFi (My Financial)
 
-> **Branding status:** product name is final — **MyFi** (short for *My Financial*). Author credit "Developed by Zy" is shown on the
-> sign-in page, the sidebar and Account settings (About). The **logo and final visual identity are still pending**; the current
-> wallet icon is a placeholder (`app.name`, `app.tagline`, `app.credit` in `app/src/i18n/*.ts`).
+> **Branding status:** name **MyFi** (*My Financial*) and the **"Flow M" logo** are chosen (see `BRAND.md`). Author credit "Developed by Zy" is shown
+> on the sign-in page, the sidebar and Account settings → About. Still pending: trademark/domain/store availability checks and marketing material.
 
 ## 1. Purpose
 A bilingual (Bahasa Indonesia / English) web app that helps individuals track income, expenses,

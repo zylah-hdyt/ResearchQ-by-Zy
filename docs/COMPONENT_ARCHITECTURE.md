@@ -43,6 +43,7 @@ app/src
 ├── components/
 │   ├── UserIdentity.tsx          GreetingHeader, ProfileChip, NotificationBell
 │   ├── Avatar.tsx                photo or initials
+│   ├── Logo.tsx, Credit.tsx      MyFi mark + wordmark; "Developed by Zy"
 │   ├── Layout.tsx                sidebar, top bar, bottom nav
 │   ├── Forms.tsx                 TransactionForm, WalletForm, BudgetForm
 │   ├── Charts.tsx                CashflowChart (responsive SVG), Donut
