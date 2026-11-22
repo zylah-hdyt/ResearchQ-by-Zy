@@ -211,6 +211,25 @@ export function budgetStatus(u: number): BudgetStatus {
   return 'onTrack';
 }
 
+/** Spending on one budget's category inside `span`, converted into the budget's currency. Transfers never count. */
+export function spentIn(b: Budget, txs: Transaction[], wallets: Wallet[], span: DateRange, base: CurrencyCode, rates: ExchangeRate[]): { spent: number; missing: CurrencyCode[] } {
+  const cur = new Map(wallets.map((w) => [w.id, w.currency]));
+  let spent = 0;
+  const missing = new Set<CurrencyCode>();
+  for (const t of txs) {
+    if (t.type !== 'expense' || t.categoryId !== b.categoryId || !inRange(t, span)) continue;
+    const c = cur.get(t.walletId);
+    if (!c) continue;
+    const v = convert(t.amount, c, b.currency, base, rates);
+    if (v == null) missing.add(c); else spent += v;
+  }
+  return { spent, missing: [...missing] };
+}
+
+/**
+ * Budget lines over an arbitrary range (used by exports and alerts). The limit is the per-period amount times the
+ * number of periods the range covers: calendar months touched (monthly) or 7-day blocks, rounded up (weekly).
+ */
 export function budgetLines(
   budgets: Budget[],
   categories: Category[],
@@ -220,30 +239,12 @@ export function budgetLines(
   base: CurrencyCode,
   rates: ExchangeRate[],
 ): BudgetLine[] {
-  const cur = new Map(wallets.map((w) => [w.id, w.currency]));
   const months = monthsIn(r).length;
+  const weeks = Math.max(1, Math.ceil((Math.round((parseLocal(r.to).getTime() - parseLocal(r.from).getTime()) / 86_400_000) + 1) / 7));
   return budgets.map((b) => {
-    let spent = 0;
-    const missing = new Set<CurrencyCode>();
-    for (const t of txs) {
-      if (t.type !== 'expense' || t.categoryId !== b.categoryId || !inRange(t, r)) continue;
-      const c = cur.get(t.walletId);
-      if (!c) continue;
-      const v = convert(t.amount, c, b.currency, base, rates);
-      if (v == null) missing.add(c);
-      else spent += v;
-    }
-    const limit = b.amount * months;
+    const { spent, missing } = spentIn(b, txs, wallets, r, base, rates);
+    const limit = b.amount * (b.period === 'weekly' ? weeks : months);
     const utilization = limit > 0 ? spent / limit : 0;
-    return {
-      budget: b,
-      category: categories.find((c) => c.id === b.categoryId),
-      limit,
-      spent,
-      remaining: limit - spent,
-      utilization,
-      status: budgetStatus(utilization),
-      missing: [...missing],
-    };
+    return { budget: b, category: categories.find((c) => c.id === b.categoryId), limit, spent, remaining: limit - spent, utilization, status: budgetStatus(utilization), missing };
   });
 }

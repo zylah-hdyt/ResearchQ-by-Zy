@@ -18,6 +18,7 @@ export function AmountInput({ value, onChange, currency, autoFocus, id }: {
       inputMode={grouped ? 'numeric' : 'decimal'}
       autoFocus={autoFocus}
       placeholder="0"
+      onFocus={(e) => e.currentTarget.select()}
       value={value}
       onChange={(e) => {
         if (!grouped) return onChange(e.target.value);

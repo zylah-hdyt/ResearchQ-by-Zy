@@ -38,10 +38,10 @@ const txTo = (t: Transaction, uid: string): Row => ({
 
 const budgetFrom = (r: Row): Budget => ({
   id: r.id as string, userId: r.user_id as string, categoryId: r.category_id as string,
-  amount: Number(r.amount), currency: r.currency as CurrencyCode, createdAt: r.created_at as string,
+  amount: Number(r.amount), period: ((r.period as string) ?? 'monthly') as Budget['period'], currency: r.currency as CurrencyCode, createdAt: r.created_at as string,
 });
 const budgetTo = (b: Budget, uid: string): Row => ({
-  user_id: uid, id: b.id, category_id: b.categoryId, amount: b.amount, currency: b.currency,
+  user_id: uid, id: b.id, category_id: b.categoryId, amount: b.amount, period: b.period, currency: b.currency,
 });
 
 const chunks = <T,>(xs: T[], n = CHUNK) => Array.from({ length: Math.ceil(xs.length / n) }, (_, i) => xs.slice(i * n, i * n + n));

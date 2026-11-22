@@ -7,6 +7,7 @@ import { AuthPage } from './pages/Auth';
 import { Dashboard } from './pages/Dashboard';
 import { Transactions } from './pages/Transactions';
 import { Accounts } from './pages/Accounts';
+import { WalletDetail } from './pages/WalletDetail';
 import { Budgets } from './pages/Budgets';
 import { Reports } from './pages/Reports';
 import { Profile } from './pages/Profile';
@@ -29,6 +30,7 @@ function Gate() {
           <Route index element={<Dashboard />} />
           <Route path="transactions" element={<Transactions />} />
           <Route path="accounts" element={<Accounts />} />
+          <Route path="accounts/:id" element={<WalletDetail />} />
           <Route path="budgets" element={<Budgets />} />
           <Route path="reports" element={<Reports />} />
           <Route path="profile" element={<Profile />} />

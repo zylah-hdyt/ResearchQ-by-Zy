@@ -32,7 +32,7 @@ export function fixture(): UserData {
       // Another user's record must never be exported.
       { ...tx('foreign', { type: 'income', categoryId: 'cat_salary', amount: 1 }), userId: 'u_other' },
     ],
-    budgets: [{ id: 'b1', userId: U, categoryId: 'cat_food', amount: 280_000_00, currency: 'IDR', createdAt: '' }],
+    budgets: [{ id: 'b1', userId: U, categoryId: 'cat_food', amount: 280_000_00, period: 'monthly', currency: 'IDR', createdAt: '' }],
     rates: [{ code: 'USD', rate: 16000 }],
     readNotifications: [],
   };

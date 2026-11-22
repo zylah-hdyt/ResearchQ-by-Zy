@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Budget, CurrencyCode, Transaction, TxType, Wallet, WalletType } from '../data/types';
+import type { Budget, BudgetPeriod, CurrencyCode, Transaction, TxType, Wallet, WalletType } from '../data/types';
 import { CURRENCIES } from '../data/types';
 import { useData } from '../store/DataProvider';
 import { useAuth } from '../auth/AuthProvider';
@@ -129,7 +129,7 @@ export function WalletForm({ initial, onClose }: { initial?: Wallet; onClose: ()
   const [name, setName] = useState(initial?.name ?? '');
   const [type, setType] = useState<WalletType>(initial?.type ?? 'bank');
   const [currency, setCurrency] = useState<CurrencyCode>(initial?.currency ?? profile!.preferredCurrency);
-  const [initialBalance, setInitial] = useState(toInputText(initial?.initialBalance ?? 0, initial?.currency ?? profile!.preferredCurrency, lang));
+  const [initialBalance, setInitial] = useState(initial ? toInputText(initial.initialBalance, initial.currency, lang) : '');
   const [color, setColor] = useState(initial?.color ?? WALLET_COLORS[0]);
   const [err, setErr] = useState<string | null>(null);
 
@@ -173,22 +173,23 @@ export function WalletForm({ initial, onClose }: { initial?: Wallet; onClose: ()
   );
 }
 
-export function BudgetForm({ initial, onClose }: { initial?: Budget; onClose: () => void }) {
+export function BudgetForm({ initial, defaultPeriod = 'monthly', onClose }: { initial?: Budget; defaultPeriod?: BudgetPeriod; onClose: () => void }) {
   const { t, lang } = useI18n();
   const toast = useToast();
   const { profile } = useAuth();
   const { categories, budgets, saveBudget, deleteBudget } = useData();
   const confirm = useConfirm();
   const cats = categories.filter((c) => c.type === 'expense');
-  const [categoryId, setCategoryId] = useState(initial?.categoryId ?? cats.find((c) => !budgets.some((b) => b.categoryId === c.id))?.id ?? '');
+  const [period, setPeriod] = useState<BudgetPeriod>(initial?.period ?? defaultPeriod);
+  const [categoryId, setCategoryId] = useState(initial?.categoryId ?? cats.find((c) => !budgets.some((b) => b.categoryId === c.id && b.period === (initial?.period ?? defaultPeriod)))?.id ?? '');
   const [currency, setCurrency] = useState<CurrencyCode>(initial?.currency ?? profile!.preferredCurrency);
   const [amount, setAmount] = useState(toInputText(initial?.amount, initial?.currency ?? profile!.preferredCurrency, lang));
   const [err, setErr] = useState<string | null>(null);
   const submit = () => {
     if (!categoryId) return setErr(t('tx.err.category'));
     if (!(parseAmount(amount, currency, lang) > 0)) return setErr(t('tx.err.amount'));
-    if (budgets.some((b) => b.categoryId === categoryId && b.id !== initial?.id)) return setErr(t('bud.exists'));
-    saveBudget({ id: initial?.id, categoryId, amount: parseAmount(amount, currency, lang), currency });
+    if (budgets.some((b) => b.categoryId === categoryId && b.period === period && b.id !== initial?.id)) return setErr(t('bud.exists'));
+    saveBudget({ id: initial?.id, categoryId, amount: parseAmount(amount, currency, lang), period, currency });
     toast(t('common.saved'));
     onClose();
   };
@@ -199,6 +200,11 @@ export function BudgetForm({ initial, onClose }: { initial?: Budget; onClose: ()
         <button className="btn" onClick={onClose}>{t('common.cancel')}</button>
         <button className="btn primary" onClick={submit}>{t('common.save')}</button>
       </>}>
+      <div className="field">{t('bud.period')}
+        <div className="segmented fill" role="group" aria-label={t('bud.period')}>
+          {(['monthly', 'weekly'] as BudgetPeriod[]).map((x) => <button key={x} type="button" className={period === x ? 'on' : ''} aria-pressed={period === x} onClick={() => setPeriod(x)}>{t(`bud.period.${x}` as MessageKey)}</button>)}
+        </div>
+      </div>
       <div className="form-grid">
         <label className="field full">{t('tx.category')}
           <select className="input" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
@@ -206,7 +212,7 @@ export function BudgetForm({ initial, onClose }: { initial?: Budget; onClose: ()
             {cats.map((c) => <option key={c.id} value={c.id}>{categoryLabel(c, t)}</option>)}
           </select>
         </label>
-        <label className="field">{t('bud.monthly')}<AmountInput currency={currency} value={amount} onChange={setAmount} /></label>
+        <label className="field">{period === 'weekly' ? t('bud.weeklyLimit') : t('bud.monthly')}<AmountInput currency={currency} value={amount} onChange={setAmount} /></label>
         <label className="field">{t('acc.currency')}
           <select className="input" value={currency} onChange={(e) => setCurrency(e.target.value as CurrencyCode)}>
             {CURRENCIES.map((c) => <option key={c}>{c}</option>)}

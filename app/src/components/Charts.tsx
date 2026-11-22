@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import type { CurrencyCode } from '../data/types';
 import type { FlowPoint } from '../lib/periods';
-import { barPath, niceTicks } from '../lib/chart';
+import { barPath, niceRange, niceTicks } from '../lib/chart';
 import { formatMoney, localeOf } from '../lib/format';
 import { useI18n } from '../i18n';
+import { usePrivacy } from './Privacy';
+
+const usePrivacyHidden = () => usePrivacy().hidden;
 
 /**
  * Income vs expense per month. One axis, thin bars (≤ 24px) with 4px rounded ends on a single baseline,
@@ -154,5 +157,78 @@ export function RankedBars({ items, currency, tone, max = 8 }: { items: RankItem
         </li>
       ))}
     </ol>
+  );
+}
+
+export interface TrendPoint { key: string; label: string; longLabel: string; value: number }
+
+/**
+ * One series over time (balance, net worth): 2px line, 10% area wash, end dot with a surface ring, crosshair + tooltip
+ * on hover and arrow keys, table view as the accessible twin.
+ */
+export function TrendChart({ points, currency, name, color = 'var(--brand)', maskable }: { points: TrendPoint[]; currency: CurrencyCode; name: string; color?: string; maskable?: boolean }) {
+  const { lang, t } = useI18n();
+  const ref = useRef<HTMLDivElement>(null);
+  const [W, setW] = useState(640);
+  const [active, setActive] = useState<number | null>(null);
+  const [table, setTable] = useState(false);
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const ro = new ResizeObserver(([e]) => setW(Math.max(280, Math.round(e.contentRect.width))));
+    ro.observe(el); return () => ro.disconnect();
+  }, []);
+  const H = 232, padL = 64, padR = 12, padB = 28, padT = 14;
+  const plotW = W - padL - padR, plotH = H - padT - padB, base = padT + plotH;
+  const n = points.length;
+  const { ticks, lo, hi } = niceRange(Math.min(...points.map((p) => p.value)), Math.max(...points.map((p) => p.value)));
+  const xAt = (i: number) => padL + (n === 1 ? plotW / 2 : (i * plotW) / (n - 1));
+  const yAt = (v: number) => padT + plotH - ((v - lo) / (hi - lo)) * plotH;
+  const line = points.map((p, i) => `${i ? 'L' : 'M'}${xAt(i).toFixed(1)},${yAt(p.value).toFixed(1)}`).join('');
+  const area = `${line}L${xAt(n - 1).toFixed(1)},${base}L${xAt(0).toFixed(1)},${base}Z`;
+  const labelEvery = Math.max(1, Math.ceil(n / Math.max(2, Math.floor(plotW / 52))));
+  const shown = active ?? n - 1;
+  const fmtV = (v: number) => formatMoney(v, currency, lang);
+  const tip = active != null ? points[active] : null;
+  const tipX = active != null ? Math.min(Math.max(xAt(active), 84), W - 84) : 0;
+  const moveTo = (clientX: number, el: Element) => {
+    const r = el.getBoundingClientRect();
+    const i = Math.round(((clientX - r.left - padL) / plotW) * (n - 1));
+    setActive(Math.min(n - 1, Math.max(0, i)));
+  };
+  return (
+    <div ref={ref} className="chart-wrap">
+      {table ? (
+        <div className="table-wrap"><table className="data"><thead><tr><th>{t('chart.period')}</th><th className="r">{name}</th></tr></thead>
+          <tbody>{points.map((p) => <tr key={p.key}><td>{p.longLabel}</td><td className="r">{fmtV(p.value)}</td></tr>)}</tbody></table></div>
+      ) : (
+        <div style={{ position: 'relative' }} onPointerLeave={() => setActive(null)}>
+          <svg className="chart" width={W} height={H} viewBox={`0 0 ${W} ${H}`} role="group" tabIndex={0} aria-label={`${name}: ${fmtV(points[n - 1].value)}`}
+            onKeyDown={(e) => { if (e.key === 'ArrowLeft') { e.preventDefault(); setActive(Math.max(0, (active ?? n - 1) - 1)); } if (e.key === 'ArrowRight') { e.preventDefault(); setActive(Math.min(n - 1, (active ?? n - 1) + 1)); } if (e.key === 'Escape') setActive(null); }}
+            onBlur={() => setActive(null)}>
+            {ticks.map((v) => (
+              <g key={v}><line x1={padL} x2={W - padR} y1={yAt(v)} y2={yAt(v)} stroke="var(--chart-grid)" strokeWidth={1} />
+                <text x={padL - 10} y={yAt(v) + 4} textAnchor="end">{formatMoney(v, currency, lang, { compact: true })}</text></g>
+            ))}
+            <path d={area} fill={color} opacity={0.1} />
+            <path d={line} fill="none" stroke={color} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
+            {points.map((p, i) => (i % labelEvery === 0 || i === n - 1) && <text key={p.key} x={xAt(i)} y={H - 8} textAnchor={i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}>{p.label}</text>)}
+            {active != null && <line x1={xAt(active)} x2={xAt(active)} y1={padT} y2={base} stroke="var(--chart-axis)" strokeWidth={1} />}
+            <circle cx={xAt(shown)} cy={yAt(points[shown].value)} r={6} fill="var(--surface)" />
+            <circle cx={xAt(shown)} cy={yAt(points[shown].value)} r={4} fill={color} />
+            <rect x={padL} y={padT} width={plotW} height={plotH + padB} fill="transparent" onPointerMove={(e) => moveTo(e.clientX, e.currentTarget)} onPointerDown={(e) => moveTo(e.clientX, e.currentTarget)} />
+          </svg>
+          {tip && (
+            <div className="chart-tip" style={{ left: tipX, top: 0, minWidth: 150 }} role="status">
+              <div className="chart-tip-title">{tip.longLabel}</div>
+              <div className="chart-tip-row"><i style={{ background: color }} /><strong>{maskable && usePrivacyHidden() ? '••••••' : fmtV(tip.value)}</strong><span>{name}</span></div>
+            </div>
+          )}
+        </div>
+      )}
+      <div className="row between wrap" style={{ marginTop: 6 }}>
+        <span className="legend"><span><i className="swatch" style={{ background: color }} />{name}</span></span>
+        <button className="btn ghost sm chart-toggle" onClick={() => setTable((v) => !v)}>{table ? t('chart.viewChart') : t('chart.viewTable')}</button>
+      </div>
+    </div>
   );
 }

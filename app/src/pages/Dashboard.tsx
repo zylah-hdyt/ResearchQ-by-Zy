@@ -14,7 +14,8 @@ import { RangeTabs } from '../components/RangeTabs';
 import { TxRow } from '../components/TxRow';
 import { WalletForm } from '../components/Forms';
 import { useQuickAdd } from '../components/QuickAdd';
-import { budgetLines, categoryTotals, collapse, dedupe, monthRange, summarize, walletBalance } from '../lib/finance';
+import { categoryTotals, collapse, dedupe, monthRange, summarize, walletBalance } from '../lib/finance';
+import { budgetRows, spanFor } from '../lib/budget';
 import { pctChange } from '../lib/chart';
 import { convert } from '../lib/money';
 import { formatMoney, formatPercent, toLocalDate } from '../lib/format';
@@ -57,8 +58,10 @@ export function Dashboard() {
   const prev = useMemo(() => periodTotals(txs, data.wallets, previousSpan(span), base, data.rates), [txs, data.wallets, span, base, data.rates]);
   const flow = useMemo(() => flowByBucket(txs, data.wallets, buildBuckets(range, today, lang), base, base, data.rates), [txs, data.wallets, range, today, lang, base, data.rates]);
 
-  const month = monthRange();
-  const budgets = useMemo(() => budgetLines(data.budgets, data.categories, txs, data.wallets, month, base, data.rates).sort((a, b) => b.utilization - a.utilization), [data.budgets, data.categories, txs, data.wallets, month.from, base, data.rates]);
+  const week = profile!.weekStartsOn;
+  const budgets = useMemo(() => (['monthly', 'weekly'] as const)
+    .flatMap((p) => budgetRows(data.budgets.filter((b) => b.period === p), data.categories, txs, data.wallets, spanFor(p, today, week), base, data.rates))
+    .sort((a, b) => b.utilization - a.utilization), [data.budgets, data.categories, txs, data.wallets, today, week, base, data.rates]);
   const recent = useMemo(() => [...txs].sort((a, b) => b.occurredAt.localeCompare(a.occurredAt)).slice(0, 6), [txs]);
   const insights = useMemo(() => buildInsights(t, lang, txs, data, base, budgets.filter((b) => b.status === 'exceeded').length), [t, lang, txs, data, base, budgets]);
   const missingAll = [...new Set([...balances.missing, ...cur.missing])];
@@ -89,7 +92,7 @@ export function Dashboard() {
             <Link to="/accounts" className="hero-sub">{t('dash.acrossAccounts', { n: active.length })}<ChevronRight size={15} aria-hidden /></Link>
             <div className="hero-wallets">
               {balances.rows.slice(0, 4).map(({ w, own }) => (
-                <Link key={w.id} to="/accounts" className="wallet-chip"><span className="truncate">{w.name}</span><Money value={own} currency={w.currency} compact maskable /></Link>
+                <Link key={w.id} to={`/accounts/${w.id}`} className="wallet-chip"><span className="truncate">{w.name}</span><Money value={own} currency={w.currency} compact maskable /></Link>
               ))}
               {balances.rows.length > 4 && <Link to="/accounts" className="wallet-chip muted">{t('dash.moreWallets', { n: balances.rows.length - 4 })}</Link>}
             </div>
@@ -128,7 +131,7 @@ export function Dashboard() {
               {balances.rows.slice(0, 6).map(({ w, own }) => {
                 const Icon = walletIcon(w.type);
                 return (
-                  <Link key={w.id} to="/accounts" className="list-item">
+                  <Link key={w.id} to={`/accounts/${w.id}`} className="list-item">
                     <span className="tile sm"><Icon size={16} aria-hidden /></span>
                     <span className="grow"><span className="title" style={{ display: 'block' }}>{w.name}</span><span className="sub" style={{ display: 'block' }}>{t(`acc.type.${w.type}` as MessageKey)}{w.currency !== base ? ` · ${w.currency}` : ''}</span></span>
                     <Money className="amount" value={own} currency={w.currency} maskable />
@@ -147,6 +150,7 @@ export function Dashboard() {
                     <div className="row between small" style={{ marginBottom: 8 }}>
                       <span className="row tight" style={{ fontWeight: 550 }}>
                         {categoryLabel(b.category, t)}
+                        {b.budget.period === 'weekly' && <span className="chip">{t('bud.period.weekly')}</span>}
                         {b.status !== 'onTrack' && (
                           <span className={`status-flag ${b.status}`}>
                             {b.status === 'exceeded' ? <CircleAlert size={14} aria-hidden /> : <AlertTriangle size={14} aria-hidden />}

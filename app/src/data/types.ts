@@ -87,12 +87,15 @@ export interface Transaction {
   createdAt: string;
 }
 
+export type BudgetPeriod = 'monthly' | 'weekly';
+
 export interface Budget {
   id: string;
   userId: string;
   categoryId: string;
-  /** Monthly limit, minor units, in `currency`. */
+  /** Limit for ONE period (a month or a week), minor units, in `currency`. */
   amount: number;
+  period: BudgetPeriod;
   currency: CurrencyCode;
   createdAt: string;
 }

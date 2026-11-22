@@ -22,3 +22,16 @@ export function pctChange(current: number, previous: number): number | null {
   const v = (current - previous) / Math.abs(previous);
   return Math.abs(v) < 0.005 ? 0 : v;
 }
+
+/** Axis for a line chart: round ticks covering [min, max] (the baseline does not have to be zero). */
+export function niceRange(min: number, max: number, count = 4): { ticks: number[]; lo: number; hi: number } {
+  if (min === max) { const pad = Math.abs(min) * 0.1 || 1; min -= pad; max += pad; }
+  const raw = (max - min) / count;
+  const p = Math.pow(10, Math.floor(Math.log10(raw)));
+  const n = raw / p;
+  const step = (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * p;
+  const lo = Math.floor(min / step) * step, hi = Math.ceil(max / step) * step;
+  const ticks: number[] = [];
+  for (let v = lo; v <= hi + step / 2; v += step) ticks.push(Math.round(v * 1e6) / 1e6);
+  return { ticks, lo, hi };
+}

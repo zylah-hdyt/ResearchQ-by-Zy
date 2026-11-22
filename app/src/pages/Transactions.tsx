@@ -1,4 +1,5 @@
 import { useDeferredValue, useEffect, useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Plus, Search, SlidersHorizontal, X } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
 import { useData } from '../store/DataProvider';
@@ -31,7 +32,12 @@ export function Transactions() {
   const base = profile!.preferredCurrency;
   const wide = useMedia('(min-width: 1100px)');
 
-  const [filters, setFilters] = useState<TxFilters>(() => defaultFilters(presetRange('thisMonth', data.transactions)));
+  const incoming = useLocation().state as { categoryId?: string; from?: string; to?: string } | null;
+  const [filters, setFilters] = useState<TxFilters>(() => {
+    const d = defaultFilters(presetRange('thisMonth', data.transactions));
+    if (!incoming?.from || !incoming.to) return d;
+    return { ...d, preset: 'custom', range: { from: incoming.from, to: incoming.to }, type: 'expense', categoryIds: incoming.categoryId ? [incoming.categoryId] : [] };
+  });
   const [sheet, setSheet] = useState(false);
   const [selId, setSelId] = useState<string | null>(null);
   const [limit, setLimit] = useState(PAGE);
