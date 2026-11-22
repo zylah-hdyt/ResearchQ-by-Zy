@@ -153,43 +153,6 @@ export function monthsIn(r: DateRange): string[] {
   return out;
 }
 
-export interface CashflowPoint {
-  month: string;
-  income: number;
-  expense: number;
-}
-
-/** Monthly income vs expense, converted to `target`. Unconvertible rows are skipped and reported. */
-export function cashflowSeries(
-  txs: Transaction[],
-  wallets: Wallet[],
-  months: number,
-  target: CurrencyCode,
-  base: CurrencyCode,
-  rates: ExchangeRate[],
-  now: Date = new Date(),
-): { points: CashflowPoint[]; missing: CurrencyCode[] } {
-  const keys: string[] = [];
-  for (let i = months - 1; i >= 0; i--) keys.push(monthKey(toLocalDate(new Date(now.getFullYear(), now.getMonth() - i, 1))));
-  const points = new Map(keys.map((k) => [k, { month: k, income: 0, expense: 0 }]));
-  const cur = new Map(wallets.map((w) => [w.id, w.currency]));
-  const missing = new Set<CurrencyCode>();
-  for (const t of txs) {
-    if (t.type === 'transfer') continue;
-    const p = points.get(monthKey(t.occurredAt));
-    const c = cur.get(t.walletId);
-    if (!p || !c) continue;
-    const v = convert(t.amount, c, target, base, rates);
-    if (v == null) {
-      missing.add(c);
-      continue;
-    }
-    if (t.type === 'income') p.income += v;
-    else p.expense += v;
-  }
-  return { points: [...points.values()], missing: [...missing] };
-}
-
 export type BudgetStatus = 'onTrack' | 'warning' | 'exceeded';
 
 export interface BudgetLine {

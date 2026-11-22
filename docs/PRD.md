@@ -64,19 +64,24 @@ The same `Avatar` component and name rules are used on: dashboard greeting, top 
 Profile page identity card, Account Settings identity card.
 
 ### 4.4 Wallets & accounts
-Types: cash, bank, e-wallet, credit card, savings, investment. Each wallet has one currency, a starting
-balance, colour and archive flag. Wallets with transactions cannot be deleted (archive instead).
+Types: cash, bank, e-wallet, credit card, savings, investment, other (custom). Each wallet has one currency, a starting
+balance, colour and archive flag. Wallets with transactions cannot be deleted (archive instead). The wallets page groups by
+type with a net-worth total and composition bar; each wallet has a detail page (balance trend, per-wallet history with
+running balance, transfer and export shortcuts).
 
 ### 4.5 Transactions
 Types: income, expense, transfer. Transfers have source and destination wallets; cross-currency
 transfers record both the sent and received amounts. Search and filter by period, type, wallet, category.
 
 ### 4.6 Budgets
-Monthly limit per expense category, in any currency. Status: on track (< 80%), near limit (80–100%), exceeded (> 100%).
+Monthly or weekly limit per expense category, in any currency (week start follows the profile setting). Status: on track
+(< 80%), near limit (80–100%), exceeded (> 100%). Shows pace for the running period, projected end-of-period spend, a daily
+allowance, a 6-period history and budget vs actual; a budget links to its filtered transactions.
 
 ### 4.7 Analytics & reports
-Period picker, income/expense/net totals, cashflow chart, spending and income by category, wallet movement
-(opening, inflow, outflow, closing).
+Period picker; KPI strip (income, expense, net, saving rate) with change versus the previous comparable period (calendar-aligned
+for whole months); written summary; net-worth trend; cashflow chart; spending and income by category; category comparison
+against the previous period; six-month comparison table; wallet movement (opening, inflow, outflow, closing).
 
 ### 4.8 Notifications
 In-app, derived from data: budget ≥ 80% and budget exceeded (current month, if enabled), welcome prompt

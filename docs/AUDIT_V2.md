@@ -41,3 +41,22 @@ Not found: horizontal overflow on any phone screen, console errors, duplicated t
 7. **Verification:** financial accuracy tests (buckets, filters, budgets, net worth, duplicates, export vs dashboard), iPhone/desktop/dark screenshots, accessibility pass.
 
 Prepared, not built: savings goals, subscriptions, calendar, smart insights engine hooks, receipt OCR, multi-currency groundwork — see `docs/FEATURE_ARCHITECTURE.md`.
+
+## 5. Results (22 Nov 2026)
+All seven phases are implemented and were tested in a browser on an iPhone 13 viewport (390 / 360 / 320 px), a 1440 px desktop and in dark mode.
+
+| Check | Result |
+|---|---|
+| Unit tests | 77 pass (periods, filters, budgets, wallets, analytics, finance, export, money, legal) |
+| Dashboard ranges 7D/1M/3M/6M/1Y: income, expense, net, deltas vs independent recomputation from stored data | pass |
+| Transactions: search, filters, totals, grouping, duplicate / undo keep balances exact, no duplicated rows | pass |
+| Wallets: net worth, balances, running balance, 3M money in/out, transfer (one transaction, net worth unchanged), archive / restore | pass |
+| Budgets: monthly and weekly spent vs independent sums, previous periods, 6-month history, duplicate guard, "see transactions" | pass |
+| Analytics: KPIs, saving rate, deltas, written summary, category comparison, 6-month table, net-worth trend end = Σ balances | pass |
+| Excel export vs screen (Reports, 3 months): income 66 024 000, expense 29 198 000, net 36 826 000, 81 unique rows, closing balances = wallet balances | pass |
+| No horizontal overflow at 390 / 360 / 320 px on dashboard, transactions, wallets, wallet detail, budgets, reports | pass |
+| Touch targets ≥ 40 px on those screens; console errors | none |
+
+Defects found by this testing and fixed: opening-balance field put typed digits before a leading "0" (Rp 1,5 jt became Rp 15 jt); budget summary overflowed at 320 px; chart "view as table" button was 34 px tall; "this month" was compared with an unaligned previous window (rent showed as "new"), now compared with the same stretch of the previous month.
+
+Known limits: the dashboard budget overview shows the four highest-usage budgets (a weekly budget with low usage may not appear); a screen-reader pass with real assistive technology was not done; Supabase mode was exercised earlier (two-account isolation) but this round of UI tests ran in local-storage mode.
