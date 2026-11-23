@@ -24,11 +24,12 @@ export function createSupabaseAuth(db: SupabaseClient): AuthBackend {
   }
 
   return {
-    init(onProfile) {
+    init(onProfile, onRecovery) {
       emit = onProfile;
       // INITIAL_SESSION fires once on subscribe, so no separate getSession() call is needed.
       const { data } = db.auth.onAuthStateChange((event, session) => {
         if (event === 'TOKEN_REFRESHED') return;
+        if (event === 'PASSWORD_RECOVERY') onRecovery?.();
         // Do not call Supabase synchronously inside this callback (it can deadlock the auth lock).
         setTimeout(async () => emit(await loadProfile(session?.user.id)), 0);
       });
@@ -77,6 +78,16 @@ export function createSupabaseAuth(db: SupabaseClient): AuthBackend {
       const { error } = await db.auth.updateUser({ password: newPassword });
       if (!error) return null;
       return /password/i.test(error.message) ? 'password' : 'generic';
+    },
+
+    async requestPasswordReset(email, redirectTo) {
+      const e = email.trim().toLowerCase();
+      if (!EMAIL_RE.test(e)) return 'email';
+      const { error } = await db.auth.resetPasswordForEmail(e, { redirectTo });
+      if (!error) return null;
+      if (error.status === 429 || /rate|security purposes|seconds/i.test(error.message)) return 'rate';
+      if (/not authori[sz]ed|smtp|sending|mail/i.test(error.message)) return 'mail';
+      return 'generic';
     },
 
     async signOut() {

@@ -82,8 +82,8 @@ export function Dashboard() {
         </div>
       ) : (
         <div className="dash">
-         <div className="dash-main">
-          {/* 2 · Total balance */}
+          {/* PRD 4.2 order in the DOM (and on phones): 2 balance · 3 summary · 4 cashflow · 5 budgets · 6 recent · 7 insights.
+             On wide screens the grid places wallets, budgets and insights in the right column. */}
           <section className="dash-hero" aria-label={t('dash.totalBalance')}>
             <CoinObject className="hero-coin" />
             <div className="row between">
@@ -99,34 +99,6 @@ export function Dashboard() {
               {balances.rows.length > 4 && <Link to="/accounts" className="wallet-chip muted">{t('dash.moreWallets', { n: balances.rows.length - 4 })}</Link>}
             </div>
           </section>
-
-          {missingAll.length > 0 && <div className="banner dash-banner">{t('common.notConverted', { codes: missingAll.join(', ') })}</div>}
-
-          {/* 3 · Income & expense summary — scoped by the range */}
-          <section className="dash-summary">
-            <div className="section-head"><h2>{t('dash.summary')}</h2><RangeTabs value={range} onChange={setRange} /></div>
-            <div className="card flush kpi-strip">
-              <Kpi label={t('dash.income')} keyColor="var(--chart-income)" value={cur.income} currency={base} change={pctChange(cur.income, prev.income)} upIsGood trend={flow.points.map((p) => p.income)} />
-              <Kpi label={t('dash.expense')} keyColor="var(--chart-expense)" value={cur.expense} currency={base} change={pctChange(cur.expense, prev.expense)} upIsGood={false} trend={flow.points.map((p) => p.expense)} />
-              <Kpi label={t('dash.net')} keyColor="var(--brand)" value={cur.net} currency={base} sign change={pctChange(cur.net, prev.net)} upIsGood trend={flow.points.map((p) => p.income - p.expense)} />
-            </div>
-          </section>
-
-          {/* 4 · Cashflow */}
-          <section className="dash-chart card">
-            <div className="card-head"><h2>{t('dash.cashflow')}</h2><span className="muted small">{t(`range.long.${range}` as MessageKey)}</span></div>
-            <CashflowChart points={flow.points} currency={base} />
-          </section>
-
-          {/* 6 · Recent transactions */}
-          <section className="dash-recent card">
-            <div className="card-head"><h2>{t('dash.recent')}</h2><Link className="small link-quiet" to="/transactions">{t('common.viewAll')}</Link></div>
-            {recent.length === 0 ? <p className="muted small">{t('dash.noTx')}</p> : <div className="list">{recent.map((tx) => <TxRow key={tx.id} tx={tx} onClick={() => openEdit(tx)} withDate />)}</div>}
-          </section>
-
-         </div>
-         <div className="dash-aside">
-          {/* Desktop-only wallet panel */}
           <section className="dash-wallets card">
             <div className="card-head"><h2>{t('dash.wallets')}</h2><Link className="small link-quiet" to="/accounts">{t('common.viewAll')}</Link></div>
             <div className="list">
@@ -142,7 +114,19 @@ export function Dashboard() {
               })}
             </div>
           </section>
-          {/* 5 · Budget overview */}
+          {missingAll.length > 0 && <div className="banner dash-banner">{t('common.notConverted', { codes: missingAll.join(', ') })}</div>}
+          <section className="dash-summary">
+            <div className="section-head"><h2>{t('dash.summary')}</h2><RangeTabs value={range} onChange={setRange} /></div>
+            <div className="card flush kpi-strip">
+              <Kpi label={t('dash.income')} keyColor="var(--chart-income)" value={cur.income} currency={base} change={pctChange(cur.income, prev.income)} upIsGood trend={flow.points.map((p) => p.income)} />
+              <Kpi label={t('dash.expense')} keyColor="var(--chart-expense)" value={cur.expense} currency={base} change={pctChange(cur.expense, prev.expense)} upIsGood={false} trend={flow.points.map((p) => p.expense)} />
+              <Kpi label={t('dash.net')} keyColor="var(--brand)" value={cur.net} currency={base} sign change={pctChange(cur.net, prev.net)} upIsGood trend={flow.points.map((p) => p.income - p.expense)} />
+            </div>
+          </section>
+          <section className="dash-chart card">
+            <div className="card-head"><h2>{t('dash.cashflow')}</h2><span className="muted small">{t(`range.long.${range}` as MessageKey)}</span></div>
+            <CashflowChart points={flow.points} currency={base} />
+          </section>
           <section className="dash-budget card">
             <div className="card-head"><h2>{t('dash.budgetOverview')}</h2><Link className="small link-quiet" to="/budgets">{t('common.viewAll')}</Link></div>
             {budgets.length === 0 ? <p className="muted small">{t('dash.noBudgets')}</p> : (
@@ -170,16 +154,16 @@ export function Dashboard() {
               </div>
             )}
           </section>
-
-          {/* 7 · Insights */}
+          <section className="dash-recent card">
+            <div className="card-head"><h2>{t('dash.recent')}</h2><Link className="small link-quiet" to="/transactions">{t('common.viewAll')}</Link></div>
+            {recent.length === 0 ? <p className="muted small">{t('dash.noTx')}</p> : <div className="list">{recent.map((tx) => <TxRow key={tx.id} tx={tx} onClick={() => openEdit(tx)} withDate />)}</div>}
+          </section>
           <section className="dash-insights card">
             <div className="card-head"><h2>{t('dash.insights')}</h2></div>
             <div className="insights">
               {insights.map((s, i) => <div className="insight" key={i}><Lightbulb size={17} aria-hidden /><span>{s}</span></div>)}
             </div>
           </section>
-
-         </div>
         </div>
       )}
       {walletOpen && <WalletForm onClose={() => setWalletOpen(false)} />}

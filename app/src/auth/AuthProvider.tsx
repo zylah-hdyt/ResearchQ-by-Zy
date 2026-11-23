@@ -13,6 +13,14 @@ interface AuthValue {
   signUp: (fullName: string, email: string, password: string) => Promise<SignUpResult>;
   signOut: () => void;
   changePassword: (newPassword: string) => Promise<AuthError | null>;
+  requestPasswordReset: (email: string) => Promise<AuthError | null>;
+  /** The visitor arrived through a password-reset link: ask for a new password before anything else. */
+  recovery: boolean;
+  /** The reset link could not be used (expired, already used, or opened in another browser). */
+  resetLinkError: boolean;
+  finishRecovery: () => void;
+  /** The page was opened from an auth email link (reset or error): skip the welcome story. */
+  fromAuthLink: boolean;
   deleteAccount: () => Promise<AuthError | null>;
   acceptTerms: () => void;
   updateProfile: (patch: Partial<Profile>) => void;
@@ -26,6 +34,24 @@ interface AuthValue {
 }
 
 const Ctx = createContext<AuthValue | null>(null);
+
+/** Reset links return to `/?reset=1` (plus Supabase's own `code` or `error*` parameters). */
+const RESET_PARAM = 'reset';
+function urlFlags() {
+  try {
+    const q = new URLSearchParams(window.location.search);
+    return { reset: q.get(RESET_PARAM) === '1', error: q.has('error') || q.has('error_code') || /error_code=/.test(window.location.hash) };
+  } catch {
+    return { reset: false, error: false };
+  }
+}
+function clearAuthParams() {
+  try {
+    const u = new URL(window.location.href);
+    for (const k of [RESET_PARAM, 'code', 'error', 'error_code', 'error_description']) u.searchParams.delete(k);
+    window.history.replaceState(window.history.state, '', u.toString());
+  } catch { /* ignore */ }
+}
 const LANG_KEY = 'fa.v1:guestLang';
 const THEME_KEY = 'fa.v1:guestTheme';
 
@@ -42,6 +68,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const toast = useToast();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [ready, setReady] = useState(false);
+  const [flags] = useState(urlFlags);
+  const [recovery, setRecovery] = useState(flags.reset && !flags.error);
   const profileRef = useRef<Profile | null>(null);
   const [guestLanguage, setGuestLanguageState] = useState<Language>(() => readKey<Language>(LANG_KEY, ['id', 'en'], detectLanguage()));
   const [guestTheme, setGuestThemeState] = useState<ThemePref>(() => readKey<ThemePref>(THEME_KEY, ['light', 'dark', 'system'], 'dark'));
@@ -54,7 +82,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setProfile(p);
       }
       setReady(true);
-    });
+    }, () => setRecovery(true));
     return off;
   }, []);
 
@@ -75,6 +103,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signOut = useCallback(() => { void authBackend.signOut(); }, []);
   const changePassword = useCallback((pw: string) => authBackend.changePassword(pw), []);
   const deleteAccount = useCallback(() => authBackend.deleteAccount(), []);
+  const requestPasswordReset = useCallback((email: string) => {
+    const back = `${window.location.origin}${window.location.pathname}?${RESET_PARAM}=1`;
+    return authBackend.requestPasswordReset(email, back);
+  }, []);
+  const finishRecovery = useCallback(() => { clearAuthParams(); setRecovery(false); }, []);
+  // A reset link that produced no session (expired, reused, other browser) or came back with an error.
+  const resetLinkError = ready && !profile && (flags.error || (flags.reset && recovery));
 
   const updateProfile = useCallback((patch: Partial<Profile>) => {
     const prev = profileRef.current;
@@ -106,8 +141,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [theme, language]);
 
   const value = useMemo(
-    () => ({ profile, ready, signIn, signUp, signOut, changePassword, deleteAccount, acceptTerms, updateProfile, language, setLanguage, theme, setTheme, guestLanguage, setGuestLanguage }),
-    [profile, ready, signIn, signUp, signOut, changePassword, deleteAccount, acceptTerms, updateProfile, language, setLanguage, theme, setTheme, guestLanguage, setGuestLanguage],
+    () => ({ profile, ready, signIn, signUp, signOut, changePassword, deleteAccount, acceptTerms, updateProfile, language, setLanguage, theme, setTheme, guestLanguage, setGuestLanguage, requestPasswordReset, recovery, resetLinkError, finishRecovery, fromAuthLink: flags.reset || flags.error }),
+    [profile, ready, signIn, signUp, signOut, changePassword, deleteAccount, acceptTerms, updateProfile, language, setLanguage, theme, setTheme, guestLanguage, setGuestLanguage, requestPasswordReset, recovery, resetLinkError, finishRecovery, flags],
   );
 
   return (

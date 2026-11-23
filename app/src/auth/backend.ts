@@ -1,17 +1,19 @@
 import type { Language, Profile, ThemePref } from '../data/types';
 
-export type AuthError = 'invalid' | 'exists' | 'password' | 'email' | 'name' | 'generic';
+export type AuthError = 'invalid' | 'exists' | 'password' | 'email' | 'name' | 'generic' | 'rate' | 'mail' | 'unavailable';
 /** `confirm` = account created, but the user must confirm their email before signing in. */
 export type SignUpResult = AuthError | 'confirm' | null;
 
 export interface AuthBackend {
   /** Restore any existing session and keep `onProfile` updated. Returns an unsubscribe function. */
-  init(onProfile: (p: Profile | null) => void): () => void;
+  init(onProfile: (p: Profile | null) => void, onRecovery?: () => void): () => void;
   signIn(email: string, password: string): Promise<AuthError | null>;
   signUp(fullName: string, email: string, password: string, lang: Language, theme: ThemePref, termsVersion: string): Promise<SignUpResult>;
   /** Permanently delete the signed-in account and all its data. */
   deleteAccount(): Promise<AuthError | null>;
   changePassword(newPassword: string): Promise<AuthError | null>;
+  /** Email a password-reset link that returns to `redirectTo`. Always answers the same way whether or not the email exists. */
+  requestPasswordReset(email: string, redirectTo: string): Promise<AuthError | null>;
   signOut(): Promise<void>;
   saveProfile(p: Profile): Promise<void>;
 }

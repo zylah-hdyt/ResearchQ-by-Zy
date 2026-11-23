@@ -52,6 +52,11 @@ export function createLocalAuth(): AuthBackend {
       emit(null);
       return null;
     },
+    async requestPasswordReset() {
+      // Browser-only accounts have no email channel to prove ownership.
+      return 'unavailable';
+    },
+
     async changePassword(newPassword) {
       if (newPassword.length < 8) return 'password';
       const session = storage.getSession();

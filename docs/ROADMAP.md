@@ -20,6 +20,12 @@
 
 Visual identity: see [REDESIGN.md](REDESIGN.md).
 
+## Password reset — setup on the owner's side
+The app side is done (PKCE flow, `?reset=1` return, new-password screen, expired-link message). To make emails arrive:
+1. Supabase → Authentication → URL Configuration: **Site URL** `https://getmyfi.netlify.app`, **Redirect URLs** add `https://getmyfi.netlify.app/**`.
+2. Supabase → Authentication → Emails → SMTP: connect a provider (e.g. Resend free tier). The built-in mailer only delivers to project team members; until SMTP is set, the app shows "email service not configured".
+3. Then turn **Confirm email** back on (Authentication → Sign In / Providers → Email).
+
 ## Launch readiness
 Terms/Privacy, consent and account deletion are done; forgot-password (needs SMTP), CAPTCHA, backups and the Supabase Site URL are tracked in [AUDIT.md](AUDIT.md).
 

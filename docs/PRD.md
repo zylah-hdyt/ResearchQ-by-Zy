@@ -1,5 +1,7 @@
 # Product Requirements Document — MyFi (My Financial)
 
+> **Visual identity:** black and emerald (`#000000`, `#191919`, `#232323`, `#20C975`, `#20C9B4`), see `REDESIGN.md`.
+>
 > **Branding status:** name **MyFi** (*My Financial*) and the **"Flow M" logo** are chosen (see `BRAND.md`). Author credit "Developed by Zy" is shown
 > on the sign-in page, the sidebar and Account settings → About. Still pending: trademark/domain/store availability checks and marketing material.
 
@@ -24,12 +26,13 @@ financial data to professionally formatted Microsoft Excel workbooks.
 ## 4. Functional requirements
 
 ### 4.1 Authentication & profile (NEW)
-- Sign up (full name, email, password ≥ 8 chars), sign in, sign out.
+- Sign up (full name, email, password ≥ 8 chars), sign in, sign out, **reset password** (email link → set a new password; the answer never reveals whether an email is registered).
 - Profile fields: full name, preferred display name, profile photo, email (read-only), phone, country, date of birth.
-- Preferences: preferred currency (**Rupiah by default**), language (Indonesian by default), appearance (**light by default**, dark, or follow system), week start, budget alerts, exchange rates, change password.
+- Preferences: preferred currency (**Rupiah by default**), language (Indonesian by default), appearance (**dark by default** — the black-and-emerald identity — light, or follow system), week start, budget alerts, exchange rates, change password.
 - **Rupiah first:** Rupiah is always written "Rp 1.250.000" in both languages; amount fields group digits live ("1.250.000") and accept either separator style.
 - **Charts:** colour-blind-safe (income blue, expense orange), tooltips on hover and keyboard focus, table view for every chart, ranked bars for category breakdowns, month-to-date change versus the same period last month.
-- **Themes:** two themes, light and dark, switchable in one tap (sign-in page, dashboard header, top bar, account menu).
+- **Welcome story:** on the first visit, three full-screen slides (all your finances in one place, budgets you can keep, reports ready for Excel) with skip and an ID/EN switch, ending in Get started / Sign in; shown once per browser.
+- **Themes:** two themes, dark (default) and light, switchable in one tap (sign-in page, dashboard header, top bar, account menu).
 - **Legal & consent:** public Terms of Service and Privacy Policy pages (Indonesian/English); sign-up requires accepting them (version and time stored on the profile); existing users are asked to accept again when the version changes.
 - **Delete account:** Settings → Delete account (type the confirmation word); permanently removes the account and all data.
 - **Account menu** (⋮ or avatar) on every page: Profile, Settings, language, theme, **Sign out** — reachable on phones.
@@ -40,8 +43,8 @@ financial data to professionally formatted Microsoft Excel workbooks.
 Hierarchy (top → bottom), each section in this exact order:
 1. **Greeting & identity** — greeting from local time, display name, avatar/initials (links to profile), notification bell.
 2. **Total balance** — all active wallets converted to the preferred currency.
-3. **Income & expense summary** — this month: income, expenses, net cashflow.
-4. **Cashflow visualization** — last 6 months, income vs expense bars.
+3. **Income & expense summary** — income, expenses and net cashflow for a selectable range (7D, 1M, 3M, 6M, 1Y) with the change versus the previous equal period; balance can be hidden with one tap.
+4. **Cashflow visualization** — income vs expense bars for the selected range, with a table view.
 5. **Budget overview** — top budgets by utilisation with progress bars.
 6. **Recent transactions** — latest 6.
 7. **Financial insights** — top category, month-over-month change, savings rate, exceeded budgets.
@@ -136,14 +139,14 @@ version enforces the same with row-level security (see `DATABASE_SCHEMA.md`). Ra
 are never exported — only labelled, user-facing columns.
 
 ## 5. Non-functional requirements
-- Responsive from 320 px; bottom navigation and floating add button on mobile; bottom-sheet dialogs.
-- Light and dark themes.
+- Responsive from 320 px; floating bottom navigation on mobile with quick-add in the header (nothing floats over content); bottom-sheet dialogs.
+- Dark (default) and light themes; text contrast ≥ 4.5:1 and control borders ≥ 3:1 in both.
 - Accessibility: labelled controls, `role="dialog"`, Esc closes dialogs, live regions for export state.
 - Performance: ExcelJS (~270 kB gzip) is code-split and only loaded when exporting.
 - Privacy: passwords hashed (PBKDF2-SHA256, 150k iterations) in the local adapter; server adapter uses managed auth.
 
 ## 6. Out of scope (this iteration)
-Bank sync, recurring transactions, shared/family accounts, live FX rates, receipt scanning, final branding.
+Bank sync, recurring transactions, shared/family accounts, live FX rates. Prepared but not built (see `FEATURE_ARCHITECTURE.md`): savings goals, subscription tracker, financial calendar, smart insights, receipt OCR.
 
 ## 7. Success metrics
 - ≥ 90% of exports complete without error; export time < 3 s for 10k transactions.
