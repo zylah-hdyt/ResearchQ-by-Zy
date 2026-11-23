@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - run: npm ci
+      - name: Typecheck
+        run: npx tsc --noEmit -p .
+      - name: Unit tests (financial rules, export, periods, budgets, wallets, analytics)
+        run: npm test
+      - name: Production build (Supabase mode, no secrets needed to compile)
+        run: npm run build
+      - name: Browser for end-to-end tests
+        run: npx playwright install --with-deps chromium
+      - name: Build and serve the local-mode app
+        run: |
+          npm run build:e2e
+          npm run preview:e2e > preview.log 2>&1 &
+          npx --yes wait-on@8.0.1 -t 60000 http://localhost:4173
+      - name: End-to-end tests (11 suites)
+        run: npm run e2e
+      - name: Keep screenshots and logs when something fails
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-output
+          path: app/e2e-output
+          retention-days: 7

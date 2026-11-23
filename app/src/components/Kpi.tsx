@@ -1,4 +1,4 @@
-import { TrendingDown, TrendingUp } from 'lucide-react';
+import { TrendingDown, TrendingUp, type LucideIcon } from 'lucide-react';
 import type { CurrencyCode } from '../data/types';
 import { useI18n } from '../i18n';
 import { formatPercent } from '../lib/format';
@@ -6,15 +6,16 @@ import { Money } from './Money';
 import { Sparkline } from './Charts';
 
 /** Headline figure: label with colour key, value, change versus the previous period, optional trend line. */
-export function Kpi({ label, keyColor, value, currency, sign, change, upIsGood, trend, suffix }: {
+export function Kpi({ label, keyColor, value, currency, sign, change, upIsGood, trend, suffix, icon: Icon, iconInk = '#fff' }: {
   label: string; keyColor: string; value: number; currency: CurrencyCode; sign?: boolean;
   change?: number | null; upIsGood?: boolean; trend?: number[]; suffix?: string;
+  /** Icon tile in the series colour (replaces the small swatch). */ icon?: LucideIcon; iconInk?: string;
 }) {
   const { t, lang } = useI18n();
   const good = change != null && change !== 0 && (change > 0) === upIsGood;
   return (
     <div className="kpi">
-      <span className="kpi-label"><i className="swatch" style={{ background: keyColor }} />{label}</span>
+      <span className="kpi-label">{Icon ? <span className="kpi-icon" style={{ background: keyColor, color: iconInk }}><Icon size={16} strokeWidth={2.4} aria-hidden /></span> : <i className="swatch" style={{ background: keyColor }} />}{label}</span>
       <Money className="kpi-value" value={value} currency={currency} sign={sign} />
       <div className="kpi-foot">
         <div className="kpi-main">

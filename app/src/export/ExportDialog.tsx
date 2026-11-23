@@ -41,7 +41,9 @@ export function ExportDialog({ defaults, onClose }: { context: ExportContext; de
   const [file, setFile] = useState<{ blob: Blob; filename: string } | null>(null);
   const set = (p: Partial<ExportOptions>) => setOpts((o) => ({ ...o, ...p }));
 
-  const dataset = useMemo(() => (phase === 'options' ? null : buildDataset(data, profile!, opts)), [phase, data, profile, opts]);
+  // Built once when leaving the options step, not again on every phase change (it is the slow part on large data).
+  const inOptions = phase === 'options';
+  const dataset = useMemo(() => (inOptions ? null : buildDataset(data, profile!, opts)), [inOptions, data, profile, opts]);
   const catsForType = data.categories.filter((c) => opts.type === 'all' || opts.type === c.type);
   const usedCurrencies = [...new Set(data.wallets.map((w) => w.currency))];
 

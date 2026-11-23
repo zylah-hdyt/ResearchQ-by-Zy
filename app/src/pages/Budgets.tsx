@@ -125,7 +125,7 @@ export function Budgets() {
                 <div className={`bsum-amount${totals.remaining < 0 ? ' bad-text' : ''}`}>{money(Math.abs(totals.remaining))}</div>
                 <div className="muted small">{totals.remaining >= 0 ? t('bud.leftOf', { v: money(totals.limit) }) : t('bud.overOf', { v: money(totals.limit) })}</div>
               </div>
-              <div className="bsum-pct">{formatPercent(totals.utilization, lang)}<span className="xs muted"> {t('bud.ofLimit')}</span></div>
+              <Ring value={totals.utilization} status={totals.status} label={`${formatPercent(totals.utilization, lang)} ${t('bud.ofLimit')}`} caption={t('bud.ofLimit')} />
             </div>
             {totalRow && <Meter row={totalRow} p={totalPace} label={t('bud.summary')} />}
             <div className="row between wrap small muted">
@@ -225,6 +225,22 @@ function BudgetDetail({ row, onEdit, onSee }: { row: BudgetRow; onEdit: () => vo
         <button className="btn" onClick={onEdit}>{t('common.edit')}</button>
         <button className="btn" onClick={onSee}>{t('bud.seeTx')}</button>
       </div>
+    </div>
+  );
+}
+
+/** Single-value ring for the total budget (one number, so a ring reads fine; categories stay as bars). */
+function Ring({ value, status, label, caption }: { value: number; status: BudgetRow['status']; label: string; caption: string }) {
+  const { lang } = useI18n();
+  const r = 34, c = 2 * Math.PI * r, shown = Math.min(1, Math.max(0, value));
+  const color = status === 'exceeded' ? 'var(--meter-crit)' : status === 'warning' ? 'var(--meter-warn)' : 'var(--brand)';
+  return (
+    <div className="ring" role="img" aria-label={label}>
+      <svg viewBox="0 0 84 84" width="84" height="84" aria-hidden>
+        <circle cx="42" cy="42" r={r} fill="none" stroke="var(--surface-3)" strokeWidth="8" />
+        <circle cx="42" cy="42" r={r} fill="none" stroke={color} strokeWidth="8" strokeLinecap="round" strokeDasharray={`${c * shown} ${c}`} transform="rotate(-90 42 42)" style={{ filter: `drop-shadow(0 0 6px ${color})` }} />
+      </svg>
+      <span className="ring-text"><strong>{formatPercent(value, lang)}</strong><small>{caption}</small></span>
     </div>
   );
 }

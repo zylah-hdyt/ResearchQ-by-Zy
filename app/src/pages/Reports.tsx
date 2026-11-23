@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { TrendingDown, TrendingUp } from 'lucide-react';
+import { ArrowDownLeft, ArrowUpRight, PiggyBank, TrendingDown, TrendingUp } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
 import { useData } from '../store/DataProvider';
 import { categoryLabel, useI18n } from '../i18n';
@@ -85,11 +85,11 @@ export function Reports() {
       {missing.length > 0 && <div className="banner">{t('common.notConverted', { codes: missing.join(', ') })}</div>}
 
       <section className="card kpi-strip four" aria-label={t('rep.summary')}>
-        <Kpi label={t('dash.income')} keyColor="var(--chart-income)" value={cur.income} currency={base} change={pctChange(curCompare.income, prev.income)} upIsGood trend={flow.points.map((p) => p.income)} />
-        <Kpi label={t('dash.expense')} keyColor="var(--chart-expense)" value={cur.expense} currency={base} change={spendDelta} upIsGood={false} trend={flow.points.map((p) => p.expense)} />
-        <Kpi label={t('dash.net')} keyColor="var(--brand)" value={cur.net} currency={base} sign change={pctChange(curCompare.net, prev.net)} upIsGood />
+        <Kpi icon={ArrowDownLeft} label={t('dash.income')} keyColor="var(--chart-income)" value={cur.income} currency={base} change={pctChange(curCompare.income, prev.income)} upIsGood trend={flow.points.map((p) => p.income)} />
+        <Kpi icon={ArrowUpRight} label={t('dash.expense')} keyColor="var(--chart-expense)" value={cur.expense} currency={base} change={spendDelta} upIsGood={false} trend={flow.points.map((p) => p.expense)} />
+        <Kpi icon={TrendingUp} iconInk="var(--on-brand)" label={t('dash.net')} keyColor="var(--brand)" value={cur.net} currency={base} sign change={pctChange(curCompare.net, prev.net)} upIsGood />
         <div className="kpi">
-          <span className="kpi-label"><i className="swatch" style={{ background: 'var(--transfer)' }} />{t('rep.savingRate')}</span>
+          <span className="kpi-label"><span className="kpi-icon" style={{ background: 'var(--transfer)', color: '#fff' }}><PiggyBank size={16} strokeWidth={2.4} aria-hidden /></span>{t('rep.savingRate')}</span>
           <span className="kpi-value num">{cur.savingRate == null ? '—' : formatPercent(cur.savingRate, lang)}</span>
           <div className="kpi-foot"><div className="kpi-main">
             <span className="xs muted">{t('rep.ofIncome')}</span>

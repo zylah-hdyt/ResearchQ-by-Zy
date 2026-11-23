@@ -1,0 +1,112 @@
+const BASE = (process.env.E2E_BASE_URL || 'http://localhost:4173').replace(/\/$/, '');
+const { chromium, devices } = require('playwright');
+const SP = process.argv[2] || 'e2e-output';
+let fails = 0;
+const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++; };
+(async () => {
+  const b = await chromium.launch();
+  const errs = [];
+  const ctx = await b.newContext({ viewport: { width: 1280, height: 800 }, locale: 'en-US', acceptDownloads: true });
+  await ctx.addInitScript(() => { try { localStorage.setItem('myfi.welcomed', '1'); } catch (e) {} });
+  const p = await ctx.newPage();
+  p.on('pageerror', (e) => errs.push('pageerror ' + e.message));
+  p.on('console', (m) => m.type() === 'error' && errs.push('console ' + m.text()));
+  await p.goto(BASE + '/');
+  ok((await p.locator('form h1').innerText()) === 'Masuk', 'guest sees Indonesian first (browser is en-US)');
+  ok((await p.evaluate(() => document.documentElement.dataset.theme)) === 'dark', 'guest theme defaults to dark (cinematic identity)');
+  await p.getByRole('button', { name: 'Ganti tema' }).click();
+  ok((await p.evaluate(() => document.documentElement.dataset.theme)) === 'light', 'theme toggle on sign-in page -> light');
+  await p.screenshot({ path: SP + '/auth-dark.png' });
+  await p.getByRole('button', { name: 'Ganti tema' }).click();
+  await p.getByRole('button', { name: 'Buat akun' }).click();
+  await p.getByLabel('Nama lengkap').fill('Budi Santoso');
+  await p.getByLabel('Email').fill('budi@example.com');
+  await p.getByLabel('Kata sandi').fill('password123');
+  await p.getByRole('checkbox').check(); await p.waitForTimeout(2700);
+  await p.locator('form button[type=submit]').click();
+  await p.getByText(/Selamat (pagi|siang|sore|malam), Budi/).waitFor();
+  const prof = await p.evaluate(() => { const k = Object.keys(localStorage).find((x) => x.endsWith(':profile')); const j = JSON.parse(localStorage.getItem(k)); return j.language + '/' + j.preferredCurrency + '/' + j.theme; });
+  ok(prof === 'id/IDR/dark', 'new account defaults: ' + prof);
+  await p.getByRole('button', { name: 'Muat data contoh' }).click();
+  await p.getByText('Total saldo').waitFor();
+  const titles = await p.locator('.list-item .title').allInnerTexts();
+  ok(titles.some((x) => /Ojek|Makan|Belanja|Apotek|Nonton/.test(x)), 'sample data is Indonesian: ' + titles.slice(0, 3).join(' | '));
+  ok((await p.locator('.hero-amount').innerText()).startsWith('Rp'), 'balance shown in Rupiah: ' + (await p.locator('.hero-amount').innerText()));
+  // Rupiah typing
+  await p.getByRole('button', { name: 'Tambah transaksi' }).first().click();
+  const amt = p.locator('.modal input.num').first();
+  await amt.fill('');
+  await amt.pressSequentially('1250000');
+  ok((await amt.inputValue()) === '1.250.000', 'amount field groups live as you type: ' + (await amt.inputValue()));
+  await p.getByLabel('Deskripsi').fill('Tes Rupiah');
+  await p.locator('.modal select').last().selectOption('cat_food');
+  await p.getByRole('button', { name: 'Simpan' }).click();
+  await p.goto(BASE + '/#/transactions');
+  const row = p.locator('.list-item', { hasText: 'Tes Rupiah' }).first();
+  await row.waitFor();
+  const rowText = (await row.innerText()).replace(/\s+/g, ' ');
+  ok(/Rp\s?1\.250\.000/.test(rowText), 'typed "1.250.000" saved as Rp 1.250.000: ' + rowText);
+  // theme toggle from header + dark screenshots
+  await p.goto(BASE + '/#/');
+  await p.getByText('Total saldo').waitFor();
+  await p.getByRole('button', { name: 'Ganti tema' }).click();
+  ok((await p.evaluate(() => document.documentElement.dataset.theme)) === 'light', 'dashboard theme toggle -> light');
+  for (const r of ['', 'transactions', 'accounts', 'budgets', 'reports', 'profile', 'settings']) {
+    await p.goto(BASE + '/#/' + r); await p.waitForTimeout(300);
+    await p.screenshot({ path: `${SP}/dark-${r || 'dashboard'}.png`, fullPage: true });
+  }
+  // export under CSP
+  await p.goto(BASE + '/#/transactions');
+  await p.getByRole('button', { name: 'Ekspor' }).click();
+  await p.getByRole('button', { name: 'Lanjut' }).click();
+  const [dl] = await Promise.all([p.waitForEvent('download'), p.getByRole('button', { name: 'Buat & unduh' }).click()]);
+  ok(dl.suggestedFilename().endsWith('.xlsx'), 'Excel export works under the CSP header: ' + dl.suggestedFilename());
+  await p.keyboard.press('Escape');
+  // English shows Rp too
+  await p.goto(BASE + '/#/');
+  await p.getByRole('button', { name: 'Menu akun' }).click();
+  await p.getByRole('button', { name: 'EN', exact: true }).click();
+  await p.getByText('Total balance').waitFor();
+  ok(/^Rp/.test(await p.locator('.hero-amount').innerText()), 'English UI still shows Rp: ' + (await p.locator('.hero-amount').innerText()));
+  await p.getByRole('button', { name: 'ID', exact: true }).click();
+  await p.getByText('Total saldo').waitFor();
+  // change password then sign out/in (desktop menu)
+  await p.goto(BASE + '/#/settings');
+  await p.getByLabel('Kata sandi baru', { exact: false }).first().fill('newpass12345');
+  await p.getByLabel('Ulangi kata sandi baru').fill('newpass12345');
+  await p.locator('form', { hasText: 'Ubah kata sandi' }).getByRole('button', { name: 'Simpan' }).click();
+  await p.getByText('Kata sandi diperbarui').waitFor();
+  // MOBILE
+  const st = await ctx.storageState();
+  const mctx = await b.newContext({ ...devices['iPhone 13'], locale: 'en-US', storageState: st });
+  const m = await mctx.newPage();
+  m.on('pageerror', (e) => errs.push('mobile pageerror ' + e.message));
+  await m.goto(BASE + '/#/');
+  await m.getByText('Total saldo').waitFor();
+  await m.screenshot({ path: SP + '/mobile-dashboard-dark.png' });
+  await m.getByRole('button', { name: 'Menu akun' }).click();
+  await m.screenshot({ path: SP + '/mobile-menu.png' });
+  ok(await m.getByRole('menuitem', { name: 'Keluar' }).isVisible(), 'MOBILE: sign-out is in the account menu');
+  await m.getByRole('menuitem', { name: 'Keluar' }).click();
+  await m.locator('form h1').waitFor();
+  ok((await m.locator('form h1').innerText()) === 'Masuk', 'MOBILE: signed out -> back to Masuk');
+  await m.getByLabel('Email').fill('budi@example.com');
+  await m.getByLabel('Kata sandi').fill('password123');
+  await m.locator('form button[type=submit]').click();
+  await m.getByText('Email atau kata sandi salah.').waitFor();
+  ok(true, 'old password rejected after change');
+  await m.getByLabel('Kata sandi').fill('newpass12345');
+  await m.locator('form button[type=submit]').click();
+  await m.getByText('Total saldo').waitFor();
+  ok(true, 'new password signs in');
+  // mobile other page: topbar menu
+  await m.goto(BASE + '/#/reports');
+  await m.getByRole('button', { name: 'Menu akun' }).click();
+  ok(await m.getByRole('menuitem', { name: 'Keluar' }).isVisible(), 'MOBILE: sign-out also reachable on inner pages');
+  await m.screenshot({ path: SP + '/mobile-reports-menu.png' });
+  const csp = errs.filter((e) => /Content Security Policy|Refused to/i.test(e));
+  ok(csp.length === 0, 'no CSP violations: ' + JSON.stringify(csp));
+  console.log('other errors:', JSON.stringify(errs.filter((e) => !csp.includes(e))));
+  console.log(fails ? `${fails} FAILED` : 'ALL PASSED');
+  await b.close();
+})().catch((e) => { console.error('FAIL(script)', e.message); process.exit(1); });

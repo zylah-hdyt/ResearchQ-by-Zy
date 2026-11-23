@@ -5,3 +5,7 @@ test-output
 .env
 .env.local
 dist-local
+dist-e2e
+e2e-output
+dist-local
+dist-cloud
