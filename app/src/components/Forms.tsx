@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { categoryIcon } from '../lib/categoryIcons';
 import type { Budget, BudgetPeriod, CurrencyCode, Transaction, TxType, Wallet, WalletType } from '../data/types';
 import { CURRENCIES } from '../data/types';
 import { useData } from '../store/DataProvider';
@@ -34,7 +35,17 @@ export function TransactionForm({ initial, preset, duplicateOf, onClose }: {
   const [occurredAt, setOccurredAt] = useState(initial?.occurredAt ?? toLocalDateTime(new Date()));
   const [description, setDescription] = useState(seed?.description ?? '');
   const [notes, setNotes] = useState(seed?.notes ?? '');
-  const [err, setErr] = useState<MessageKey | null>(null);
+  const [err, setErr] = useState<{ field: 'amount' | 'category' | 'wallet' | 'toWallet' | 'toAmount'; key: MessageKey } | null>(null);
+  const formRef = useRef<HTMLDivElement>(null);
+  // Show the problem where it is: scroll to the field with the error and move focus to it.
+  useEffect(() => {
+    if (!err) return;
+    const el = formRef.current?.querySelector<HTMLElement>(`[data-field="${err.field}"]`);
+    el?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    el?.querySelector<HTMLElement>('input, select, button')?.focus({ preventScroll: true });
+  }, [err]);
+  const fail = (field: NonNullable<typeof err>['field'], key: MessageKey) => setErr({ field, key });
+  const errFor = (field: NonNullable<typeof err>['field']) => (err?.field === field ? <span className="field-error" role="alert">{t(err.key)}</span> : null);
 
   const from = wallets.find((w) => w.id === walletId);
   const to = wallets.find((w) => w.id === toWalletId);
@@ -42,15 +53,15 @@ export function TransactionForm({ initial, preset, duplicateOf, onClose }: {
   const cats = categories.filter((c) => c.type === (type === 'income' ? 'income' : 'expense'));
 
   const submit = () => {
-    if (!from) return setErr('tx.err.wallet');
+    if (!from) return fail('wallet', 'tx.err.wallet');
     const amt = parseAmount(amount, from.currency, lang);
-    if (!(amt > 0)) return setErr('tx.err.amount');
+    if (!(amt > 0)) return fail('amount', 'tx.err.amount');
     if (type === 'transfer') {
-      if (!to) return setErr('tx.err.wallet');
-      if (to.id === from.id) return setErr('tx.err.sameWallet');
-    } else if (!categoryId || !cats.some((c) => c.id === categoryId)) return setErr('tx.err.category');
+      if (!to) return fail('toWallet', 'tx.err.wallet');
+      if (to.id === from.id) return fail('toWallet', 'tx.err.sameWallet');
+    } else if (!categoryId || !cats.some((c) => c.id === categoryId)) return fail('category', 'tx.err.category');
     const recv = crossCurrency ? parseAmount(toAmount, to!.currency, lang) : amt;
-    if (type === 'transfer' && !(recv > 0)) return setErr('tx.err.amount');
+    if (type === 'transfer' && !(recv > 0)) return fail('toAmount', 'tx.err.amount');
     saveTransaction({
       id: initial?.id, type, walletId, amount: amt, occurredAt, description: description.trim(), notes: notes.trim(),
       ...(type === 'transfer' ? { toWalletId, toAmount: recv } : { categoryId }),
@@ -69,50 +80,66 @@ export function TransactionForm({ initial, preset, duplicateOf, onClose }: {
         <button className="btn primary" onClick={submit}>{t('common.save')}</button>
       </>}
     >
-      <div className="segmented" role="tablist">
+      <div ref={formRef} className="stack lg tx-form">
+      <div className="segmented fill" role="tablist" aria-label={t('tx.type')}>
         {(['expense', 'income', 'transfer'] as TxType[]).map((x) => (
-          <button key={x} className={type === x ? 'on' : ''} onClick={() => { setType(x); setCategoryId(''); }}>{t(`tx.type.${x}` as MessageKey)}</button>
+          <button key={x} role="tab" aria-selected={type === x} className={type === x ? 'on' : ''} onClick={() => { setType(x); setCategoryId(''); setErr(null); }}>{t(`tx.type.${x}` as MessageKey)}</button>
         ))}
       </div>
+      <label className="field amount-field" data-field="amount">{t('tx.amount')}{from && ` (${from.currency})`}
+        <AmountInput autoFocus currency={from?.currency ?? 'IDR'} value={amount} onChange={(v) => { setAmount(v); if (err?.field === 'amount') setErr(null); }} />
+        {errFor('amount')}
+      </label>
+      {type !== 'transfer' && (
+        <div className="field" data-field="category">
+          <span id="cat-label">{t('tx.category')}</span>
+          <div className="cat-grid" role="radiogroup" aria-labelledby="cat-label" aria-invalid={err?.field === 'category' || undefined}>
+            {cats.map((c) => {
+              const Icon = categoryIcon(c);
+              const on = categoryId === c.id;
+              return (
+                <button type="button" key={c.id} role="radio" aria-checked={on} className={`cat-pick${on ? ' on' : ''}`} onClick={() => { setCategoryId(c.id); if (err?.field === 'category') setErr(null); }}>
+                  <span className="cat-pick-icon"><Icon size={18} aria-hidden /></span>
+                  <span className="cat-pick-label">{categoryLabel(c, t)}</span>
+                </button>
+              );
+            })}
+          </div>
+          {errFor('category')}
+        </div>
+      )}
       <div className="form-grid">
-        <label className="field">{t('tx.amount')}{from && ` (${from.currency})`}
-          <AmountInput autoFocus currency={from?.currency ?? 'IDR'} value={amount} onChange={setAmount} />
-        </label>
-        <label className="field">{t('tx.date')}
-          <input className="input" type="datetime-local" value={occurredAt} onChange={(e) => setOccurredAt(e.target.value)} />
-        </label>
-        <label className="field">{type === 'transfer' ? t('tx.fromWallet') : t('tx.wallet')}
+        <label className="field" data-field="wallet">{type === 'transfer' ? t('tx.fromWallet') : t('tx.wallet')}
           <select className="input" value={walletId} onChange={(e) => setWalletId(e.target.value)}>
             {active.map((w) => <option key={w.id} value={w.id}>{w.name} · {w.currency}</option>)}
           </select>
+          {errFor('wallet')}
         </label>
-        {type === 'transfer' ? (
-          <label className="field">{t('tx.toWallet')}
-            <select className="input" value={toWalletId} onChange={(e) => setToWalletId(e.target.value)}>
+        {type === 'transfer' && (
+          <label className="field" data-field="toWallet">{t('tx.toWallet')}
+            <select className="input" value={toWalletId} onChange={(e) => { setToWalletId(e.target.value); if (err?.field === 'toWallet') setErr(null); }}>
               {active.map((w) => <option key={w.id} value={w.id}>{w.name} · {w.currency}</option>)}
             </select>
-          </label>
-        ) : (
-          <label className="field">{t('tx.category')}
-            <select className="input" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
-              <option value="">—</option>
-              {cats.map((c) => <option key={c.id} value={c.id}>{categoryLabel(c, t)}</option>)}
-            </select>
+            {errFor('toWallet')}
           </label>
         )}
         {crossCurrency && (
-          <label className="field full">{t('tx.toAmount')} ({to!.currency})
+          <label className="field full" data-field="toAmount">{t('tx.toAmount')} ({to!.currency})
             <AmountInput currency={to!.currency} value={toAmount} onChange={setToAmount} />
+            {errFor('toAmount')}
           </label>
         )}
-        <label className="field full">{t('tx.description')}
+        <label className="field">{t('tx.date')}
+          <input className="input" type="datetime-local" value={occurredAt} onChange={(e) => setOccurredAt(e.target.value)} />
+        </label>
+        <label className="field full">{t('tx.description')} <span className="hint">({t('common.optional')})</span>
           <input className="input" value={description} onChange={(e) => setDescription(e.target.value)} maxLength={120} />
         </label>
         <label className="field full">{t('tx.notes')} <span className="hint">({t('common.optional')})</span>
           <textarea className="input" value={notes} onChange={(e) => setNotes(e.target.value)} maxLength={500} />
         </label>
       </div>
-      {err && <div className="error" role="alert">{t(err)}</div>}
+      </div>
     </Modal>
   );
 }

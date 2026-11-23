@@ -5,6 +5,7 @@ import { useAuth } from '../auth/AuthProvider';
 import { useI18n } from '../i18n';
 import type { MessageKey } from '../i18n/en';
 import { isCloud } from '../lib/supabase';
+import { passwordResetEnabled } from '../lib/features';
 import { Credit } from '../components/Credit';
 import { ThemeToggle } from '../components/ThemeToggle';
 import { LogoMark, Wordmark } from '../components/Logo';
@@ -78,7 +79,7 @@ export function AuthPage({ initialMode = 'in' }: { initialMode?: 'in' | 'up' }) 
           )}
           <label className="field">{t('auth.email')}<input className="input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" required /></label>
           {mode !== 'forgot' && <label className="field">{t('auth.password')}<input className="input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete={mode === 'in' ? 'current-password' : 'new-password'} required minLength={8} /></label>}
-          {mode === 'in' && <button type="button" className="btn ghost sm auth-forgot" onClick={() => { setMode('forgot'); setErr(null); setInfo(null); }}>{t('auth.forgot')}</button>}
+          {mode === 'in' && passwordResetEnabled && <button type="button" className="btn ghost sm auth-forgot" onClick={() => { setMode('forgot'); setErr(null); setInfo(null); }}>{t('auth.forgot')}</button>}
           {mode === 'up' && (
             <>
               <input className="hp" tabIndex={-1} autoComplete="off" aria-hidden="true" name="website" value={trap} onChange={(e) => setTrap(e.target.value)} />

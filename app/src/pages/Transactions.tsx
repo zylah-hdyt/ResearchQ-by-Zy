@@ -1,5 +1,5 @@
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Plus, Search, SlidersHorizontal, X } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
 import { useData } from '../store/DataProvider';
@@ -138,8 +138,10 @@ export function Transactions() {
         <section className="card flush tx-list" aria-label={t('tx.title')}>
           {groups.length === 0 && (
             <div className="empty">
-              <p>{all.length === 0 ? t('tx.emptyFirst') : t('tx.empty2')}</p>
+              <p>{data.wallets.length === 0 ? t('tx.emptyNoWallet') : all.length === 0 ? t('tx.emptyFirst') : t('tx.empty2')}</p>
+              {data.wallets.length === 0 && <Link className="btn primary" to="/accounts"><Plus size={16} aria-hidden />{t('acc.add')}</Link>}
               {all.length === 0 && data.wallets.length > 0 && <button className="btn primary" onClick={() => openAdd()}><Plus size={16} aria-hidden />{t('tx.add')}</button>}
+              {all.length > 0 && <button className="btn" onClick={() => setFilters(defaultFilters(presetRange('all', data.transactions), 'all'))}>{t('tx.showAll')}</button>}
             </div>
           )}
           {groups.map((g) => (
