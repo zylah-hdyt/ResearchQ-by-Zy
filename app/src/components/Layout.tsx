@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
+import { PageFallback } from './PageFallback';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
-import { LayoutDashboard, ArrowLeftRight, Wallet, PieChart, BarChart3, Settings, LogOut, User, Plus } from 'lucide-react';
+import { LayoutDashboard, ArrowLeftRight, Wallet, PieChart, BarChart3, Settings, LogOut, User, Plus, FileSpreadsheet } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
 import { useData } from '../store/DataProvider';
 import { useI18n } from '../i18n';
@@ -12,6 +13,7 @@ import { Credit } from './Credit';
 import { LogoMark, Wordmark } from './Logo';
 import { QuickAddButton, QuickAddProvider, useQuickAdd } from './QuickAdd';
 import { PrivacyProvider } from './Privacy';
+import { SearchButton } from './GlobalSearch';
 
 const NAV: { to: string; label: MessageKey; short?: MessageKey; icon: typeof Wallet }[] = [
   { to: '/', label: 'nav.dashboard', icon: LayoutDashboard },
@@ -20,7 +22,7 @@ const NAV: { to: string; label: MessageKey; short?: MessageKey; icon: typeof Wal
   { to: '/budgets', label: 'nav.budgets', icon: PieChart },
   { to: '/reports', label: 'nav.reports', short: 'nav.reportsShort', icon: BarChart3 },
 ];
-const EXTRA: { to: string; label: MessageKey }[] = [{ to: '/profile', label: 'nav.profile' }, { to: '/settings', label: 'nav.settings' }];
+const EXTRA: { to: string; label: MessageKey }[] = [{ to: '/export', label: 'nav.export' }, { to: '/profile', label: 'nav.profile' }, { to: '/settings', label: 'nav.settings' }];
 
 function SideAdd() {
   const { t } = useI18n();
@@ -45,6 +47,7 @@ function Shell() {
         {NAV.map((n) => (
           <NavLink key={n.to} to={n.to} end={n.to === '/'} className="nav-link"><n.icon size={19} aria-hidden />{t(n.label)}</NavLink>
         ))}
+        <NavLink to="/export" className="nav-link"><FileSpreadsheet size={19} aria-hidden />{t('nav.export')}</NavLink>
         <div className="spacer" />
         <NavLink to="/profile" className="nav-link"><User size={19} aria-hidden />{t('nav.profile')}</NavLink>
         <NavLink to="/settings" className="nav-link"><Settings size={19} aria-hidden />{t('nav.settings')}</NavLink>
@@ -55,6 +58,7 @@ function Shell() {
         {!isDashboard && (
           <header className="topbar">
             <Link to="/" className="mobile-only" aria-label="MyFi"><LogoMark size={30} /></Link>
+            <SearchButton className="topbar-search" />
             <div className="topbar-actions">
               <QuickAddButton className="mobile-only" />
               <ThemeToggle className="icon-btn desktop-only" />
@@ -63,7 +67,7 @@ function Shell() {
             </div>
           </header>
         )}
-        <main className="content"><Outlet /></main>
+        <main className="content"><Suspense fallback={<PageFallback />}><Outlet /></Suspense></main>
       </div>
       <nav className="bottom-nav" aria-label={t('nav.menu')}>
         {NAV.map((n) => (

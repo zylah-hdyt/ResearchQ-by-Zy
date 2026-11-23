@@ -1,4 +1,4 @@
-import { useDeferredValue, useEffect, useMemo, useState } from 'react';
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Plus, Search, SlidersHorizontal, X } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
@@ -22,6 +22,14 @@ import { activeCount, applyFilters, defaultFilters, groupByDay, summarizeList, t
 
 const PAGE = 100;
 
+type Incoming = { categoryId?: string; type?: 'income' | 'expense'; from?: string; to?: string; q?: string; all?: boolean; select?: string };
+function filtersFrom(incoming: Incoming | null, txs: Transaction[]): TxFilters {
+  const d = defaultFilters(presetRange('thisMonth', txs));
+  if (incoming?.all) return { ...defaultFilters(presetRange('all', txs), 'all'), q: incoming.q ?? '', type: incoming.type ?? 'all', categoryIds: incoming.categoryId ? [incoming.categoryId] : [] };
+  if (!incoming?.from || !incoming.to) return d;
+  return { ...d, preset: 'custom', range: { from: incoming.from, to: incoming.to }, type: 'expense', categoryIds: incoming.categoryId ? [incoming.categoryId] : [] };
+}
+
 export function Transactions() {
   const { t, lang } = useI18n();
   const { profile } = useAuth();
@@ -32,14 +40,19 @@ export function Transactions() {
   const base = profile!.preferredCurrency;
   const wide = useMedia('(min-width: 1100px)');
 
-  const incoming = useLocation().state as { categoryId?: string; from?: string; to?: string } | null;
-  const [filters, setFilters] = useState<TxFilters>(() => {
-    const d = defaultFilters(presetRange('thisMonth', data.transactions));
-    if (!incoming?.from || !incoming.to) return d;
-    return { ...d, preset: 'custom', range: { from: incoming.from, to: incoming.to }, type: 'expense', categoryIds: incoming.categoryId ? [incoming.categoryId] : [] };
-  });
+  // Arrivals from a budget ("see transactions") or from the global search (query / category / one transaction, all time).
+  const loc = useLocation();
+  const incoming = loc.state as Incoming | null;
+  const [filters, setFilters] = useState<TxFilters>(() => filtersFrom(incoming, data.transactions));
+  // A new search result while already on this page: apply it (the page does not remount).
+  const firstKey = useRef(loc.key);
+  useEffect(() => {
+    if (loc.key === firstKey.current || !incoming) return;
+    setFilters(filtersFrom(incoming, data.transactions));
+    setSelId(incoming.select ?? null);
+  }, [loc.key]); // eslint-disable-line react-hooks/exhaustive-deps
   const [sheet, setSheet] = useState(false);
-  const [selId, setSelId] = useState<string | null>(null);
+  const [selId, setSelId] = useState<string | null>(incoming?.select ?? null);
   const [limit, setLimit] = useState(PAGE);
   const q = useDeferredValue(filters.q);
 
