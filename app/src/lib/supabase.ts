@@ -6,5 +6,6 @@ const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string | undefined;
 /** Cloud mode is on when both variables are present; otherwise the app uses the local (browser) backend. */
 export const isCloud = Boolean(url && key);
 export const supabase: SupabaseClient | null = isCloud
-  ? createClient(url!, key!, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } })
+  ? createClient(url!, key!, // PKCE: auth links come back as ?code=… (query string), which does not clash with the hash router.
+    { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: 'pkce' } })
   : null;

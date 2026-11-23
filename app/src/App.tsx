@@ -6,6 +6,7 @@ import { ToastProvider } from './components/Toast';
 import { Layout } from './components/Layout';
 import { AuthPage } from './pages/Auth';
 import { Welcome, hasWelcomed } from './pages/Welcome';
+import { ResetPassword } from './pages/ResetPassword';
 import { Dashboard } from './pages/Dashboard';
 import { Transactions } from './pages/Transactions';
 import { Accounts } from './pages/Accounts';
@@ -21,10 +22,11 @@ import { ConsentScreen } from './pages/Consent';
 import { TERMS_VERSION } from './lib/legal';
 
 function Gate() {
-  const { profile, ready } = useAuth();
-  const [entry, setEntry] = useState<'in' | 'up' | null>(() => (hasWelcomed() ? 'in' : null));
+  const { profile, ready, recovery, fromAuthLink } = useAuth();
+  const [entry, setEntry] = useState<'in' | 'up' | null>(() => (hasWelcomed() || fromAuthLink ? 'in' : null));
   if (!ready) return null;
   if (!profile) return entry ? <AuthPage initialMode={entry} /> : <Welcome onDone={setEntry} />;
+  if (recovery) return <ResetPassword />;
   if (profile.termsVersion !== TERMS_VERSION) return <ConsentScreen />;
   return (
     <DataProvider key={profile.userId}>

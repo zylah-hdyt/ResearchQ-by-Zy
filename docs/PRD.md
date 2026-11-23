@@ -26,7 +26,7 @@ financial data to professionally formatted Microsoft Excel workbooks.
 ## 4. Functional requirements
 
 ### 4.1 Authentication & profile (NEW)
-- Sign up (full name, email, password ≥ 8 chars), sign in, sign out.
+- Sign up (full name, email, password ≥ 8 chars), sign in, sign out, **reset password** (email link → set a new password; the answer never reveals whether an email is registered).
 - Profile fields: full name, preferred display name, profile photo, email (read-only), phone, country, date of birth.
 - Preferences: preferred currency (**Rupiah by default**), language (Indonesian by default), appearance (**dark by default** — the black-and-emerald identity — light, or follow system), week start, budget alerts, exchange rates, change password.
 - **Rupiah first:** Rupiah is always written "Rp 1.250.000" in both languages; amount fields group digits live ("1.250.000") and accept either separator style.
