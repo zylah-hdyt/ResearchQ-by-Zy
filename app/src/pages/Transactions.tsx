@@ -69,7 +69,7 @@ export function Transactions() {
   const chips: { key: string; label: string; clear: () => void }[] = [];
   const set = (p: Partial<TxFilters>) => setFilters((f) => ({ ...f, ...p }));
   if (filters.preset !== 'thisMonth') chips.push({ key: 'p', label: `${formatDate(filters.range.from, lang)} – ${formatDate(filters.range.to, lang)}`, clear: () => set({ preset: 'thisMonth', range: presetRange('thisMonth', data.transactions) }) });
-  if (filters.type !== 'all') chips.push({ key: 't', label: t(`tx.type.${filters.type}` as MessageKey), clear: () => set({ type: 'all' }) });
+  // Type has its own tabs above the list, so it is not repeated as a chip.
   for (const id of filters.walletIds) chips.push({ key: 'w' + id, label: data.wallets.find((w) => w.id === id)?.name ?? '', clear: () => set({ walletIds: filters.walletIds.filter((x) => x !== id) }) });
   for (const id of filters.categoryIds) chips.push({ key: 'c' + id, label: categoryLabel(data.categories.find((c) => c.id === id), t), clear: () => set({ categoryIds: filters.categoryIds.filter((x) => x !== id) }) });
   if (filters.min != null || filters.max != null) {
@@ -100,6 +100,12 @@ export function Transactions() {
           <input className="input" type="search" value={filters.q} onChange={(e) => set({ q: e.target.value })} placeholder={t('tx.searchPlaceholder')} aria-label={t('common.search')} />
         </label>
         <button className="btn" onClick={() => setSheet(true)} aria-haspopup="dialog" aria-label={badge > 0 ? `${t('tx.filters')} (${badge})` : t('tx.filters')}><SlidersHorizontal size={17} aria-hidden /><span>{t('tx.filters')}</span>{badge > 0 && <span className="count-badge">{badge}</span>}</button>
+      </div>
+
+      <div className="segmented fill tx-types" role="group" aria-label={t('tx.type')}>
+        {(['all', 'income', 'expense', 'transfer'] as const).map((k) => (
+          <button key={k} className={filters.type === k ? 'on' : ''} aria-pressed={filters.type === k} onClick={() => set({ type: k })}>{k === 'all' ? t('common.all') : t(`tx.type.${k}` as MessageKey)}</button>
+        ))}
       </div>
 
       {chips.length > 0 && (

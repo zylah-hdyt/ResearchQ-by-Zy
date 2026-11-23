@@ -239,6 +239,7 @@ export const en = {
   'greeting.night': 'Good night, {name}',
   'greeting.subtitle': "Here's your financial overview.",
 
+  'dash.vsMonthStart': 'vs start of month',
   'dash.totalBalance': 'Total balance',
   'dash.acrossAccounts': 'Across {n} active wallets',
   'dash.thisMonth': 'This month',

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AlertTriangle, ChevronRight, CircleAlert, Database, Lightbulb, Plus, Wallet as WalletIcon } from 'lucide-react';
+import { AlertTriangle, ArrowDownLeft, ArrowUpRight, ChevronRight, TrendingDown, TrendingUp, CircleAlert, Database, Lightbulb, Plus, Wallet as WalletIcon } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
 import { useData } from '../store/DataProvider';
 import { categoryLabel, useI18n, type TFn } from '../i18n';
@@ -8,7 +8,8 @@ import type { MessageKey } from '../i18n/en';
 import { GreetingHeader } from '../components/UserIdentity';
 import { Money } from '../components/Money';
 import { CashflowChart } from '../components/Charts';
-import { CoinObject } from '../components/Scene';
+import heroWallet from '../assets/hero-wallet.webp';
+import { usePrivacy } from '../components/Privacy';
 import { EyeToggle } from '../components/Privacy';
 import { Kpi } from '../components/Kpi';
 import { RangeTabs } from '../components/RangeTabs';
@@ -20,7 +21,7 @@ import { budgetRows, spanFor } from '../lib/budget';
 import { pctChange } from '../lib/chart';
 import { convert } from '../lib/money';
 import { formatMoney, formatPercent, toLocalDate } from '../lib/format';
-import { buildBuckets, flowByBucket, periodTotals, previousSpan, rangeBounds, type ChartRange } from '../lib/periods';
+import { firstOfMonth, buildBuckets, flowByBucket, periodTotals, previousSpan, rangeBounds, type ChartRange } from '../lib/periods';
 import { walletIcon } from '../lib/categoryIcons';
 import type { CurrencyCode, Transaction } from '../data/types';
 
@@ -44,14 +45,21 @@ export function Dashboard() {
   const balances = useMemo(() => {
     const missing = new Set<CurrencyCode>();
     let total = 0;
+    // Total at the start of this month (end of last month), for "vs end of last month".
+    let monthStart = 0;
+    const startOfMonth = firstOfMonth(today);
     const rows = active.map((w) => {
       const own = walletBalance(w, txs);
       const v = convert(own, w.currency, base, base, data.rates);
+      const before = convert(walletBalance(w, txs, startOfMonth), w.currency, base, base, data.rates);
       if (v == null) missing.add(w.currency); else total += v;
+      if (before != null) monthStart += before;
       return { w, own, converted: v };
     });
-    return { rows: rows.sort((a, b) => (b.converted ?? 0) - (a.converted ?? 0)), total, missing: [...missing] };
-  }, [active, txs, base, data.rates]);
+    return { rows: rows.sort((a, b) => (b.converted ?? 0) - (a.converted ?? 0)), total, monthStart, missing: [...missing] };
+  }, [active, txs, base, data.rates, today]);
+  const { hidden } = usePrivacy();
+  const balanceChange = pctChange(balances.total, balances.monthStart);
 
   // One range drives the summary strip and the chart, so the numbers always agree.
   const span = useMemo(() => rangeBounds(range, today), [range, today]);
@@ -85,12 +93,20 @@ export function Dashboard() {
           {/* PRD 4.2 order in the DOM (and on phones): 2 balance · 3 summary · 4 cashflow · 5 budgets · 6 recent · 7 insights.
              On wide screens the grid places wallets, budgets and insights in the right column. */}
           <section className="dash-hero" aria-label={t('dash.totalBalance')}>
-            <CoinObject className="hero-coin" />
+            <img className="hero-obj" src={heroWallet} width={480} height={390} alt="" aria-hidden decoding="async" />
             <div className="row between">
               <span className="hero-eyebrow">{t('dash.totalBalance')}</span>
               <EyeToggle className="icon-btn hero-eye" />
             </div>
             <Money className="hero-amount" value={balances.total} currency={base} maskable />
+            {balanceChange != null && !hidden && balanceChange !== 0 && (
+              <span className={`hero-delta ${balanceChange > 0 ? 'up' : 'down'}`}>
+                {balanceChange > 0 ? <TrendingUp size={15} aria-hidden /> : <TrendingDown size={15} aria-hidden />}
+                <span className="sr-only">{balanceChange > 0 ? t('chart.up') : t('chart.down')}</span>
+                {balanceChange > 0 ? '+' : '−'}{formatPercent(Math.abs(balanceChange), lang)}
+                <span className="hero-delta-note">{t('dash.vsMonthStart')}</span>
+              </span>
+            )}
             <Link to="/accounts" className="hero-sub">{t('dash.acrossAccounts', { n: active.length })}<ChevronRight size={15} aria-hidden /></Link>
             <div className="hero-wallets">
               {balances.rows.slice(0, 4).map(({ w, own }) => (
@@ -118,9 +134,9 @@ export function Dashboard() {
           <section className="dash-summary">
             <div className="section-head"><h2>{t('dash.summary')}</h2><RangeTabs value={range} onChange={setRange} /></div>
             <div className="card flush kpi-strip">
-              <Kpi label={t('dash.income')} keyColor="var(--chart-income)" value={cur.income} currency={base} change={pctChange(cur.income, prev.income)} upIsGood trend={flow.points.map((p) => p.income)} />
-              <Kpi label={t('dash.expense')} keyColor="var(--chart-expense)" value={cur.expense} currency={base} change={pctChange(cur.expense, prev.expense)} upIsGood={false} trend={flow.points.map((p) => p.expense)} />
-              <Kpi label={t('dash.net')} keyColor="var(--brand)" value={cur.net} currency={base} sign change={pctChange(cur.net, prev.net)} upIsGood trend={flow.points.map((p) => p.income - p.expense)} />
+              <Kpi icon={ArrowDownLeft} label={t('dash.income')} keyColor="var(--chart-income)" value={cur.income} currency={base} change={pctChange(cur.income, prev.income)} upIsGood trend={flow.points.map((p) => p.income)} />
+              <Kpi icon={ArrowUpRight} label={t('dash.expense')} keyColor="var(--chart-expense)" value={cur.expense} currency={base} change={pctChange(cur.expense, prev.expense)} upIsGood={false} trend={flow.points.map((p) => p.expense)} />
+              <Kpi icon={TrendingUp} iconInk="var(--on-brand)" label={t('dash.net')} keyColor="var(--brand)" value={cur.net} currency={base} sign change={pctChange(cur.net, prev.net)} upIsGood trend={flow.points.map((p) => p.income - p.expense)} />
             </div>
           </section>
           <section className="dash-chart card">

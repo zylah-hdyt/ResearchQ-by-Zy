@@ -241,6 +241,7 @@ export const id: Record<MessageKey, string> = {
   'greeting.night': 'Selamat malam, {name}',
   'greeting.subtitle': 'Berikut ringkasan keuangan Anda.',
 
+  'dash.vsMonthStart': 'vs awal bulan',
   'dash.totalBalance': 'Total saldo',
   'dash.acrossAccounts': 'Dari {n} dompet aktif',
   'dash.thisMonth': 'Bulan ini',
