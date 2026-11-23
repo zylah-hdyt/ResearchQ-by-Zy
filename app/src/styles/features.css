@@ -88,3 +88,11 @@
 .legal article ul { padding-left: 20px; margin: 6px 0; }
 .legal article li { margin: 4px 0; }
 .legal-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 36px; padding-top: 14px; border-top: 1px solid var(--border); font-size: .85rem; }
+.identity-card-actions { justify-content: flex-end; }
+@media (max-width: 600px) {
+  /* Profile / settings identity card: details get the full width, actions go on their own row */
+  .identity-card { flex-wrap: wrap; align-items: flex-start; }
+  .identity-card .identity-main { flex: 1 1 100%; }
+  .identity-card p { overflow-wrap: anywhere; }
+  .identity-card-actions { flex: 1 1 100%; justify-content: flex-start; }
+}

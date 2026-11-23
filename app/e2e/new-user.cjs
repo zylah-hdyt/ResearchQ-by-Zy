@@ -1,0 +1,12 @@
+// New-user journey on a phone: empty states, identity cards and the notifications panel fit the screen.
+const { chromium, devices } = require('playwright'); const { ok, done, BASE } = require('./common.cjs'); const out = process.argv[2] || 'e2e-output';
+(async () => { const b = await chromium.launch(); const c = await b.newContext({ ...devices['iPhone 13'], locale: 'id-ID' }); await c.addInitScript(() => localStorage.setItem('myfi.welcomed', '1')); const p = await c.newPage(); const errs = []; p.on('pageerror', (e) => errs.push(e.message));
+  await p.goto(BASE + '/'); await p.getByRole('button', { name: 'Buat akun' }).click(); await p.getByLabel('Nama lengkap').fill('Rina Putri Wulandari'); await p.getByLabel('Email').fill('rina.putri.wulandari@contoh.id'); await p.getByLabel('Kata sandi').fill('password123'); await p.getByRole('checkbox').check(); await p.waitForTimeout(2700); await p.locator('form button[type=submit]').click(); await p.waitForTimeout(1000);
+  await p.goto(BASE + '/#/transactions'); await p.waitForTimeout(600); ok(/Buat dompet atau rekening dulu/.test(await p.locator('.tx-list').innerText()) && await p.getByRole('link', { name: 'Tambah dompet' }).isVisible(), 'no wallet: transactions explains and links to "Tambah dompet"'); await p.screenshot({ path: out + '/fix-tx-empty.png' });
+  for (const w of [390, 320]) { await p.setViewportSize({ width: w, height: 844 });
+    for (const r of ['profile', 'settings']) { await p.goto(BASE + '/#/' + r); await p.waitForTimeout(900);
+      const box = await p.locator('.identity-card p').first().boundingBox(); const act = await p.locator('.identity-card-actions').boundingBox();
+      ok(box.width > w * 0.45 && act.y >= box.y + box.height - 1, `${r} ${w}px: email has room (${Math.round(box.width)}px) and actions sit below`); if (w === 390) await p.screenshot({ path: `${out}/fix-${r}.png` }); }
+    await p.goto(BASE + '/#/'); await p.waitForTimeout(600); await p.locator('button[aria-label*="otifikasi"]').first().click(); await p.waitForTimeout(300);
+    const pb = await p.locator('.popover').boundingBox(); ok(pb.x >= 0 && pb.x + pb.width <= w, `notifications panel inside the screen at ${w}px`); if (w === 390) await p.screenshot({ path: out + '/fix-notif.png' }); await p.keyboard.press('Escape'); }
+  done(errs); await b.close(); })().catch((e) => { console.error('FAIL(script)', e.message.split('\n')[0]); process.exit(1); });

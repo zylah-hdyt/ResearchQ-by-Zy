@@ -15,7 +15,7 @@ export function IdentityCard({ children }: { children?: React.ReactNode }) {
   const { t, lang } = useI18n();
   const since = profile!.createdAt ?? storage.listAccounts().find((a) => a.id === profile!.userId)?.createdAt;
   return (
-    <section className="card identity">
+    <section className="card identity identity-card">
       <div className="identity-main">
         <Avatar profile={profile!} size={64} />
         <div style={{ minWidth: 0 }}>
@@ -24,7 +24,7 @@ export function IdentityCard({ children }: { children?: React.ReactNode }) {
           {since && <p className="small">{t('profile.memberSince', { date: formatDate(since.slice(0, 10), lang, { month: 'long', year: 'numeric' }) })}</p>}
         </div>
       </div>
-      <div className="row wrap" style={{ justifyContent: 'flex-end' }}>
+      <div className="row wrap identity-card-actions">
         {children}
         <button className="btn" onClick={signOut}><LogOut size={16} />{t('nav.signOut')}</button>
       </div>

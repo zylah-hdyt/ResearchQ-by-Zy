@@ -12,3 +12,9 @@ export const FEATURES = {
 
 export type FeatureKey = keyof typeof FEATURES;
 export const isEnabled = (k: FeatureKey): boolean => FEATURES[k];
+
+/**
+ * "Forgot password" needs an email sender (custom SMTP in Supabase). Off until one is set up; turn on with
+ * VITE_PASSWORD_RESET=on (Netlify environment variable or .env). The reset screen itself always works for links already sent.
+ */
+export const passwordResetEnabled = import.meta.env.VITE_PASSWORD_RESET === 'on';

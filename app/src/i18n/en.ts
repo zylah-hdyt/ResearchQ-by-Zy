@@ -156,6 +156,8 @@ export const en = {
   'tx.details': 'Transaction details',
   'tx.pickOne': 'Select a transaction to see its details.',
   'tx.empty2': 'No transactions match your search and filters.',
+  'tx.emptyNoWallet': 'Create a wallet or account first, then record your first transaction.',
+  'tx.showAll': 'Show all transactions',
   'tx.emptyFirst': 'No transactions yet. Add your first one.',
   'tx.d.when': 'Date & time',
   'tx.d.category': 'Category',

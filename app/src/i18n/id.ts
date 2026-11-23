@@ -158,6 +158,8 @@ export const id: Record<MessageKey, string> = {
   'tx.details': 'Detail transaksi',
   'tx.pickOne': 'Pilih transaksi untuk melihat detailnya.',
   'tx.empty2': 'Tidak ada transaksi yang cocok dengan pencarian dan filter.',
+  'tx.emptyNoWallet': 'Buat dompet atau rekening dulu, lalu catat transaksi pertama Anda.',
+  'tx.showAll': 'Tampilkan semua transaksi',
   'tx.emptyFirst': 'Belum ada transaksi. Tambahkan yang pertama.',
   'tx.d.when': 'Tanggal & waktu',
   'tx.d.category': 'Kategori',

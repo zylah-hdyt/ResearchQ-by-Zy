@@ -39,7 +39,14 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   await amt.pressSequentially('1250000');
   ok((await amt.inputValue()) === '1.250.000', 'amount field groups live as you type: ' + (await amt.inputValue()));
   await p.getByLabel('Deskripsi').fill('Tes Rupiah');
-  await p.locator('.modal select').last().selectOption('cat_food');
+  // Saving without a category: the error shows next to the category picker and is on screen
+  await p.getByRole('button', { name: 'Simpan' }).click(); await p.waitForTimeout(500);
+  const errBox = await p.locator('[data-field=category] .field-error').boundingBox();
+  const vh = p.viewportSize().height;
+  ok(!!errBox && errBox.y >= 0 && errBox.y + errBox.height <= vh && /kategori/i.test(await p.locator('[data-field=category] .field-error').innerText()), 'missing category: error shown at the category picker, inside the viewport');
+  ok(await p.locator('.modal').isVisible(), 'form stays open with the entered amount');
+  await p.getByRole('radio', { name: 'Makan & minum' }).click();
+  ok((await p.locator('[data-field=category] .field-error').count()) === 0, 'picking a category clears the error');
   await p.getByRole('button', { name: 'Simpan' }).click();
   await p.goto(BASE + '/#/transactions');
   const row = p.locator('.list-item', { hasText: 'Tes Rupiah' }).first();
