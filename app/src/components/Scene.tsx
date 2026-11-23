@@ -2,7 +2,7 @@ import { useId, type CSSProperties, type ReactNode } from 'react';
 
 /**
  * Cinematic backdrop pieces for the welcome, sign-in and hero surfaces: ambient emerald light, a faint grain, and
- * three illustrated "objects" (coin, card, rising bars). All are inline SVG/CSS: no image downloads, they follow the theme,
+ * illustrated "objects" (card, rising bars). All are inline SVG/CSS: no image downloads, they follow the theme,
  * and they are decorative (aria-hidden) so they never carry information.
  */
 
@@ -12,36 +12,6 @@ export function Aurora({ className = '', strength = 1 }: { className?: string; s
     <div className={`aurora ${className}`} aria-hidden style={{ '--aurora': strength } as CSSProperties}>
       <i className="aurora-a" /><i className="aurora-b" /><i className="aurora-grain" />
     </div>
-  );
-}
-
-/** A thick emerald coin, lit from the upper left, resting on a glow. */
-export function CoinObject({ symbol = 'Rp', className = '' }: { symbol?: string; className?: string }) {
-  const id = useId().replace(/:/g, '');
-  const g = (n: string) => `${n}${id}`;
-  return (
-    <svg className={`obj obj-coin ${className}`} viewBox="0 0 260 260" aria-hidden focusable="false">
-      <defs>
-        <radialGradient id={g('glow')} cx="50%" cy="50%" r="50%"><stop offset="0" stopColor="#20c975" stopOpacity=".55" /><stop offset="1" stopColor="#20c975" stopOpacity="0" /></radialGradient>
-        <linearGradient id={g('face')} x1="0.1" y1="0" x2="0.9" y2="1"><stop offset="0" stopColor="#8bffc4" /><stop offset=".38" stopColor="#20c975" /><stop offset="1" stopColor="#07703f" /></linearGradient>
-        <linearGradient id={g('rim')} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#0d8f52" /><stop offset="1" stopColor="#03351d" /></linearGradient>
-        <linearGradient id={g('ink')} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#0a7a47" /><stop offset="1" stopColor="#04361f" /></linearGradient>
-        <radialGradient id={g('spec')} cx="30%" cy="22%" r="60%"><stop offset="0" stopColor="#fff" stopOpacity=".85" /><stop offset=".5" stopColor="#fff" stopOpacity=".08" /><stop offset="1" stopColor="#fff" stopOpacity="0" /></radialGradient>
-        <filter id={g('blur')}><feGaussianBlur stdDeviation="6" /></filter>
-      </defs>
-      <ellipse cx="130" cy="236" rx="96" ry="16" fill={`url(#${g('glow')})`} />
-      <ellipse cx="130" cy="232" rx="62" ry="9" fill="#000" opacity=".55" filter={`url(#${g('blur')})`} />
-      <circle cx="146" cy="128" r="92" fill={`url(#${g('rim')})`} />
-      <circle cx="146" cy="128" r="92" fill="none" stroke="#20c975" strokeOpacity=".35" strokeWidth="1.5" />
-      <circle cx="128" cy="132" r="92" fill={`url(#${g('face')})`} />
-      <circle cx="128" cy="132" r="92" fill="none" stroke="#c9ffe3" strokeOpacity=".55" strokeWidth="1.5" />
-      <circle cx="128" cy="132" r="76" fill="none" stroke="#04361f" strokeOpacity=".55" strokeWidth="2" strokeDasharray="1.5 6" />
-      <circle cx="128" cy="132" r="66" fill="none" stroke="#e6fff2" strokeOpacity=".5" strokeWidth="1.5" />
-      <circle cx="128" cy="132" r="66" fill={`url(#${g('ink')})`} opacity=".16" />
-      <text x="129" y="153" textAnchor="middle" fontSize="62" fontWeight="800" fill="#e8fff3" opacity=".55" style={{ fontFamily: 'inherit' }}>{symbol}</text>
-      <text x="128" y="151" textAnchor="middle" fontSize="62" fontWeight="800" fill={`url(#${g('ink')})`} style={{ fontFamily: 'inherit' }}>{symbol}</text>
-      <circle cx="128" cy="132" r="92" fill={`url(#${g('spec')})`} />
-    </svg>
   );
 }
 
