@@ -1,0 +1,20 @@
+const BASE = (process.env.E2E_BASE_URL || 'http://localhost:4173').replace(/\/$/, '');
+const { chromium } = require('playwright'); const { ok, done } = require('./common.cjs');
+// The exact Content-Security-Policy that Netlify sends in production.
+const CSP = require('fs').readFileSync(require('path').join(__dirname, '../../netlify.toml'), 'utf8').match(/Content-Security-Policy = "([^"]+)"/)[1];
+(async () => { const b = await chromium.launch(); const ctx = await b.newContext({ acceptDownloads: true, viewport: { width: 1280, height: 800 } });
+  await ctx.addInitScript(() => localStorage.setItem('myfi.welcomed', '1'));
+  await ctx.route('**/*', async (route) => { const r = await route.fetch(); const h = { ...r.headers() }; if ((h['content-type'] || '').includes('text/html') || route.request().resourceType() === 'script') h['content-security-policy'] = CSP; await route.fulfill({ response: r, headers: h }); });
+  const p = await ctx.newPage(); const errs = []; const workers = [];
+  p.on('console', (m) => { if (m.type() !== 'log' && !/Future Flag/.test(m.text())) errs.push(m.text().slice(0, 200)); }); p.on('worker', (w) => workers.push(w.url()));
+  await p.goto(BASE + '/'); const header = await p.evaluate(async () => (await fetch(location.href)).headers.get('content-security-policy'));
+  await p.getByRole('button', { name: 'Buat akun' }).click(); await p.getByLabel('Nama lengkap').fill('Csp'); await p.getByLabel('Email').fill('csp@example.com'); await p.getByLabel('Kata sandi').fill('password123');
+  await p.getByRole('checkbox').check(); await p.waitForTimeout(2700); await p.locator('form button[type=submit]').click();
+  await p.getByRole('button', { name: 'Muat data contoh' }).click(); await p.getByText('Total saldo').waitFor();
+  await p.goto(BASE + '/#/transactions'); await p.getByRole('button', { name: 'Ekspor' }).click(); await p.getByRole('button', { name: 'Lanjut' }).click();
+  const [dl] = await Promise.all([p.waitForEvent('download', { timeout: 60000 }), p.getByRole('button', { name: 'Buat & unduh' }).click()]);
+  ok(!!header, 'production CSP header applied to the page');
+  ok(dl.suggestedFilename().endsWith('.xlsx'), 'export downloads under the production CSP');
+  ok(workers.some((u) => /export\.worker/.test(u)), 'export worker allowed by the CSP (same-origin module worker)');
+  ok(!errs.some((e) => /Content Security Policy|Refused|unavailable/i.test(e)), 'no CSP violations or worker fallback: ' + JSON.stringify(errs));
+  done([]); await b.close(); })().catch((e) => { console.error('FAIL(script)', e.message.split('\n')[0]); process.exit(1); });
