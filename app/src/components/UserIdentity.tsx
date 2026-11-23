@@ -11,6 +11,7 @@ import { Avatar } from './Avatar';
 import { ThemeToggle } from './ThemeToggle';
 import { AccountMenu } from './AccountMenu';
 import { QuickAddButton } from './QuickAdd';
+import { SearchButton } from './GlobalSearch';
 import type { MessageKey } from '../i18n/en';
 
 /** Re-renders every minute so the greeting follows the local clock. */
@@ -108,6 +109,7 @@ export function GreetingHeader() {
         </div>
       </div>
       <div className="identity-actions">
+        <SearchButton />
         <QuickAddButton className="mobile-only" />
         <ThemeToggle className="icon-btn desktop-only" />
         <NotificationBell />
