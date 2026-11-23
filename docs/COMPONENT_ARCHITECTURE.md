@@ -59,7 +59,7 @@ app/src
 │   ├── Privacy.tsx               hide-balance toggle and masking
 │   ├── AmountInput.tsx           live-grouped amount field
 │   ├── RangePicker.tsx, Modal.tsx, Toast.tsx, Money.tsx
-├── styles/                       tokens → base → components → layout → pages (+ features.css for auth, legal, charts)
+├── styles/                       tokens → base → components → layout → pages → scenes (welcome, auth, ambient light); features.css holds legal, charts and identity
 └── pages/                        Dashboard, Transactions, Accounts, WalletDetail, Budgets, Reports, Profile, Settings, Auth, Legal, Consent
 ```
 
