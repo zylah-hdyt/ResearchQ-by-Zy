@@ -9,5 +9,7 @@ export default defineConfig({
       output: { manualChunks: { exceljs: ['exceljs'] } },
     },
   },
+  // Module workers so the export worker can lazy-load ExcelJS.
+  worker: { format: 'es' },
   test: { environment: 'node' },
 } as never);

@@ -72,3 +72,18 @@ describe('workbook', () => {
     expect(csv.split('\r\n')).toHaveLength(7);
   });
 });
+
+describe('export file bytes (worker transfer)', () => {
+  it('buildFile returns a transferable ArrayBuffer with exactly the xlsx bytes', async () => {
+    const { buildFile } = await import('../export/build');
+    const d = buildDataset(fixture(), profile, { range: { from: '2026-11-01', to: '2026-11-30' }, type: 'all', categoryId: 'all', walletId: 'all', currency: 'original', format: 'xlsx' });
+    const f = await buildFile(d);
+    expect(f.bytes).toBeInstanceOf(ArrayBuffer);
+    const head = new Uint8Array(f.bytes, 0, 2);
+    expect(String.fromCharCode(head[0], head[1])).toBe('PK');
+    const wb = new ExcelJS.Workbook(); await wb.xlsx.load(f.bytes);
+    expect(wb.worksheets.length).toBe(6);
+    const csv = await buildFile({ ...d, options: { ...d.options, format: 'csv' } });
+    expect(csv.bytes).toBeInstanceOf(ArrayBuffer); expect(csv.filename.endsWith('.csv')).toBe(true);
+  });
+});
