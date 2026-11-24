@@ -81,3 +81,8 @@
 .reset-page { position: relative; min-height: 100dvh; display: grid; place-items: center; padding: var(--s-5); background: var(--bg); overflow: hidden; }
 .reset-card { position: relative; z-index: 1; width: min(420px, 100%); display: flex; flex-direction: column; gap: var(--s-4); padding: var(--s-8) var(--s-6); }
 .reset-card h1 { font-size: 1.6rem; }
+
+/* Sign-in / sign-up: one solid background across the art and the form (no aurora, no seam) */
+.auth, .auth-side, .auth-form { background: var(--auth-bg); }
+.auth-side .aurora { display: none; }
+.auth-form { border-left: none; }

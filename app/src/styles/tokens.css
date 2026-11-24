@@ -1,5 +1,6 @@
 /* Design tokens. Dark (black + emerald) is the default identity; light is the alternative. "System" follows the OS. */
 :root {
+  --auth-bg: #161a18; /* sign-in page: one solid colour, the card's own fill */
   --bg: #000000;
   --surface: #191919;
   --surface-2: #232323;
@@ -74,6 +75,7 @@
 :root[data-theme="dark"] { color-scheme: dark; }
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
+    --auth-bg: var(--bg);
   --bg: #f2f6f4;
     --surface: #ffffff;
     --surface-2: #edf2ef;
@@ -133,6 +135,7 @@
   }
 }
 :root[data-theme="light"] {
+  --auth-bg: var(--bg);
   --bg: #f2f6f4;
   --surface: #ffffff;
   --surface-2: #edf2ef;
