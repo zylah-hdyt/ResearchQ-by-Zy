@@ -3,7 +3,6 @@ import { PageFallback } from './PageFallback';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { LayoutDashboard, ArrowLeftRight, Wallet, PieChart, BarChart3, Settings, LogOut, User, Plus, FileSpreadsheet } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
-import { useData } from '../store/DataProvider';
 import { useI18n } from '../i18n';
 import type { MessageKey } from '../i18n/en';
 import { NotificationBell } from './UserIdentity';
@@ -26,9 +25,8 @@ const EXTRA: { to: string; label: MessageKey }[] = [{ to: '/export', label: 'nav
 
 function SideAdd() {
   const { t } = useI18n();
-  const { wallets } = useData();
   const { openAdd } = useQuickAdd();
-  return <button className="btn primary side-add" onClick={() => openAdd()} disabled={wallets.length === 0}><Plus size={18} aria-hidden />{t('tx.add')}</button>;
+  return <button className="btn primary side-add" onClick={() => openAdd()}><Plus size={18} aria-hidden />{t('tx.add')}</button>;
 }
 
 function Shell() {

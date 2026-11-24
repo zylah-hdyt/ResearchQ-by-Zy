@@ -1,0 +1,3 @@
+# Only the part that matters for chat: the gateway cannot send a Supabase JWT.
+[functions.chat-webhook]
+verify_jwt = false

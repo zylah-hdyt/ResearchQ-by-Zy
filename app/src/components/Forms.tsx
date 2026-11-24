@@ -147,7 +147,7 @@ export function TransactionForm({ initial, preset, duplicateOf, onClose }: {
 const WALLET_TYPES: WalletType[] = ['bank', 'cash', 'ewallet', 'savings', 'credit', 'investment', 'other'];
 const WALLET_COLORS = ['#1d4ed8', '#15803d', '#0891b2', '#7c3aed', '#be185d', '#b45309', '#475569'];
 
-export function WalletForm({ initial, onClose }: { initial?: Wallet; onClose: () => void }) {
+export function WalletForm({ initial, onClose, onSaved, intro }: { initial?: Wallet; onClose: () => void; /** Called instead of onClose after a successful save. */ onSaved?: () => void; intro?: string }) {
   const { t, lang } = useI18n();
   const toast = useToast();
   const { profile } = useAuth();
@@ -164,7 +164,7 @@ export function WalletForm({ initial, onClose }: { initial?: Wallet; onClose: ()
     if (!name.trim()) return setErr(t('acc.name'));
     saveWallet({ id: initial?.id, name: name.trim(), type, currency, initialBalance: parseAmount(initialBalance || '0', currency, lang), color, archived: initial?.archived ?? false });
     toast(t('common.saved'));
-    onClose();
+    if (onSaved) onSaved(); else onClose();
   };
   return (
     <Modal title={initial ? t('acc.edit') : t('acc.add')} onClose={onClose}
@@ -176,6 +176,7 @@ export function WalletForm({ initial, onClose }: { initial?: Wallet; onClose: ()
         <button className="btn" onClick={onClose}>{t('common.cancel')}</button>
         <button className="btn primary" onClick={submit}>{t('common.save')}</button>
       </>}>
+      {intro && <div className="banner info">{intro}</div>}
       <div className="form-grid">
         <label className="field full">{t('acc.name')}<input className="input" autoFocus value={name} onChange={(e) => setName(e.target.value)} maxLength={60} /></label>
         <label className="field">{t('acc.type')}

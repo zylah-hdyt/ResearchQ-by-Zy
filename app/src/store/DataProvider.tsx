@@ -7,6 +7,8 @@ import { translator, useI18n } from '../i18n';
 import { uid } from '../lib/id';
 import { dedupe } from '../lib/finance';
 import { buildSampleData } from './sample';
+import { supabase } from '../lib/supabase';
+import { chatEnabled } from '../lib/chatLink';
 
 interface DataValue extends UserData {
   saveWallet: (w: Omit<Wallet, 'id' | 'userId' | 'createdAt'> & { id?: string }) => void;
@@ -51,6 +53,33 @@ export function DataProvider({ children }: { children: ReactNode }) {
   }, [userId]);
 
   useEffect(() => { void reload(); }, [reload]);
+
+  /** Fetch again without the loading screen. Waits for our own pending writes first so nothing is overwritten. */
+  const refresh = useCallback(async () => {
+    await queue.current;
+    try {
+      const d = await dataBackend.load(userId);
+      dataRef.current = d;
+      setData(d);
+    } catch (e) { console.error(e); }
+  }, [userId]);
+
+  // Messages recorded through chat arrive in the database, not through this app: pick them up live (Realtime on the
+  // user's own chat_inbox rows) and whenever the tab comes back to the front.
+  useEffect(() => {
+    if (!chatEnabled || !supabase || status !== 'ready') return;
+    const channel = supabase.channel(`chat-inbox-${userId}`)
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'chat_inbox' }, (p) => {
+        const row = p.new as { status?: string; intent?: string; reply?: string };
+        if (row.status !== 'done' || !['transaction', 'transfer', 'undo'].includes(row.intent ?? '')) return;
+        const first = (row.reply ?? '').split('\n')[0].replace(/[*_]/g, '');
+        void refresh().then(() => toast(first));
+      })
+      .subscribe();
+    const onVisible = () => { if (document.visibilityState === 'visible') void refresh(); };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => { void supabase!.removeChannel(channel); document.removeEventListener('visibilitychange', onVisible); };
+  }, [userId, status, refresh, toast]);
 
   /** Apply a change immediately (optimistic), then persist it in order. On failure, reload the real state. */
   const commit = useCallback(

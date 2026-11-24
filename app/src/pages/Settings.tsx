@@ -11,6 +11,8 @@ import { Credit } from '../components/Credit';
 import { Modal } from '../components/Modal';
 import { useConfirm } from '../components/Confirm';
 import { parseNumber } from '../lib/money';
+import { ChatLinkCard } from '../components/ChatLinkCard';
+import { chatEnabled } from '../lib/chatLink';
 
 export function Settings() {
   const { t, lang } = useI18n();
@@ -144,6 +146,8 @@ export function Settings() {
         </div>
         <div className="row" style={{ justifyContent: 'flex-end', marginTop: 14 }}><button className="btn primary" onClick={saveRates}>{t('common.save')}</button></div>
       </section>
+
+      {chatEnabled && <ChatLinkCard />}
 
       <section className="card">
         <div className="card-head"><h2>{t('settings.danger')}</h2></div>
