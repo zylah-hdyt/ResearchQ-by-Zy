@@ -167,9 +167,15 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   if (status !== 'ready') {
     return (
-      <div className="state" style={{ minHeight: '100%', justifyContent: 'center' }} role={status === 'error' ? 'alert' : 'status'}>
+      <div className={status === 'loading' ? '' : 'state'} style={status === 'loading' ? { minHeight: '100%' } : { minHeight: '100%', justifyContent: 'center' }} role={status === 'error' ? 'alert' : 'status'}>
+        {status === 'loading' && <span className="sr-only">{t('common.loading')}</span>}
         {status === 'loading' ? (
-          <><div className="spinner" /><span className="muted">{t('common.loading')}</span></>
+          <div className="skeleton-page" aria-hidden>
+            <div className="sk-row"><div className="sk" style={{ width: 52, height: 52, borderRadius: '50%' }} /><div style={{ flex: 1 }} className="stack"><div className="sk sk-line" style={{ width: '55%' }} /><div className="sk sk-line" style={{ width: '35%' }} /></div></div>
+            <div className="sk sk-hero" />
+            <div className="sk sk-strip" />
+            <div className="sk sk-card" />
+          </div>
         ) : (
           <><strong>{t('sync.loadError')}</strong><button className="btn primary" onClick={reload}>{t('export.retry')}</button></>
         )}

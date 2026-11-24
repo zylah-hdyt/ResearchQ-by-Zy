@@ -100,7 +100,7 @@ export function Dashboard() {
               <span className="hero-eyebrow">{t('dash.totalBalance')}</span>
               <EyeToggle className="icon-btn hero-eye" />
             </div>
-            <Money className="hero-amount" value={balances.total} currency={base} maskable />
+            <Money className="hero-amount" value={balances.total} currency={base} maskable animate />
             {balanceChange != null && !hidden && balanceChange !== 0 && (
               <span className={`hero-delta ${balanceChange > 0 ? 'up' : 'down'}`}>
                 {balanceChange > 0 ? <TrendingUp size={15} aria-hidden /> : <TrendingDown size={15} aria-hidden />}
