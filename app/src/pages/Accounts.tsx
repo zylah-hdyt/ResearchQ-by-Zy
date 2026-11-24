@@ -67,7 +67,7 @@ export function Accounts() {
         <>
           <section className="card nw">
             <div className="row between"><span className="muted small" style={{ fontWeight: 600 }}>{t('acc.netWorth')}</span><EyeToggle /></div>
-            <Money className="nw-amount" value={ov.netWorth} currency={base} maskable />
+            <Money className="nw-amount" value={ov.netWorth} currency={base} maskable animate />
             <div className="nw-split">
               <span><span className="muted">{t('acc.assets')}</span> <Money className="num" value={ov.assets} currency={base} maskable /></span>
               <span><span className="muted">{t('acc.liabilities')}</span> <Money className="num" value={ov.liabilities} currency={base} maskable /></span>

@@ -16,7 +16,7 @@ export function Kpi({ label, keyColor, value, currency, sign, change, upIsGood, 
   return (
     <div className="kpi">
       <span className="kpi-label">{Icon ? <span className="kpi-icon" style={{ background: keyColor, color: iconInk }}><Icon size={16} strokeWidth={2.4} aria-hidden /></span> : <i className="swatch" style={{ background: keyColor }} />}{label}</span>
-      <Money className="kpi-value" value={value} currency={currency} sign={sign} />
+      <Money className="kpi-value" value={value} currency={currency} sign={sign} animate />
       <div className="kpi-foot">
         <div className="kpi-main">
         {suffix && <span className="xs muted">{suffix}</span>}

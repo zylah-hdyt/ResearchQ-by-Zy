@@ -34,7 +34,11 @@ export const storage = {
 
   getData: (userId: string): UserData => {
     const d = read<UserData | null>(k('u', userId, 'data'), null);
-    if (d) return d;
+    if (d) {
+      const have = new Set(d.categories.map((c) => c.id));
+      const add = DEFAULT_CATEGORIES.filter((c) => !have.has(c.id)).map((c) => ({ ...c, userId }));
+      return add.length ? { ...d, categories: [...d.categories, ...add] } : d;
+    }
     return {
       wallets: [],
       categories: DEFAULT_CATEGORIES.map((c) => ({ ...c, userId })),

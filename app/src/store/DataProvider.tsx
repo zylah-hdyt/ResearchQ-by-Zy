@@ -6,7 +6,7 @@ import { useToast } from '../components/Toast';
 import { translator, useI18n } from '../i18n';
 import { uid } from '../lib/id';
 import { dedupe } from '../lib/finance';
-import { buildSampleData } from './sample';
+import { buildSampleData, isSampleId } from './sample';
 import { supabase } from '../lib/supabase';
 import { chatEnabled } from '../lib/chatLink';
 
@@ -22,6 +22,10 @@ interface DataValue extends UserData {
   setRates: (r: ExchangeRate[]) => void;
   markNotificationsRead: (ids: string[]) => void;
   loadSample: () => void;
+  /** True while any sample record is present. */
+  hasSample: boolean;
+  /** Remove only the sample records; everything the user entered stays. */
+  removeSample: () => void;
   clearAll: () => void;
 }
 
@@ -141,7 +145,21 @@ export function DataProvider({ children }: { children: ReactNode }) {
       setRates: (rates) => commit((d) => ({ ...d, rates })),
       markNotificationsRead: (ids) =>
         commit((d) => ({ ...d, readNotifications: [...new Set([...d.readNotifications, ...ids])] })),
-      loadSample: () => commit((d) => buildSampleData(userId, profile!.preferredCurrency, d, profile!.language)),
+      hasSample: data.wallets.some((w) => isSampleId(w.id)) || data.transactions.some((x) => isSampleId(x.id)),
+      loadSample: () => {
+        const before = dataRef.current;
+        commit((d) => buildSampleData(userId, profile!.preferredCurrency, d, profile!.language));
+        toast(translator(lang)('dash.sampleLoaded'), { label: translator(lang)('tx.undo'), onClick: () => commit(() => before) });
+      },
+      removeSample: () => {
+        commit((d) => ({
+          ...d,
+          wallets: d.wallets.filter((w) => !isSampleId(w.id)),
+          transactions: d.transactions.filter((x) => !isSampleId(x.id) && !isSampleId(x.walletId) && !(x.toWalletId && isSampleId(x.toWalletId))),
+          budgets: d.budgets.filter((b) => !isSampleId(b.id)),
+        }));
+        toast(translator(lang)('dash.sampleRemoved'));
+      },
       clearAll: () => commit((d) => ({ ...d, wallets: [], transactions: [], budgets: [], readNotifications: [] })),
     }),
     [data, commit, userId, profile],
@@ -149,9 +167,15 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   if (status !== 'ready') {
     return (
-      <div className="state" style={{ minHeight: '100%', justifyContent: 'center' }} role={status === 'error' ? 'alert' : 'status'}>
+      <div className={status === 'loading' ? '' : 'state'} style={status === 'loading' ? { minHeight: '100%' } : { minHeight: '100%', justifyContent: 'center' }} role={status === 'error' ? 'alert' : 'status'}>
+        {status === 'loading' && <span className="sr-only">{t('common.loading')}</span>}
         {status === 'loading' ? (
-          <><div className="spinner" /><span className="muted">{t('common.loading')}</span></>
+          <div className="skeleton-page" aria-hidden>
+            <div className="sk-row"><div className="sk" style={{ width: 52, height: 52, borderRadius: '50%' }} /><div style={{ flex: 1 }} className="stack"><div className="sk sk-line" style={{ width: '55%' }} /><div className="sk sk-line" style={{ width: '35%' }} /></div></div>
+            <div className="sk sk-hero" />
+            <div className="sk sk-strip" />
+            <div className="sk sk-card" />
+          </div>
         ) : (
           <><strong>{t('sync.loadError')}</strong><button className="btn primary" onClick={reload}>{t('export.retry')}</button></>
         )}

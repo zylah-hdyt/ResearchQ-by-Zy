@@ -1,9 +1,9 @@
 const BASE = (process.env.E2E_BASE_URL || 'http://localhost:4173').replace(/\/$/, '');
 const { boot, ok, done } = require('./common.cjs');
 (async () => { const out = process.argv[2]; const { b, p, errs, phone } = await boot();
-  // dashboard order on phone = PRD 4.2
+  // dashboard order on phone = PRD 4.2 (the conditional notice and the business card are not part of the fixed order)
   const m = await phone(); await m.setViewportSize({ width: 390, height: 844 }); await m.goto(BASE + '/#/'); await m.waitForTimeout(700);
-  const order = await m.evaluate(() => [...document.querySelectorAll('.dash > *')].filter((e) => getComputedStyle(e).display !== 'none').map((e) => [...e.classList].find((c) => c.startsWith('dash-'))));
+  const order = await m.evaluate(() => [...document.querySelectorAll('.dash > *')].filter((e) => getComputedStyle(e).display !== 'none' && !e.matches('.dash-banner, .dash-biz')).map((e) => [...e.classList].find((c) => c.startsWith('dash-'))));
   ok(JSON.stringify(order) === JSON.stringify(['dash-hero', 'dash-summary', 'dash-chart', 'dash-budget', 'dash-recent', 'dash-insights']), 'phone dashboard order = PRD 4.2: ' + order.join(' → '));
   const ys = await m.evaluate(() => ['dash-budget', 'dash-recent'].map((c) => document.querySelector('.' + c).getBoundingClientRect().top));
   ok(ys[0] < ys[1], 'budget overview is above recent transactions on screen');

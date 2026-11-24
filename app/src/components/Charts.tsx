@@ -79,8 +79,8 @@ export function CashflowChart({ points, currency }: { points: FlowPoint[]; curre
               return (
                 <g key={p.key}>
                   {on && <rect x={padL + slot * i + 2} y={padT} width={slot - 4} height={plotH} rx={8} fill="var(--surface-2)" />}
-                  <path d={barPath(cx - bw - gap / 2, base, base - hi, bw)} fill="var(--chart-income)" opacity={active != null && !on ? 0.55 : 1} />
-                  <path d={barPath(cx + gap / 2, base, base - he, bw)} fill="var(--chart-expense)" opacity={active != null && !on ? 0.55 : 1} />
+                  <path className="bar" style={{ animationDelay: `${i * 18}ms` }} d={barPath(cx - bw - gap / 2, base, base - hi, bw)} fill="var(--chart-income)" opacity={active != null && !on ? 0.55 : 1} />
+                  <path className="bar" style={{ animationDelay: `${i * 18 + 9}ms` }} d={barPath(cx + gap / 2, base, base - he, bw)} fill="var(--chart-expense)" opacity={active != null && !on ? 0.55 : 1} />
                   {(i % labelEvery === 0 || on) && <text x={cx} y={H - 8} textAnchor="middle" style={on ? { fill: 'var(--text)', fontWeight: 600 } : undefined}>{p.label}</text>}
                   {/* Hit target: the whole slot, far larger than the marks. */}
                   <rect
@@ -209,8 +209,8 @@ export function TrendChart({ points, currency, name, color = 'var(--brand)', mas
               <g key={v}><line x1={padL} x2={W - padR} y1={yAt(v)} y2={yAt(v)} stroke="var(--chart-grid)" strokeWidth={1} />
                 <text x={padL - 10} y={yAt(v) + 4} textAnchor="end">{formatMoney(v, currency, lang, { compact: true })}</text></g>
             ))}
-            <path d={area} fill={color} opacity={0.1} />
-            <path d={line} fill="none" stroke={color} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
+            <path className="area-in" d={area} fill={color} opacity={0.1} />
+            <path className="line-draw" pathLength={1} d={line} fill="none" stroke={color} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
             {points.map((p, i) => (i % labelEvery === 0 || i === n - 1) && <text key={p.key} x={xAt(i)} y={H - 8} textAnchor={i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}>{p.label}</text>)}
             {active != null && <line x1={xAt(active)} x2={xAt(active)} y1={padT} y2={base} stroke="var(--chart-axis)" strokeWidth={1} />}
             <circle cx={xAt(shown)} cy={yAt(points[shown].value)} r={6} fill="var(--surface)" />
