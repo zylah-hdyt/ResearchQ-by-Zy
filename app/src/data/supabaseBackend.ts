@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { DEFAULT_CATEGORIES } from './seed';
 import type { Budget, Category, CurrencyCode, ExchangeRate, Transaction, Wallet } from './types';
 import type { DataBackend } from './backend';
 
@@ -82,11 +83,20 @@ export function createSupabaseBackend(db: SupabaseClient): DataBackend {
   };
 
   return {
-    async load() {
+    async load(uid) {
       const [w, c, t, b, r, n] = await Promise.all([
         fetchAll('wallets', 'created_at'), fetchAll('categories', 'id'), fetchAll('transactions', 'occurred_at'),
         fetchAll('budgets', 'created_at'), fetchAll('exchange_rates', 'code'), fetchAll('notification_reads', 'notification_key'),
       ]);
+      // Built-in categories added after an account was created (e.g. business and debts) are created on first load.
+      const have = new Set(c.map((x) => x.id as string));
+      const missing = DEFAULT_CATEGORIES.filter((x) => !have.has(x.id));
+      if (missing.length) {
+        const rows = missing.map((x) => ({ user_id: uid, id: x.id, key: x.key, type: x.type, color: x.color }));
+        const { error } = await db.from('categories').upsert(rows, { onConflict: 'user_id,id', ignoreDuplicates: true });
+        if (!error) c.push(...rows);
+        else console.error(error.message);
+      }
       return {
         wallets: w.map(walletFrom),
         categories: c.map(categoryFrom),

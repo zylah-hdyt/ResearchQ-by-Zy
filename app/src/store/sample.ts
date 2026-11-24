@@ -5,6 +5,10 @@ import { toLocalDateTime } from '../lib/format';
 /** Approximate value of 1 USD in each currency, only for scaling sample amounts. */
 const USD_IN: Record<CurrencyCode, number> = { IDR: 16000, USD: 1, EUR: 0.92, SGD: 1.34, MYR: 4.6, JPY: 150, GBP: 0.79, AUD: 1.52 };
 
+/** Sample records carry this marker in their id (real ids are hex), so they can be removed without touching real data. */
+export const SAMPLE_MARK = '_s_';
+export const isSampleId = (id: string) => id.includes(SAMPLE_MARK);
+
 /** Deterministic pseudo random so sample data is stable. */
 function rng(seed: number) {
   return () => {
@@ -16,9 +20,11 @@ function rng(seed: number) {
 const TEXT = {
   id: { bank: 'BCA', cash: 'Tunai', ew: 'GoPay', sav: (c: string) => `Tabungan ${c}`, salary: 'Gaji bulanan', freelance: 'Proyek freelance', rent: 'Sewa rumah',
     util: 'Listrik & internet', stream: 'Langganan streaming', topup: 'Isi saldo e-wallet', atm: 'Tarik tunai ATM', saving: 'Tabungan bulanan', cross: 'Transfer lintas mata uang',
+    sales: 'Jual barang dagangan', stock: 'Beli stok barang', opex: 'Biaya operasional usaha', borrow: 'Pinjam dari teman', repay: 'Cicil utang', lend: 'Pinjamkan ke teman', collect: 'Teman bayar piutang',
     lunch: 'Makan siang', groceries: 'Belanja bulanan', ride: 'Ojek online', shop: 'Belanja online', movie: 'Nonton bioskop', pharmacy: 'Apotek' },
   en: { bank: 'Main bank', cash: 'Cash', ew: 'E-wallet', sav: (c: string) => `Savings ${c}`, salary: 'Monthly salary', freelance: 'Freelance project', rent: 'Rent',
     util: 'Electricity & internet', stream: 'Streaming subscription', topup: 'Top up e-wallet', atm: 'ATM withdrawal', saving: 'Monthly saving', cross: 'Cross-currency transfer',
+    sales: 'Product sales', stock: 'Stock purchase', opex: 'Business running costs', borrow: 'Borrowed from a friend', repay: 'Debt instalment', lend: 'Lent to a friend', collect: 'Friend repaid',
     lunch: 'Lunch', groceries: 'Groceries', ride: 'Ride', shop: 'Online shopping', movie: 'Movie night', pharmacy: 'Pharmacy' },
 } as const;
 
@@ -33,7 +39,7 @@ export function buildSampleData(userId: string, base: CurrencyCode, d: UserData,
   const created = new Date().toISOString();
   const foreign: CurrencyCode = base === 'USD' ? 'EUR' : 'USD';
   const mk = (name: string, type: Wallet['type'], currency: CurrencyCode, initialUsd: number, color: string): Wallet => ({
-    id: uid('w_'), userId, name, type, currency, initialBalance: s(initialUsd, currency), color, archived: false, createdAt: created,
+    id: uid('w_s_'), userId, name, type, currency, initialBalance: s(initialUsd, currency), color, archived: false, createdAt: created,
   });
   const bank = mk(X.bank, 'bank', base, 1500, '#1d4ed8');
   const cash = mk(X.cash, 'cash', base, 60, '#15803d');
@@ -45,7 +51,7 @@ export function buildSampleData(userId: string, base: CurrencyCode, d: UserData,
   const now = new Date();
   const add = (date: Date, t: Omit<Transaction, 'id' | 'userId' | 'createdAt' | 'occurredAt' | 'notes'> & { notes?: string }) => {
     if (date > now) return;
-    txs.push({ notes: '', ...t, id: uid('tx_'), userId, createdAt: created, occurredAt: toLocalDateTime(date) });
+    txs.push({ notes: '', ...t, id: uid('tx_s_'), userId, createdAt: created, occurredAt: toLocalDateTime(date) });
   };
   const expenses: [string, string, number, number][] = [
     ['cat_food', X.lunch, 6, 14],
@@ -67,6 +73,10 @@ export function buildSampleData(userId: string, base: CurrencyCode, d: UserData,
     add(new Date(y, mo, 4, 12, 0), { type: 'transfer', walletId: bank.id, toWalletId: cash.id, amount: s(120), toAmount: s(120), description: X.atm });
     const usdAmt = s(100, foreign);
     add(new Date(y, mo, 25, 20, 0), { type: 'transfer', walletId: bank.id, toWalletId: sav.id, amount: Math.round((usdAmt / 100) * (USD_IN[base] / USD_IN[foreign])) * 100, toAmount: usdAmt, description: X.saving, notes: X.cross });
+    // Small business: sales every month, restocking and running costs.
+    for (let i = 0; i < 3; i++) add(new Date(y, mo, 7 + i * 8, 11 + i, 10), { type: 'income', walletId: cash.id, categoryId: 'cat_sales', amount: s(70 + r() * 60), description: X.sales });
+    add(new Date(y, mo, 9, 15, 0), { type: 'expense', walletId: bank.id, categoryId: 'cat_stock', amount: s(120 + r() * 40), description: X.stock });
+    add(new Date(y, mo, 14, 16, 0), { type: 'expense', walletId: ew.id, categoryId: 'cat_opex', amount: s(18 + r() * 8), description: X.opex });
     for (const [cat, desc, times, usd] of expenses) {
       for (let i = 0; i < times; i++) {
         const day = 1 + Math.floor(r() * 27);
@@ -77,12 +87,18 @@ export function buildSampleData(userId: string, base: CurrencyCode, d: UserData,
       }
     }
   }
+  // Debts: borrowed and partly repaid, lent and partly collected.
+  const ago = (m: number, day: number) => new Date(now.getFullYear(), now.getMonth() - m, day, 10, 0);
+  add(ago(4, 8), { type: 'income', walletId: bank.id, categoryId: 'cat_loan_in', amount: s(250), description: X.borrow });
+  add(ago(2, 8), { type: 'expense', walletId: bank.id, categoryId: 'cat_debt_paid', amount: s(100), description: X.repay });
+  add(ago(3, 15), { type: 'expense', walletId: bank.id, categoryId: 'cat_loan_out', amount: s(150), description: X.lend });
+  add(ago(1, 15), { type: 'income', walletId: bank.id, categoryId: 'cat_debt_collected', amount: s(60), description: X.collect });
   txs.sort((a, b) => b.occurredAt.localeCompare(a.occurredAt));
 
   const budgets: Budget[] = [
     ['cat_food', 110], ['cat_groceries', 30], ['cat_transport', 40], ['cat_shopping', 50], ['cat_entertainment', 15],
-  ].map(([c, usd]) => ({ id: uid('b_'), userId, categoryId: c as string, amount: s(usd as number), period: 'monthly' as const, currency: base, createdAt: created }));
-  budgets.push({ id: uid('b_'), userId, categoryId: 'cat_transport', amount: s(12), period: 'weekly', currency: base, createdAt: created });
+  ].map(([c, usd]) => ({ id: uid('b_s_'), userId, categoryId: c as string, amount: s(usd as number), period: 'monthly' as const, currency: base, createdAt: created }));
+  budgets.push({ id: uid('b_s_'), userId, categoryId: 'cat_transport', amount: s(12), period: 'weekly', currency: base, createdAt: created });
 
   const rate = USD_IN[base] / USD_IN[foreign];
   return {

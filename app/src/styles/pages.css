@@ -48,6 +48,9 @@
 @media (min-width: 1100px) {
   .dash { grid-template-columns: minmax(0, 1fr) 372px; align-items: start;
     grid-template-areas: "hero wallets" "summary wallets" "chart budget" "recent insights"; }
+  .dash:has(> .dash-biz) { grid-template-areas: "hero wallets" "summary wallets" "chart budget" "recent insights" "biz biz"; }
+  .dash:has(> .dash-banner):has(> .dash-biz) { grid-template-areas: "hero wallets" "banner wallets" "summary wallets" "chart budget" "recent insights" "biz biz"; }
+  .dash-biz { grid-area: biz; }
   .dash:has(> .dash-banner) { grid-template-areas: "hero wallets" "banner wallets" "summary wallets" "chart budget" "recent insights"; }
   .dash-hero { grid-area: hero; } .dash-banner { grid-area: banner; } .dash-summary { grid-area: summary; } .dash-chart { grid-area: chart; }
   .dash-recent { grid-area: recent; } .dash-wallets { display: block; grid-area: wallets; } .dash-budget { grid-area: budget; } .dash-insights { grid-area: insights; }
@@ -180,3 +183,11 @@
 .chat-history ul { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: var(--s-2); }
 .chat-history li { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); padding: 8px 0; border-bottom: 1px solid var(--border); }
 .chat-msg-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+
+/* Business and debts card; sample-data notice */
+.biz-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-4); }
+.biz-grid > div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.biz-grid.biz-debts { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: var(--s-4); padding-top: var(--s-4); border-top: 1px solid var(--border); }
+.biz-val { font-size: var(--fs-lg); font-weight: 700; letter-spacing: -.02em; overflow-wrap: anywhere; }
+@media (max-width: 420px) { .biz-grid { grid-template-columns: 1fr 1fr; } .biz-grid > div:last-child:nth-child(odd) { grid-column: 1 / -1; } }
+.sample-banner { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); flex-wrap: wrap; }
