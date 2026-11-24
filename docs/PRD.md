@@ -138,6 +138,13 @@ data bars), summary totals (`SUMIFS` per currency with cached results), landscap
 version enforces the same with row-level security (see `DATABASE_SCHEMA.md`). Raw database structures
 are never exported — only labelled, user-facing columns.
 
+### 4.10 Record by chat (WhatsApp)
+Users link one WhatsApp number in Settings (one-time 6-digit code, 10 minutes) and then record by message: expense / income
+("makan siang 25rb", "gaji 5jt"), transfers between wallets of the same currency, and the commands `saldo`, `hari ini`,
+`bulan ini`, `anggaran`, `batal` (undo the last chat entry), `bantuan`. Replies follow the account language. Unclear messages
+(no amount, two different amounts, wrong wallet names) are never recorded; the user is asked. The card appears in Settings only
+when a chat number is configured. Details, risks and setup: [CHAT_WHATSAPP.md](CHAT_WHATSAPP.md).
+
 ## 5. Non-functional requirements
 - Responsive from 320 px; floating bottom navigation on mobile with quick-add in the header (nothing floats over content); bottom-sheet dialogs.
 - Dark (default) and light themes; text contrast ≥ 4.5:1 and control borders ≥ 3:1 in both.
