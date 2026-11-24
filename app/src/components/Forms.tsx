@@ -15,7 +15,7 @@ import { useToast } from './Toast';
 
 
 export function TransactionForm({ initial, preset, duplicateOf, onClose }: {
-  initial?: Transaction; preset?: { type?: TxType; walletId?: string; toWalletId?: string }; duplicateOf?: Transaction; onClose: () => void;
+  initial?: Transaction; preset?: { type?: TxType; walletId?: string; toWalletId?: string; categoryId?: string }; duplicateOf?: Transaction; onClose: () => void;
 }) {
   const { t, lang } = useI18n();
   const toast = useToast();
@@ -27,7 +27,7 @@ export function TransactionForm({ initial, preset, duplicateOf, onClose }: {
   const [type, setType] = useState<TxType>(seed?.type ?? preset?.type ?? 'expense');
   const [walletId, setWalletId] = useState(seed?.walletId ?? preset?.walletId ?? active[0]?.id ?? '');
   const [toWalletId, setToWalletId] = useState(seed?.toWalletId ?? preset?.toWalletId ?? active.find((w) => w.id !== (seed?.walletId ?? preset?.walletId ?? active[0]?.id))?.id ?? '');
-  const [categoryId, setCategoryId] = useState(seed?.categoryId ?? '');
+  const [categoryId, setCategoryId] = useState(seed?.categoryId ?? preset?.categoryId ?? '');
   const initFrom = wallets.find((w) => w.id === (seed?.walletId ?? preset?.walletId ?? active[0]?.id));
   const initTo = wallets.find((w) => w.id === seed?.toWalletId);
   const [amount, setAmount] = useState(toInputText(seed?.amount, initFrom?.currency ?? 'IDR', lang));

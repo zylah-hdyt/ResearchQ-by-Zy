@@ -10,7 +10,7 @@ const { boot, ok, done, readData, digits } = require('./common.cjs');
   const shown = await p.locator('.hero-delta').innerText(); const v = parseFloat(shown.replace(/[^\d,.]/g, '').replace(',', '.')) * (/−/.test(shown) ? -1 : 1);
   ok(Math.abs(v - pct) < 0.6, `balance change "${shown.replace(/\s+/g, ' ')}" ≈ independent ${pct.toFixed(2)}% (vs ${ms})`);
   await p.locator('.hero-eye').click(); ok((await p.locator('.hero-delta').count()) === 0, 'balance change hidden together with the balance'); await p.locator('.hero-eye').click();
-  ok((await p.locator('.kpi-icon').count()) === 3, 'three KPI icon tiles');
+  ok((await p.locator('.stat-tiles .stat-icon').count()) === 3, 'three KPI tiles with icon containers');
   // transaction type tabs
   await p.goto(BASE + '/#/transactions'); await p.locator('.tx-types').waitFor(); await p.waitForTimeout(300);
   const from = ms, to = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate())}`;

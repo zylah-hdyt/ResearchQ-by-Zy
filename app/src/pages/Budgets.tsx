@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AlertTriangle, ChevronLeft, ChevronRight, CircleAlert, Plus } from 'lucide-react';
+import { AlertTriangle, ChevronLeft, ChevronRight, CircleAlert, PieChart, Plus } from 'lucide-react';
+import { EmptyState } from '../components/EmptyState';
 import { useAuth } from '../auth/AuthProvider';
 import { useData } from '../store/DataProvider';
 import { categoryLabel, useI18n } from '../i18n';
@@ -10,7 +11,7 @@ import { BudgetForm } from '../components/Forms';
 import { Modal } from '../components/Modal';
 import { ExportButton } from '../export/ExportDialog';
 import { budgetHistory, budgetRows, budgetTotals, pace, shiftSpan, spanFor, type BudgetRow, type Pace } from '../lib/budget';
-import { categoryIcon } from '../lib/categoryIcons';
+import { categoryIcon, tintTile } from '../lib/categoryIcons';
 import { dedupe } from '../lib/finance';
 import { formatDate, formatMoney, formatPercent, localeOf, parseLocal, toLocalDate } from '../lib/format';
 import type { DateSpan } from '../lib/periods';
@@ -50,6 +51,7 @@ export function Budgets() {
   const [offset, setOffset] = useState(0);
   const [editing, setEditing] = useState<Budget | 'new' | null>(null);
   const [detail, setDetail] = useState<string | null>(null);
+  const [view, setView] = useState<'categories' | 'detail'>('categories');
   const today = toLocalDate(new Date());
   const txs = useMemo(() => dedupe(data.transactions), [data.transactions]);
   const current = spanFor(period, today, week);
@@ -95,10 +97,10 @@ export function Budgets() {
   return (
     <>
       <div className="page-head">
-        <div><h1>{t('bud.title')}</h1><div className="sub">{spanLabel(period, span, lang)}</div></div>
+        <div><h1>{t('bud.title')}</h1></div>
         <div className="page-actions">
           <ExportButton context="budgets" defaults={{ preset: 'custom', range: span, type: 'expense' }} />
-          <button className="btn primary" onClick={() => setEditing('new')}><Plus size={16} aria-hidden />{t('bud.add')}</button>
+          <button className="btn primary" onClick={() => setEditing('new')} aria-label={t('bud.add')}><Plus size={16} aria-hidden />{t('bud.addShort')}</button>
         </div>
       </div>
 
@@ -106,30 +108,33 @@ export function Budgets() {
         <div className="segmented" role="group" aria-label={t('bud.period')}>
           {(['monthly', 'weekly'] as BudgetPeriod[]).map((x) => <button key={x} className={period === x ? 'on' : ''} aria-pressed={period === x} onClick={() => { setPeriod(x); setOffset(0); }}>{t(`bud.period.${x}` as MessageKey)}</button>)}
         </div>
-        <div className="row tight">
+        <div className="period-nav">
           <button className="icon-btn" onClick={() => setOffset(offset - 1)} aria-label={t('bud.prev')}><ChevronLeft size={20} aria-hidden /></button>
-          <span className="period-label">{isCurrent ? t('bud.thisPeriod') : spanLabel(period, span, lang)}</span>
+          <button className="period-pill" onClick={() => setOffset(0)} disabled={isCurrent} title={isCurrent ? undefined : t('bud.today')} aria-live="polite">{spanLabel(period, span, lang)}</button>
           <button className="icon-btn" onClick={() => setOffset(offset + 1)} aria-label={t('bud.next')}><ChevronRight size={20} aria-hidden /></button>
-          {!isCurrent && <button className="btn ghost sm" onClick={() => setOffset(0)}>{t('bud.today')}</button>}
         </div>
+        {!isCurrent && <button className="btn ghost sm" onClick={() => setOffset(0)}>{t('bud.today')}</button>}
       </div>
 
       {rows.length === 0 ? (
-        <div className="card empty"><p>{t('bud.noneThisPeriod', { period: t(`bud.period.${period}` as MessageKey).toLowerCase() })}</p><button className="btn primary" onClick={() => setEditing('new')}><Plus size={16} aria-hidden />{t('bud.add')}</button></div>
+        <EmptyState icon={PieChart} title={t('bud.noneThisPeriod', { period: t(`bud.period.${period}` as MessageKey).toLowerCase() })} text={t('bud.emptyBody')}>
+          <button className="btn primary" onClick={() => setEditing('new')}><Plus size={16} aria-hidden />{t('bud.add')}</button>
+        </EmptyState>
       ) : (
         <>
           <section className="card bsum" aria-label={t('bud.summary')}>
             <div className="bsum-top">
-              <div>
-                <div className="muted small" style={{ fontWeight: 600 }}>{t('bud.summary')}</div>
-                <div className={`bsum-amount${totals.remaining < 0 ? ' bad-text' : ''}`}>{money(Math.abs(totals.remaining))}</div>
-                <div className="muted small">{totals.remaining >= 0 ? t('bud.leftOf', { v: money(totals.limit) }) : t('bud.overOf', { v: money(totals.limit) })}</div>
-              </div>
               <Ring value={totals.utilization} status={totals.status} label={`${formatPercent(totals.utilization, lang)} ${t('bud.ofLimit')}`} caption={t('bud.ofLimit')} />
+              <div className="bsum-figs">
+                <div className="muted small" style={{ fontWeight: 600 }}>{t('bud.total')}</div>
+                <div className="bsum-amount num">{money(totals.limit)}</div>
+                <div className="bsum-lines">
+                  <span><i className="kdot" style={{ background: 'var(--brand)' }} />{t('bud.spent')}</span><strong className="num">{money(totals.spent)}</strong>
+                  <span><i className="kdot" style={{ background: totals.remaining < 0 ? 'var(--meter-crit)' : 'var(--turq)' }} />{totals.remaining >= 0 ? t('bud.remaining') : t('bud.over')}</span><strong className={`num${totals.remaining < 0 ? ' bad-text' : ''}`}>{money(Math.abs(totals.remaining))}</strong>
+                </div>
+              </div>
             </div>
-            {totalRow && <Meter row={totalRow} p={totalPace} label={t('bud.summary')} />}
             <div className="row between wrap small muted">
-              <span>{t('bud.spentOf', { spent: money(totals.spent), limit: money(totals.limit) })}</span>
               {totalPace && <span>{t('bud.dayOf', { d: totalPace.elapsedDays, n: totalPace.totalDays })} · {totals.remaining > 0 ? t('bud.perDay', { v: money(totalPace.dailyAllowance, base, true) }) : t('bud.daysLeft', { n: totalPace.daysLeft })}</span>}
             </div>
             {totalPace?.projected != null && totals.limit > 0 && <div className={`small ${totalPace.projected > totals.limit ? 'bad-text' : 'muted'}`}>{t(totalPace.projected > totals.limit ? 'bud.projectedOver' : 'bud.projected', { v: money(totalPace.projected) })}</div>}
@@ -142,6 +147,30 @@ export function Budgets() {
             {totals.missing.length > 0 && <div className="banner">{t('common.notConverted', { codes: totals.missing.join(', ') })}</div>}
           </section>
 
+          <div className="segmented fill bud-tabs" role="tablist" aria-label={t('bud.view')}>
+            <button role="tab" aria-selected={view === 'categories'} className={view === 'categories' ? 'on' : ''} onClick={() => setView('categories')}>{t('bud.view.categories')}</button>
+            <button role="tab" aria-selected={view === 'detail'} className={view === 'detail' ? 'on' : ''} onClick={() => setView('detail')}>{t('bud.view.detail')}</button>
+          </div>
+
+          {view === 'categories' ? (
+            <section className="card flush bud-list" aria-label={t('bud.view.categories')}>
+              {rows.map((r) => {
+                const Icon = categoryIcon(r.category);
+                const name = categoryLabel(r.category, t);
+                return (
+                  <button key={r.budget.id} className="bud-row" onClick={() => setDetail(r.budget.id)}>
+                    <span className="tile lg" style={tintTile(r.category?.color ?? '#6b7280')}><Icon size={21} aria-hidden /></span>
+                    <span className="grow">
+                      <span className="bud-row-top"><span className="bc-name">{name}</span><strong className={`num bud-pct ${r.status}`}>{formatPercent(r.utilization, lang)}</strong></span>
+                      <span className="xs muted num" style={{ display: 'block', margin: '2px 0 8px' }}><span className="bud-spent">{money(r.spent, r.budget.currency)}</span> / {money(r.limit, r.budget.currency)}{r.status !== 'onTrack' && <span className="sr-only"> · {t(`bud.status.${r.status}` as MessageKey)}</span>}</span>
+                      <Meter row={r} p={null} label={name} />
+                    </span>
+                  </button>
+                );
+              })}
+            </section>
+          ) : (
+          <>
           <div className="budget-grid">{rows.map(card)}</div>
 
           <section className="card">
@@ -163,6 +192,8 @@ export function Budgets() {
               </table>
             </div>
           </section>
+          </>
+          )}
         </>
       )}
 
@@ -232,13 +263,13 @@ function BudgetDetail({ row, onEdit, onSee }: { row: BudgetRow; onEdit: () => vo
 /** Single-value ring for the total budget (one number, so a ring reads fine; categories stay as bars). */
 function Ring({ value, status, label, caption }: { value: number; status: BudgetRow['status']; label: string; caption: string }) {
   const { lang } = useI18n();
-  const r = 34, c = 2 * Math.PI * r, shown = Math.min(1, Math.max(0, value));
+  const r = 50, c = 2 * Math.PI * r, shown = Math.min(1, Math.max(0, value));
   const color = status === 'exceeded' ? 'var(--meter-crit)' : status === 'warning' ? 'var(--meter-warn)' : 'var(--brand)';
   return (
     <div className="ring" role="img" aria-label={label}>
-      <svg viewBox="0 0 84 84" width="84" height="84" aria-hidden>
-        <circle cx="42" cy="42" r={r} fill="none" stroke="var(--surface-3)" strokeWidth="8" />
-        <circle cx="42" cy="42" r={r} fill="none" stroke={color} strokeWidth="8" strokeLinecap="round" strokeDasharray={`${c * shown} ${c}`} transform="rotate(-90 42 42)" style={{ filter: `drop-shadow(0 0 6px ${color})` }} />
+      <svg viewBox="0 0 124 124" width="124" height="124" aria-hidden>
+        <circle cx="62" cy="62" r={r} fill="none" stroke="var(--surface-3)" strokeWidth="13" />
+        <circle className="ring-arc" cx="62" cy="62" r={r} fill="none" stroke={color} strokeWidth="13" strokeLinecap="round" strokeDasharray={`${c * shown} ${c}`} transform="rotate(-90 62 62)" style={{ filter: `drop-shadow(0 0 6px ${color})`, ['--ring-c' as string]: `${c}` }} />
       </svg>
       <span className="ring-text"><strong>{formatPercent(value, lang)}</strong><small>{caption}</small></span>
     </div>

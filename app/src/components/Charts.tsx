@@ -232,3 +232,138 @@ export function TrendChart({ points, currency, name, color = 'var(--brand)', mas
     </div>
   );
 }
+
+/** Smooth path through points (monotone-ish cubic, no overshoot below the baseline). */
+function smooth(pts: [number, number][], floor: number): string {
+  if (!pts.length) return '';
+  let d = `M${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)}`;
+  for (let i = 1; i < pts.length; i++) {
+    const [x0, y0] = pts[i - 1], [x1, y1] = pts[i];
+    const cx = (x0 + x1) / 2;
+    d += `C${cx.toFixed(1)},${Math.min(floor, y0).toFixed(1)} ${cx.toFixed(1)},${Math.min(floor, y1).toFixed(1)} ${x1.toFixed(1)},${y1.toFixed(1)}`;
+  }
+  return d;
+}
+
+/**
+ * Income and expense over time as two smooth areas (the "cash flow trend"). Crosshair + tooltip with both series on
+ * hover/arrow keys, legend, table view as the accessible twin.
+ */
+export function FlowAreaChart({ points, currency }: { points: FlowPoint[]; currency: CurrencyCode }) {
+  const { lang, t } = useI18n();
+  const ref = useRef<HTMLDivElement>(null);
+  const [W, setW] = useState(640);
+  const [active, setActive] = useState<number | null>(null);
+  const [table, setTable] = useState(false);
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const ro = new ResizeObserver(([e]) => setW(Math.max(280, Math.round(e.contentRect.width))));
+    ro.observe(el); return () => ro.disconnect();
+  }, []);
+  const H = 230, padL = 56, padR = 10, padB = 28, padT = 16;
+  const plotW = W - padL - padR, plotH = H - padT - padB, base = padT + plotH;
+  const n = points.length;
+  const { ticks, top } = niceTicks(Math.max(1, ...points.flatMap((p) => [p.income, p.expense])));
+  const xAt = (i: number) => padL + (n === 1 ? plotW / 2 : (i * plotW) / (n - 1));
+  const yAt = (v: number) => padT + plotH - (v / top) * plotH;
+  const series = [
+    { key: 'income' as const, name: t('dash.income'), color: 'var(--chart-income)' },
+    { key: 'expense' as const, name: t('dash.expense'), color: 'var(--chart-expense)' },
+  ];
+  const labelEvery = Math.max(1, Math.ceil(n / Math.max(2, Math.floor(plotW / 52))));
+  const money = (v: number) => formatMoney(v, currency, lang);
+  const tip = active != null ? points[active] : null;
+  const tipX = active != null ? Math.min(Math.max(xAt(active), 96), W - 96) : 0;
+  const moveTo = (clientX: number, el: Element) => {
+    const r = el.getBoundingClientRect();
+    setActive(Math.min(n - 1, Math.max(0, Math.round(((clientX - r.left - padL) / plotW) * (n - 1)))));
+  };
+  return (
+    <div ref={ref} className="chart-wrap">
+      {table ? (
+        <div className="table-wrap"><table className="data">
+          <thead><tr><th>{t('chart.period')}</th><th className="r">{t('dash.income')}</th><th className="r">{t('dash.expense')}</th><th className="r">{t('chart.net')}</th></tr></thead>
+          <tbody>{points.map((p) => <tr key={p.key}><td>{p.longLabel}</td><td className="r">{money(p.income)}</td><td className="r">{money(p.expense)}</td><td className="r"><strong>{formatMoney(p.income - p.expense, currency, lang, { sign: true })}</strong></td></tr>)}</tbody>
+        </table></div>
+      ) : (
+        <div style={{ position: 'relative' }} onPointerLeave={() => setActive(null)}>
+          <svg className="chart" width={W} height={H} viewBox={`0 0 ${W} ${H}`} role="group" tabIndex={0} aria-label={t('rep.cashTrend')}
+            onKeyDown={(e) => { if (e.key === 'ArrowLeft') { e.preventDefault(); setActive(Math.max(0, (active ?? n - 1) - 1)); } if (e.key === 'ArrowRight') { e.preventDefault(); setActive(Math.min(n - 1, (active ?? n - 1) + 1)); } if (e.key === 'Escape') setActive(null); }}
+            onBlur={() => setActive(null)}>
+            <defs>
+              {series.map((s) => (
+                <linearGradient key={s.key} id={`flow-${s.key}`} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={s.color} stopOpacity={0.45} />
+                  <stop offset="100%" stopColor={s.color} stopOpacity={0.02} />
+                </linearGradient>
+              ))}
+            </defs>
+            {ticks.map((v) => (
+              <g key={v}><line x1={padL} x2={W - padR} y1={yAt(v)} y2={yAt(v)} stroke="var(--chart-grid)" strokeWidth={1} />
+                <text x={padL - 10} y={yAt(v) + 4} textAnchor="end">{formatMoney(v, currency, lang, { compact: true })}</text></g>
+            ))}
+            {series.map((s) => {
+              const line = smooth(points.map((p, i) => [xAt(i), yAt(p[s.key])]), base);
+              return (
+                <g key={s.key}>
+                  <path className="area-in" d={`${line}L${xAt(n - 1).toFixed(1)},${base}L${xAt(0).toFixed(1)},${base}Z`} fill={`url(#flow-${s.key})`} />
+                  <path className="line-draw" pathLength={1} d={line} fill="none" stroke={s.color} strokeWidth={2.4} strokeLinecap="round" />
+                </g>
+              );
+            })}
+            {points.map((p, i) => (i % labelEvery === 0 || i === n - 1) && <text key={p.key} x={xAt(i)} y={H - 8} textAnchor={i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}>{p.label}</text>)}
+            {active != null && <>
+              <line x1={xAt(active)} x2={xAt(active)} y1={padT} y2={base} stroke="var(--chart-axis)" strokeWidth={1} />
+              {series.map((s) => <circle key={s.key} cx={xAt(active)} cy={yAt(points[active][s.key])} r={4.5} fill={s.color} stroke="var(--surface)" strokeWidth={2} />)}
+            </>}
+            <rect x={padL} y={padT} width={plotW} height={plotH + padB} fill="transparent" onPointerMove={(e) => moveTo(e.clientX, e.currentTarget)} onPointerDown={(e) => moveTo(e.clientX, e.currentTarget)} />
+          </svg>
+          {tip && (
+            <div className="chart-tip" style={{ left: tipX, top: 0, minWidth: 170 }} role="status">
+              <div className="chart-tip-title">{tip.longLabel}</div>
+              {series.map((s) => <div key={s.key} className="chart-tip-row"><i style={{ background: s.color }} /><strong>{money(tip[s.key])}</strong><span>{s.name}</span></div>)}
+            </div>
+          )}
+        </div>
+      )}
+      <div className="row between wrap" style={{ marginTop: 6 }}>
+        <span className="legend">{series.map((s) => <span key={s.key}><i className="swatch" style={{ background: s.color }} />{s.name}</span>)}</span>
+        <button className="btn ghost sm chart-toggle" onClick={() => setTable((v) => !v)}>{table ? t('chart.viewChart') : t('chart.viewTable')}</button>
+      </div>
+    </div>
+  );
+}
+
+export interface DonutSlice { key: string; label: string; value: number; share: number; color: string }
+
+/** Share of a total by category: donut plus a legend with percentages (the legend doubles as the text alternative). */
+export function DonutChart({ slices, total, currency, title, max = 5 }: { slices: DonutSlice[]; total: number; currency: CurrencyCode; title: string; max?: number }) {
+  const { lang, t } = useI18n();
+  let rows = slices;
+  if (slices.length > max) {
+    const tail = slices.slice(max - 1);
+    rows = [...slices.slice(0, max - 1), { key: 'other', label: t('chart.other'), value: tail.reduce((a, s) => a + s.value, 0), share: tail.reduce((a, s) => a + s.share, 0), color: '#9aa3a0' }];
+  }
+  const pct = new Intl.NumberFormat(localeOf(lang), { style: 'percent', maximumFractionDigits: 0 });
+  const r = 46, c = 2 * Math.PI * r;
+  let acc = 0;
+  return (
+    <div className="donut-card">
+      <div className="donut-side">
+        <div className="donut-total"><span className="muted small">{title}</span><strong className="num">{formatMoney(total, currency, lang, { compact: true })}</strong></div>
+        <svg className="donut" viewBox="0 0 120 120" width="132" height="132" role="img" aria-label={`${title}: ${rows.map((s) => `${s.label} ${pct.format(s.share)}`).join(', ')}`}>
+          <circle cx="60" cy="60" r={r} fill="none" stroke="var(--surface-3)" strokeWidth="18" />
+          {rows.map((s, i) => {
+            const len = Math.max(0, s.share * c - (rows.length > 1 ? 2 : 0));
+            const el = <circle key={s.key} className="donut-seg" style={{ animationDelay: `${i * 60}ms` }} cx="60" cy="60" r={r} fill="none" stroke={s.color} strokeWidth="18" strokeDasharray={`${len} ${c}`} strokeDashoffset={-acc * c} transform="rotate(-90 60 60)" />;
+            acc += s.share;
+            return el;
+          })}
+        </svg>
+      </div>
+      <ul className="donut-legend">
+        {rows.map((s) => <li key={s.key} title={formatMoney(s.value, currency, lang)}><i className="kdot" style={{ background: s.color }} /><span className="truncate">{s.label}</span><strong className="num">{pct.format(s.share)}</strong></li>)}
+      </ul>
+    </div>
+  );
+}

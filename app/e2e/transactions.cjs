@@ -15,13 +15,13 @@ const SP = process.argv[2] || 'e2e-output';
   // 1 · default period + summary strip
   const month = data.transactions.filter(inMonth);
   ok((await rows()) === month.length, `default "this month" shows ${month.length} transactions (independent count)`);
-  const strip = await p.locator('.mini-strip strong').evaluateAll((els) => els.map((e) => e.getAttribute('title')));
+  const strip = await p.locator('.stat-tile .st-full').allInnerTexts();
   const sum = (type) => Math.round(month.filter((t) => t.type === type).reduce((s, t) => s + (t.amount * rate(wcur[t.walletId])) / 100, 0));
   ok(digits(strip[0]) === sum('income') && digits(strip[1]) === sum('expense') && digits(strip[2].replace('+', '')) === sum('income') - sum('expense'), `summary strip = independent totals (${strip.join(' | ')})`);
   // 2 · day groups
   const groups = await p.locator('.tx-list [role=group]').count(); const days = new Set(month.map((t) => t.occurredAt.slice(0, 10))).size;
   ok(groups === days, `${groups} day groups = ${days} distinct days`);
-  const nets = await p.locator('.date-head .net').allInnerTexts();
+  const nets = await p.locator('.day-head .net').allInnerTexts();
   const dayNet = (day) => Math.round(data.transactions.filter((t) => t.occurredAt.startsWith(day) && t.type !== 'transfer').reduce((s, t) => s + ((t.type === 'income' ? 1 : -1) * t.amount * rate(wcur[t.walletId])) / 100, 0));
   const firstDay = [...new Set(month.map((t) => t.occurredAt.slice(0, 10)))].sort().reverse()[0];
   ok(digits(nets[0].replace(/[^\d\-+,.a-z ]/gi, '').replace(/jt|rb|M|K/g, '')) !== null, 'daily net is shown on each date header: ' + nets[0]);
@@ -30,7 +30,7 @@ const SP = process.argv[2] || 'e2e-output';
   const exp1 = month.filter((t) => /ojek/i.test(t.description)).length;
   ok((await rows()) === exp1 && exp1 > 0, `search "ojek" → ${exp1} rows`);
   const allMatch = (await p.locator('.tx-list .list-item .title').allInnerTexts()).every((x) => /ojek/i.test(x)); ok(allMatch, 'every result title contains the term');
-  await p.getByRole('searchbox').fill('xyz-nothing'); await p.waitForTimeout(300); ok((await rows()) === 0 && (await p.locator('.tx-list .empty').isVisible()), 'no match → empty state');
+  await p.getByRole('searchbox').fill('xyz-nothing'); await p.waitForTimeout(300); ok((await rows()) === 0 && (await p.locator('.tx-list .empty-state').isVisible()), 'no match → empty state');
   await p.getByRole('searchbox').fill('');
   // 4 · filter sheet
   await p.getByRole('button', { name: /Filter/ }).click(); await p.locator('.modal').waitFor();

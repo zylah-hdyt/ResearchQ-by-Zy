@@ -1,6 +1,6 @@
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Plus, Search, SlidersHorizontal, X } from 'lucide-react';
+import { ArrowLeftRight, Plus, Search, SlidersHorizontal, Wallet as WalletIcon, X } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
 import { useData } from '../store/DataProvider';
 import { categoryLabel, useI18n } from '../i18n';
@@ -14,8 +14,11 @@ import { useQuickAdd } from '../components/QuickAdd';
 import { useToast } from '../components/Toast';
 import { TxDetail } from '../components/TxDetail';
 import { TxRow } from '../components/TxRow';
+import { StatTiles } from '../components/StatTiles';
+import { EmptyState } from '../components/EmptyState';
 import { dedupe } from '../lib/finance';
-import { formatDate, formatMoney } from '../lib/format';
+import { formatDate, formatMoney, toLocalDate } from '../lib/format';
+import { addDays } from '../lib/periods';
 import { useMedia } from '../lib/hooks';
 import { presetRange } from '../lib/ranges';
 import { activeCount, applyFilters, defaultFilters, groupByDay, summarizeList, type FilterCtx, type TxFilters } from '../lib/txFilter';
@@ -95,6 +98,12 @@ export function Transactions() {
     walletId: filters.walletIds.length === 1 ? filters.walletIds[0] : 'all',
     categoryId: filters.categoryIds.length === 1 ? filters.categoryIds[0] : 'all',
   };
+  const today = toLocalDate(new Date());
+  const yesterday = addDays(today, -1);
+  const dayLabel = (day: string) => {
+    const d = formatDate(day, lang, { day: 'numeric', month: 'short', year: 'numeric' });
+    return day === today ? `${t('tx.today')}, ${d}` : day === yesterday ? `${t('tx.yesterday')}, ${d}` : formatDate(day, lang, { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' });
+  };
   const compact = (v: number, signed = false) => formatMoney(v, base, lang, { compact: true, sign: signed });
 
   return (
@@ -112,7 +121,7 @@ export function Transactions() {
           <Search size={17} aria-hidden />
           <input className="input" type="search" value={filters.q} onChange={(e) => set({ q: e.target.value })} placeholder={t('tx.searchPlaceholder')} aria-label={t('common.search')} />
         </label>
-        <button className="btn" onClick={() => setSheet(true)} aria-haspopup="dialog" aria-label={badge > 0 ? `${t('tx.filters')} (${badge})` : t('tx.filters')}><SlidersHorizontal size={17} aria-hidden /><span>{t('tx.filters')}</span>{badge > 0 && <span className="count-badge">{badge}</span>}</button>
+        <button className="btn filter-btn" onClick={() => setSheet(true)} aria-haspopup="dialog" title={t('tx.filters')} aria-label={badge > 0 ? `${t('tx.filters')} (${badge})` : t('tx.filters')}><SlidersHorizontal size={18} aria-hidden />{badge > 0 && <span className="count-badge">{badge}</span>}</button>
       </div>
 
       <div className="segmented fill tx-types" role="group" aria-label={t('tx.type')}>
@@ -128,25 +137,24 @@ export function Transactions() {
         </div>
       )}
 
-      <div className="mini-strip card flush" aria-label={t('dash.summary')}>
-        <div><span className="mini-label"><i className="swatch" style={{ background: 'var(--chart-income)' }} />{t('tx.sum.income')}</span><strong className="num" title={formatMoney(totals.income, base, lang)}>{compact(totals.income)}</strong></div>
-        <div><span className="mini-label"><i className="swatch" style={{ background: 'var(--chart-expense)' }} />{t('tx.sum.expense')}</span><strong className="num" title={formatMoney(totals.expense, base, lang)}>{compact(totals.expense)}</strong></div>
-        <div><span className="mini-label"><i className="swatch" style={{ background: 'var(--brand)' }} />{t('tx.sum.net')}</span><strong className="num" title={formatMoney(totals.net, base, lang, { sign: true })}>{compact(totals.net, true)}</strong></div>
-      </div>
+      <StatTiles currency={base} label={t('dash.summary')} stats={[
+        { kind: 'income', label: t('tx.sum.income'), value: totals.income },
+        { kind: 'expense', label: t('tx.sum.expense'), value: totals.expense },
+        { kind: 'net', label: t('tx.sum.net'), value: totals.net },
+      ]} />
 
       <div className="split aside-right">
-        <section className="card flush tx-list" aria-label={t('tx.title')}>
+        <section className="tx-list" aria-label={t('tx.title')}>
           {groups.length === 0 && (
-            <div className="empty">
-              <p>{data.wallets.length === 0 ? t('tx.emptyNoWallet') : all.length === 0 ? t('tx.emptyFirst') : t('tx.empty2')}</p>
+            <EmptyState icon={data.wallets.length === 0 ? WalletIcon : ArrowLeftRight} text={data.wallets.length === 0 ? t('tx.emptyNoWallet') : all.length === 0 ? t('tx.emptyFirst') : t('tx.empty2')}>
               {data.wallets.length === 0 && <Link className="btn primary" to="/accounts"><Plus size={16} aria-hidden />{t('acc.add')}</Link>}
               {all.length === 0 && data.wallets.length > 0 && <button className="btn primary" onClick={() => openAdd()}><Plus size={16} aria-hidden />{t('tx.add')}</button>}
               {all.length > 0 && <button className="btn" onClick={() => setFilters(defaultFilters(presetRange('all', data.transactions), 'all'))}>{t('tx.showAll')}</button>}
-            </div>
+            </EmptyState>
           )}
           {groups.map((g) => (
-            <div key={g.day} role="group" aria-label={formatDate(g.day, lang)}>
-              <div className="date-head"><span>{formatDate(g.day, lang, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</span><span className="net">{t('tx.dayNet', { v: compact(g.net, true) })}</span></div>
+            <div key={g.day} className="card flush day-card" role="group" aria-label={formatDate(g.day, lang)}>
+              <div className="day-head"><span>{dayLabel(g.day)}</span><span className="net">{t('tx.dayNet', { v: compact(g.net, true) })}</span></div>
               <div className="list list-pad">{g.items.map((x) => <TxRow key={x.id} tx={x} selected={x.id === selId} onClick={() => setSelId(x.id)} />)}</div>
             </div>
           ))}

@@ -25,6 +25,7 @@ const Profile = named(() => import('./pages/Profile'), 'Profile');
 const Settings = named(() => import('./pages/Settings'), 'Settings');
 const LegalPage = named(() => import('./pages/Legal'), 'LegalPage');
 const ExportHub = named(() => import('./pages/ExportHub'), 'ExportHub');
+const Business = named(() => import('./pages/Business'), 'Business');
 
 function Gate() {
   const { profile, ready, recovery, fromAuthLink } = useAuth();
@@ -44,6 +45,7 @@ function Gate() {
           <Route path="budgets" element={<Budgets />} />
           <Route path="reports" element={<Reports />} />
           <Route path="export" element={<ExportHub />} />
+          <Route path="business" element={<Business />} />
           <Route path="profile" element={<Profile />} />
           <Route path="settings" element={<Settings />} />
           <Route path="*" element={<Navigate to="/" replace />} />

@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react';
-import { ArrowDownLeft, ArrowUpRight, PiggyBank, TrendingDown, TrendingUp } from 'lucide-react';
+import { BarChart3, PiggyBank, TrendingDown, TrendingUp } from 'lucide-react';
+import { EmptyState } from '../components/EmptyState';
 import { useAuth } from '../auth/AuthProvider';
 import { useData } from '../store/DataProvider';
 import { categoryLabel, useI18n } from '../i18n';
-import { RangePicker } from '../components/RangePicker';
-import { CashflowChart, RankedBars, TrendChart } from '../components/Charts';
-import { Kpi } from '../components/Kpi';
+import { DonutChart, FlowAreaChart, RankedBars, TrendChart } from '../components/Charts';
+import { StatTiles } from '../components/StatTiles';
 import { Money } from '../components/Money';
 import { ExportButton } from '../export/ExportDialog';
 import { dedupe, walletPeriods } from '../lib/finance';
@@ -15,6 +15,9 @@ import { netWorthSeries } from '../lib/wallets';
 import { pctChange } from '../lib/chart';
 import { formatMoney, formatPercent, toLocalDate } from '../lib/format';
 import { presetRange, type RangePreset } from '../lib/ranges';
+import type { MessageKey } from '../i18n/en';
+
+const TABS: RangePreset[] = ['thisMonth', 'last3', 'last6', 'last12', 'custom'];
 
 /** "▲ +12%" / "▼ −8%" with an accessible text; `upIsGood` decides the colour. */
 function Delta({ change, upIsGood }: { change: number | null; upIsGood: boolean }) {
@@ -62,6 +65,8 @@ export function Reports() {
   const spendDelta = pctChange(curCompare.expense, prev.expense);
   const rateDelta = cur.savingRate != null && prev.savingRate != null ? (curCompare.savingRate ?? 0) - prev.savingRate : null;
   const hasData = cur.income > 0 || cur.expense > 0;
+  const [allCats, setAllCats] = useState(false);
+  const pick = (p: RangePreset) => { setPreset(p); if (p !== 'custom') setRange(presetRange(p, data.transactions)); };
 
   const rankItems = (slices: typeof exp.slices) => slices.map((s) => ({ key: s.categoryId, label: categoryLabel(catOf(s.categoryId), t), value: s.value, share: s.share }));
   const summary: string[] = [];
@@ -77,27 +82,38 @@ export function Reports() {
     <>
       <div className="page-head">
         <div><h1>{t('rep.title')}</h1><span className="muted small">{t('rep.reportingIn', { currency: base })}</span></div>
-        <div className="row wrap" style={{ alignItems: 'flex-start' }}>
-          <div style={{ minWidth: 180 }}><RangePicker preset={preset} range={range} onChange={(p, r) => { setPreset(p); setRange(r); }} /></div>
-          <ExportButton context="reports" defaults={{ preset, range }} />
-        </div>
+        <div className="page-actions"><ExportButton context="reports" defaults={{ preset, range }} /></div>
       </div>
+      <div className="segmented fill rep-tabs" role="group" aria-label={t('range.label')}>
+        {TABS.map((p) => <button key={p} className={preset === p ? 'on' : ''} aria-pressed={preset === p} aria-label={t(`range.${p}` as MessageKey)} onClick={() => pick(p)}>{t(`rep.tab.${p}` as MessageKey)}</button>)}
+      </div>
+      {preset === 'custom' && (
+        <div className="row">
+          <input className="input" type="date" aria-label={t('common.from')} value={range.from} max={range.to} onChange={(e) => setRange({ ...range, from: e.target.value })} />
+          <input className="input" type="date" aria-label={t('common.to')} value={range.to} min={range.from} onChange={(e) => setRange({ ...range, to: e.target.value })} />
+        </div>
+      )}
       {missing.length > 0 && <div className="banner">{t('common.notConverted', { codes: missing.join(', ') })}</div>}
 
-      <section className="card kpi-strip four" aria-label={t('rep.summary')}>
-        <Kpi icon={ArrowDownLeft} label={t('dash.income')} keyColor="var(--chart-income)" value={cur.income} currency={base} change={pctChange(curCompare.income, prev.income)} upIsGood trend={flow.points.map((p) => p.income)} />
-        <Kpi icon={ArrowUpRight} label={t('dash.expense')} keyColor="var(--chart-expense)" value={cur.expense} currency={base} change={spendDelta} upIsGood={false} trend={flow.points.map((p) => p.expense)} />
-        <Kpi icon={TrendingUp} iconInk="var(--on-brand)" label={t('dash.net')} keyColor="var(--brand)" value={cur.net} currency={base} sign change={pctChange(curCompare.net, prev.net)} upIsGood />
-        <div className="kpi">
-          <span className="kpi-label"><span className="kpi-icon" style={{ background: 'var(--transfer)', color: '#fff' }}><PiggyBank size={16} strokeWidth={2.4} aria-hidden /></span>{t('rep.savingRate')}</span>
-          <span className="kpi-value num">{cur.savingRate == null ? '—' : formatPercent(cur.savingRate, lang)}</span>
-          <div className="kpi-foot"><div className="kpi-main">
-            <span className="xs muted">{t('rep.ofIncome')}</span>
-            {rateDelta != null && <span className="kpi-delta"><Delta change={Math.abs(rateDelta) < 0.0005 ? 0 : rateDelta} upIsGood />{' '}<span className="muted">{t('rep.pts')}</span></span>}
-          </div></div>
-        </div>
+      <StatTiles currency={base} label={t('rep.summary')} stats={[
+        { kind: 'income', label: t('dash.income'), value: cur.income, change: pctChange(curCompare.income, prev.income) },
+        { kind: 'expense', label: t('dash.expense'), value: cur.expense, change: spendDelta },
+        { kind: 'net', label: t('dash.net'), value: cur.net, change: pctChange(curCompare.net, prev.net) },
+      ]} />
+      <section className="card saving-row" aria-label={t('rep.savingRate')}>
+        <span className="row tight"><span className="stat-icon" style={{ background: 'linear-gradient(150deg, #8b7cf6, #5b4fd6)', width: 30, height: 30, margin: 0 }} aria-hidden><PiggyBank size={16} strokeWidth={2.4} /></span><span className="small" style={{ fontWeight: 600 }}>{t('rep.savingRate')}</span></span>
+        <span className="row tight small">
+          <strong className="num" style={{ fontSize: 'var(--fs-md)' }}>{cur.savingRate == null ? '—' : formatPercent(cur.savingRate, lang)}</strong>
+          <span className="muted">{t('rep.ofIncome')}</span>
+          {rateDelta != null && <span className="kpi-delta"><Delta change={Math.abs(rateDelta) < 0.0005 ? 0 : rateDelta} upIsGood />{' '}<span className="muted">{t('rep.pts')}</span></span>}
+        </span>
       </section>
 
+      {!hasData && (
+        <EmptyState icon={BarChart3} title={t('rep.emptyTitle')} text={txs.length ? t('rep.emptyPeriod') : t('rep.emptyBody')}>
+          {txs.length > 0 && preset !== 'last12' && <button className="btn" onClick={() => pick('last12')}>{t('rep.tryYear')}</button>}
+        </EmptyState>
+      )}
       {hasData && (
         <section className="card" aria-label={t('rep.summary')}>
           <div className="card-head"><h2>{t('rep.summary')}</h2></div>
@@ -105,15 +121,26 @@ export function Reports() {
         </section>
       )}
 
+      {hasData && (<>
+      <section className="card"><div className="card-head"><h2>{t('rep.cashTrend')}</h2></div><FlowAreaChart points={flow.points} currency={base} /></section>
+
+      <div className="grid grid-2">
+        <section className="card" aria-label={t('rep.byCategory')}>
+          <div className="card-head"><h2>{t('rep.byCategory')}</h2></div>
+          {exp.slices.length ? (
+            <>
+              <DonutChart title={t('rep.spending')} total={cur.expense} currency={base} slices={exp.slices.map((s) => ({ key: s.categoryId, label: categoryLabel(catOf(s.categoryId), t), value: s.value, share: s.share, color: catOf(s.categoryId)?.color ?? '#9aa3a0' }))} />
+              <button className="btn ghost sm chart-toggle" style={{ marginTop: 10 }} aria-expanded={allCats} onClick={() => setAllCats((v) => !v)}>{allCats ? t('rep.lessCategories') : t('rep.allCategories')}</button>
+              {allCats && <div style={{ marginTop: 10 }}><RankedBars tone="expense" currency={base} items={rankItems(exp.slices)} max={99} /></div>}
+            </>
+          ) : <p className="muted small">{t('rep.noData')}</p>}
+        </section>
+        <section className="card"><div className="card-head"><h2>{t('rep.incomeByCategory')}</h2></div>{inc.slices.length ? <RankedBars tone="income" currency={base} items={rankItems(inc.slices)} /> : <p className="muted small">{t('rep.noData')}</p>}</section>
+      </div>
+
       <section className="card"><div className="card-head"><h2>{t('rep.netWorthTrend')}</h2></div>
         <TrendChart points={nw.points.map((p) => ({ key: p.key, label: p.label, longLabel: p.longLabel, value: p.value }))} currency={base} name={t('acc.netWorth')} maskable />
       </section>
-      <section className="card"><div className="card-head"><h2>{t('dash.cashflow')}</h2></div><CashflowChart points={flow.points} currency={base} /></section>
-
-      <div className="grid grid-2">
-        <section className="card"><div className="card-head"><h2>{t('rep.byCategory')}</h2></div>{exp.slices.length ? <RankedBars tone="expense" currency={base} items={rankItems(exp.slices)} /> : <p className="muted small">{t('rep.noData')}</p>}</section>
-        <section className="card"><div className="card-head"><h2>{t('rep.incomeByCategory')}</h2></div>{inc.slices.length ? <RankedBars tone="income" currency={base} items={rankItems(inc.slices)} /> : <p className="muted small">{t('rep.noData')}</p>}</section>
-      </div>
 
       {compare.length > 0 && (
         <section className="card">
@@ -179,6 +206,7 @@ export function Reports() {
           </table>
         </div>
       </section>
+      </>)}
     </>
   );
 }
