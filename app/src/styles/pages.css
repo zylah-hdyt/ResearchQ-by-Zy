@@ -281,3 +281,19 @@
 @media (max-width: 360px) { .bsum .bsum-top { gap: var(--s-3); } .bsum-figs .bsum-amount { font-size: var(--fs-lg); } .bsum-lines { font-size: var(--fs-xs); } }
 .rep-tabs > button { min-height: 40px; }
 @media (pointer: coarse) { .rep-tabs > button { min-height: 44px; } }
+
+/* Business & Loans page */
+.biz-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-2); }
+.biz-actions.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.biz-actions .btn { flex-direction: column; gap: 4px; white-space: normal; text-align: center; line-height: 1.2; min-height: 64px; padding: 8px 6px; font-size: var(--fs-sm); border-radius: var(--r-lg); }
+.biz-actions .btn svg { width: 20px; height: 20px; color: var(--brand-ink); }
+
+.stat-tiles.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.debt-list { display: flex; flex-direction: column; gap: var(--s-3); }
+.debt-card { display: flex; flex-direction: column; gap: var(--s-3); }
+.debt-top { display: flex; gap: var(--s-3); align-items: center; }
+.debt-name { font-size: var(--fs-md); overflow-wrap: anywhere; }
+.warn-text { color: var(--meter-warn); }
+.card.empty.compact { padding: var(--s-5); }
+.biz-entry { display: flex; align-items: center; gap: var(--s-3); color: inherit; }
+.biz-entry:hover { background: var(--surface-2); }

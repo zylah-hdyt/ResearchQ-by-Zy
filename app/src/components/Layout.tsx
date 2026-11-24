@@ -1,7 +1,7 @@
 import { Suspense, useEffect } from 'react';
 import { PageFallback } from './PageFallback';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
-import { LayoutDashboard, ArrowLeftRight, Wallet, PieChart, BarChart3, Settings, LogOut, User, Plus, FileSpreadsheet } from 'lucide-react';
+import { LayoutDashboard, ArrowLeftRight, Wallet, PieChart, BarChart3, Settings, LogOut, User, Plus, FileSpreadsheet, Store } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
 import { useI18n } from '../i18n';
 import type { MessageKey } from '../i18n/en';
@@ -21,7 +21,7 @@ const NAV: { to: string; label: MessageKey; short?: MessageKey; icon: typeof Wal
   { to: '/budgets', label: 'nav.budgets', icon: PieChart },
   { to: '/reports', label: 'nav.reports', short: 'nav.reportsShort', icon: BarChart3 },
 ];
-const EXTRA: { to: string; label: MessageKey }[] = [{ to: '/export', label: 'nav.export' }, { to: '/profile', label: 'nav.profile' }, { to: '/settings', label: 'nav.settings' }];
+const EXTRA: { to: string; label: MessageKey }[] = [{ to: '/business', label: 'nav.business' }, { to: '/export', label: 'nav.export' }, { to: '/profile', label: 'nav.profile' }, { to: '/settings', label: 'nav.settings' }];
 
 function SideAdd() {
   const { t } = useI18n();
@@ -45,6 +45,7 @@ function Shell() {
         {NAV.map((n) => (
           <NavLink key={n.to} to={n.to} end={n.to === '/'} className="nav-link"><n.icon size={19} aria-hidden />{t(n.label)}</NavLink>
         ))}
+        <NavLink to="/business" className="nav-link"><Store size={19} aria-hidden />{t('nav.business')}</NavLink>
         <NavLink to="/export" className="nav-link"><FileSpreadsheet size={19} aria-hidden />{t('nav.export')}</NavLink>
         <div className="spacer" />
         <NavLink to="/profile" className="nav-link"><User size={19} aria-hidden />{t('nav.profile')}</NavLink>

@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const out = path.resolve(process.argv[2] || 'e2e-output');
 const only = process.argv.slice(3);
-const suites = ['defaults-and-export', 'legal', 'welcome', 'auth-reset', 'dashboard', 'transactions', 'wallets-budgets', 'reports', 'mockup-polish', 'search-export-hub', 'tx-form', 'new-user', 'quick-add', 'export-worker', 'csp', 'sample-biz', 'motion'].filter((s) => !only.length || only.includes(s));
+const suites = ['defaults-and-export', 'legal', 'welcome', 'auth-reset', 'dashboard', 'transactions', 'wallets-budgets', 'reports', 'mockup-polish', 'search-export-hub', 'tx-form', 'new-user', 'quick-add', 'export-worker', 'csp', 'sample-biz', 'motion', 'business'].filter((s) => !only.length || only.includes(s));
 let failed = [];
 for (const s of suites) {
   const dir = path.join(out, s); fs.mkdirSync(dir, { recursive: true });

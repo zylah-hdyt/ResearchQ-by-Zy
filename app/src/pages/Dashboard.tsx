@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AlertTriangle, ChevronRight, TrendingDown, TrendingUp, CircleAlert, Database, Lightbulb, Plus, Trash2, Wallet as WalletIcon } from 'lucide-react';
+import { AlertTriangle, ChevronRight, TrendingDown, TrendingUp, CircleAlert, Database, Lightbulb, Plus, Store, Trash2, Wallet as WalletIcon } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
 import { useData } from '../store/DataProvider';
 import { categoryLabel, useI18n, type TFn } from '../i18n';
@@ -23,7 +23,7 @@ import { pctChange } from '../lib/chart';
 import { convert } from '../lib/money';
 import { formatMoney, formatPercent, toLocalDate } from '../lib/format';
 import { firstOfMonth, buildBuckets, flowByBucket, periodTotals, previousSpan, rangeBounds, type ChartRange } from '../lib/periods';
-import { walletIcon } from '../lib/categoryIcons';
+import { fillTile, walletIcon } from '../lib/categoryIcons';
 import { businessSummary } from '../lib/business';
 import type { CurrencyCode, Transaction } from '../data/types';
 
@@ -202,9 +202,9 @@ export function Dashboard() {
               {insights.map((s, i) => <div className="insight" key={i}><Lightbulb size={17} aria-hidden /><span>{s}</span></div>)}
             </div>
           </section>
-          {biz.active && (
+          {biz.active ? (
             <section className="dash-biz card">
-              <div className="card-head"><h2>{t('biz.title')}</h2><span className="muted small">{t('biz.month')}</span></div>
+              <div className="card-head"><h2>{t('biz.title')}</h2><Link className="small link-quiet" to="/business">{t('biz.manage')}</Link></div>
               <div className="biz-grid">
                 <div><span className="mini-label">{t('biz.sales')}</span><Money className="biz-val" value={biz.sales} currency={base} maskable /></div>
                 <div><span className="mini-label">{t('biz.cost')}</span><Money className="biz-val" value={biz.cost} currency={base} maskable /></div>
@@ -214,8 +214,13 @@ export function Dashboard() {
                 <div><span className="mini-label">{t('biz.owe')}</span><Money className="biz-val" value={biz.owe} currency={base} maskable /><span className="muted small">{t('biz.oweHint')}</span></div>
                 <div><span className="mini-label">{t('biz.owed')}</span><Money className="biz-val" value={biz.owed} currency={base} maskable /><span className="muted small">{t('biz.owedHint')}</span></div>
               </div>
-              <p className="muted small" style={{ marginTop: 'var(--s-3)' }}>{t('biz.tip')}</p>
             </section>
+          ) : (
+            <Link to="/business" className="dash-biz card biz-entry">
+              <span className="tile lg" style={fillTile('#0f766e')}><Store size={21} aria-hidden /></span>
+              <span className="grow"><strong style={{ display: 'block' }}>{t('biz.page')}</strong><span className="small muted">{t('biz.entryBody')}</span></span>
+              <ChevronRight size={18} aria-hidden />
+            </Link>
           )}
         </div>
       )}

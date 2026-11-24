@@ -5,7 +5,7 @@ import { useData } from '../store/DataProvider';
 import { useI18n } from '../i18n';
 import { TransactionForm, WalletForm } from './Forms';
 
-export interface AddPreset { type?: TxType; walletId?: string; toWalletId?: string }
+export interface AddPreset { type?: TxType; walletId?: string; toWalletId?: string; categoryId?: string }
 interface QuickAddValue { openAdd: (preset?: AddPreset) => void; openEdit: (t: Transaction) => void; openDuplicate: (t: Transaction) => void }
 
 const Ctx = createContext<QuickAddValue>({ openAdd: () => {}, openEdit: () => {}, openDuplicate: () => {} });

@@ -46,11 +46,11 @@ function rng(seed: number) {
 const TEXT = {
   id: { bank: 'BCA', cash: 'Tunai', ew: 'GoPay', sav: (c: string) => `Tabungan ${c}`, salary: 'Gaji bulanan', freelance: 'Proyek freelance', rent: 'Sewa rumah',
     util: 'Listrik & internet', stream: 'Langganan streaming', topup: 'Isi saldo e-wallet', atm: 'Tarik tunai ATM', saving: 'Tabungan bulanan', cross: 'Transfer lintas mata uang',
-    sales: 'Jual barang dagangan', stock: 'Beli stok barang', opex: 'Biaya operasional usaha', borrow: 'Pinjam dari teman', repay: 'Cicil utang', lend: 'Pinjamkan ke teman', collect: 'Teman bayar piutang',
+    sales: 'Jual barang dagangan', stock: 'Beli stok barang', opex: 'Biaya operasional usaha', borrow: 'Budi', repay: 'Budi', lend: 'Rina', collect: 'Rina', dueNote: 'Jatuh tempo',
     lunch: 'Makan siang', groceries: 'Belanja bulanan', ride: 'Ojek online', shop: 'Belanja online', movie: 'Nonton bioskop', pharmacy: 'Apotek' },
   en: { bank: 'Main bank', cash: 'Cash', ew: 'E-wallet', sav: (c: string) => `Savings ${c}`, salary: 'Monthly salary', freelance: 'Freelance project', rent: 'Rent',
     util: 'Electricity & internet', stream: 'Streaming subscription', topup: 'Top up e-wallet', atm: 'ATM withdrawal', saving: 'Monthly saving', cross: 'Cross-currency transfer',
-    sales: 'Product sales', stock: 'Stock purchase', opex: 'Business running costs', borrow: 'Borrowed from a friend', repay: 'Debt instalment', lend: 'Lent to a friend', collect: 'Friend repaid',
+    sales: 'Product sales', stock: 'Stock purchase', opex: 'Business running costs', borrow: 'Budi', repay: 'Budi', lend: 'Rina', collect: 'Rina', dueNote: 'Due',
     lunch: 'Lunch', groceries: 'Groceries', ride: 'Ride', shop: 'Online shopping', movie: 'Movie night', pharmacy: 'Pharmacy' },
 } as const;
 
@@ -115,9 +115,9 @@ export function buildSampleData(userId: string, base: CurrencyCode, d: UserData,
   }
   // Debts: borrowed and partly repaid, lent and partly collected.
   const ago = (m: number, day: number) => new Date(now.getFullYear(), now.getMonth() - m, day, 10, 0);
-  add(ago(4, 8), { type: 'income', walletId: bank.id, categoryId: 'cat_loan_in', amount: s(250), description: X.borrow });
+  add(ago(4, 8), { type: 'income', walletId: bank.id, categoryId: 'cat_loan_in', amount: s(250), description: X.borrow, notes: `${X.dueNote}: ${toLocalDateTime(new Date(now.getFullYear(), now.getMonth() + 1, 15)).slice(0, 10)}` });
   add(ago(2, 8), { type: 'expense', walletId: bank.id, categoryId: 'cat_debt_paid', amount: s(100), description: X.repay });
-  add(ago(3, 15), { type: 'expense', walletId: bank.id, categoryId: 'cat_loan_out', amount: s(150), description: X.lend });
+  add(ago(3, 15), { type: 'expense', walletId: bank.id, categoryId: 'cat_loan_out', amount: s(150), description: X.lend, notes: `${X.dueNote}: ${toLocalDateTime(new Date(now.getFullYear(), now.getMonth(), Math.max(1, now.getDate() - 3))).slice(0, 10)}` });
   add(ago(1, 15), { type: 'income', walletId: bank.id, categoryId: 'cat_debt_collected', amount: s(60), description: X.collect });
   txs.sort((a, b) => b.occurredAt.localeCompare(a.occurredAt));
 

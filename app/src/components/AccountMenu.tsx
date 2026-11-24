@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { EllipsisVertical, FileSpreadsheet, LogOut, Settings as SettingsIcon, User } from 'lucide-react';
+import { EllipsisVertical, FileSpreadsheet, LogOut, Settings as SettingsIcon, User, Store } from 'lucide-react';
 import { greetingName, useAuth } from '../auth/AuthProvider';
 import { useI18n } from '../i18n';
 import type { Language } from '../data/types';
@@ -48,6 +48,7 @@ export function AccountMenu({ variant = 'dots' }: { variant?: 'dots' | 'avatar' 
               <div className="muted small menu-email">{profile.email}</div>
             </div>
           </div>
+          <Link to="/business" className="menu-item" role="menuitem"><Store size={17} />{t('nav.business')}</Link>
           <Link to="/export" className="menu-item" role="menuitem"><FileSpreadsheet size={17} />{t('nav.export')}</Link>
           <Link to="/profile" className="menu-item" role="menuitem"><User size={17} />{t('nav.profile')}</Link>
           <Link to="/settings" className="menu-item" role="menuitem"><SettingsIcon size={17} />{t('nav.settings')}</Link>
