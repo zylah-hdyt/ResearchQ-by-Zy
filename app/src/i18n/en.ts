@@ -545,6 +545,7 @@ export const en = {
   'dash.sampleLoaded': 'Sample data loaded.',
   'dash.sampleActive': 'You are using sample data.',
   'dash.sampleRemove': 'Remove sample data',
+  'dash.sampleRemoveBody': 'The sample wallets, transactions and budgets will be deleted, including any transactions you recorded in a sample wallet. The rest of your data stays.',
   'dash.sampleRemoved': 'Sample data removed.',
 
   // Excel workbook labels

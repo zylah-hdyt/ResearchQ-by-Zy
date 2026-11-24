@@ -547,6 +547,7 @@ export const id: Record<MessageKey, string> = {
   'dash.sampleLoaded': 'Data contoh dimuat.',
   'dash.sampleActive': 'Anda sedang memakai data contoh.',
   'dash.sampleRemove': 'Hapus data contoh',
+  'dash.sampleRemoveBody': 'Dompet, transaksi, dan anggaran contoh akan dihapus. Transaksi yang Anda catat di dompet contoh ikut terhapus. Data Anda yang lain tetap aman.',
   'dash.sampleRemoved': 'Data contoh dihapus.',
 
   'xl.sheet.summary': 'Ringkasan Keuangan',
