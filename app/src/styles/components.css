@@ -198,3 +198,6 @@ table.data tfoot td { font-weight: 650; border-bottom: none; }
   /* Popovers (notifications, account menu) span the screen on phones instead of hanging off their button */
   .popover, .popover.menu { position: fixed; left: 12px; right: 12px; top: calc(var(--safe-t) + 60px); width: auto; max-height: calc(100dvh - var(--safe-t) - 160px); overflow-y: auto; }
 }
+
+/* A disabled icon button must look disabled (the filled one kept its glow before, so it looked broken). */
+.icon-btn:disabled { opacity: .45; cursor: default; box-shadow: none; pointer-events: none; }

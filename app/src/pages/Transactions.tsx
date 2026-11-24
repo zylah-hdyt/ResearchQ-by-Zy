@@ -103,7 +103,7 @@ export function Transactions() {
         <div><h1>{t('tx.title')}</h1><div className="sub">{t('tx.count', { n: list.length })}</div></div>
         <div className="page-actions">
           <ExportButton context="transactions" defaults={exportDefaults} />
-          <button className="btn primary desktop-only" onClick={() => openAdd()} disabled={data.wallets.length === 0}><Plus size={16} aria-hidden />{t('tx.add')}</button>
+          <button className="btn primary desktop-only" onClick={() => openAdd()}><Plus size={16} aria-hidden />{t('tx.add')}</button>
         </div>
       </div>
 
