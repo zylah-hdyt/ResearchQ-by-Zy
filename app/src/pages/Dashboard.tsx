@@ -117,8 +117,8 @@ export function Dashboard() {
                 <strong>{t('dash.empty.title')}</strong>
                 <p>{t('dash.empty.body')}</p>
                 <div className="row">
-                  <button className="btn light" onClick={() => setWalletOpen(true)}><Plus size={16} aria-hidden />{t('dash.empty.cta')}</button>
-                  <button className="btn outline" onClick={data.loadSample} title={t('dash.sampleHint')}><Database size={16} aria-hidden />{t('dash.sample')}</button>
+                  <button className="btn primary" onClick={() => setWalletOpen(true)}><Plus size={16} aria-hidden />{t('dash.empty.cta')}</button>
+                  <button className="btn hero-ghost" onClick={data.loadSample} title={t('dash.sampleHint')}><Database size={16} aria-hidden />{t('dash.sample')}</button>
                 </div>
               </div>
             )}

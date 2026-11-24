@@ -1,5 +1,8 @@
 /* Design tokens. Dark (black + emerald) is the default identity; light is the alternative. "System" follows the OS. */
 :root {
+  --auth-bg-light: radial-gradient(110% 70% at 100% 0%, rgba(32, 201, 117, .28) 0%, rgba(32, 201, 117, .08) 45%, transparent 75%),
+    radial-gradient(90% 60% at 0% 100%, rgba(32, 201, 180, .2) 0%, transparent 70%),
+    linear-gradient(165deg, #e6f5ec 0%, #f2f8f4 50%, #eef6f2 100%);
   /* Sign-in page: one continuous dark-green backdrop (the light behind the card), across art and form */
   --auth-bg: radial-gradient(110% 70% at 100% 0%, rgba(46, 140, 82, .55) 0%, rgba(26, 80, 48, .25) 45%, transparent 75%),
     radial-gradient(90% 60% at 0% 100%, rgba(30, 110, 88, .38) 0%, transparent 70%),
@@ -78,7 +81,7 @@
 :root[data-theme="dark"] { color-scheme: dark; }
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
-    --auth-bg: var(--bg);
+    --auth-bg: var(--auth-bg-light);
   --bg: #f2f6f4;
     --surface: #ffffff;
     --surface-2: #edf2ef;
@@ -138,7 +141,7 @@
   }
 }
 :root[data-theme="light"] {
-  --auth-bg: var(--bg);
+  --auth-bg: var(--auth-bg-light);
   --bg: #f2f6f4;
   --surface: #ffffff;
   --surface-2: #edf2ef;
