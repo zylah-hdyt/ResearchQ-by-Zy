@@ -83,6 +83,24 @@
 .reset-card h1 { font-size: 1.6rem; }
 
 /* Sign-in / sign-up: one solid background across the art and the form (no aurora, no seam) */
-.auth, .auth-side, .auth-form { background: var(--auth-bg); }
+.auth { background: var(--auth-bg); min-height: 100dvh; }
+.auth-side, .auth-form { background: transparent; }
 .auth-side .aurora { display: none; }
 .auth-form { border-left: none; }
+
+/* Floating icon chips around the sign-in card */
+.auth-art { position: relative; }
+.art-chip { position: absolute; z-index: 2; width: 40px; height: 40px; border-radius: 13px; display: grid; place-items: center;
+  color: #4be39a; background: rgba(20, 40, 30, .55); border: 1px solid rgba(75, 227, 154, .22);
+  box-shadow: 0 8px 24px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.art-chip.c1 { top: 6%; left: 8%; color: #f5c542; border-color: rgba(245,197,66,.25); }
+.art-chip.c2 { top: 2%; right: 12%; }
+.art-chip.c3 { bottom: 8%; left: 4%; color: #f29ac0; border-color: rgba(242,154,192,.22); }
+.art-chip.c4 { bottom: 4%; right: 6%; color: #74aef0; border-color: rgba(116,174,240,.25); }
+.art-chip.c5 { top: 46%; right: 0; width: 34px; height: 34px; border-radius: 11px; color: #ff9a5c; border-color: rgba(255,154,92,.22); }
+@media (prefers-reduced-motion: no-preference) {
+  .art-chip { animation: chip-float 6s ease-in-out infinite; }
+  .art-chip.c2 { animation-delay: -1.5s; } .art-chip.c3 { animation-delay: -3s; } .art-chip.c4 { animation-delay: -4.5s; } .art-chip.c5 { animation-delay: -2.2s; animation-duration: 7s; }
+}
+@keyframes chip-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@media (max-width: 380px) { .art-chip { width: 34px; height: 34px; border-radius: 11px; } .art-chip.c5 { display: none; } }

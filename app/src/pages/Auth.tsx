@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Languages } from 'lucide-react';
+import { Languages, Coins, TrendingUp, PiggyBank, Wallet as WalletIcon, ReceiptText } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
 import { useI18n } from '../i18n';
 import type { MessageKey } from '../i18n/en';
@@ -9,7 +9,7 @@ import { passwordResetEnabled } from '../lib/features';
 import { Credit } from '../components/Credit';
 import { ThemeToggle } from '../components/ThemeToggle';
 import { LogoMark, Wordmark } from '../components/Logo';
-import { Aurora, CardObject, Float } from '../components/Scene';
+import { CardObject, Float } from '../components/Scene';
 
 export function AuthPage({ initialMode = 'in' }: { initialMode?: 'in' | 'up' }) {
   const { t } = useI18n();
@@ -58,9 +58,16 @@ export function AuthPage({ initialMode = 'in' }: { initialMode?: 'in' | 'up' }) 
   return (
     <div className="auth">
       <div className="auth-side">
-        <Aurora strength={1.1} />
         <div className="brand" style={{ padding: 0 }}><LogoMark size={36} /><Wordmark tagline={t('app.tagline')} /></div>
-        <div className="auth-art"><Float><CardObject /></Float></div>
+        <div className="auth-art">
+          <Float><CardObject /></Float>
+          {/* Small floating money icons around the card (decorative) */}
+          <span className="art-chip c1" aria-hidden><Coins size={18} /></span>
+          <span className="art-chip c2" aria-hidden><TrendingUp size={18} /></span>
+          <span className="art-chip c3" aria-hidden><PiggyBank size={18} /></span>
+          <span className="art-chip c4" aria-hidden><WalletIcon size={18} /></span>
+          <span className="art-chip c5" aria-hidden><ReceiptText size={16} /></span>
+        </div>
         <div><h1>{t('auth.welcome')}</h1><p>{t('auth.subtitle')}</p></div>
         <button className="btn auth-lang"
 
