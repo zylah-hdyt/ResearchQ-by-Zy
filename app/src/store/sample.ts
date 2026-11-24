@@ -9,6 +9,32 @@ const USD_IN: Record<CurrencyCode, number> = { IDR: 16000, USD: 1, EUR: 0.92, SG
 export const SAMPLE_MARK = '_s_';
 export const isSampleId = (id: string) => id.includes(SAMPLE_MARK);
 
+/**
+ * Ids of every sample record in `d`. Newer sample data carries SAMPLE_MARK in its ids.
+ * Sample data loaded by older versions has no marker. It is recognised by its wallets: the four sample wallets
+ * (bank, cash, e-wallet, savings in the sample colours) created in one go, i.e. with the same `createdAt`.
+ * Every transaction in those wallets goes with them (the database cannot keep a transaction without its wallet),
+ * and so do budgets saved in the same go (same `createdAt` as each other, within two minutes of the wallets).
+ */
+const LEGACY: Record<string, Wallet['type']> = { '#1d4ed8': 'bank', '#15803d': 'cash', '#0891b2': 'ewallet', '#7c3aed': 'savings' };
+export function sampleIds(d: Pick<UserData, 'wallets' | 'transactions' | 'budgets'>): Set<string> {
+  const out = new Set<string>();
+  for (const x of [...d.wallets, ...d.transactions, ...d.budgets]) if (isSampleId(x.id)) out.add(x.id);
+  const byStamp = new Map<string, Wallet[]>();
+  for (const w of d.wallets) if (!isSampleId(w.id) && LEGACY[w.color] === w.type) byStamp.set(w.createdAt, [...(byStamp.get(w.createdAt) ?? []), w]);
+  const budgetStamps = new Map<string, number>();
+  for (const b of d.budgets) budgetStamps.set(b.createdAt, (budgetStamps.get(b.createdAt) ?? 0) + 1);
+  for (const [stamp, ws] of byStamp) {
+    if (ws.length !== 4 || new Set(ws.map((w) => w.color)).size !== 4) continue;
+    const wids = new Set(ws.map((w) => w.id));
+    ws.forEach((w) => out.add(w.id));
+    d.transactions.filter((t) => wids.has(t.walletId) || (t.toWalletId && wids.has(t.toWalletId))).forEach((t) => out.add(t.id));
+    const t0 = Date.parse(stamp);
+    d.budgets.filter((b) => !isSampleId(b.id) && (budgetStamps.get(b.createdAt) ?? 0) >= 3 && Math.abs(Date.parse(b.createdAt) - t0) <= 120_000).forEach((b) => out.add(b.id));
+  }
+  return out;
+}
+
 /** Deterministic pseudo random so sample data is stable. */
 function rng(seed: number) {
   return () => {

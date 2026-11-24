@@ -15,6 +15,7 @@ import { Kpi } from '../components/Kpi';
 import { RangeTabs } from '../components/RangeTabs';
 import { TxRow } from '../components/TxRow';
 import { WalletForm } from '../components/Forms';
+import { useConfirm } from '../components/Confirm';
 import { useQuickAdd } from '../components/QuickAdd';
 import { categoryTotals, collapse, dedupe, monthRange, summarize, walletBalance } from '../lib/finance';
 import { budgetRows, spanFor } from '../lib/budget';
@@ -33,6 +34,7 @@ export function Dashboard() {
   const { t, lang } = useI18n();
   const { profile } = useAuth();
   const data = useData();
+  const confirm = useConfirm();
   const { openEdit } = useQuickAdd();
   const base = profile!.preferredCurrency;
   const [walletOpen, setWalletOpen] = useState(false);
@@ -137,7 +139,7 @@ export function Dashboard() {
               {data.hasSample && (
                 <div className="banner sample-banner" role="status">
                   <span>{t('dash.sampleActive')}</span>
-                  <button className="btn sm" onClick={data.removeSample}><Trash2 size={14} aria-hidden />{t('dash.sampleRemove')}</button>
+                  <button className="btn sm" onClick={async () => { if (await confirm({ title: t('dash.sampleRemove'), body: t('dash.sampleRemoveBody'), confirmLabel: t('common.delete'), danger: true })) data.removeSample(); }}><Trash2 size={14} aria-hidden />{t('dash.sampleRemove')}</button>
                 </div>
               )}
               {missingAll.length > 0 && <div className="banner">{t('common.notConverted', { codes: missingAll.join(', ') })}</div>}

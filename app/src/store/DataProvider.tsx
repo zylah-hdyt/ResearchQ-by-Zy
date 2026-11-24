@@ -6,7 +6,7 @@ import { useToast } from '../components/Toast';
 import { translator, useI18n } from '../i18n';
 import { uid } from '../lib/id';
 import { dedupe } from '../lib/finance';
-import { buildSampleData, isSampleId } from './sample';
+import { buildSampleData, sampleIds } from './sample';
 import { supabase } from '../lib/supabase';
 import { chatEnabled } from '../lib/chatLink';
 
@@ -145,19 +145,23 @@ export function DataProvider({ children }: { children: ReactNode }) {
       setRates: (rates) => commit((d) => ({ ...d, rates })),
       markNotificationsRead: (ids) =>
         commit((d) => ({ ...d, readNotifications: [...new Set([...d.readNotifications, ...ids])] })),
-      hasSample: data.wallets.some((w) => isSampleId(w.id)) || data.transactions.some((x) => isSampleId(x.id)),
+      hasSample: sampleIds(data).size > 0,
       loadSample: () => {
         const before = dataRef.current;
         commit((d) => buildSampleData(userId, profile!.preferredCurrency, d, profile!.language));
         toast(translator(lang)('dash.sampleLoaded'), { label: translator(lang)('tx.undo'), onClick: () => commit(() => before) });
       },
       removeSample: () => {
-        commit((d) => ({
-          ...d,
-          wallets: d.wallets.filter((w) => !isSampleId(w.id)),
-          transactions: d.transactions.filter((x) => !isSampleId(x.id) && !isSampleId(x.walletId) && !(x.toWalletId && isSampleId(x.toWalletId))),
-          budgets: d.budgets.filter((b) => !isSampleId(b.id)),
-        }));
+        commit((d) => {
+          const ids = sampleIds(d);
+          const keep = (id?: string) => !id || !ids.has(id);
+          return {
+            ...d,
+            wallets: d.wallets.filter((w) => keep(w.id)),
+            transactions: d.transactions.filter((x) => keep(x.id) && keep(x.walletId) && keep(x.toWalletId)),
+            budgets: d.budgets.filter((b) => keep(b.id)),
+          };
+        });
         toast(translator(lang)('dash.sampleRemoved'));
       },
       clearAll: () => commit((d) => ({ ...d, wallets: [], transactions: [], budgets: [], readNotifications: [] })),

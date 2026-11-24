@@ -38,6 +38,8 @@ const { boot, ok, done, readData, digits } = require('./common.cjs');
     });
     await p.reload(); await p.getByText('Total saldo').waitFor();
     await p.getByRole('button', { name: 'Hapus data contoh' }).click();
+    ok(await p.getByRole('dialog').isVisible(), 'removal asks for confirmation');
+    await p.getByRole('dialog').getByRole('button', { name: 'Hapus' }).click();
     await p.getByText('Data contoh dihapus.').waitFor();
     const e = await readData(p);
     ok(e.wallets.length === 1 && e.wallets[0].id === 'w_abc123' && e.transactions.length === 1 && e.budgets.length === 0, 'only sample removed, own data kept');
@@ -46,6 +48,26 @@ const { boot, ok, done, readData, digits } = require('./common.cjs');
     await p.reload(); await p.getByRole('button', { name: 'Muat data contoh' }).waitFor();
     ok(e.categories.some((c) => c.key === 'sales'), 'categories stay');
     ok(await p.locator('.dash-biz').count() === 0, 'card hidden again');
+    await b.close(); done(errs);
+  }
+  // 3. Sample data loaded by an older version (ids without the marker) is still recognised and removable.
+  {
+    const { b, p, errs } = await boot();
+    await p.evaluate(() => {
+      const k = Object.keys(localStorage).find((x) => x.endsWith(':data')); const x = JSON.parse(localStorage.getItem(k));
+      const s = (id) => id && id.replace('_s_', '_');
+      x.wallets.forEach((w) => { w.id = s(w.id); });
+      x.transactions.forEach((t, i) => { t.createdAt = new Date(Date.parse(t.createdAt) + 1000 + i).toISOString(); t.id = s(t.id); t.walletId = s(t.walletId); if (t.toWalletId) t.toWalletId = s(t.toWalletId); });
+      x.budgets.forEach((bb) => { bb.id = s(bb.id); });
+      localStorage.setItem(k, JSON.stringify(x));
+    });
+    await p.reload(); await p.getByText('Total saldo').waitFor();
+    ok(await p.getByRole('button', { name: 'Hapus data contoh' }).isVisible(), 'legacy sample: notice shown');
+    await p.getByRole('button', { name: 'Hapus data contoh' }).click();
+    await p.getByRole('dialog').getByRole('button', { name: 'Hapus' }).click();
+    await p.getByRole('button', { name: 'Muat data contoh' }).waitFor();
+    const e = await readData(p);
+    ok(e.wallets.length === 0 && e.transactions.length === 0 && e.budgets.length === 0, 'legacy sample removed');
     await b.close(); done(errs);
   }
 })();
