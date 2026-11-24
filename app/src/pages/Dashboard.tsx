@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AlertTriangle, ArrowDownLeft, ArrowUpRight, ChevronRight, TrendingDown, TrendingUp, CircleAlert, Database, Lightbulb, Plus, Trash2, Wallet as WalletIcon } from 'lucide-react';
+import { AlertTriangle, ChevronRight, TrendingDown, TrendingUp, CircleAlert, Database, Lightbulb, Plus, Trash2, Wallet as WalletIcon } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
 import { useData } from '../store/DataProvider';
 import { categoryLabel, useI18n, type TFn } from '../i18n';
@@ -11,8 +11,8 @@ import { CashflowChart } from '../components/Charts';
 import heroWallet from '../assets/hero-wallet.webp';
 import { usePrivacy } from '../components/Privacy';
 import { EyeToggle } from '../components/Privacy';
-import { Kpi } from '../components/Kpi';
 import { RangeTabs } from '../components/RangeTabs';
+import { StatTiles } from '../components/StatTiles';
 import { TxRow } from '../components/TxRow';
 import { WalletForm } from '../components/Forms';
 import { useConfirm } from '../components/Confirm';
@@ -74,6 +74,14 @@ export function Dashboard() {
   const budgets = useMemo(() => (['monthly', 'weekly'] as const)
     .flatMap((p) => budgetRows(data.budgets.filter((b) => b.period === p), data.categories, txs, data.wallets, spanFor(p, today, week), base, data.rates))
     .sort((a, b) => b.utilization - a.utilization), [data.budgets, data.categories, txs, data.wallets, today, week, base, data.rates]);
+  // Monthly budgets in the base currency, summed (the mockup's single "spent / limit" bar).
+  const budgetTotal = useMemo(() => {
+    const m = budgets.filter((b) => b.budget.period === 'monthly' && b.budget.currency === base);
+    if (!m.length) return null;
+    const spent = m.reduce((a, b) => a + b.spent, 0), limit = m.reduce((a, b) => a + b.limit, 0);
+    const u = limit ? spent / limit : 0;
+    return { spent, limit, status: u > 1 ? 'exceeded' : u >= 0.8 ? 'warning' : 'onTrack' };
+  }, [budgets, base]);
   const recent = useMemo(() => [...txs].sort((a, b) => b.occurredAt.localeCompare(a.occurredAt)).slice(0, 6), [txs]);
   const insights = useMemo(() => buildInsights(t, lang, txs, data, base, budgets.filter((b) => b.status === 'exceeded').length), [t, lang, txs, data, base, budgets]);
   const biz = useMemo(() => businessSummary(txs, data.wallets, data.categories, monthRange(new Date()), base, data.rates), [txs, data.wallets, data.categories, base, data.rates]);
@@ -112,12 +120,6 @@ export function Dashboard() {
               </span>
             )}
             <Link to="/accounts" className="hero-sub">{t('dash.acrossAccounts', { n: active.length })}<ChevronRight size={15} aria-hidden /></Link>
-            <div className="hero-wallets">
-              {balances.rows.slice(0, 4).map(({ w, own }) => (
-                <Link key={w.id} to={`/accounts/${w.id}`} className="wallet-chip"><span className="truncate">{w.name}</span><Money value={own} currency={w.currency} compact maskable /></Link>
-              ))}
-              {balances.rows.length > 4 && <Link to="/accounts" className="wallet-chip muted">{t('dash.moreWallets', { n: balances.rows.length - 4 })}</Link>}
-            </div>
           </section>
           <section className="dash-wallets card">
             <div className="card-head"><h2>{t('dash.wallets')}</h2><Link className="small link-quiet" to="/accounts">{t('common.viewAll')}</Link></div>
@@ -147,11 +149,11 @@ export function Dashboard() {
           )}
           <section className="dash-summary">
             <div className="section-head"><h2>{t('dash.summary')}</h2><RangeTabs value={range} onChange={setRange} /></div>
-            <div className="card flush kpi-strip">
-              <Kpi icon={ArrowDownLeft} label={t('dash.income')} keyColor="var(--chart-income)" value={cur.income} currency={base} change={pctChange(cur.income, prev.income)} upIsGood trend={flow.points.map((p) => p.income)} />
-              <Kpi icon={ArrowUpRight} label={t('dash.expense')} keyColor="var(--chart-expense)" value={cur.expense} currency={base} change={pctChange(cur.expense, prev.expense)} upIsGood={false} trend={flow.points.map((p) => p.expense)} />
-              <Kpi icon={TrendingUp} iconInk="var(--on-brand)" label={t('dash.net')} keyColor="var(--brand)" value={cur.net} currency={base} sign change={pctChange(cur.net, prev.net)} upIsGood trend={flow.points.map((p) => p.income - p.expense)} />
-            </div>
+            <StatTiles currency={base} label={t('dash.summary')} stats={[
+              { kind: 'income', label: t('dash.income'), value: cur.income, change: pctChange(cur.income, prev.income) },
+              { kind: 'expense', label: t('dash.expense'), value: cur.expense, change: pctChange(cur.expense, prev.expense) },
+              { kind: 'net', label: t('dash.net'), value: cur.net, change: pctChange(cur.net, prev.net) },
+            ]} />
           </section>
           <section className="dash-chart card">
             <div className="card-head"><h2>{t('dash.cashflow')}</h2><span className="muted small">{t(`range.long.${range}` as MessageKey)}</span></div>
@@ -161,7 +163,13 @@ export function Dashboard() {
             <div className="card-head"><h2>{t('dash.budgetOverview')}</h2><Link className="small link-quiet" to="/budgets">{t('common.viewAll')}</Link></div>
             {budgets.length === 0 ? <p className="muted small">{t('dash.noBudgets')}</p> : (
               <div className="stack" style={{ gap: 18 }}>
-                {budgets.slice(0, 4).map((b) => (
+                {budgetTotal && (
+                  <div className="bud-total">
+                    <div className="row between"><span className="num bud-total-amt">{formatMoney(budgetTotal.spent, base, lang)} <span className="muted">/ {formatMoney(budgetTotal.limit, base, lang)}</span></span><strong className="num">{formatPercent(budgetTotal.limit ? budgetTotal.spent / budgetTotal.limit : 0, lang)}</strong></div>
+                    <div className={`progress lg ${budgetTotal.status}`} role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round((budgetTotal.limit ? budgetTotal.spent / budgetTotal.limit : 0) * 100)} aria-label={t('dash.budgetOverview')}><span style={{ width: `${Math.min(100, budgetTotal.limit ? (budgetTotal.spent / budgetTotal.limit) * 100 : 0)}%` }} /></div>
+                  </div>
+                )}
+                {budgets.slice(0, 3).map((b) => (
                   <div key={b.budget.id}>
                     <div className="row between small" style={{ marginBottom: 8 }}>
                       <span className="row tight" style={{ fontWeight: 550 }}>

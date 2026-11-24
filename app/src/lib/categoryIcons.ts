@@ -12,3 +12,9 @@ export const transferIcon = ArrowLeftRight;
 
 const BY_WALLET: Record<WalletType, LucideIcon> = { cash: Banknote, bank: Landmark, ewallet: Smartphone, credit: CreditCard, savings: PiggyBank, investment: TrendingUp, other: Wallet };
 export const walletIcon = (t: WalletType): LucideIcon => BY_WALLET[t] ?? Wallet;
+
+/** Filled icon tile in an entity colour (category or wallet), white glyph: the shared icon-container style. */
+export const fillTile = (color: string) => ({ background: `linear-gradient(150deg, color-mix(in srgb, ${color} 88%, #fff) 0%, ${color} 55%, color-mix(in srgb, ${color} 80%, #000) 100%)`, color: '#fff' });
+/** Tinted tile: dark container, glyph in the entity colour (budgets, quieter lists). */
+export const tintTile = (color: string) => ({ background: `color-mix(in srgb, ${color} 16%, var(--surface-2))`, color: `color-mix(in srgb, ${color} 70%, #fff)` });
+export const TRANSFER_COLOR = '#5b5bd6';

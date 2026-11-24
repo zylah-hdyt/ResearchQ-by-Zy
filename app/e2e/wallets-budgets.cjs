@@ -13,8 +13,9 @@ const SP = process.argv[2] || 'e2e-output';
   const netWorth = (d) => Math.round(d.wallets.filter((w) => !w.archived).reduce((s, w) => s + (bal(d, w.id) * rate(d, w.currency)) / 100, 0));
   // ================= WALLETS =================
   await p.goto(BASE + '/#/accounts'); await p.locator('.nw').waitFor(); await p.waitForTimeout(300);
-  ok(digits(await p.locator('.nw-amount').innerText()) === netWorth(data), `net worth ${await p.locator('.nw-amount').innerText()} = independent Σ balances`);
-  const groups = await p.locator('section[aria-label] .section-head h2').allInnerTexts(); ok(groups.length >= 3, 'wallets grouped by type: ' + groups.join(', '));
+  ok(digits(await p.locator('.nw .hero-amount').innerText()) === netWorth(data), `net worth ${await p.locator('.nw .hero-amount').innerText()} = independent Σ balances`);
+  const groups = (await p.locator('.type-chips .pick').allInnerTexts()).slice(1); ok(groups.length >= 3, 'wallets grouped by type (type chips with counts): ' + groups.join(', '));
+  await p.locator('.type-chips .pick', { hasText: 'Tunai' }).click(); ok((await p.locator('.wallet-cards .wallet-row').count()) === data.wallets.filter((w) => !w.archived && w.type === 'cash').length, 'type chip filters the list'); await p.locator('.type-chips .pick').first().click();
   ok((await p.locator('.legend-list li').count()) >= 2 && (await p.locator('.segbar > span').count()) >= 2, 'composition bar + legend');
   const rows = await p.locator('.wallet-row').count(); ok(rows === data.wallets.length, `${rows} wallet rows`);
   // custom account
@@ -24,8 +25,8 @@ const SP = process.argv[2] || 'e2e-output';
   await p.getByRole('button', { name: 'Simpan' }).click(); await p.waitForTimeout(400);
   const nw0 = netWorth(data); data = await readData(p);
   console.log('nw delta',netWorth(data)-nw0, JSON.stringify(data.wallets.find(w=>w.name==='Dompet Kustom'))); ok(netWorth(data) === nw0 + 1500000, 'custom account with starting balance Rp 1.500.000 raises net worth by exactly that');
-  ok(digits(await p.locator('.nw-amount').innerText()) === netWorth(data), 'page net worth follows');
-  ok((await p.locator('section[aria-label] .section-head h2').allInnerTexts()).some((x) => /Lainnya/.test(x)), 'custom type shown as its own group');
+  ok(digits(await p.locator('.nw .hero-amount').innerText()) === netWorth(data), 'page net worth follows');
+  ok((await p.locator('.type-chips .pick').allInnerTexts()).some((x) => /Lainnya/.test(x)), 'custom type shown as its own group');
   // wallet detail
   await p.locator('.wallet-row', { hasText: 'BCA' }).click(); await p.locator('.wd-hero').waitFor(); await p.waitForTimeout(300);
   const bca = data.wallets.find((w) => w.name === 'BCA');
@@ -57,12 +58,14 @@ const SP = process.argv[2] || 'e2e-output';
   await p.getByRole('button', { name: 'Arsipkan' }).click(); await p.locator('.modal').waitFor(); await p.locator('.modal-foot .btn.primary').click(); await p.waitForTimeout(300);
   data = await readData(p); ok(data.wallets.find((w) => w.id === bca.id).archived === true, 'wallet archived (data kept)');
   await p.goto(BASE + '/#/accounts'); await p.locator('.nw').waitFor();
-  ok(digits(await p.locator('.nw-amount').innerText()) === netWorth(data), 'archived wallet leaves the net worth total');
+  ok(digits(await p.locator('.nw .hero-amount').innerText()) === netWorth(data), 'archived wallet leaves the net worth total');
   await p.getByRole('button', { name: /Diarsipkan/ }).click(); ok((await p.locator('.wallet-row', { hasText: 'BCA' }).count()) === 1, 'archived section lists it');
   await p.locator('.wallet-row', { hasText: 'BCA' }).click(); await p.getByRole('button', { name: 'Pulihkan' }).click(); await p.waitForTimeout(300);
   data = await readData(p); ok(data.wallets.find((w) => w.id === bca.id).archived === false, 'restored');
   // ================= BUDGETS =================
   await p.goto(BASE + '/#/budgets'); await p.locator('.bsum').waitFor(); await p.waitForTimeout(300);
+  ok((await p.locator('.bud-row').count()) === data.budgets.filter((x) => x.period === 'monthly').length, 'Categories tab lists one compact row per monthly budget');
+  await p.getByRole('tab', { name: 'Detail' }).click(); await p.waitForTimeout(200);
   const monthFrom = ymd(new Date(now.getFullYear(), now.getMonth(), 1)), monthTo = ymd(new Date(now.getFullYear(), now.getMonth() + 1, 0));
   const spent = (d, cat, f, t) => Math.round(d.transactions.filter((x) => x.type === 'expense' && x.categoryId === cat && x.occurredAt.slice(0, 10) >= f && x.occurredAt.slice(0, 10) <= t).reduce((s, x) => s + (x.amount * rate(d, wcur(d)[x.walletId])) / 100, 0));
   const monthly = data.budgets.filter((x) => x.period === 'monthly');
@@ -115,7 +118,7 @@ const SP = process.argv[2] || 'e2e-output';
   }
   await m.setViewportSize({ width: 390, height: 844 });
   for (const [path, name] of [['accounts', 'm-accounts'], [`accounts/${bca.id}`, 'm-wallet'], ['budgets', 'm-budgets']]) { await m.goto(BASE + '/#/' + path); await m.waitForTimeout(500); await m.screenshot({ path: `${SP}/${name}.png` }); }
-  await m.goto(BASE + '/#/budgets'); await m.waitForTimeout(300); await m.locator('.budget-card').first().click(); await m.waitForTimeout(400); await m.screenshot({ path: SP + '/m-budget-detail.png' }); await m.keyboard.press('Escape');
+  await m.goto(BASE + '/#/budgets'); await m.waitForTimeout(300); await m.locator('.bud-row').first().click(); await m.waitForTimeout(400); await m.screenshot({ path: SP + '/m-budget-detail.png' }); await m.keyboard.press('Escape');
   for (const path of ['accounts', 'budgets']) { await m.goto(BASE + '/#/' + path); await m.waitForTimeout(400);
     const small = await m.evaluate(() => [...document.querySelectorAll('button, a, input, select')].filter((e) => { const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 && (r.height < 40 || r.width < 40) && !e.closest('.sr-only'); }).map((e) => `${e.tagName}:${(e.getAttribute('aria-label') || e.textContent || '').trim().slice(0, 20)} ${Math.round(e.getBoundingClientRect().width)}x${Math.round(e.getBoundingClientRect().height)}`));
     ok(small.length === 0, `/${path}: touch targets ≥ 40px` + (small.length ? ': ' + small.join('; ') : '')); }

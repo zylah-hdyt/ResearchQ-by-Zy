@@ -192,3 +192,15 @@ export function ExportButton({ context, defaults }: { context: ExportContext; de
 }
 
 export type { CurrencyCode };
+
+/** Icon-only variant for tight spots (e.g. inside a hero card); the label stays as the accessible name. */
+export function ExportIconButton({ context, defaults }: { context: ExportContext; defaults?: ExportDefaults }) {
+  const { t } = useI18n();
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button className="icon-btn" onClick={() => setOpen(true)} aria-haspopup="dialog" aria-label={t('export.button')} title={t('export.button')}><Download size={19} aria-hidden /></button>
+      {open && <ExportDialog context={context} defaults={defaults} onClose={() => setOpen(false)} />}
+    </>
+  );
+}

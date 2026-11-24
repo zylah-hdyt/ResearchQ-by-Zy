@@ -240,3 +240,18 @@ table.data tfoot td { font-weight: 650; border-bottom: none; }
   .page-actions:has(> .btn.primary:not(.desktop-only)) > .btn:not(.primary),
   .page-actions:has(> .btn.primary:not(.desktop-only)) > * > .btn:not(.primary) { font-size: 0; gap: 0; width: 44px; padding: 0; flex: none; }
 }
+
+/* ── Stat tiles (PRD UI/UX mockup): three separate tiles with an icon container on top ── */
+.stat-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-3); }
+.stat-tile { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; padding: var(--s-4) var(--s-2) var(--s-3); border-radius: var(--r-lg); background: var(--card-bg); border: 1px solid var(--border); box-shadow: var(--card-shadow); min-width: 0; }
+.stat-icon { width: 36px; height: 36px; border-radius: 11px; display: grid; place-items: center; color: #fff; margin-bottom: 4px; }
+.stat-tile.income .stat-icon { background: linear-gradient(150deg, #4f9bf0, #2563c9); }
+.stat-tile.expense .stat-icon { background: linear-gradient(150deg, #f07a45, #c2410c); }
+.stat-tile.net .stat-icon { background: linear-gradient(150deg, #34d98a, #15803d); }
+.stat-label { font-size: var(--fs-sm); color: var(--text-2); font-weight: 550; }
+.stat-value { font-size: var(--fs-md); font-weight: 700; letter-spacing: -.02em; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.stat-value .st-short { display: none; }
+@media (max-width: 560px) { .stat-value .st-full { display: none; } .stat-value .st-short { display: inline; } }
+.stat-delta { display: inline-flex; align-items: center; gap: 2px; font-size: var(--fs-xs); font-weight: 600; }
+.stat-delta.good { color: var(--good-ink); } .stat-delta.bad { color: var(--bad-ink); } .stat-delta.flat { color: var(--text-3); }
+@media (min-width: 901px) { .stat-value { font-size: var(--fs-lg); } }

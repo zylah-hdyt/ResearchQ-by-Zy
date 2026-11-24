@@ -2,7 +2,7 @@ import type { Transaction } from '../data/types';
 import { useData } from '../store/DataProvider';
 import { categoryLabel, useI18n } from '../i18n';
 import { formatDate, formatMoney, formatTime } from '../lib/format';
-import { categoryIcon, transferIcon } from '../lib/categoryIcons';
+import { categoryIcon, fillTile, transferIcon, TRANSFER_COLOR } from '../lib/categoryIcons';
 import { effectOn } from '../lib/finance';
 
 /** One transaction as a list row: icon tile, title, "category · wallet · time", signed amount. */
@@ -24,7 +24,7 @@ export function TxRow({ tx, onClick, selected, withDate, forWallet, balanceAfter
   const Tag = onClick ? 'button' : 'div';
   return (
     <Tag className={`list-item${selected ? ' selected' : ''}`} onClick={onClick} {...(onClick ? { type: 'button' as const } : {})}>
-      <span className={`tile ${tone}`} style={tx.type === 'income' ? { color: 'var(--income-ink)', background: 'var(--info-soft)' } : tx.type === 'transfer' ? { color: 'var(--transfer)' } : undefined}><Icon size={18} aria-hidden /></span>
+      <span className="tile" style={fillTile(tx.type === 'transfer' ? TRANSFER_COLOR : cat?.color ?? '#6b7280')}><Icon size={19} strokeWidth={2.2} aria-hidden /></span>
       <span className="grow">
         <span className="title" style={{ display: 'block' }}>{title}</span>
         <span className="sub" style={{ display: 'block' }}>{sub}</span>

@@ -14,7 +14,7 @@ const SP = process.argv[2] || 'e2e-output';
   const labels = { '7D': '7 hari terakhir', '1M': '30 hari terakhir', '3M': '3 bulan terakhir', '6M': '6 bulan terakhir', '1Y': '12 bulan terakhir' };
   for (const r of ['7D', '1M', '3M', '6M', '1Y']) {
     await p.getByRole('button', { name: labels[r], exact: true }).click(); await p.waitForTimeout(150);
-    const kpis = await p.locator('.kpi-value').allInnerTexts();
+    const kpis = await p.locator('.stat-tile .st-full').allInnerTexts();
     const inc = total('income', ymd(from[r]()), ymd(t0)), exp = total('expense', ymd(from[r]()), ymd(t0));
     ok(digits(kpis[0]) === inc && digits(kpis[1]) === exp, `${r}: income ${kpis[0]} = ${inc}, expense ${kpis[1]} = ${exp} (independent recomputation)`);
     ok(digits(kpis[2].replace('+', '')) === inc - exp, `${r}: net = income − expense`);
@@ -28,7 +28,7 @@ const SP = process.argv[2] || 'e2e-output';
   const total0 = await p.locator('.hero-amount').innerText();
   await p.getByRole('button', { name: 'Sembunyikan saldo' }).click();
   ok(/•/.test(await p.locator('.hero-amount').innerText()) && !/\d/.test(await p.locator('.hero-amount').innerText()), 'hide balance masks the hero amount: ' + (await p.locator('.hero-amount').innerText()));
-  ok(/•/.test(await p.locator('.wallet-chip').first().innerText()), 'wallet chips are masked too');
+  ok(/•/.test(await p.locator('.dash-wallets .amount').first().innerText()), 'wallet list balances are masked too');
   await p.reload(); await p.getByText('Total saldo').waitFor();
   ok(/•/.test(await p.locator('.hero-amount').innerText()), 'preference survives a reload');
   await p.getByRole('button', { name: 'Tampilkan saldo' }).click();

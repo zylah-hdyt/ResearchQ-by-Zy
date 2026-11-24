@@ -13,9 +13,9 @@ const SP = process.argv[2] || 'e2e-output';
   const tot = (f, t, type, cat) => Math.round(data.transactions.filter((x) => x.type === type && (!cat || x.categoryId === cat) && x.occurredAt.slice(0, 10) >= f && x.occurredAt.slice(0, 10) <= t).reduce((s, x) => s + (x.amount * rate(cur[x.walletId])) / 100, 0));
   const from = ymd(new Date(now.getFullYear(), now.getMonth() - 2, 1)); const to = ymd(new Date(now.getFullYear(), now.getMonth() + 1, 0));
   const effTo = to > today ? today : to; const pFrom = ymd(new Date(now.getFullYear(), now.getMonth() - 5, 1)); const pTo = ymd(new Date(now.getFullYear(), now.getMonth() - 3, now.getDate()));
-  await p.goto(BASE + '/#/reports'); await p.locator('.kpi-strip').waitFor(); await p.waitForTimeout(500);
+  await p.goto(BASE + '/#/reports'); await p.locator('.stat-tiles').waitFor(); await p.waitForTimeout(500);
   const income = tot(from, to, 'income'), expense = tot(from, to, 'expense');
-  const kv = await p.locator('.kpi-value').allInnerTexts();
+  const kv = [...await p.locator('.stat-tile .st-full').allInnerTexts(), await p.locator('.saving-row strong').innerText()];
   ok(digits(kv[0]) === income, `income ${kv[0]} = independent ${income}`);
   ok(digits(kv[1]) === expense, `expense ${kv[1]} = independent ${expense}`);
   ok(digits(kv[2].replace('+', '')) === income - expense, `net ${kv[2]} = ${income - expense}`);
@@ -23,7 +23,7 @@ const SP = process.argv[2] || 'e2e-output';
   ok(Math.abs(parseFloat(rateTxt.replace(',', '.')) - exRate) < 0.6, `saving rate ${rateTxt} ≈ ${exRate.toFixed(1)}%`);
   const pIncome = tot(pFrom, pTo, 'income'), pExpense = tot(pFrom, pTo, 'expense');
   const eIncome = tot(from, effTo, 'income'), eExpense = tot(from, effTo, 'expense');
-  const deltas = await p.locator('.kpi .kpi-delta').allInnerTexts();
+  const deltas = await p.locator('.stat-delta').allInnerTexts();
   const pct = (a, c) => ((a - c) / Math.abs(c)) * 100;
   const parse = (s) => { const m = s.match(/([+−])\s*([\d.,]+)\s*%/); return m ? (m[1] === '−' ? -1 : 1) * parseFloat(m[2].replace(/\./g, '').replace(',', '.')) : null; };
   ok(Math.abs(parse(deltas[0]) - pct(eIncome, pIncome)) < 0.6, `income Δ ${parse(deltas[0])} ≈ ${pct(eIncome, pIncome).toFixed(1)} (equal-length previous window ${pFrom}…${pTo})`);
@@ -54,7 +54,7 @@ const SP = process.argv[2] || 'e2e-output';
   // net worth chart end = Σ balances
   const eff = (t, id) => (t.type === 'income' && t.walletId === id ? t.amount : t.type === 'expense' && t.walletId === id ? -t.amount : t.type === 'transfer' ? (t.walletId === id ? -t.amount : 0) + (t.toWalletId === id ? (t.toAmount ?? t.amount) : 0) : 0);
   const nwv = Math.round(data.wallets.filter((w) => !w.archived).reduce((s, w) => s + ((w.initialBalance + data.transactions.reduce((a, t) => a + eff(t, w.id), 0)) * rate(w.currency)) / 100, 0));
-  await p.locator('.chart-toggle').first().click(); const nwRows = await p.locator('table.data').first().locator('tbody tr td.r').allInnerTexts();
+  const nwSec = p.locator('section', { hasText: 'Tren kekayaan bersih' }).last(); await nwSec.locator('.chart-toggle').click(); const nwRows = await nwSec.locator('table.data tbody tr td.r').allInnerTexts();
   ok(digits(nwRows[nwRows.length - 1]) === nwv, `net-worth trend last point ${nwRows[nwRows.length - 1]} = Σ balances ${nwv}`);
   await p.locator('.chart-toggle').first().click();
   // wallet movement: closing = balance, opening + in − out = closing
@@ -64,9 +64,9 @@ const SP = process.argv[2] || 'e2e-output';
     if (Math.abs(Math.abs(num(r[4])) - Math.abs(bal)) > 100 && w.currency === 'IDR' ? digits(r[4]) * 100 !== bal : false) { okw = false; console.log('  wallet mismatch', r, bal); } }
   ok(okw, 'wallet movement closing balances equal wallet balances (range reaches today)');
   // this month: month-to-date vs the same stretch of last month
-  await p.locator('select').first().selectOption({ label: 'Bulan ini' }); await p.waitForTimeout(500);
+  await p.getByRole('button', { name: 'Bulan ini', exact: true }).click(); await p.waitForTimeout(500);
   const mFrom = ymd(new Date(now.getFullYear(), now.getMonth(), 1)), lmFrom = ymd(new Date(now.getFullYear(), now.getMonth() - 1, 1)), lmTo = ymd(new Date(now.getFullYear(), now.getMonth() - 1, now.getDate()));
-  const kv2 = await p.locator('.kpi-value').allInnerTexts(); const d2 = await p.locator('.kpi .kpi-delta').allInnerTexts();
+  const kv2 = await p.locator('.stat-tile .st-full').allInnerTexts(); const d2 = await p.locator('.stat-delta').allInnerTexts();
   ok(digits(kv2[1]) === tot(mFrom, today, 'expense'), `this month expense ${kv2[1]}`);
   ok(Math.abs(parse(d2[1]) - pct(tot(mFrom, today, 'expense'), tot(lmFrom, lmTo, 'expense'))) < 0.6, `this-month expense Δ ${parse(d2[1])} = vs ${lmFrom}…${lmTo}`);
   const cmp2 = await p.locator('table').filter({ hasText: 'Sebelumnya' }).first().locator('tbody tr td:nth-child(4)').allInnerTexts();
