@@ -1,6 +1,6 @@
 # Catat lewat WhatsApp (chat channel)
 
-Kirim pesan ke nomor MyFi di WhatsApp, dan transaksinya masuk ke akun masing-masing.
+Pengguna mengirim pesan ke bot WhatsApp, Fonnte meneruskan pesan mentah ke database, **database yang memprosesnya**, dan hasilnya langsung tampil di web.
 
 ```
 makan siang 25rb            → pengeluaran Rp 25.000, kategori Makan & minum
@@ -11,38 +11,54 @@ transfer 500rb bca ke gopay → transfer antar dompet (mata uang sama)
 saldo · hari ini · bulan ini · anggaran · batal · bantuan
 ```
 
-## Cara kerja
+## Alur
 ```
-WhatsApp ──► gateway (Fonnte) ──► Edge Function chat-webhook ──► Supabase (tabel yang sama dengan aplikasi)
-                                         │
-                                         └── balasan lewat API gateway ──► WhatsApp
+Pengguna ──WhatsApp──► Bot (nomor yang sudah disiapkan) ──► Fonnte
+                                                              │ webhook (POST, pesan mentah)
+                                                              ▼
+                                   Edge Function chat-webhook  (hanya relay: cek kunci, tanpa logika)
+                                                              │ INSERT pesan mentah
+                                                              ▼
+   ┌──────────────────────── DATABASE (Postgres / Supabase) ───────────────────────┐
+   │ chat_inbox  ── trigger BEFORE INSERT ──► chat_process():                       │
+   │   • kenali nomor → akun  • baca pesan (chat_parse)  • tulis transaksi           │
+   │   • hitung saldo/total   • susun balasan (ID/EN)    • simpan status + balasan   │
+   └──────────────────────────────────────────────────────────────────────────────┘
+                     │ baris balasan                                  │ Realtime
+                     ▼                                                ▼
+        Edge Function mengirim balasan ke Fonnte          Web MyFi memuat ulang data otomatis
+                     │                                    + riwayat pesan di Pengaturan
+                     ▼
+              Balasan di WhatsApp
 ```
-- `supabase/functions/chat-webhook/parser.ts` membaca pesan (nominal `25rb/1,5jt/25.000`, kategori, dompet, tanggal). Tidak pernah menebak diam-diam: dua nominal berbeda atau tanpa nominal = tidak dicatat, pengguna ditanya.
-- `core.ts` percakapan dan balasan (ID/EN sesuai bahasa akun), `provider.ts` satu-satunya file yang tahu bentuk pesan gateway, `index.ts` menghubungkan ke Supabase.
-- Nomor pengirim = identitas. Menghubungkan: Pengaturan → Catat lewat WhatsApp → kode 6 angka (berlaku 10 menit, sekali pakai) → kirim `MYFI-123456` dari nomor itu.
-- Keamanan: URL webhook memuat kunci rahasia (`?key=`), dibandingkan constant-time; pesan grup dan pesan dari perangkat sendiri diabaikan; pengiriman ganda dicegah (`chat_events`); `batal` hanya menghapus catatan terakhir yang dibuat lewat chat; tabel kode dan event tidak bisa dibaca klien (RLS tanpa policy).
-- Zona waktu "hari ini" = WIB. Transfer beda mata uang ditolak (perlu nominal diterima), nominal di atas Rp 10 miliar ditolak.
+- **Pesan mentah disimpan** apa adanya (`chat_inbox` untuk pesan + hasil, `chat_inbox_raw` untuk payload asli dari gateway, hanya service role).
+- **Semua pemrosesan di database**: fungsi `chat_parse` (membaca nominal `25rb/1,5jt/25.000`, kategori, dompet, tanggal), `chat_process` (percakapan, perintah, balasan), `chat_balances`. Edge Function tidak mengurai pesan.
+- **Tampil di web**: transaksi masuk lewat tabel yang sama dengan aplikasi, jadi muncul di Dasbor, Transaksi, Dompet, Anggaran, Laporan, dan Excel. Web mendengarkan Realtime pada `chat_inbox` dan memuat ulang data (juga saat tab kembali dibuka). Kartu Pengaturan menampilkan 5 pesan terakhir beserta apakah dipahami.
+- Menghubungkan: Pengaturan → Catat lewat WhatsApp → kode 6 angka (10 menit, sekali pakai) → kirim `MYFI-123456` dari nomor yang ingin dihubungkan.
+- Pesan yang tidak jelas (tanpa nominal, dua nominal berbeda, nama dompet salah) tidak dicatat; pengguna ditanya. Transfer beda mata uang ditolak. Nominal di atas Rp 10 miliar ditolak. "Hari ini" mengikuti WIB.
+- Keamanan: URL webhook memuat kunci rahasia (`?key=`, dibandingkan constant-time); pesan grup dan dari perangkat sendiri diabaikan; pengiriman ganda tidak dicatat dua kali (kunci per id pesan + advisory lock); kegagalan memproses membatalkan semua perubahan untuk pesan itu dan pengirim mendapat permintaan maaf; klien tidak bisa membaca nomor, payload mentah, atau kode, dan tidak bisa menulis ke inbox.
+- Retensi: pesan tertaut 90 hari, pesan dari nomor asing 7 hari.
 
 ## Yang diuji
-- 80 tes unit untuk pembaca pesan, percakapan (penyimpanan dalam memori), dan pembaca pesan gateway.
-- Migrasi dijalankan di Postgres 16 lokal bersama semua migrasi sebelumnya; diuji: pengguna A tidak bisa melihat atau mengubah data pengguna B, klien tidak bisa menulis tautan atau membaca kode, nomor ganda dan nomor tidak valid ditolak, tabrakan kode ditangani, hapus akun menghapus tautan, foreign key komposit menolak dompet milik pengguna lain.
-- Fungsi lolos `deno check`; jalur HTTP (kunci salah, metode salah, pesan grup, isi tidak dikenal) diuji dengan server Deno lokal.
+- **100 pemeriksaan SQL** (`supabase/tests/run.sh`) pada Postgres 16 dengan semua migrasi: pembaca pesan (nominal, kategori, dompet, tanggal, transfer, perintah), percakapan terhadap tabel sungguhan (pencatatan dalam satuan terkecil, saldo dihitung independen, transfer tidak mengubah total, batal, laporan, anggaran, bahasa, kegagalan membatalkan semuanya, pengiriman ganda), dan hak akses (pengguna A tidak bisa melihat/mengubah data B, klien tidak bisa menulis inbox/tautan/kode, hapus akun menghapus pesan dan tautan). Dijalankan otomatis di CI.
+- Edge Function: lolos `deno check`; jalur HTTP (kunci salah, metode salah, pesan grup, isi tidak dikenal) diuji di server Deno lokal.
+- Pembaca pesan gateway: 7 tes unit.
 
-## Belum bisa diuji dari sini (harus Anda cek setelah setup)
-- **Format pesan Fonnte.** Dokumentasi Fonnte tidak bisa dibuka dari lingkungan pengembangan, jadi nama field (`sender`, `message`, `device`, `member`) dan API kirim (`POST https://api.fonnte.com/send`, header `Authorization`) ditulis dari pengetahuan umum dan belum dicocokkan. Pembacanya longgar, dan pesan yang tidak terbaca dicatat (hanya nama field, bukan isi) di log fungsi. Kalau ada yang berbeda, cukup `provider.ts` yang diubah.
-- Batas paket gratis Fonnte (jumlah pesan, penambahan tulisan "sent via fonnte") belum bisa saya verifikasi.
-- Alur lengkap dari WhatsApp sungguhan.
+## Belum bisa diuji dari sini (cek setelah setup)
+- **Format pesan Fonnte.** Dokumentasi Fonnte tidak bisa dibuka dari lingkungan pengembangan, jadi nama field (`sender`, `message`, `device`, `member`) dan API kirim (`POST https://api.fonnte.com/send`, header `Authorization`) ditulis dari pengetahuan umum, belum dicocokkan. Pembacanya longgar; pesan yang tidak terbaca dicatat (nama field saja) di log fungsi, dan payload asli tersimpan di `chat_inbox_raw`. Kalau berbeda, cukup `provider.ts` yang diubah.
+- Jalur Edge Function → PostgREST → trigger (diuji hanya sampai trigger, lewat SQL), Realtime di web, dan alur lengkap dari WhatsApp sungguhan.
+- Batas paket gratis Fonnte.
 
-## Risiko yang perlu Anda tahu
-- Fonnte adalah gateway tidak resmi: menyambungkan nomor WhatsApp lewat QR seperti WhatsApp Web. WhatsApp bisa membatasi atau memblokir nomor yang dipakai bot. **Pakai nomor khusus, bukan nomor pribadi.**
-- Isi pesan dan nomor pengguna melewati pihak ketiga (Fonnte). Kebijakan Privasi harus menyebutnya sebelum fitur dibuka untuk pengguna lain (ubah `app/src/lib/legal.ts` dan naikkan `TERMS_VERSION`: semua pengguna akan diminta menyetujui ulang).
-- Cara resmi (Meta WhatsApp Cloud API) lebih aman terhadap pemblokiran, tetapi butuh akun Meta Business dan biayanya belum bisa dipastikan gratis. Hanya `provider.ts` yang perlu diganti.
+## Risiko
+- Fonnte tidak resmi: nomor disambungkan lewat QR seperti WhatsApp Web, WhatsApp bisa membatasi nomor yang dipakai bot. Pakai nomor khusus bot.
+- Isi pesan dan nomor melewati pihak ketiga. Kebijakan Privasi harus menyebutnya sebelum dibuka untuk pengguna lain (`app/src/lib/legal.ts`, naikkan `TERMS_VERSION`: semua pengguna diminta menyetujui ulang).
+- Mengubah kata kunci kategori: edit tabel `chat_keywords` (tanpa deploy ulang).
 
 ## Setup (urutan)
-1. **Supabase → SQL Editor:** jalankan isi `supabase/migrations/20261124000000_chat_channel.sql`.
-2. **Fonnte:** daftar, sambungkan nomor WhatsApp khusus bot (scan QR), salin token perangkat.
-3. **Edge Function:** deploy `supabase/functions/chat-webhook` dengan verifikasi JWT dimatikan (`supabase functions deploy chat-webhook --no-verify-jwt`).
-4. **Secrets** (Supabase → Edge Functions → Secrets): `CHAT_WEBHOOK_SECRET` = teks acak panjang, `FONNTE_TOKEN` = token dari langkah 2.
-5. **Fonnte → Webhook:** `https://<project-ref>.supabase.co/functions/v1/chat-webhook?key=<CHAT_WEBHOOK_SECRET>`; aktifkan "auto read" bila ada.
-6. **Netlify → Environment variables:** `VITE_CHAT_NUMBER` = nomor bot (format `628…`), lalu deploy ulang. Kartu "Catat lewat WhatsApp" baru muncul di Pengaturan setelah ini diisi.
+1. **Supabase → SQL Editor:** jalankan `supabase/migrations/20261124000000_chat_channel.sql`.
+2. **Fonnte:** sambungkan nomor bot, salin token perangkat.
+3. **Edge Function:** deploy `supabase/functions/chat-webhook` dengan verifikasi JWT dimatikan (`--no-verify-jwt`).
+4. **Secrets** (Supabase → Edge Functions): `CHAT_WEBHOOK_SECRET` = teks acak panjang, `FONNTE_TOKEN`.
+5. **Fonnte → Webhook:** `https://<project-ref>.supabase.co/functions/v1/chat-webhook?key=<CHAT_WEBHOOK_SECRET>`.
+6. **Netlify → Environment variables:** `VITE_CHAT_NUMBER` = nomor bot (`628…`), deploy ulang. Kartu di Pengaturan baru muncul setelah ini diisi.
 7. Uji: hubungkan dari Pengaturan, kirim `bantuan`, lalu `makan siang 25rb`.

@@ -1,10 +1,17 @@
 /**
- * The only file that knows what the WhatsApp gateway's messages look like. Everything else works with `Inbound`.
+ * The only file that knows what the WhatsApp gateway's messages look like. The database never sees the gateway's format.
  * Written for Fonnte (https://fonnte.com). The field names below follow Fonnte's documented webhook
  * (sender, message, device, member) but could not be checked against the live docs when this was written, so the
  * parser is deliberately tolerant and the Edge Function logs the raw keys of any message it cannot read.
  */
-import { normalizePhone } from './parser.ts';
+
+/** "0812-3456-7890" -> "6281234567890" (the database normalises again; this keeps the event id stable). */
+export function normalizePhone(raw: string): string {
+  let d = String(raw ?? '').replace(/\D/g, '');
+  if (d.startsWith('00')) d = d.slice(2);
+  if (d.startsWith('0')) d = '62' + d.slice(1);
+  return d;
+}
 
 export interface Inbound { phone: string; text: string; eventId?: string }
 

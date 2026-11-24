@@ -3,7 +3,8 @@ import { MessageCircle } from 'lucide-react';
 import { useI18n } from '../i18n';
 import { useToast } from './Toast';
 import { useConfirm } from './Confirm';
-import { chatDeepLink, chatNumber, createLinkCode, linkedPhone, maskPhone, unlinkChat } from '../lib/chatLink';
+import { chatDeepLink, chatNumber, createLinkCode, linkedPhone, maskPhone, recentMessages, unlinkChat, type ChatMessage } from '../lib/chatLink';
+import { supabase } from '../lib/supabase';
 
 /** Settings card: link a WhatsApp number to record transactions by chat. */
 export function ChatLinkCard() {
@@ -15,6 +16,7 @@ export function ChatLinkCard() {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState(false);
   const timer = useRef<number>();
+  const [history, setHistory] = useState<ChatMessage[]>([]);
 
   const refresh = useCallback(async () => { try { setPhone(await linkedPhone()); setErr(false); } catch { setErr(true); setPhone(null); } }, []);
   useEffect(() => { void refresh(); }, [refresh]);
@@ -26,6 +28,15 @@ export function ChatLinkCard() {
   }, [code, phone, refresh]);
   useEffect(() => { if (phone && code) { setCode(null); toast(t('chat.linkedToast')); } }, [phone]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // What the bot understood, newest first; refreshed live while the card is open.
+  useEffect(() => {
+    if (!phone || !supabase) return;
+    const load = () => { recentMessages().then(setHistory).catch(() => {}); };
+    load();
+    const ch = supabase.channel('chat-history').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'chat_inbox' }, load).subscribe();
+    return () => { void supabase!.removeChannel(ch); };
+  }, [phone]);
+
   const start = async () => { setBusy(true); setErr(false); try { setCode({ value: await createLinkCode(), until: Date.now() + 10 * 60_000 }); } catch { setErr(true); } finally { setBusy(false); } };
   const stop = async () => { if (!(await confirm({ title: t('chat.unlinkTitle'), body: t('chat.unlinkBody'), confirmLabel: t('chat.unlink'), danger: true }))) return; try { await unlinkChat(); setPhone(null); } catch { setErr(true); } };
 
@@ -36,6 +47,17 @@ export function ChatLinkCard() {
       {phone === undefined ? <div className="spinner" role="status" aria-label={t('common.loading')} /> : phone ? (
         <div className="stack">
           <div className="row between wrap"><span><span className="chip ok">{t('chat.connected')}</span> <span className="num">{maskPhone(phone)}</span></span><button className="btn danger sm" onClick={stop}>{t('chat.unlink')}</button></div>
+          {history.length > 0 && (
+            <div className="chat-history">
+              <strong className="small">{t('chat.history')}</strong>
+              <ul>{history.map((m) => (
+                <li key={m.id}>
+                  <span className="chat-msg-text">{m.text}</span>
+                  <span className={`chip ${m.status === 'error' ? 'bad' : m.intent === 'unknown' ? 'warn' : 'ok'}`}>{m.status === 'error' ? t('chat.failed') : m.intent === 'unknown' ? t('chat.notUnderstood') : t('chat.understood')}</span>
+                </li>
+              ))}</ul>
+            </div>
+          )}
           <div className="chat-examples"><strong className="small">{t('chat.try')}</strong><ul>{(['chat.ex1', 'chat.ex2', 'chat.ex3', 'chat.ex4', 'chat.ex5'] as const).map((k) => <li key={k}><code>{t(k)}</code></li>)}</ul></div>
         </div>
       ) : code ? (

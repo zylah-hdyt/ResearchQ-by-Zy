@@ -143,7 +143,8 @@ Users link one WhatsApp number in Settings (one-time 6-digit code, 10 minutes) a
 ("makan siang 25rb", "gaji 5jt"), transfers between wallets of the same currency, and the commands `saldo`, `hari ini`,
 `bulan ini`, `anggaran`, `batal` (undo the last chat entry), `bantuan`. Replies follow the account language. Unclear messages
 (no amount, two different amounts, wrong wallet names) are never recorded; the user is asked. The card appears in Settings only
-when a chat number is configured. Details, risks and setup: [CHAT_WHATSAPP.md](CHAT_WHATSAPP.md).
+when a chat number is configured. Raw messages are stored first and processed inside the database; recorded data appears in the web app
+live, and Settings shows the latest messages and whether each was understood. Details, risks and setup: [CHAT_WHATSAPP.md](CHAT_WHATSAPP.md).
 
 ## 5. Non-functional requirements
 - Responsive from 320 px; floating bottom navigation on mobile with quick-add in the header (nothing floats over content); bottom-sheet dialogs.
