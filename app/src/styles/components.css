@@ -270,3 +270,10 @@ table.data tfoot td { font-weight: 650; border-bottom: none; }
 .hero-setup p { margin: 0; color: var(--hero-ink-2); font-size: var(--fs-sm); line-height: 1.45; }
 .hero-setup strong { color: var(--hero-ink); font-size: var(--fs-md); }
 .hero-setup .row { flex-wrap: wrap; gap: var(--s-2); }
+
+/* Secondary button on the balance hero: follows the hero ink in both themes */
+.btn.hero-ghost { background: color-mix(in srgb, var(--hero-ink) 8%, transparent); border-color: color-mix(in srgb, var(--hero-ink) 22%, transparent); color: var(--hero-ink); }
+.btn.hero-ghost:hover { background: color-mix(in srgb, var(--hero-ink) 14%, transparent); }
+/* Toast: size to its text (it was squeezed to half the screen by left: 50%) */
+.toast { width: max-content; }
+.toast > span { min-width: 0; }

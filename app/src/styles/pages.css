@@ -243,7 +243,7 @@
 .bud-row + .bud-row { border-top: 1px solid var(--border); border-radius: 0; }
 .bud-row-top { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s-2); }
 .bud-pct { font-size: var(--fs-md); }
-.bud-pct.onTrack { color: var(--brand-ink); } .bud-pct.warning { color: var(--meter-warn); } .bud-pct.exceeded { color: var(--meter-crit); }
+.bud-pct.onTrack { color: var(--brand-ink); } .bud-pct.warning { color: color-mix(in srgb, var(--meter-warn) 62%, var(--text)); } .bud-pct.exceeded { color: color-mix(in srgb, var(--meter-crit) 80%, var(--text)); }
 .bud-spent { color: var(--brand-ink); }
 @media (max-width: 360px) { .bsum .ring, .bsum .ring svg { width: 104px; height: 104px; } }
 @media (prefers-reduced-motion: no-preference) { .ring-arc { animation: ring-in .7s var(--ease) backwards; } }
@@ -293,7 +293,7 @@
 .debt-card { display: flex; flex-direction: column; gap: var(--s-3); }
 .debt-top { display: flex; gap: var(--s-3); align-items: center; }
 .debt-name { font-size: var(--fs-md); overflow-wrap: anywhere; }
-.warn-text { color: var(--meter-warn); }
+.warn-text { color: color-mix(in srgb, var(--meter-warn) 62%, var(--text)); }
 .card.empty.compact { padding: var(--s-5); }
 .biz-entry { display: flex; align-items: center; gap: var(--s-3); color: inherit; }
 .biz-entry:hover { background: var(--surface-2); }

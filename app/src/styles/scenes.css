@@ -104,3 +104,21 @@
 }
 @keyframes chip-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 @media (max-width: 380px) { .art-chip { width: 34px; height: 34px; border-radius: 11px; } .art-chip.c5 { display: none; } }
+
+/* Light theme: the sign-in art side follows the page text colours (it was white on the light backdrop) */
+:root[data-theme="light"] .auth-side { color: var(--text); }
+:root[data-theme="light"] .auth-side p { color: var(--text-2); }
+:root[data-theme="light"] .auth-side .wm-fi, :root[data-theme="light"] .auth-side .wm-my { color: var(--text); }
+:root[data-theme="light"] .auth-lang { background: rgba(0,0,0,.05); border-color: rgba(0,0,0,.12); color: var(--text); }
+:root[data-theme="light"] .art-chip { background: rgba(255,255,255,.8); box-shadow: 0 8px 22px rgba(10,40,25,.12); }
+:root[data-theme="light"] .art-chip.c2 { color: #15803d; } :root[data-theme="light"] .art-chip.c1 { color: #b7791f; }
+:root[data-theme="light"] .art-chip.c3 { color: #c2417a; } :root[data-theme="light"] .art-chip.c4 { color: #2563c9; } :root[data-theme="light"] .art-chip.c5 { color: #c2410c; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .auth-side { color: var(--text); }
+  :root:not([data-theme="dark"]) .auth-side p { color: var(--text-2); }
+  :root:not([data-theme="dark"]) .auth-side .wm-fi, :root:not([data-theme="dark"]) .auth-side .wm-my { color: var(--text); }
+  :root:not([data-theme="dark"]) .auth-lang { background: rgba(0,0,0,.05); border-color: rgba(0,0,0,.12); color: var(--text); }
+  :root:not([data-theme="dark"]) .art-chip { background: rgba(255,255,255,.8); box-shadow: 0 8px 22px rgba(10,40,25,.12); }
+  :root:not([data-theme="dark"]) .art-chip.c2 { color: #15803d; } :root:not([data-theme="dark"]) .art-chip.c1 { color: #b7791f; }
+  :root:not([data-theme="dark"]) .art-chip.c3 { color: #c2417a; } :root:not([data-theme="dark"]) .art-chip.c4 { color: #2563c9; } :root:not([data-theme="dark"]) .art-chip.c5 { color: #c2410c; }
+}
