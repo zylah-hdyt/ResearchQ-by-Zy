@@ -30,7 +30,7 @@ const SP = process.argv[2] || 'e2e-output';
   const exp1 = month.filter((t) => /ojek/i.test(t.description)).length;
   ok((await rows()) === exp1 && exp1 > 0, `search "ojek" → ${exp1} rows`);
   const allMatch = (await p.locator('.tx-list .list-item .title').allInnerTexts()).every((x) => /ojek/i.test(x)); ok(allMatch, 'every result title contains the term');
-  await p.getByRole('searchbox').fill('xyz-nothing'); await p.waitForTimeout(300); ok((await rows()) === 0 && (await p.locator('.tx-list .empty').isVisible()), 'no match → empty state');
+  await p.getByRole('searchbox').fill('xyz-nothing'); await p.waitForTimeout(300); ok((await rows()) === 0 && (await p.locator('.tx-list .empty-state').isVisible()), 'no match → empty state');
   await p.getByRole('searchbox').fill('');
   // 4 · filter sheet
   await p.getByRole('button', { name: /Filter/ }).click(); await p.locator('.modal').waitFor();

@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { PiggyBank, TrendingDown, TrendingUp } from 'lucide-react';
+import { BarChart3, PiggyBank, TrendingDown, TrendingUp } from 'lucide-react';
+import { EmptyState } from '../components/EmptyState';
 import { useAuth } from '../auth/AuthProvider';
 import { useData } from '../store/DataProvider';
 import { categoryLabel, useI18n } from '../i18n';
@@ -108,6 +109,11 @@ export function Reports() {
         </span>
       </section>
 
+      {!hasData && (
+        <EmptyState icon={BarChart3} title={t('rep.emptyTitle')} text={txs.length ? t('rep.emptyPeriod') : t('rep.emptyBody')}>
+          {txs.length > 0 && preset !== 'last12' && <button className="btn" onClick={() => pick('last12')}>{t('rep.tryYear')}</button>}
+        </EmptyState>
+      )}
       {hasData && (
         <section className="card" aria-label={t('rep.summary')}>
           <div className="card-head"><h2>{t('rep.summary')}</h2></div>
@@ -115,6 +121,7 @@ export function Reports() {
         </section>
       )}
 
+      {hasData && (<>
       <section className="card"><div className="card-head"><h2>{t('rep.cashTrend')}</h2></div><FlowAreaChart points={flow.points} currency={base} /></section>
 
       <div className="grid grid-2">
@@ -199,6 +206,7 @@ export function Reports() {
           </table>
         </div>
       </section>
+      </>)}
     </>
   );
 }

@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { CalendarClock, ChevronDown, ChevronLeft, ChevronRight, HandCoins, Handshake, Package, Plus, ReceiptText, Store } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { CalendarClock, ChevronDown, ChevronLeft, ChevronRight, HandCoins, Handshake, Package, Plus, ReceiptText, Store, Wallet as WalletIcon } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
 import { useData } from '../store/DataProvider';
 import { useI18n } from '../i18n';
@@ -8,6 +9,7 @@ import { Modal } from '../components/Modal';
 import { AmountInput } from '../components/AmountInput';
 import { Money } from '../components/Money';
 import { StatTiles } from '../components/StatTiles';
+import { EmptyState } from '../components/EmptyState';
 import { TxRow } from '../components/TxRow';
 import { useQuickAdd } from '../components/QuickAdd';
 import { useToast } from '../components/Toast';
@@ -95,9 +97,9 @@ function Debts() {
         <button className="btn" onClick={() => setForm('owe')} disabled={noWallet}><HandCoins size={16} aria-hidden />{t('biz.borrow')}</button>
         <button className="btn" onClick={() => setForm('owed')} disabled={noWallet}><Handshake size={16} aria-hidden />{t('biz.lend')}</button>
       </div>
-      {noWallet && <div className="banner">{t('biz.needWallet')}</div>}
+      {noWallet && <EmptyState icon={WalletIcon} text={t('biz.needWallet')}><Link className="btn primary" to="/accounts"><Plus size={16} aria-hidden />{t('acc.add')}</Link></EmptyState>}
       {missing.length > 0 && <div className="banner">{t('common.notConverted', { codes: missing.join(', ') })}</div>}
-      {openOnes.length === 0 && !noWallet && <div className="card empty compact"><p>{t('biz.noDebts')}</p></div>}
+      {openOnes.length === 0 && !noWallet && <EmptyState icon={HandCoins} text={t('biz.noDebts')} />}
       <div className="debt-list">{openOnes.map(card)}</div>
       {settled.length > 0 && (
         <section>

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AlertTriangle, ChevronLeft, ChevronRight, CircleAlert, Plus } from 'lucide-react';
+import { AlertTriangle, ChevronLeft, ChevronRight, CircleAlert, PieChart, Plus } from 'lucide-react';
+import { EmptyState } from '../components/EmptyState';
 import { useAuth } from '../auth/AuthProvider';
 import { useData } from '../store/DataProvider';
 import { categoryLabel, useI18n } from '../i18n';
@@ -116,7 +117,9 @@ export function Budgets() {
       </div>
 
       {rows.length === 0 ? (
-        <div className="card empty"><p>{t('bud.noneThisPeriod', { period: t(`bud.period.${period}` as MessageKey).toLowerCase() })}</p><button className="btn primary" onClick={() => setEditing('new')}><Plus size={16} aria-hidden />{t('bud.add')}</button></div>
+        <EmptyState icon={PieChart} title={t('bud.noneThisPeriod', { period: t(`bud.period.${period}` as MessageKey).toLowerCase() })} text={t('bud.emptyBody')}>
+          <button className="btn primary" onClick={() => setEditing('new')}><Plus size={16} aria-hidden />{t('bud.add')}</button>
+        </EmptyState>
       ) : (
         <>
           <section className="card bsum" aria-label={t('bud.summary')}>

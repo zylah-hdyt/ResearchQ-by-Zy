@@ -1,6 +1,6 @@
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Plus, Search, SlidersHorizontal, X } from 'lucide-react';
+import { ArrowLeftRight, Plus, Search, SlidersHorizontal, Wallet as WalletIcon, X } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
 import { useData } from '../store/DataProvider';
 import { categoryLabel, useI18n } from '../i18n';
@@ -15,6 +15,7 @@ import { useToast } from '../components/Toast';
 import { TxDetail } from '../components/TxDetail';
 import { TxRow } from '../components/TxRow';
 import { StatTiles } from '../components/StatTiles';
+import { EmptyState } from '../components/EmptyState';
 import { dedupe } from '../lib/finance';
 import { formatDate, formatMoney, toLocalDate } from '../lib/format';
 import { addDays } from '../lib/periods';
@@ -145,12 +146,11 @@ export function Transactions() {
       <div className="split aside-right">
         <section className="tx-list" aria-label={t('tx.title')}>
           {groups.length === 0 && (
-            <div className="card empty">
-              <p>{data.wallets.length === 0 ? t('tx.emptyNoWallet') : all.length === 0 ? t('tx.emptyFirst') : t('tx.empty2')}</p>
+            <EmptyState icon={data.wallets.length === 0 ? WalletIcon : ArrowLeftRight} text={data.wallets.length === 0 ? t('tx.emptyNoWallet') : all.length === 0 ? t('tx.emptyFirst') : t('tx.empty2')}>
               {data.wallets.length === 0 && <Link className="btn primary" to="/accounts"><Plus size={16} aria-hidden />{t('acc.add')}</Link>}
               {all.length === 0 && data.wallets.length > 0 && <button className="btn primary" onClick={() => openAdd()}><Plus size={16} aria-hidden />{t('tx.add')}</button>}
               {all.length > 0 && <button className="btn" onClick={() => setFilters(defaultFilters(presetRange('all', data.transactions), 'all'))}>{t('tx.showAll')}</button>}
-            </div>
+            </EmptyState>
           )}
           {groups.map((g) => (
             <div key={g.day} className="card flush day-card" role="group" aria-label={formatDate(g.day, lang)}>

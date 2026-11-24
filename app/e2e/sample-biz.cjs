@@ -47,7 +47,7 @@ const { boot, ok, done, readData, digits } = require('./common.cjs');
     await p.evaluate(() => { const k = Object.keys(localStorage).find((x) => x.endsWith(':data')); const x = JSON.parse(localStorage.getItem(k)); x.wallets = []; x.transactions = []; localStorage.setItem(k, JSON.stringify(x)); });
     await p.reload(); await p.getByRole('button', { name: 'Muat data contoh' }).waitFor();
     ok(e.categories.some((c) => c.key === 'sales'), 'categories stay');
-    ok(await p.locator('.dash-biz').count() === 0, 'card hidden again');
+    ok(await p.locator('.dash-biz .biz-grid').count() === 0 && await p.locator('.biz-entry').isVisible(), 'figures hidden again; the entry card to Business & Loans remains');
     await b.close(); done(errs);
   }
   // 3. Sample data loaded by an older version (ids without the marker) is still recognised and removable.

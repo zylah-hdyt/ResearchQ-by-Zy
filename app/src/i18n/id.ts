@@ -314,6 +314,13 @@ export const id: Record<MessageKey, string> = {
   'dash.sampleHint': 'Isi akun Anda dengan data contoh untuk mencoba aplikasi.',
   'dash.noBudgets': 'Belum ada anggaran. Tetapkan batas bulanan agar tetap terkendali.',
   'dash.noTx': 'Belum ada transaksi.',
+  'dash.chartEmpty': 'Grafik arus kas muncul setelah Anda mencatat transaksi pertama.',
+  'acc.emptyTitle': 'Belum ada dompet',
+  'bud.emptyBody': 'Tetapkan batas per kategori agar pengeluaran tetap terkendali.',
+  'rep.emptyTitle': 'Belum ada data di periode ini',
+  'rep.emptyBody': 'Analitik, grafik, dan tabel muncul setelah Anda mencatat transaksi.',
+  'rep.emptyPeriod': 'Coba periode lain atau catat transaksi baru.',
+  'rep.tryYear': 'Lihat 12 bulan',
 
   'insight.topCategory': '{category} adalah pengeluaran terbesar bulan ini ({amount}).',
   'insight.spendUp': 'Pengeluaran Anda {pct} lebih tinggi dari bulan lalu.',

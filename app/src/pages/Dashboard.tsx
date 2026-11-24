@@ -1,11 +1,12 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AlertTriangle, ChevronRight, TrendingDown, TrendingUp, CircleAlert, Database, Lightbulb, Plus, Store, Trash2, Wallet as WalletIcon } from 'lucide-react';
+import { AlertTriangle, ChevronRight, TrendingDown, TrendingUp, CircleAlert, Database, Lightbulb, Plus, Store, Trash2, BarChart3 } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
 import { useData } from '../store/DataProvider';
 import { categoryLabel, useI18n, type TFn } from '../i18n';
 import type { MessageKey } from '../i18n/en';
 import { GreetingHeader } from '../components/UserIdentity';
+import { EmptyState } from '../components/EmptyState';
 import { Money } from '../components/Money';
 import { CashflowChart } from '../components/Charts';
 import heroWallet from '../assets/hero-wallet.webp';
@@ -90,17 +91,7 @@ export function Dashboard() {
   return (
     <>
       <GreetingHeader />
-      {data.wallets.length === 0 ? (
-        <div className="card empty">
-          <WalletIcon size={36} color="var(--brand)" aria-hidden />
-          <h2>{t('dash.empty.title')}</h2>
-          <p style={{ maxWidth: 380 }}>{t('dash.empty.body')}</p>
-          <div className="row wrap" style={{ justifyContent: 'center' }}>
-            <button className="btn primary" onClick={() => setWalletOpen(true)}><Plus size={16} aria-hidden />{t('dash.empty.cta')}</button>
-            <button className="btn" onClick={data.loadSample} title={t('dash.sampleHint')}><Database size={16} aria-hidden />{t('dash.sample')}</button>
-          </div>
-        </div>
-      ) : (
+      {(
         <div className="dash">
           {/* PRD 4.2 order in the DOM (and on phones): 2 balance · 3 summary · 4 cashflow · 5 budgets · 6 recent · 7 insights.
              On wide screens the grid places wallets, budgets and insights in the right column. */}
@@ -119,10 +110,22 @@ export function Dashboard() {
                 <span className="hero-delta-note">{t('dash.vsMonthStart')}</span>
               </span>
             )}
-            <Link to="/accounts" className="hero-sub">{t('dash.acrossAccounts', { n: active.length })}<ChevronRight size={15} aria-hidden /></Link>
+            {active.length > 0 ? (
+              <Link to="/accounts" className="hero-sub">{t('dash.acrossAccounts', { n: active.length })}<ChevronRight size={15} aria-hidden /></Link>
+            ) : (
+              <div className="hero-setup">
+                <strong>{t('dash.empty.title')}</strong>
+                <p>{t('dash.empty.body')}</p>
+                <div className="row">
+                  <button className="btn light" onClick={() => setWalletOpen(true)}><Plus size={16} aria-hidden />{t('dash.empty.cta')}</button>
+                  <button className="btn outline" onClick={data.loadSample} title={t('dash.sampleHint')}><Database size={16} aria-hidden />{t('dash.sample')}</button>
+                </div>
+              </div>
+            )}
           </section>
           <section className="dash-wallets card">
             <div className="card-head"><h2>{t('dash.wallets')}</h2><Link className="small link-quiet" to="/accounts">{t('common.viewAll')}</Link></div>
+            {balances.rows.length === 0 && <p className="muted small">{t('acc.noWallets')}</p>}
             <div className="list">
               {balances.rows.slice(0, 6).map(({ w, own }) => {
                 const Icon = walletIcon(w.type);
@@ -157,7 +160,7 @@ export function Dashboard() {
           </section>
           <section className="dash-chart card">
             <div className="card-head"><h2>{t('dash.cashflow')}</h2><span className="muted small">{t(`range.long.${range}` as MessageKey)}</span></div>
-            <CashflowChart points={flow.points} currency={base} />
+            {txs.length === 0 ? <EmptyState inline icon={BarChart3} text={t('dash.chartEmpty')} /> : <CashflowChart points={flow.points} currency={base} />}
           </section>
           <section className="dash-budget card">
             <div className="card-head"><h2>{t('dash.budgetOverview')}</h2><Link className="small link-quiet" to="/budgets">{t('common.viewAll')}</Link></div>

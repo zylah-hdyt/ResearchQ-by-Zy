@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeftRight, ChevronDown, ChevronRight, Plus, TrendingDown, TrendingUp } from 'lucide-react';
+import { ArrowLeftRight, ChevronDown, ChevronRight, Plus, TrendingDown, TrendingUp, Wallet as WalletIcon } from 'lucide-react';
 import heroWallet from '../assets/hero-wallet.webp';
 import { useAuth } from '../auth/AuthProvider';
 import { useData } from '../store/DataProvider';
@@ -12,7 +12,8 @@ import { Money } from '../components/Money';
 import { EyeToggle } from '../components/Privacy';
 import { useQuickAdd } from '../components/QuickAdd';
 import { SegmentBar } from '../components/SegmentBar';
-import { ExportButton, ExportIconButton } from '../export/ExportDialog';
+import { ExportIconButton } from '../export/ExportDialog';
+import { EmptyState } from '../components/EmptyState';
 import { fillTile, walletIcon } from '../lib/categoryIcons';
 import { convert } from '../lib/money';
 import { firstOfMonth } from '../lib/periods';
@@ -69,13 +70,14 @@ export function Accounts() {
       <div className="page-head">
         <div><h1>{t('acc.title')}</h1><div className="sub">{t('acc.count', { n: activeCount })}</div></div>
         <div className="page-actions">
-          {data.wallets.length === 0 && <ExportButton context="accounts" defaults={{ preset: 'all' }} />}
           <button className="btn primary" onClick={() => setEditing('new')} aria-label={t('acc.add')}><Plus size={16} aria-hidden />{t('acc.addShort')}</button>
         </div>
       </div>
 
       {data.wallets.length === 0 ? (
-        <div className="card empty"><p>{t('acc.noWallets')}</p><button className="btn primary" onClick={() => setEditing('new')}><Plus size={16} aria-hidden />{t('acc.add')}</button></div>
+        <EmptyState icon={WalletIcon} title={t('acc.emptyTitle')} text={t('acc.noWallets')}>
+          <button className="btn primary" onClick={() => setEditing('new')}><Plus size={16} aria-hidden />{t('acc.add')}</button>
+        </EmptyState>
       ) : (
         <>
           <div className="chips type-chips" role="group" aria-label={t('acc.filterType')}>

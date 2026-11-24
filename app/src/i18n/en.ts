@@ -312,6 +312,13 @@ export const en = {
   'dash.sampleHint': 'Fill your account with example data to explore the app.',
   'dash.noBudgets': 'No budgets yet. Set monthly limits to stay on track.',
   'dash.noTx': 'No transactions yet.',
+  'dash.chartEmpty': 'The cash-flow chart appears once you record your first transaction.',
+  'acc.emptyTitle': 'No wallets yet',
+  'bud.emptyBody': 'Set a limit per category to keep spending under control.',
+  'rep.emptyTitle': 'No data in this period',
+  'rep.emptyBody': 'Analytics, charts and tables appear once you record transactions.',
+  'rep.emptyPeriod': 'Try another period or record a new transaction.',
+  'rep.tryYear': 'See 12 months',
 
   'insight.topCategory': '{category} is your biggest expense this month ({amount}).',
   'insight.spendUp': 'You spent {pct} more than last month.',
