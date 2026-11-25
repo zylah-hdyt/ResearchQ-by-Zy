@@ -4,6 +4,10 @@ import {
   type BudgetLine, type DateRange, type WalletPeriod,
 } from '../lib/finance';
 import { convert, type CurrencyTotals } from '../lib/money';
+import { monthsIn, monthRange } from '../lib/finance';
+import { debtLedger, type DebtSide } from '../lib/debts';
+import { businessSummary } from '../lib/business';
+import { parseLocal } from '../lib/format';
 
 export type ExportContext = 'transactions' | 'reports' | 'accounts' | 'budgets';
 
@@ -52,6 +56,11 @@ export interface ExportDataset {
   balancesApplicable: boolean;
   /** Currencies that could not be converted because a rate is missing. */
   missingRates: CurrencyCode[];
+  /** Debts and receivables per person, as of the end of the range, in the preferred currency. */
+  debts: { name: string; side: DebtSide; principal: number; paid: number; remaining: number; due: string | null }[];
+  /** Small-business figures per calendar month of the range (preferred currency); empty when there are none. */
+  business: { month: string; sales: number; cost: number; profit: number }[];
+  baseCurrency: CurrencyCode;
 }
 
 /**
@@ -178,8 +187,23 @@ export function buildDataset(data: UserData, profile: Profile, o: ExportOptions)
     });
   for (const l of lines) l.missing.forEach((c) => missing.add(c));
 
+  // Debts as of the end of the range; business per month (both in the preferred currency).
+  const upToEnd = allTx.filter((t) => t.occurredAt.slice(0, 10) <= o.range.to);
+  const ledger = debtLedger(upToEnd, wallets, categories, base, rates);
+  ledger.missing.forEach((c) => missing.add(c));
+  const debts = ledger.entries.map((e) => ({ name: e.name, side: e.side, principal: e.principal, paid: e.paid, remaining: e.remaining, due: e.due }));
+  const bizKeys = new Set(['sales', 'stock', 'opex']);
+  const hasBiz = allTx.some((t) => t.categoryId && bizKeys.has(cById.get(t.categoryId)?.key ?? ''));
+  const business = hasBiz ? monthsIn(o.range).map((m) => {
+    const s = businessSummary(allTx, wallets, categories, monthRange(parseLocal(`${m}-01`)), base, rates);
+    return { month: m, sales: s.sales, cost: s.cost, profit: s.profit };
+  }) : [];
+
   return {
     options: o,
+    debts,
+    business,
+    baseCurrency: base,
     profile: { fullName: profile.fullName, displayName: profile.displayName, email: profile.email, preferredCurrency: base, language: profile.language },
     rows,
     income: rows.filter((r) => r.tx.type === 'income'),

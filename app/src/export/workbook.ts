@@ -479,6 +479,80 @@ export async function buildWorkbook(ExcelJS: typeof ExcelJSType, d: ExportDatase
   }
   note(bu, br + 1, t('xl.budgetNote'));
 
+  // ---------- Sheet 7: Debts & receivables (only when there are any) ----------
+  if (d.debts.length) {
+    const ws = wb.addWorksheet(t('xl.sheet.debts'));
+    const cur = d.baseCurrency;
+    const asOf = d.options.range.to;
+    const statusOf = (x: ExportDataset['debts'][number]) => (x.remaining <= 0 ? t('biz.settled') : x.due && x.due < asOf ? t('xl.debt.overdue') : t('xl.debt.open'));
+    const dt = writeTable(
+      ws, t, 1,
+      [
+        { key: 'name', header: 'xl.debt.person', width: 26, kind: 'text' },
+        { key: 'side', header: 'xl.debt.side', width: 20, kind: 'text' },
+        { key: 'principal', header: 'xl.debt.principal', width: 18, kind: 'money' },
+        { key: 'paid', header: 'xl.debt.paid', width: 18, kind: 'money' },
+        { key: 'remaining', header: 'xl.debt.remaining', width: 18, kind: 'money' },
+        { key: 'due', header: 'xl.debt.due', width: 14, kind: 'date' },
+        { key: 'status', header: 'xl.status', width: 20, kind: 'text' },
+      ],
+      d.debts.map((x) => ({
+        name: x.name, side: x.side === 'owe' ? t('biz.iOwe') : t('biz.owesMe'), principal: major(x.principal), paid: major(x.paid),
+        remaining: major(x.remaining), due: x.due ? excelDate(x.due) : null, status: statusOf(x),
+      })),
+      () => cur,
+      dateFmt,
+      { freeze: true, filter: true },
+    );
+    d.debts.forEach((x, i) => { const r = dt.first + i; ws.getCell(`E${r}`).value = { formula: `MAX(0,C${r}-D${r})`, result: major(x.remaining) }; });
+    let rr = dt.end + 2;
+    for (const side of ['owe', 'owed'] as const) {
+      const label = side === 'owe' ? t('biz.owe') : t('biz.owed');
+      const v = d.debts.filter((x) => x.side === side).reduce((a, x) => a + x.remaining, 0);
+      const row = ws.getRow(rr);
+      row.getCell(1).value = `${label} (${cur})`;
+      row.getCell(5).value = { formula: `SUMIFS(E${dt.first}:E${dt.last},B${dt.first}:B${dt.last},"${side === 'owe' ? t('biz.iOwe') : t('biz.owesMe')}")`, result: major(v) };
+      row.getCell(5).numFmt = currencyFormat(cur);
+      row.eachCell((c) => { c.font = { name: FONT, bold: true, size: 10 }; c.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: COLORS.totalFill } }; });
+      rr++;
+    }
+    note(ws, rr + 1, t('xl.debtNote', { date: asOf }));
+  }
+
+  // ---------- Sheet 8: Business (only when there is business data) ----------
+  if (d.business.length) {
+    const ws = wb.addWorksheet(t('xl.sheet.business'));
+    const cur = d.baseCurrency;
+    const monthName = (m: string) => new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : 'en-US', { month: 'long', year: 'numeric' }).format(parseLocal(`${m}-01`));
+    const bt = writeTable(
+      ws, t, 1,
+      [
+        { key: 'month', header: 'rep.month', width: 20, kind: 'text' },
+        { key: 'sales', header: 'biz.sales', width: 18, kind: 'money' },
+        { key: 'cost', header: 'biz.cost', width: 18, kind: 'money' },
+        { key: 'profit', header: 'biz.profit', width: 18, kind: 'money' },
+        { key: 'margin', header: 'xl.biz.margin', width: 12, kind: 'percent' },
+      ],
+      d.business.map((b) => ({ month: monthName(b.month), sales: major(b.sales), cost: major(b.cost), profit: major(b.profit), margin: b.sales ? b.profit / b.sales : 0 })),
+      () => cur,
+      dateFmt,
+      { freeze: true },
+    );
+    d.business.forEach((b, i) => {
+      const r = bt.first + i;
+      ws.getCell(`D${r}`).value = { formula: `B${r}-C${r}`, result: major(b.profit) };
+      ws.getCell(`E${r}`).value = { formula: `IF(B${r}=0,0,D${r}/B${r})`, result: b.sales ? b.profit / b.sales : 0 };
+    });
+    const tr = ws.getRow(bt.end + 2);
+    tr.getCell(1).value = `${t('xl.total')} (${cur})`;
+    tr.getCell(2).value = { formula: `SUM(B${bt.first}:B${bt.last})`, result: major(d.business.reduce((a, b) => a + b.sales, 0)) };
+    tr.getCell(3).value = { formula: `SUM(C${bt.first}:C${bt.last})`, result: major(d.business.reduce((a, b) => a + b.cost, 0)) };
+    tr.getCell(4).value = { formula: `B${bt.end + 2}-C${bt.end + 2}`, result: major(d.business.reduce((a, b) => a + b.profit, 0)) };
+    [2, 3, 4].forEach((ci) => (tr.getCell(ci).numFmt = currencyFormat(cur)));
+    tr.eachCell((c) => { c.font = { name: FONT, bold: true, size: 10 }; c.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: COLORS.totalFill } }; });
+    note(ws, bt.end + 4, t('xl.bizNote'));
+  }
+
   // Print setup for every sheet.
   wb.eachSheet((ws) => {
     ws.pageSetup = { orientation: 'landscape', fitToPage: true, fitToWidth: 1, fitToHeight: 0, paperSize: 9 };
