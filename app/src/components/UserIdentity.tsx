@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Bell, AlertTriangle, CircleAlert, Sparkles } from 'lucide-react';
+import { Bell, AlertTriangle, CalendarClock, CircleAlert, Sparkles } from 'lucide-react';
 import { greetingName, useAuth } from '../auth/AuthProvider';
 import { useData } from '../store/DataProvider';
 import { categoryLabel, useI18n } from '../i18n';
 import { dayPart } from '../lib/greeting';
-import { formatMoney, formatPercent } from '../lib/format';
+import { formatDate, formatMoney, formatPercent } from '../lib/format';
 import { deriveNotifications } from '../lib/notifications';
 import { Avatar } from './Avatar';
 import { ThemeToggle } from './ThemeToggle';
@@ -59,14 +59,17 @@ export function NotificationBell() {
             {items.map((n) => {
               const isRead = data.readNotifications.includes(n.id);
               const l = n.line;
+              const d = n.debt;
+              const debtText = d ? t(`notif.${n.kind as 'debtDue' | 'debtOverdue'}.${d.side}` as MessageKey, { name: d.name, amount: formatMoney(d.remaining, profile!.preferredCurrency, lang), date: formatDate(d.due!, lang) }) : '';
               const text =
                 n.kind === 'welcome' ? t('notif.welcome')
+                : d ? debtText
                 : n.kind === 'budgetWarning' ? t('notif.budgetWarning', { category: categoryLabel(l!.category, t), pct: formatPercent(l!.utilization, lang) })
                 : t('notif.budgetExceeded', { category: categoryLabel(l!.category, t), amount: formatMoney(-l!.remaining, l!.budget.currency, lang) });
-              const Icon = n.kind === 'welcome' ? Sparkles : n.kind === 'budgetWarning' ? AlertTriangle : CircleAlert;
-              const color = n.kind === 'welcome' ? 'var(--brand)' : n.kind === 'budgetWarning' ? 'var(--warn)' : 'var(--danger)';
+              const Icon = n.kind === 'welcome' ? Sparkles : d ? CalendarClock : n.kind === 'budgetWarning' ? AlertTriangle : CircleAlert;
+              const color = n.kind === 'welcome' ? 'var(--brand)' : n.kind === 'budgetWarning' || n.kind === 'debtDue' ? 'var(--warn)' : 'var(--danger)';
               return (
-                <Link key={n.id} to={n.kind === 'welcome' ? '/accounts' : '/budgets'} className="insight" style={{ opacity: isRead ? 0.6 : 1 }}
+                <Link key={n.id} to={n.kind === 'welcome' ? '/accounts' : d ? '/business' : '/budgets'} className="insight" style={{ opacity: isRead ? 0.6 : 1 }}
                   onClick={() => { data.markNotificationsRead([n.id]); setOpen(false); }}>
                   <Icon size={18} color={color} style={{ flex: 'none', marginTop: 2 }} />
                   <span>{text}</span>

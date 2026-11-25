@@ -10,6 +10,12 @@ const { boot, ok, done, readData, digits, BASE } = require('./common.cjs');
   await p.goto(BASE + '/#/business'); await p.getByRole('tab', { name: 'Utang-piutang' }).waitFor();
   ok(await p.locator('.debt-card', { hasText: 'Budi' }).isVisible(), 'sample debt (Budi) listed');
   ok(await p.locator('.debt-card', { hasText: 'Rina' }).getByText(/Lewat jatuh tempo/).isVisible(), 'overdue receivable flagged');
+  // overdue reminder in the bell, linking to this page
+  await p.getByRole('button', { name: 'Notifikasi', exact: true }).first().click();
+  const pop = p.getByRole('dialog', { name: 'Notifikasi' });
+  ok(await pop.getByText(/Piutang dari Rina .* sudah lewat jatuh tempo/).isVisible(), 'bell: overdue receivable from Rina');
+  await pop.getByText(/Piutang dari Rina/).click(); await p.waitForTimeout(200);
+  ok(p.url().endsWith('#/business'), 'reminder opens Business & Loans');
   // borrow
   await p.getByRole('button', { name: 'Saya meminjam', exact: true }).click();
   await p.getByLabel('Pinjam dari siapa').fill('Andi');
