@@ -2,18 +2,18 @@
 .dash { display: grid; gap: var(--s-6); grid-template-columns: minmax(0, 1fr); }
 .dash-wallets { display: none; }
 .link-quiet { color: var(--text-2); font-weight: 500; }
-.link-quiet:hover { color: var(--brand-ink); }
+@media (hover: hover) and (pointer: fine) { .link-quiet:hover { color: var(--brand-ink); } }
 
 .dash-hero { background: var(--hero-bg); color: var(--hero-ink); border-radius: var(--r-xl); padding: var(--s-5) var(--s-6) var(--s-6); }
 .hero-eyebrow { font-size: var(--fs-sm); font-weight: 600; opacity: .8; }
 .hero-eye { color: var(--hero-ink); margin: -6px -10px 0 0; }
-.hero-eye:hover { background: color-mix(in srgb, var(--hero-ink) 10%, transparent); color: var(--hero-ink); }
+@media (hover: hover) and (pointer: fine) { .hero-eye:hover { background: color-mix(in srgb, var(--hero-ink) 10%, transparent); color: var(--hero-ink); } }
 .hero-amount { display: block; font-size: var(--fs-hero); font-weight: 700; letter-spacing: -.035em; line-height: 1.05; font-variant-numeric: proportional-nums; margin: var(--s-1) 0 var(--s-2); overflow-wrap: anywhere; color: var(--hero-ink); }
 .hero-sub { display: inline-flex; align-items: center; gap: 2px; font-size: var(--fs-sm); font-weight: 550; opacity: .85; }
-.hero-sub:hover { opacity: 1; }
+@media (hover: hover) and (pointer: fine) { .hero-sub:hover { opacity: 1; } }
 .hero-wallets { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-top: var(--s-5); }
 .wallet-chip { display: inline-flex; align-items: center; gap: var(--s-2); max-width: 100%; padding: 7px 12px; border-radius: var(--r-pill); font-size: var(--fs-sm); font-weight: 550; background: var(--hero-chip); border: 1px solid color-mix(in srgb, var(--hero-ink) 12%, transparent); color: var(--hero-ink); border-color: color-mix(in srgb, var(--hero-ink) 14%, transparent); backdrop-filter: blur(6px); }
-.wallet-chip:hover { background: color-mix(in srgb, var(--hero-ink) 14%, transparent); }
+@media (hover: hover) and (pointer: fine) { .wallet-chip:hover { background: color-mix(in srgb, var(--hero-ink) 14%, transparent); } }
 .wallet-chip .truncate { max-width: 9ch; }
 .wallet-chip.muted { opacity: .8; }
 
@@ -59,7 +59,7 @@
 }
 .dash > * { min-width: 0; }
 .btn.chart-toggle { color: var(--text-2); font-weight: 500; min-height: 40px; }
-.chart-toggle:hover { color: var(--text); }
+@media (hover: hover) and (pointer: fine) { .chart-toggle:hover { color: var(--text); } }
 
 /* ───────── Transactions ───────── */
 .tx-toolbar { display: flex; gap: var(--s-2); align-items: stretch; }
@@ -67,7 +67,7 @@
 .count-badge { min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; background: var(--brand); color: var(--on-brand); font-size: 11px; font-weight: 700; display: inline-grid; place-items: center; }
 @media (max-width: 420px) { .tx-toolbar .btn > span:not(.count-badge) { display: none; } }
 .pick { border: 1px solid var(--input-border); background: var(--surface); color: var(--text); border-radius: var(--r-pill); padding: 6px 12px; font-size: var(--fs-sm); font-weight: 550; cursor: pointer; min-height: 34px; }
-.pick:hover { background: var(--surface-2); }
+@media (hover: hover) and (pointer: fine) { .pick:hover { background: var(--surface-2); } }
 .pick.on { background: var(--brand-soft); border-color: var(--brand); color: var(--brand-ink); }
 @media (pointer: coarse) { .pick { min-height: 40px; } }
 .mini-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -103,13 +103,13 @@
 .legend-list li { display: inline-flex; align-items: center; gap: var(--s-2); }
 .list-pad-sm { padding: 0 var(--s-2); }
 .wallet-row { padding: var(--s-3) var(--s-2); border-radius: var(--r-md); color: inherit; }
-.wallet-row:hover { background: var(--surface-2); }
+@media (hover: hover) and (pointer: fine) { .wallet-row:hover { background: var(--surface-2); } }
 .wallet-row .amount { display: block; }
 .wallet-row .xs { display: block; }
 .chev { color: var(--text-3); flex: none; }
 .neg { color: var(--bad-ink); }
 .wd-hero { background: var(--hero-bg); color: var(--hero-ink); border-radius: var(--r-xl); padding: var(--s-5) var(--s-6) var(--s-6); display: flex; flex-direction: column; gap: var(--s-2); }
-.wd-hero .icon-btn { color: var(--hero-ink); } .wd-hero .icon-btn:hover { background: color-mix(in srgb, var(--hero-ink) 10%, transparent); }
+.wd-hero .icon-btn { color: var(--hero-ink); } @media (hover: hover) and (pointer: fine) { .wd-hero .icon-btn:hover { background: color-mix(in srgb, var(--hero-ink) 10%, transparent); } }
 .wd-hero .muted { color: color-mix(in srgb, var(--hero-ink) 75%, transparent); }
 .wd-name { font-size: var(--fs-xl); overflow-wrap: anywhere; }
 .wd-balance { font-size: var(--fs-hero); font-weight: 700; letter-spacing: -.035em; line-height: 1.05; font-variant-numeric: proportional-nums; margin-top: var(--s-3); overflow-wrap: anywhere; }
@@ -132,7 +132,7 @@
 .budget-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-3); }
 @media (min-width: 900px) { .budget-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4); } }
 .budget-card { display: flex; flex-direction: column; gap: var(--s-3); width: 100%; text-align: left; font: inherit; color: inherit; cursor: pointer; transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease); -webkit-tap-highlight-color: transparent; }
-.budget-card:hover { border-color: var(--border-strong); background: var(--surface-2); }
+@media (hover: hover) and (pointer: fine) { .budget-card:hover { border-color: var(--border-strong); background: var(--surface-2); } }
 .bc-name { font-weight: 600; }
 .bc-pace { line-height: 1.5; }
 .hist { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: var(--s-2); align-items: end; }
@@ -167,7 +167,7 @@
 /* ───────── Export hub ───────── */
 .hub-grid { display: grid; gap: var(--s-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
 .hub-card { display: flex; align-items: center; gap: var(--s-4); text-align: left; cursor: pointer; font: inherit; color: inherit; width: 100%; transition: border-color var(--dur-fast) var(--ease); }
-.hub-card:hover { border-color: color-mix(in srgb, var(--brand) 45%, var(--border)); }
+@media (hover: hover) and (pointer: fine) { .hub-card:hover { border-color: color-mix(in srgb, var(--brand) 45%, var(--border)); } }
 .hub-card .grow { display: flex; flex-direction: column; gap: 4px; }
 .hub-title { font-weight: 650; font-size: var(--fs-md); }
 .hub-icon { color: var(--brand-ink); background: var(--brand-soft); }
@@ -217,7 +217,7 @@
 .hero-muted { color: var(--hero-ink-2); }
 .wallet-cards { display: flex; flex-direction: column; gap: var(--s-3); }
 .wallet-cards .wallet-row { background: var(--card-bg); border: 1px solid var(--border); box-shadow: var(--card-shadow); border-radius: var(--r-lg); padding: var(--s-3) var(--s-4); }
-.wallet-cards .wallet-row:hover { background: var(--surface-2); }
+@media (hover: hover) and (pointer: fine) { .wallet-cards .wallet-row:hover { background: var(--surface-2); } }
 .tile.lg { width: 48px; height: 48px; border-radius: 14px; }
 .type-chips .pick.on { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
 
@@ -239,7 +239,7 @@
 .bud-tabs.segmented.has-ind > button.on { color: var(--on-brand); }
 .bud-list { padding: var(--s-1) var(--s-2); }
 .bud-row { display: flex; align-items: center; gap: var(--s-3); width: 100%; padding: var(--s-3) var(--s-2); border: none; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; border-radius: var(--r-md); }
-.bud-row:hover { background: var(--surface-2); }
+@media (hover: hover) and (pointer: fine) { .bud-row:hover { background: var(--surface-2); } }
 .bud-row + .bud-row { border-top: 1px solid var(--border); border-radius: 0; }
 .bud-row-top { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s-2); }
 .bud-pct { font-size: var(--fs-md); }
@@ -268,7 +268,7 @@
 .saving-row.card { padding: var(--s-3) var(--s-4); }
 .hero-actions { display: flex; align-items: center; gap: 2px; margin: -6px -10px 0 0; }
 .hero-actions .icon-btn { color: var(--hero-ink); }
-.hero-actions .icon-btn:hover { background: color-mix(in srgb, var(--hero-ink) 10%, transparent); }
+@media (hover: hover) and (pointer: fine) { .hero-actions .icon-btn:hover { background: color-mix(in srgb, var(--hero-ink) 10%, transparent); } }
 .hero-actions .icon-btn:disabled { opacity: .4; }
 @media (max-width: 600px) {
   .page-head { flex-wrap: nowrap; align-items: center; }
@@ -296,4 +296,4 @@
 .warn-text { color: color-mix(in srgb, var(--meter-warn) 62%, var(--text)); }
 .card.empty.compact { padding: var(--s-5); }
 .biz-entry { display: flex; align-items: center; gap: var(--s-3); color: inherit; }
-.biz-entry:hover { background: var(--surface-2); }
+@media (hover: hover) and (pointer: fine) { .biz-entry:hover { background: var(--surface-2); } }

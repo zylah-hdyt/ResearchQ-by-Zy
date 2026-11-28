@@ -3,19 +3,33 @@ import { useEffect, useRef, useState } from 'react';
 export const reducedMotion = () => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /**
- * Animates a number towards `target` (first render from 0, later from the value on screen).
- * Intermediate values are rounded to `step`; the final value is always exact. Instant with reduced motion.
+ * True once the first headline figures of this visit have had their count-up. After that, screens show the final
+ * numbers at once when you navigate (figures you read are not decoration); a figure that CHANGES still counts to its
+ * new value from the one on screen. The flag is set a moment after the first use so every figure of that first
+ * screen animates together.
  */
-export function useCountUp(target: number, enabled = true, ms = 650, step = 100): number {
-  const [shown, setShown] = useState(() => (enabled && !reducedMotion() ? 0 : target));
+let sessionPlayed = false;
+let sessionTimer = 0;
+
+/**
+ * Animates a number towards `target`. The first figures of a session count up from 0; later mounts start at the
+ * final value; a change animates from the value on screen. Rounded to `step`, exact at the end, instant with
+ * reduced motion, strong ease-out, 480 ms.
+ */
+export function useCountUp(target: number, enabled = true, ms = 480, step = 100): number {
+  const [shown, setShown] = useState(() => (enabled && !sessionPlayed && !reducedMotion() ? 0 : target));
   const cur = useRef(shown);
   useEffect(() => {
+    if (enabled && !sessionPlayed) {
+      window.clearTimeout(sessionTimer);
+      sessionTimer = window.setTimeout(() => { sessionPlayed = true; }, ms + 200);
+    }
     if (!enabled || reducedMotion() || cur.current === target) { cur.current = target; setShown(target); return; }
     const from = cur.current, t0 = performance.now();
     let raf = 0;
     const tick = (now: number) => {
       const p = Math.min(1, (now - t0) / ms);
-      const e = 1 - Math.pow(1 - p, 3);
+      const e = 1 - Math.pow(1 - p, 4); // ease-out quart
       const v = p >= 1 ? target : Math.round((from + (target - from) * e) / step) * step;
       cur.current = v; setShown(v);
       if (p < 1) raf = requestAnimationFrame(tick);
