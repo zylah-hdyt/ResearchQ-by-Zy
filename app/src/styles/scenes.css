@@ -25,7 +25,7 @@
 .welcome .segmented button.on { color: #7dffbc; background: rgba(32,201,117,.18); }
 .btn.welcome-skip { color: rgba(255,255,255,.8); min-height: 44px; padding-inline: 14px; }
 .welcome .segmented button { min-height: 40px; min-width: 44px; }
-.welcome-skip:hover { background: rgba(255,255,255,.1); }
+@media (hover: hover) and (pointer: fine) { .welcome-skip:hover { background: rgba(255,255,255,.1); } }
 .welcome-main { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: var(--s-6); padding: var(--s-4) var(--s-5); width: min(100%, 1120px); margin: 0 auto; }
 .welcome-stage { display: grid; place-items: center; min-height: 250px; animation: rise .6s var(--ease) backwards; }
 .welcome-stage .obj-coin { width: min(250px, 62vw); }
@@ -58,7 +58,7 @@
 .auth-side p { color: rgba(255,255,255,.72); }
 .auth-art { display: grid; place-items: center; flex: 1; min-height: 180px; }
 .auth-lang { align-self: flex-start; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); color: #fff; }
-.auth-lang:hover { background: rgba(255,255,255,.18); }
+@media (hover: hover) and (pointer: fine) { .auth-lang:hover { background: rgba(255,255,255,.18); } }
 .auth-form { background: var(--bg); border-left: 1px solid var(--border); }
 .auth-form form h1 { font-size: 2rem; letter-spacing: -.03em; margin-bottom: var(--s-2); }
 .auth-form .btn.primary.lg { width: 100%; }
